@@ -17,7 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::resource('material', 'ApiMaterialController', ['only' => [
-    'show', 'update'
-]])->middleware('auth.basic.stateless');
+Route::group(['namespace' => 'Api'], function () {
+    Route::resource('material', 'ApiMaterialController', ['only' => [
+        'show', 'update'
+    ]])->middleware('auth.basic.stateless');
+});

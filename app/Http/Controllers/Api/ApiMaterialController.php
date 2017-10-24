@@ -27,9 +27,7 @@ class ApiMaterialController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Material $material) {
-        $fields = $request->request->all();
-        foreach ($fields as $key => $value) $material->$key = $value;
-        $material->save();
+        $material->update($request->request->all());
         return Response::create(Json::encode(['result' => 'success']));
     }
 }
