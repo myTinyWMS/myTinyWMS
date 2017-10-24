@@ -9,8 +9,11 @@ RUN set -e -x \
         supervisor \
         libpcre3-dev \
         libc-client-dev libkrb5-dev \
+        libpq-dev \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
-    && docker-php-ext-install -j$(nproc) zip pdo_mysql mcrypt intl bcmath imap \
+    && docker-php-ext-install -j$(nproc) zip pdo_mysql mcrypt intl bcmath imap pgsql \
+    && docker-php-ext-configure pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql \
     && pecl install redis-3.1.2 \
     && docker-php-ext-enable redis
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Model\ORM;
+namespace Mss\Model\ORM;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Model\ORM\Material
+ * Mss\Model\ORM\Material
  *
  * @property integer $id
  * @property string $bestnr
