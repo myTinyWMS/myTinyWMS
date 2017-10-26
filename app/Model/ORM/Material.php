@@ -39,4 +39,6 @@ class Material extends Model {
     public $incrementing = true;
     public $timestamps = false;
     protected $guarded = [];
+    protected $dates = ['date'];
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 }

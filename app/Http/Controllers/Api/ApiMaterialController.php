@@ -3,6 +3,7 @@
 namespace Mss\Http\Controllers\Api;
 
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Mss\Http\Controllers\Controller;
 use Mss\Model\ORM\Material;
 use Illuminate\Http\Request;
@@ -27,7 +28,9 @@ class ApiMaterialController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Material $material) {
-        $material->update($request->request->all());
+        $data = $request->request->all();
+        if (isset($data['date']) && is_array($data['date'])) $data['date'] = $data['date']['date'];
+        $material->update($data);
         return Response::create(Json::encode(['result' => 'success']));
     }
 }
