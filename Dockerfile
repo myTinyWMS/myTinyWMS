@@ -9,8 +9,11 @@ RUN set -e -x \
         supervisor \
         libpcre3-dev \
         libc-client-dev libkrb5-dev \
+        libpq-dev \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
-    && docker-php-ext-install -j$(nproc) zip pdo_mysql mcrypt intl bcmath imap \
+    && docker-php-ext-install -j$(nproc) zip pdo_mysql mcrypt intl bcmath imap pgsql \
+    && docker-php-ext-configure pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql \
     && pecl install redis-3.1.2 \
     && docker-php-ext-enable redis
 
@@ -43,6 +46,7 @@ RUN set -e -x \
     && cp docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf \
     && cp docker/php-fpm/php.ini /usr/local/etc/php/php.ini \
     && cp docker/supervisor/supervisord.conf /etc/supervisor/supervisord.conf \
+    && mkdir -p storage/framework/cache \
     && ./make prod
 
 CMD ["/data/www/docker/start.sh"]
