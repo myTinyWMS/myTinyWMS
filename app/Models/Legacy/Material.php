@@ -1,6 +1,6 @@
 <?php
 
-namespace Mss\Model\ORM;
+namespace Mss\Models\Legacy;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -40,5 +40,5 @@ class Material extends Model {
     public $timestamps = false;
     protected $guarded = [];
     protected $dates = ['date'];
-    protected $dateFormat = 'Y-m-d H:i:s';
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 }

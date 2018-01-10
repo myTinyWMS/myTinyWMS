@@ -7,6 +7,7 @@ services:
     image: project_mss
     links:
     - db
+    - db_onp
     - redis
     ports:
     - 3080:80
@@ -42,3 +43,12 @@ services:
   redis:
     container_name: mss_redis
     image: redis
+
+  db_onp:
+    container_name: mss_onp_db
+    image: postgres:9.6
+    environment:
+      POSTGRES_PASSWORD: mss
+      POSTGRES_DB: fcp
+    ports:
+    - "25432:5432"

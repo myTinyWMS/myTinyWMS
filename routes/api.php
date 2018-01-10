@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +14,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware(['auth.basic.stateless'])->namespace('Api')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 
-Route::group(['namespace' => 'Api'], function () {
     Route::resource('material', 'ApiMaterialController', ['only' => [
         'show', 'update'
-    ]])->middleware('auth.basic.stateless');
+    ]]);
 });

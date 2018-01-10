@@ -5,7 +5,7 @@ namespace Mss\Http\Controllers\Api;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Mss\Http\Controllers\Controller;
-use Mss\Model\ORM\Material;
+use Mss\Models\Legacy\Material;
 use Illuminate\Http\Request;
 use Psy\Util\Json;
 
@@ -17,7 +17,7 @@ class ApiMaterialController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(Material $material) {
-        return Response::create($material->toJson());
+        return response()->json($material);
     }
 
     /**
