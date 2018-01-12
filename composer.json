@@ -6,6 +6,8 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "hieu-le/active": "^3.5",
+        "laracasts/flash": "^3.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0"
     },

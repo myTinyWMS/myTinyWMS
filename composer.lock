@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e5b56f9e445907e7c16299581944378",
+    "content-hash": "5873b9da507c042d16d726b789f40cc4",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -263,6 +263,69 @@
             "time": "2017-11-14T20:44:03+00:00"
         },
         {
+            "name": "hieu-le/active",
+            "version": "3.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/letrunghieu/active.git",
+                "reference": "42d0f50be74b89d730bb4c0ee8c32447630506c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/letrunghieu/active/zipball/42d0f50be74b89d730bb4c0ee8c32447630506c6",
+                "reference": "42d0f50be74b89d730bb4c0ee8c32447630506c6",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.5",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "orchestra/testbench": "^3.1",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "HieuLe\\Active\\ActiveServiceProvider"
+                    ],
+                    "aliases": {
+                        "Active": "HieuLe\\Active\\Facades\\Active"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "HieuLe\\Active\\": "src/",
+                    "HieuLe\\ActiveTest\\": "tests/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hieu Le",
+                    "email": "letrunghieu.cse09@gmail.com",
+                    "homepage": "https://www.hieule.info"
+                }
+            ],
+            "description": "The helper class for Laravel (4/5) applications to get active class base on current route",
+            "homepage": "https://www.hieule.info/tag/laravel-active/",
+            "keywords": [
+                "active",
+                "laravel",
+                "routing"
+            ],
+            "time": "2017-09-07T02:36:51+00:00"
+        },
+        {
             "name": "jakub-onderka/php-console-color",
             "version": "0.1",
             "source": {
@@ -348,6 +411,60 @@
                 }
             ],
             "time": "2015-04-20T18:58:01+00:00"
+        },
+        {
+            "name": "laracasts/flash",
+            "version": "3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laracasts/flash.git",
+                "reference": "10cd420ab63fd0796bf5e1e5b99f87636d2f4333"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laracasts/flash/zipball/10cd420ab63fd0796bf5e1e5b99f87636d2f4333",
+                "reference": "10cd420ab63fd0796bf5e1e5b99f87636d2f4333",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master",
+                "phpunit/phpunit": "^6.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laracasts\\Flash\\FlashServiceProvider"
+                    ],
+                    "aliases": {
+                        "Flash": "Laracasts\\Flash\\Flash"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Laracasts\\Flash": "src/"
+                },
+                "files": [
+                    "src/Laracasts/Flash/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeffrey Way",
+                    "email": "jeffrey@laracasts.com"
+                }
+            ],
+            "description": "Easy flash notifications",
+            "time": "2017-06-22T19:01:19+00:00"
         },
         {
             "name": "laravel/framework",
