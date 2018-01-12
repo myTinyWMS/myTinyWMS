@@ -3,6 +3,6 @@
 
     </div>
     <div>
-        <strong>Copyright</strong> Mail &copy; {{ date('Y') }}
+        <strong>Copyright</strong> MSS &copy; {{ date('Y') }}
     </div>
 </div>
