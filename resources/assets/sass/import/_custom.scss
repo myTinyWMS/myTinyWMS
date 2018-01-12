@@ -1,0 +1,48 @@
+/* Only demo */
+@media (max-width: 1000px) {
+  .welcome-message {
+    display: none;
+  }
+}
+
+.breadcrumb > li {
+  line-height: 30px;
+}
+
+.import_chooser .btn {
+  i.fa {
+    font-size: 40px;
+  }
+
+  small {
+    font-size: 12px;
+  }
+}
+
+.upload_check {
+  h3 {
+    margin-top: 0;
+  }
+
+  .radio {
+    margin-bottom: 20px;
+  }
+}
+
+.segment-rule-row {
+  padding-bottom: 10px;
+}
+
+div.dataTables_wrapper {
+  div.dataTables_info {
+    margin-bottom: 15px;
+  }
+
+  #footer_buttons {
+    margin-bottom: 10px;
+  }
+}
+
+.table > tbody > tr.border-top-thick > td {
+  border-top: 3px solid #e7eaec;
+}

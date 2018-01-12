@@ -176,6 +176,7 @@ return [
         // Mss\Providers\BroadcastServiceProvider::class,
         Mss\Providers\EventServiceProvider::class,
         Mss\Providers\RouteServiceProvider::class,
+        Mss\Providers\ComposerServiceProvider::class,
 
     ],
 

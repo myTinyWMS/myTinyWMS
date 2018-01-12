@@ -11,5 +11,37 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+mix
+    .options({
+        processCssUrls: false
+    })
+
+    .sass('resources/assets/sass/app.scss', 'public/css')
+    .copy('resources/assets/vendor/bootstrap/fonts', 'public/fonts')
+    .copy('resources/assets/vendor/font-awesome/fonts', 'public/fonts')
+    .copy('resources/assets/vendor/ace', 'public/js/ace')
+    .copy('resources/assets/vendor/datatables/German.1.10.13.json', 'public/js/datatables')
+    .copy('resources/assets/vendor/datatables/English.1.10.13.json', 'public/js/datatables')
+    .combine([
+        'resources/assets/vendor/bootstrap/css/bootstrap.css',
+        'resources/assets/vendor/animate/animate.css',
+        'resources/assets/vendor/font-awesome/css/font-awesome.css',
+        'resources/assets/vendor/footable/footable.bootstrap.min.css',
+        'resources/assets/vendor/datatables/jquery.dataTables.min.css',
+        'resources/assets/vendor/jasny/jasny-bootstrap.min.css',
+        'resources/assets/vendor/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'
+    ], 'public/css/vendor.css')
+    .combine([
+        'resources/assets/vendor/jquery/jquery-3.1.1.min.js',
+        'resources/assets/vendor/bootstrap/js/bootstrap.js',
+        'resources/assets/vendor/metisMenu/jquery.metisMenu.js',
+        'resources/assets/vendor/slimscroll/jquery.slimscroll.min.js',
+        'resources/assets/vendor/pace/pace.min.js',
+        'resources/assets/vendor/footable/footable.min.js',
+        'resources/assets/vendor/datatables/jquery.dataTables.min.js',
+        'resources/assets/vendor/jasny/jasny-bootstrap.min.js',
+        'resources/assets/vendor/chartjs/Chart.bundle.min.js',
+        'resources/assets/vendor/chartjs/Chart.PieceLabel.min.js',
+        'resources/assets/vendor/chartjs-plugin-annotation/chartjs-plugin-annotation.min.js'
+    ], 'public/js/vendor.js')
+    .copy('resources/assets/js/app.js', 'public/js');
