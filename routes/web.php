@@ -14,7 +14,5 @@
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', function () {
-        return view('dashboard');
-    });
+    Route::get('/', 'DashboardController@index');
 });

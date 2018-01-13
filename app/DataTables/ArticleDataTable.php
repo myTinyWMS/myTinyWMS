@@ -2,6 +2,7 @@
 
 namespace Mss\DataTables;
 
+use Mss\Models\Article;
 use Mss\User;
 use Yajra\DataTables\Services\DataTable;
 
@@ -22,12 +23,12 @@ class ArticleDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \Mss\User $model
+     * @param \Mss\Models\Article $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(User $model)
+    public function query(Article $model)
     {
-        return $model->newQuery()->select('id', 'add-your-columns-here', 'created_at', 'updated_at');
+        return $model->newQuery()->select('id', 'name', 'created_at', 'updated_at');
     }
 
     /**
