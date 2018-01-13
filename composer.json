@@ -10,6 +10,7 @@
         "laracasts/flash": "^3.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
+        "owen-it/laravel-auditing": "^5.0",
         "yajra/laravel-datatables": "^1.0",
         "yajra/laravel-datatables-oracle": "^8.0"
     },
