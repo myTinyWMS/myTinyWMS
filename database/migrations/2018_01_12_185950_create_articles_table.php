@@ -17,7 +17,7 @@ class CreateArticlesTable extends Migration
             $table->increments('id');
 
             $table->string('name');
-            $table->integer('unit_id')->unsigned();
+            $table->integer('unit_id')->unsigned()->nullable();
             $table->integer('status')->default(0);
             $table->integer('quantity');
             $table->integer('min_quantity')->default(0);

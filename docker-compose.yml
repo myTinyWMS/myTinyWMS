@@ -31,7 +31,7 @@ services:
 
   db:
     container_name: mss_db
-    image: mariadb:10.1
+    image: mysql:5.7
     environment:
     - MYSQL_ROOT_PASSWORD=mss
     - MYSQL_DATABASE=mss

@@ -12,7 +12,33 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(Mss\User::class, function (Faker\Generator $faker) {
+
+$factory->define(Mss\Models\Article::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->word,
+        'quantity' => $faker->numberBetween(1, 10)
+    ];
+});
+
+$factory->define(Mss\Models\Category::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->word
+    ];
+});
+
+$factory->define(Mss\Models\Supplier::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->word
+    ];
+});
+
+$factory->define(Mss\Models\Unit::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->word
+    ];
+});
+
+$factory->define(Mss\Models\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [

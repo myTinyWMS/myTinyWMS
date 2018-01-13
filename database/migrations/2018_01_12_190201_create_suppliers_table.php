@@ -17,11 +17,11 @@ class CreateSuppliersTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('name');
-            $table->string('email');
-            $table->string('phone');
-            $table->string('contact_person');
-            $table->string('website');
-            $table->text('notes');
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('contact_person')->nullable();
+            $table->string('website')->nullable();
+            $table->text('notes')->nullable();
         });
     }
 

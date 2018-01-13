@@ -14,7 +14,7 @@ class Article extends Model implements Auditable
     }
 
     public function suppliers() {
-        return $this->belongsToMany(Supplier::class);
+        return $this->belongsToMany(Supplier::class)->using(SupplierArticle::class);
     }
 
     public function currentSupplier() {
