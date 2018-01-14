@@ -31,7 +31,10 @@ services:
 
   db:
     container_name: mss_db
-    image: mysql:5.7
+    build:
+      context: .
+      dockerfile: Dockerfile-DB
+    image: project_mss_db
     environment:
     - MYSQL_ROOT_PASSWORD=mss
     - MYSQL_DATABASE=mss

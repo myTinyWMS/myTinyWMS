@@ -46,7 +46,6 @@ RUN set -e -x \
     && cp docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf \
     && cp docker/php-fpm/php.ini /usr/local/etc/php/php.ini \
     && cp docker/supervisor/supervisord.conf /etc/supervisor/supervisord.conf \
-    && mkdir -p storage/framework/cache \
-    && ./make prod
+    && mkdir -p storage/framework/cache
 
 CMD ["/data/www/docker/start.sh"]

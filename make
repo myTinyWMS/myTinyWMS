@@ -13,7 +13,7 @@ function prod {
 	./artisan optimize
     ./artisan config:cache
     # ./artisan route:cache
-    npm run prod
+    # npm run prod
 }
 
 function dev {
