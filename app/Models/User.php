@@ -4,10 +4,20 @@ namespace Mss\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
+use OwenIt\Auditing\Contracts\Auditable;
+use OwenIt\Auditing\Contracts\UserResolver;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Auditable, UserResolver
 {
-    use Notifiable;
+    use Notifiable, \OwenIt\Auditing\Auditable;
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function resolveId() {
+        return Auth::check() ? Auth::user()->getAuthIdentifier() : null;
+    }
 
     /**
      * The attributes that are mass assignable.

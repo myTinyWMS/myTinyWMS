@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="{!! asset('css/vendor.css') !!}" />
     <link rel="stylesheet" href="{!! asset('css/app.css') !!}" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.0/css/rowReorder.dataTables.min.css" />
 
     @yield('extra_head')
 
@@ -60,6 +61,7 @@
 
     <script src="{!! asset('js/vendor.js') !!}" type="text/javascript"></script>
     <script src="{!! asset('js/app.js') !!}" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/rowreorder/1.2.0/js/dataTables.rowReorder.min.js"></script>
 
     @if (!empty($__env->yieldContent('datatableFilters')))
         <script>
@@ -111,16 +113,6 @@
                 })
             }
         });
-
-        window.chartColors = {
-            red: 'rgb(255, 99, 132)',
-            orange: 'rgb(255, 159, 64)',
-            yellow: 'rgb(255, 205, 86)',
-            green: 'rgb(75, 192, 192)',
-            blue: 'rgb(54, 162, 235)',
-            purple: 'rgb(153, 102, 255)',
-            grey: 'rgb(201, 203, 207)'
-        };
     </script>
     @stack('scripts')
 </body>

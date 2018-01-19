@@ -3,7 +3,6 @@
 namespace Mss\DataTables;
 
 use Mss\Models\Article;
-use Mss\User;
 use Yajra\DataTables\Services\DataTable;
 
 class ArticleDataTable extends DataTable
@@ -17,7 +16,30 @@ class ArticleDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables($query)
-            ->addColumn('action', 'articledatatable.action');
+            ->setRowId('id')
+            ->editColumn('quantity', function (Article $article) {
+                return $article->formatQuantity($article->quantity);
+            })
+            ->editColumn('min_quantity', function (Article $article) {
+                return $article->formatQuantity($article->min_quantity);
+            })
+            ->addColumn('price', function (Article $article) {
+                return formatPrice($article->currentSupplierArticle()->price);
+            })
+            ->addColumn('order_number', function (Article $article) {
+                return $article->currentSupplierArticle()->order_number;
+            })
+            ->addColumn('delivery_time', function (Article $article) {
+                return $article->currentSupplierArticle()->delivery_time;
+            })
+            ->addColumn('supplier', function (Article $article) {
+                return $article->currentSupplier()->name;
+            })
+            ->addColumn('order_quantity', function (Article $article) {
+                return $article->formatQuantity($article->currentSupplierArticle()->order_quantity);
+            })
+            ->addColumn('action', 'articledatatable.action')
+            ->rawColumns(['inventory']);
     }
 
     /**
@@ -28,7 +50,7 @@ class ArticleDataTable extends DataTable
      */
     public function query(Article $model)
     {
-        return $model->newQuery()->select('id', 'name', 'created_at', 'updated_at');
+        return $model->newQuery();
     }
 
     /**
@@ -39,10 +61,22 @@ class ArticleDataTable extends DataTable
     public function html()
     {
         return $this->builder()
+            ->minifiedAjax()
+            ->columns($this->getColumns())
+            ->parameters([
+                'order'   => [[1, 'asc']],
+                'rowReorder' => [
+                    'selector' => 'tr>td:not(:last-child)', // I allow all columns for dragdrop except the last
+                    'dataSrc' => 'sort_id',
+                    'update' => false // this is key to prevent DT auto update
+                ]
+            ]);
+
+        /*return $this->builder()
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->addAction(['width' => '80px'])
-                    ->parameters($this->getBuilderParameters());
+                    ->parameters($this->getBuilderParameters());*/
     }
 
     /**
@@ -53,10 +87,17 @@ class ArticleDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'id',
-            'add your columns',
-            'created_at',
-            'updated_at'
+            ['data' => 'id', 'name' => 'id', 'title' => '#'],
+            ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'sort_id', 'visible' => false],
+            ['data' => 'name', 'name' => 'name', 'title' => 'Arikelbezeichnung'],
+            ['data' => 'order_number', 'name' => 'order_number', 'title' => 'Bestellnummer'],
+            ['data' => 'quantity', 'name' => 'quantity', 'title' => 'Bestand'],
+            ['data' => 'min_quantity', 'name' => 'min_quantity', 'title' => 'M-Bestand'],
+            ['data' => 'order_quantity', 'name' => 'order_quantity', 'title' => 'Bestellmenge'],
+            ['data' => 'price', 'name' => 'price', 'title' => 'Preis'],
+            ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung'],
+            ['data' => 'delivery_time', 'name' => 'delivery_time', 'title' => 'Lieferzeit'],
+            ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant'],
         ];
     }
 

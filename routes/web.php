@@ -15,4 +15,9 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', 'DashboardController@index');
+    Route::resources([
+        'article' => 'ArticleController',
+    ]);
+
+    Route::post('article/reorder', 'ArticleController@reorder')->name('article.reorder');
 });
