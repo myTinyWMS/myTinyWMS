@@ -37,6 +37,19 @@ class ArticleDataTable extends BaseDataTable
             ->addColumn('order_quantity', function (Article $article) {
                 return $article->formatQuantity($article->currentSupplierArticle()->order_quantity);
             })
+            ->addColumn('category', function (Article $article) {
+                return $article->categories()->pluck('name')->implode(', ');
+            })
+            ->filterColumn('category', function ($query, $keyword) {
+                $query->whereHas('categories', function ($query) use ($keyword) {
+                    $query->where('categories.id', $keyword);
+                });
+            })
+            ->filterColumn('supplier', function ($query, $keyword) {
+                $query->whereHas('suppliers', function ($query) use ($keyword) {
+                    $query->where('suppliers.id', $keyword);
+                });
+            })
             ->addColumn('action', 'articledatatable.action')
             ->rawColumns(['inventory']);
     }
@@ -49,7 +62,8 @@ class ArticleDataTable extends BaseDataTable
      */
     public function query(Article $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->with(['categories', 'suppliers', 'unit']);
     }
 
     /**
@@ -97,6 +111,7 @@ class ArticleDataTable extends BaseDataTable
             ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung'],
             ['data' => 'delivery_time', 'name' => 'delivery_time', 'title' => 'Lieferzeit'],
             ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant'],
+            ['data' => 'category', 'name' => 'category', 'title' => 'Kategorie'],
         ];
     }
 
