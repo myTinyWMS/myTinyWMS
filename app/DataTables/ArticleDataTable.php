@@ -50,8 +50,8 @@ class ArticleDataTable extends BaseDataTable
                     $query->where('suppliers.id', $keyword);
                 });
             })
-            ->addColumn('action', 'articledatatable.action')
-            ->rawColumns(['inventory']);
+            ->addColumn('action', 'dashboard.action')
+            ->rawColumns(['action', 'inventory']);
     }
 
     /**
@@ -83,7 +83,8 @@ class ArticleDataTable extends BaseDataTable
                     'dataSrc' => 'sort_id',
                     'update' => false // this is key to prevent DT auto update
                 ]
-            ]);
+            ])
+            ->addAction(['title' => '', 'width' => '80px']);
 
         /*return $this->builder()
                     ->columns($this->getColumns())
