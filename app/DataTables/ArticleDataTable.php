@@ -3,9 +3,8 @@
 namespace Mss\DataTables;
 
 use Mss\Models\Article;
-use Yajra\DataTables\Services\DataTable;
 
-class ArticleDataTable extends DataTable
+class ArticleDataTable extends BaseDataTable
 {
     /**
      * Build DataTable class.
