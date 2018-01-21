@@ -15,6 +15,7 @@ abstract class BaseDataTable extends DataTable
             'language' => ['url' => asset('js/datatables/German.1.10.13.json')],
             'pageLength' => 25,
             'stateSave' => true,
+            'bAutoWidth' => false,
             'lengthMenu' => [[25, 50, 100, -1], [25, 50, 100, 'Alle']]
         ]);
         $builder->setTableAttribute('class', 'table table-hover');

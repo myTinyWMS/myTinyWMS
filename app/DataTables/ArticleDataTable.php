@@ -101,9 +101,9 @@ class ArticleDataTable extends BaseDataTable
     {
         return [
             ['data' => 'id', 'name' => 'id', 'title' => '#'],
-            ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sortierung'],
+            ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sortierung', 'visible' => false],
             ['data' => 'name', 'name' => 'name', 'title' => 'Arikelbezeichnung'],
-            ['data' => 'order_number', 'name' => 'order_number', 'title' => 'Bestellnummer', 'searchable' => false],
+            ['data' => 'order_number', 'name' => 'order_number', 'title' => 'Bestellnummer'],
             ['data' => 'quantity', 'name' => 'quantity', 'title' => 'Bestand'],
             ['data' => 'min_quantity', 'name' => 'min_quantity', 'title' => 'M-Bestand'],
             ['data' => 'order_quantity', 'name' => 'order_quantity', 'title' => 'Bestellmenge'],
