@@ -17,7 +17,7 @@ class SupplierController extends Controller
      */
     public function index(SupplierDataTable $supplierDataTable)
     {
-        return $supplierDataTable->render('supplier/list');
+        return $supplierDataTable->render('supplier.list');
     }
 
     /**

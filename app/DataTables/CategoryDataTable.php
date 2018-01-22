@@ -2,9 +2,9 @@
 
 namespace Mss\DataTables;
 
-use Mss\Models\Supplier;
+use Mss\Models\Category;
 
-class SupplierDataTable extends BaseDataTable
+class CategoryDataTable extends BaseDataTable
 {
     /**
      * Build DataTable class.
@@ -16,17 +16,17 @@ class SupplierDataTable extends BaseDataTable
     {
         return datatables($query)
             ->setRowId('id')
-            ->addColumn('action', 'supplier.list_action')
+            ->addColumn('action', 'category.list_action')
             ->rawColumns(['action']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \Mss\Models\Supplier $model
+     * @param \Mss\Models\Category $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Supplier $model)
+    public function query(Category $model)
     {
         return $model->newQuery();
     }
@@ -56,10 +56,6 @@ class SupplierDataTable extends BaseDataTable
     {
         return [
             ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
-            ['data' => 'email', 'name' => 'email', 'title' => 'E-Mail'],
-            ['data' => 'phone', 'name' => 'phone', 'title' => 'Telefon'],
-            ['data' => 'contact_person', 'name' => 'contact_person', 'title' => 'Kontaktperson'],
-            ['data' => 'website', 'name' => 'website', 'title' => 'Webseite'],
             ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung'],
         ];
     }
@@ -71,6 +67,6 @@ class SupplierDataTable extends BaseDataTable
      */
     protected function filename()
     {
-        return 'Supplier_' . date('YmdHis');
+        return 'Category_' . date('YmdHis');
     }
 }

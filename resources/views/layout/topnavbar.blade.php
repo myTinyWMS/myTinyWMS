@@ -18,6 +18,11 @@
                         <span class="nav-label">Lieferanten</span>
                     </a>
                 </li>
+                <li class="{{ active_class(if_uri_pattern(['category*'])) }}">
+                    <a href="{{ url('/category') }}">
+                        <span class="nav-label">Kategorien</span>
+                    </a>
+                </li>
                 <li class="dropdown">
 
                     <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Menu item <span class="caret"></span></a>

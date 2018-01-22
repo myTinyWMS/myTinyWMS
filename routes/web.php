@@ -22,6 +22,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resources([
         'article' => 'ArticleController',
         'supplier' => 'SupplierController',
+        'category' => 'CategoryController',
     ]);
 
     Route::post('article/reorder', 'ArticleController@reorder')->name('article.reorder');

@@ -51,7 +51,7 @@ class ArticleDataTable extends BaseDataTable
                 });
             })
             ->addColumn('action', 'dashboard.action')
-            ->rawColumns(['action', 'inventory']);
+            ->rawColumns(['action']);
     }
 
     /**
