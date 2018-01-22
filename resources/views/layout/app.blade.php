@@ -115,6 +115,8 @@
         });
 
         $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+
             if ($('#select_all').length) {
                 $('#select_all').change(function () {
                     if ($(this).is(':checked')) {

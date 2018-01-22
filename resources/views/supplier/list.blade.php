@@ -9,7 +9,7 @@
 @endsection
 
 @section('subnav')
-    <a href="{{ route('supplier.create') }}" class="btn btn-primary">Neuer Lieferant</a>
+    <a href="{{ route('supplier.create') }}" class="btn btn-xs btn-primary">Neuer Lieferant</a>
 @endsection
 
 @section('content')

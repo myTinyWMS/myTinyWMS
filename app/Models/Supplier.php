@@ -2,11 +2,17 @@
 
 namespace Mss\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Supplier extends AuditableModel
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'name', 'email', 'phone', 'contact_person', 'website', 'notes'
     ];
+
+    protected $dates = ['deleted_at'];
 
     protected $fieldNames = [
         'name' => 'Name',

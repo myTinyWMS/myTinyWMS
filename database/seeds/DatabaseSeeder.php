@@ -11,7 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//        factory(\Mss\Models\User::class, 1)->create();
+        factory(\Mss\Models\User::class, 1)->create([
+            'email' => 'admin@example.com'
+        ]);
 
         $units = factory(\Mss\Models\Unit::class, 2)->create();
         $categories = factory(\Mss\Models\Category::class, 2)->create();

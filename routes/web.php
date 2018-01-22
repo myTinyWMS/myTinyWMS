@@ -13,8 +13,12 @@
 
 Auth::routes();
 
+Route::get('/', function () {
+    return redirect()->route('dashboard');
+});
+
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/dashboard', 'DashboardController@index');
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::resources([
         'article' => 'ArticleController',
         'supplier' => 'SupplierController',

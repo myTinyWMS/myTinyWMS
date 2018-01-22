@@ -45,7 +45,7 @@ class SupplierDataTable extends BaseDataTable
             ->parameters([
                 'order'   => [[0, 'asc']],
             ])
-            ->addAction(['title' => '', 'width' => '80px']);
+            ->addAction(['title' => '', 'width' => '150px']);
     }
 
     /**

@@ -1,20 +1,20 @@
-@extends('provider.form')
+@extends('supplier.form')
 
-@section('title', __('provider.create.headline_create'))
+@section('title', 'Neuer Lieferant')
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('provider.index') }}">@lang('provider.headline_list')</a>
+        <a href="{{ route('supplier.index') }}">Übersicht</a>
     </li>
     <li class="active">
-        <strong>@lang('provider.create.headline_create')</strong>
+        <strong>Neuer Lieferant</strong>
     </li>
 @endsection
 
 @section('form_start')
-    {!! Form::model($provider, ['route' => ['provider.store'], 'method' => 'POST']) !!}
+    {!! Form::model($supplier, ['route' => ['supplier.store'], 'method' => 'POST']) !!}
 @endsection
 
 @section('submit')
-    {!! Form::submit(__('buttons.create'), ['class' => 'btn btn-primary']) !!}
+    {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
 @endsection

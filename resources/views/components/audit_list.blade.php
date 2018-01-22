@@ -9,7 +9,11 @@
                 @foreach($audit['modified'] as $data)
                     <li>
                         <strong>{{ $data['name'] }}:</strong><br/>
-                        alt: {{ str_limit($data['old'], 50, ' (...)') }}, neu: {{ str_limit($data['old'], 50, ' (...)') }}
+                        @if (array_key_exists('old', $data))
+                        alt: {{ str_limit($data['old'], 50, ' (...)') }}, neu: {{ str_limit($data['new'], 50, ' (...)') }}
+                        @else
+                        neu: {{ str_limit($data['new'], 50, ' (...)') }}
+                        @endif
                     </li>
                 @endforeach
                 </ul>

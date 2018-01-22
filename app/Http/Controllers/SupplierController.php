@@ -2,6 +2,7 @@
 
 namespace Mss\Http\Controllers;
 
+use Illuminate\Http\Response;
 use Mss\Http\Requests\SupplierRequest;
 use Illuminate\Http\Request;
 use Mss\DataTables\SupplierDataTable;
@@ -25,17 +26,23 @@ class SupplierController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+        $supplier = new Supplier();
+
+        return view('supplier.create', compact('supplier'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\SupplierRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
-        //
+    public function store(SupplierRequest $request) {
+        Supplier::create($request->all());
+
+        flash('Lieferant angelegt')->success();
+
+        return redirect()->route('supplier.index');
     }
 
     /**
@@ -52,16 +59,6 @@ class SupplierController extends Controller
         ];
 
         return view('supplier.show', $context);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id) {
-        // not needed!
     }
 
     /**
@@ -84,10 +81,13 @@ class SupplierController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id) {
+        Supplier::findOrFail($id)->delete();
+
+        flash('Lieferant gelöscht')->success();
+
+        return redirect()->route('supplier.index');
     }
 }

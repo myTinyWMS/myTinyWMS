@@ -16,10 +16,12 @@ class AuditableModel extends Model implements Auditable {
         $audits = $this->audits()->orderBy('created_at', 'desc')->take($this->auditsToDisplay)->get();
         $audits->transform(function ($audit) {
             $metaData = $audit->getMetadata();
-            $modified = collect($audit->getModified())->transform(function ($modified, $field) {
-                $modified['name'] = $this->fieldNames[$field] ?? $field;
-                return $modified;
-            });
+            $modified = collect($audit->getModified())
+                ->forget('id')
+                ->transform(function ($modified, $field) {
+                    $modified['name'] = $this->fieldNames[$field] ?? $field;
+                    return $modified;
+                });
 
             return [
                 'timestamp' => Carbon::parse($metaData['audit_created_at']),
