@@ -48,3 +48,10 @@ count
 ist_count
 comment
 status
+
+
+LDAP:
+https://github.com/Adldap2/Adldap2-Laravel/blob/master/docs/auth.md
+
+Tags:
+https://bootstrap-tagsinput.github.io/bootstrap-tagsinput/examples/
