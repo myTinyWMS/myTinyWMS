@@ -15,7 +15,7 @@ class CreateArticleSupplierTable extends Migration
     {
         Schema::create('article_supplier', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+
             $table->integer('article_id')->unsigned();
             $table->integer('supplier_id')->unsigned();
 
@@ -23,6 +23,8 @@ class CreateArticleSupplierTable extends Migration
             $table->double('price');
             $table->integer('delivery_time')->nullable();
             $table->integer('order_quantity')->nullable();
+
+            $table->timestamps();
         });
     }
 

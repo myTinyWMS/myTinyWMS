@@ -34,7 +34,7 @@ class SupplierController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\SupplierRequest  $request
+     * @param  SupplierRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(SupplierRequest $request) {

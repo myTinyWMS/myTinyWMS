@@ -2,19 +2,20 @@
 
 namespace Mss\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Mss\Http\Requests\ArticleRequest;
 use Mss\Models\Article;
+use Mss\Models\Category;
+use Mss\Models\Supplier;
+use Illuminate\Http\Request;
+use Mss\DataTables\ArticleDataTable;
 
 class ArticleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function index(ArticleDataTable $articleDataTable) {
+        $categories = Category::all();
+        $supplier = Supplier::all();
+
+        return $articleDataTable->render('article.list', compact('categories', 'supplier'));
     }
 
     /**
@@ -22,8 +23,7 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -33,53 +33,55 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(ArticleRequest $request) {
+        Article::create($request->all());
+
+        flash('Artikel angelegt')->success();
+
+        return redirect()->route('article.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \Mss\ArticleController  $articleController
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ArticleController $articleController)
-    {
-        //
-    }
+    public function show($id) {
+        $article = Article::findOrFail($id);
+        $context = [
+            "article" => $article,
+            "audits" => $article->getAudits()
+        ];
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Mss\ArticleController  $articleController
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ArticleController $articleController)
-    {
-        //
+        return view('article.show', $context);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Mss\ArticleController  $articleController
+     * @param  ArticleRequest  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ArticleController $articleController)
-    {
-        //
+    public function update(ArticleRequest $request, $id) {
+        $article = Article::findOrFail($id);
+
+        // save data
+        $article->update($request->all());
+
+        flash('Artikel gespeichert')->success();
+
+        return redirect()->route('article.show', $id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Mss\ArticleController  $articleController
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ArticleController $articleController)
-    {
+    public function destroy($id) {
         //
     }
 

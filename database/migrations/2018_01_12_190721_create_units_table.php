@@ -15,8 +15,10 @@ class CreateUnitsTable extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+
             $table->string('name');
+
+            $table->timestamps();
         });
     }
 

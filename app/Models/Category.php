@@ -8,7 +8,6 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Category extends AuditableModel
 {
-    use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
 
     protected $fillable = [

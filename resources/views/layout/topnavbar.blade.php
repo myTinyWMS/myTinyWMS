@@ -13,6 +13,11 @@
                         <span class="nav-label">Dashboard</span>
                     </a>
                 </li>
+                <li class="{{ active_class(if_uri_pattern(['article*'])) }}">
+                    <a href="{{ url('/article') }}">
+                        <span class="nav-label">Artikel</span>
+                    </a>
+                </li>
                 <li class="{{ active_class(if_uri_pattern(['supplier*'])) }}">
                     <a href="{{ url('/supplier') }}">
                         <span class="nav-label">Lieferanten</span>

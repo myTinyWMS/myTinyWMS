@@ -28,6 +28,7 @@ class CreateArticlesTable extends Migration
             $table->text('notes')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

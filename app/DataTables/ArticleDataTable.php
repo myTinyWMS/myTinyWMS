@@ -50,7 +50,7 @@ class ArticleDataTable extends BaseDataTable
                     $query->where('suppliers.id', $keyword);
                 });
             })
-            ->addColumn('action', 'dashboard.action')
+            ->addColumn('action', 'article.list_action')
             ->rawColumns(['action']);
     }
 
