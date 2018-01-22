@@ -9,6 +9,9 @@
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>Artikelübersicht</h5>
+                    <div class="pull-right">
+                        <a href="#" class="btn btn-primary btn-xs">Neuer Artikel</a>
+                    </div>
                 </div>
                 <div class="ibox-content">
                     {!! $dataTable->table() !!}

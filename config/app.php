@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'de',
 
     /*
     |--------------------------------------------------------------------------
@@ -178,6 +178,7 @@ return [
         Mss\Providers\EventServiceProvider::class,
         Mss\Providers\RouteServiceProvider::class,
         Mss\Providers\ComposerServiceProvider::class,
+        Mss\Providers\FormComponentsServiceProvider::class,
 
     ],
 

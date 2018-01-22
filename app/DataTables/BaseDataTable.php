@@ -18,7 +18,7 @@ abstract class BaseDataTable extends DataTable
             'bAutoWidth' => false,
             'lengthMenu' => [[25, 50, 100, -1], [25, 50, 100, 'Alle']]
         ]);
-        $builder->setTableAttribute('class', 'table table-bordered table-hover');
+        $builder->setTableAttribute('class', 'table table-hover');
 
         return $builder;
     }

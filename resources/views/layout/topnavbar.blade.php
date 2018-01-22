@@ -13,7 +13,13 @@
                         <span class="nav-label">Dashboard</span>
                     </a>
                 </li>
+                <li class="{{ active_class(if_uri_pattern(['supplier*'])) }}">
+                    <a href="{{ url('/supplier') }}">
+                        <span class="nav-label">Lieferanten</span>
+                    </a>
+                </li>
                 <li class="dropdown">
+
                     <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Menu item <span class="caret"></span></a>
                     <ul role="menu" class="dropdown-menu">
                         <li><a href="">Menu item</a></li>
