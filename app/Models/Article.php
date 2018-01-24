@@ -45,6 +45,10 @@ class Article extends AuditableModel
         return $this->belongsToMany(Category::class);
     }
 
+    public function articleNotes() {
+        return $this->hasMany(ArticleNote::class);
+    }
+
     public function formatQuantity($value) {
         return (!empty($value) || $value === 0) ? $value.' '.$this->unit->name : $value;
     }

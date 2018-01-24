@@ -36,4 +36,8 @@ class User extends Authenticatable implements Auditable, UserResolver
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function notes() {
+        return $this->hasMany(ArticleNote::class);
+    }
 }

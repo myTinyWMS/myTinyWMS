@@ -20,7 +20,30 @@
 @endsection
 
 @section('secondCol')
-    <div class="col-lg-6">
+    <div class="col-lg-4">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>Notizen</h5>
+                <a href="#" class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#newNoteModal">Neue Notiz</a>
+            </div>
+            <div class="ibox-content">
+                <div class="feed-activity-list">
+                    @foreach($article->articleNotes()->orderBy('created_at', 'desc')->get() as $note)
+                        <div class="feed-element">
+                            <div>
+                                <small class="pull-right text-navy">{{ $note->created_at->diffForHumans() }}</small>
+                                <p><strong>{{ $note->user->name }}</strong></p>
+                                <p>{{ $note->content }}</p>
+                                <small class="text-muted">{{ $note->created_at->format('d.m.Y - H:i') }} Uhr</small>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
         <div class="ibox collapsed">
             <div class="ibox-title">
                 <h5>Logbuch</h5>
@@ -44,4 +67,58 @@
             </div>
         </div>
     </div>
+
+    <!-- New Note Modal -->
+    <div class="modal fade" id="newNoteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Neue Notiz</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="new_note">Notiz</label>
+                            <textarea id="new_note" class="form-control" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                    <button type="button" class="btn btn-primary" id="save_note">Speichern</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        $('#save_note').click(function () {
+            if ($('#new_note').val() === '') {
+                alert('Bitte einen Text eingeben!');
+                return false;
+            }
+
+            $.post("{{ route('article.add_note', $article) }}", { content: $('#new_note').val() })
+                .done(function(data) {
+                    var newItem = '<div class="feed-element">\n' +
+                        '                            <div>\n' +
+                        '                                <small class="pull-right text-navy">' + data['createdDiff'] + '</small>\n' +
+                        '                                <p><strong>' + data['user'] + '</strong></p>\n' +
+                        '                                <p>' + data['content'] + '</p>\n' +
+                        '                                <small class="text-muted">' + data['createdFormatted'] + ' Uhr</small>\n' +
+                        '                            </div>\n' +
+                        '                        </div>';
+
+                    $('.feed-activity-list').prepend(newItem);
+                    $('#newNoteModal').modal('hide');
+                    $('#new_note').val('');
+                }
+            );
+        });
+    })
+</script>
+@endpush

@@ -26,4 +26,5 @@ Route::group(['middleware' => ['auth']], function () {
     ]);
 
     Route::post('article/reorder', 'ArticleController@reorder')->name('article.reorder');
+    Route::post('article/{article}/addnote', 'ArticleController@addNote')->name('article.add_note');
 });

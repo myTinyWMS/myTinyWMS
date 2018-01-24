@@ -2,12 +2,13 @@
 
 namespace Mss\Http\Controllers;
 
-use Mss\Http\Requests\ArticleRequest;
 use Mss\Models\Article;
 use Mss\Models\Category;
 use Mss\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Mss\DataTables\ArticleDataTable;
+use Mss\Http\Requests\ArticleRequest;
 
 class ArticleController extends Controller
 {
@@ -49,6 +50,7 @@ class ArticleController extends Controller
      */
     public function show($id) {
         $article = Article::findOrFail($id);
+
         $context = [
             "article" => $article,
             "audits" => $article->getAudits()
@@ -105,5 +107,19 @@ class ArticleController extends Controller
             $response = 'send nothing to sort response goes here';
             return response()->json( $response );
         }
+    }
+
+    public function addNote(Article $article, Request $request) {
+        $note = $article->articleNotes()->create([
+            'content' => $request->get('content'),
+            'user_id' => Auth::id()
+        ]);
+
+        return response()->json([
+            'createdDiff' => 'gerade eben',
+            'user' => $note->user->name,
+            'content' => $note->content,
+            'createdFormatted' => $note->created_at->format('d.m.Y - H:i')
+        ]);
     }
 }
