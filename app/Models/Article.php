@@ -46,6 +46,6 @@ class Article extends AuditableModel
     }
 
     public function formatQuantity($value) {
-        return (!empty($this->unit)) ? $value.' '.$this->unit->name : $value;
+        return (!empty($value) || $value === 0) ? $value.' '.$this->unit->name : $value;
     }
 }

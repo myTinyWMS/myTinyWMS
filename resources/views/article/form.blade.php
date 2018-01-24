@@ -24,7 +24,7 @@
                 <div class="ibox-content">
                     @yield('form_start')
 
-                    {{ Form::bsText('name', null, [], 'Name') }}
+                    {{ Form::bsTextarea('name', null, ['rows' => 2] , 'Name') }}
                     {{ Form::bsSelect('unit', $article->unit_id, \Mss\Models\Unit::all()->pluck('name', 'id'),  'Einheit') }}
                     {{ Form::bsText('sort_id', null, [], 'Sortierung') }}
                     {{ Form::bsText('quantity', null, [], 'Bestand') }}
