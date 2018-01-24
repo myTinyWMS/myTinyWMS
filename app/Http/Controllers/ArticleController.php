@@ -119,7 +119,12 @@ class ArticleController extends Controller
             'createdDiff' => 'gerade eben',
             'user' => $note->user->name,
             'content' => $note->content,
-            'createdFormatted' => $note->created_at->format('d.m.Y - H:i')
+            'createdFormatted' => $note->created_at->format('d.m.Y - H:i'),
+            'id' => $note->id
         ]);
+    }
+
+    public function deleteNote(Article $article, Request $request) {
+        return $article->articleNotes()->where('id', $request->get('note_id'))->delete();
     }
 }
