@@ -66,7 +66,7 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'adldap',
+            'driver' => env('AUTH_DRIVER', 'eloquent'),
             'model' => Mss\Models\User::class,
         ],
 

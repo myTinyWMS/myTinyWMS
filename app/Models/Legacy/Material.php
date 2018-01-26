@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $bestell_status
  * @property Carbon $date
  * @property integer $sort_id
+ * @property integer $einheit
  * @property boolean $inventur
  */
 class Material extends Model {

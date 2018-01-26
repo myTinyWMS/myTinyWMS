@@ -21,7 +21,7 @@ class CreateArticleSupplierTable extends Migration
 
             $table->string('order_number');
             $table->double('price');
-            $table->integer('delivery_time')->nullable();
+            $table->string('delivery_time')->nullable();
             $table->integer('order_quantity')->nullable();
 
             $table->timestamps();
