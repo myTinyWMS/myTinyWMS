@@ -66,7 +66,7 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            'driver' => 'adldap',
             'model' => Mss\Models\User::class,
         ],
 

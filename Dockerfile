@@ -5,20 +5,25 @@ RUN set -e -x \
     && apt-get install -y \
         apt-transport-https \
         nginx \
+        wget nano \
         zlib1g-dev zlib1g libmcrypt-dev libicu-dev \
         supervisor \
         libpcre3-dev \
         libc-client-dev libkrb5-dev \
         libpq-dev \
+        libldap2-dev \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install -j$(nproc) zip pdo_mysql mcrypt intl bcmath imap pgsql \
     && docker-php-ext-configure pgsql \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
-    && pecl install redis-3.1.2 \
+    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
+    && docker-php-ext-install ldap \
+    && pecl install redis-3.1.2 xdebug \
     && docker-php-ext-enable redis
 
 # Install nodejs-legacy and npm
 RUN set -e -x \
+    && wget --quiet -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
 	&& printf "deb https://deb.nodesource.com/node_7.x jessie main\ndeb-src https://deb.nodesource.com/node_7.x jessie main\n" > /etc/apt/sources.list.d/nodesource.list \
 	&& apt-get update \
 	&& apt-get install -y --allow-unauthenticated nodejs \

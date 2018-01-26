@@ -54,4 +54,4 @@ services:
       POSTGRES_PASSWORD: mss
       POSTGRES_DB: fcp
     ports:
-    - "25432:5432"
+    - "24432:5432"
