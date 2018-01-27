@@ -39,10 +39,10 @@ class ImportCommand extends Command
     public function handle() {
         $service = new ImportFromOnpService($this);
         // import categories
-        $service->importCategories();
+//        $service->importCategories();
 
         // import supplier
-        $service->importSuppliers();
+//        $service->importSuppliers();
 
         // import articles
         $service->importArticles();

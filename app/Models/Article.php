@@ -4,11 +4,12 @@ namespace Mss\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Mss\Models\Traits\Taggable;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Article extends AuditableModel
 {
-    use SoftDeletes;
+    use SoftDeletes, Taggable;
 
     protected $fillable = [
         'name', 'notes'
@@ -24,6 +25,10 @@ class Article extends AuditableModel
         'name' => 'Name',
         'notes' => 'Bemerkungen'
     ];
+
+    public function tags() {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
 
     public function unit() {
         return $this->belongsTo(Unit::class);

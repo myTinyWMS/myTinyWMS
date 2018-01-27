@@ -10,6 +10,7 @@ use Mss\Models\Legacy\Supplier as LegacySupplier;
 use Mss\Models\Legacy\Material as LegacyArticle;
 use Mss\Models\Supplier;
 use Mss\Models\SupplierArticle;
+use Mss\Models\Tag;
 use Mss\Models\Unit;
 
 class ImportFromOnpService {
@@ -22,6 +23,7 @@ class ImportFromOnpService {
         Supplier::unguard();
         Article::unguard();
         SupplierArticle::unguard();
+        Tag::unguard();
     }
 
     public function importCategories() {
@@ -80,6 +82,8 @@ class ImportFromOnpService {
                 'inventory' => $article->inventur,
                 'unit_id' => $unit ? $unit->id : null,
             ]);
+
+            $newArticle->addTag($article->maschinenzugehoerigkeit);
 
             /**
              * $article->maschinenzugehoerigkeit -> Tag?
