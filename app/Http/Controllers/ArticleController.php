@@ -72,6 +72,9 @@ class ArticleController extends Controller
         // save data
         $article->update($request->all());
 
+        $article->tags()->detach();
+        $article->tags()->attach($request->get('tags'));
+
         flash('Artikel gespeichert')->success();
 
         return redirect()->route('article.show', $id);
