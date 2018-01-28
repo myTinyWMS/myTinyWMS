@@ -32,6 +32,14 @@
             @endforeach
         </select>
     </label>
+    Tags:&nbsp;
+        <select id="filterTags" data-target-col="11" class="form-control input-sm datatableFilter-select">
+            <option value=""></option>
+            @foreach($tags as $item)
+                <option value="{{ $item->id }}">{{ $item->name }}</option>
+            @endforeach
+        </select>
+    </label>
     <label>
        Lieferant:&nbsp;
         <select id="filterSupplier" data-target-col="10" class="form-control input-sm datatableFilter-select">
@@ -47,7 +55,6 @@
     {!! $dataTable->scripts() !!}
     <script>
         window.LaravelDataTables.dataTableBuilder.on( 'row-reorder', function ( e, diff, edit ) {
-            console.log(diff);
             var myArray = [];
             for ( var i=0, ien=diff.length ; i<ien ; i++ ) {
                 var rowData = window.LaravelDataTables.dataTableBuilder.row( diff[i].node ).data();
