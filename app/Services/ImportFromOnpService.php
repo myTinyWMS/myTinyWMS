@@ -2,16 +2,21 @@
 
 namespace Mss\Services;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Mss\Models\Article;
+use Mss\Models\ArticleNote;
+use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\Category;
 use Mss\Models\Legacy\Category as LegacyCategory;
 use Mss\Models\Legacy\Supplier as LegacySupplier;
 use Mss\Models\Legacy\Material as LegacyArticle;
+use Mss\Models\Legacy\MaterialLog as LegacyArticleLog;
 use Mss\Models\Supplier;
 use Mss\Models\SupplierArticle;
 use Mss\Models\Tag;
 use Mss\Models\Unit;
+use Mss\Models\User;
 
 class ImportFromOnpService {
 
@@ -24,6 +29,8 @@ class ImportFromOnpService {
         Article::unguard();
         SupplierArticle::unguard();
         Tag::unguard();
+        ArticleQuantityChangelog::unguard();
+        ArticleNote::unguard();
     }
 
     public function importCategories() {
@@ -58,6 +65,62 @@ class ImportFromOnpService {
             ]);
             $bar->advance();
         });
+        $bar->finish();
+        $this->command->info(PHP_EOL);
+    }
+
+    public function importLog() {
+        $this->command->info('Importing Article Log');
+        $bar = $this->command->getOutput()->createProgressBar(LegacyArticleLog::count());
+
+        $articleCache = [];
+        $userCache = [];
+
+        LegacyArticleLog::chunk(100, function ($items) use ($bar,$articleCache, $userCache) {
+            foreach ($items as $log) {
+                /* @var $log LegacyArticleLog */
+
+                if (array_key_exists($log->material_id, $articleCache)) {
+                    $article = $articleCache[$log->material_id];
+                } else {
+                    $article = $articleCache[$log->material_id] = Article::find($log->material_id);
+                }
+
+                if (!$article) {
+                    continue;
+                }
+
+                if (array_key_exists($log->user_name, $userCache)) {
+                    $user = $userCache[$log->user_name];
+                } else {
+                    $user = $userCache[$log->user_name] = User::firstOrCreate([
+                        'name' => $log->user_name
+                    ], [
+                        'email' => $log->user_name,
+                        'password' => bcrypt('password')
+                    ]);
+                }
+
+                if ($log->type == 6) {
+                    $article->articleNotes()->create([
+                        'user_id' => $user->id,
+                        'content' => $log->comment
+                    ]);
+                } else {
+                    $article->quantityChangelogs()->create([
+                        'type' => $log->type,
+                        'user_id' => $user->id,
+                        'created_at' => Carbon::parse($log->time_stamp),
+                        'updated_at' => Carbon::parse($log->time_stamp),
+                        'change' => ($log->type == ArticleQuantityChangelog::TYPE_OUTGOING ? (-1 * $log->count) : $log->count),
+                        'new_quantity' => $log->ist_count,
+                        'note' => $log->comment
+                    ]);
+                }
+                $bar->advance();
+            }
+        });
+
         $bar->finish();
         $this->command->info(PHP_EOL);
     }

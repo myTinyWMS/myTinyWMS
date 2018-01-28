@@ -2515,18 +2515,23 @@ body.tour-open .animated {
 
 /* Activity stream */
 
+/* Activity stream */
+
 .stream {
 
   position: relative;
   padding: 10px 0;
 
-  &:first-child .stream-icon:before {
+  &:first-child .stream-badge:before {
     top: 10px;
   }
 
+  &:last-child .stream-badge:before {
+    height: 30px;
+  }
 
-  .stream-icon {
-    float: left;
+
+  .stream-badge {
     width: 50px;
 
     i {
@@ -2589,8 +2594,8 @@ body.tour-open .animated {
   }
 
   .stream-info {
-    margin-left: 55px;
     font-size: 12px;
+    margin-bottom: 5px;
 
     img {
       border-radius: 50%;
@@ -2607,10 +2612,8 @@ body.tour-open .animated {
 
   }
 
-  .stream-content {
+  .stream-panel {
     margin-left: 55px;
-    margin-top: 5px;
-
   }
 
 

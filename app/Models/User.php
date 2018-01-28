@@ -40,4 +40,8 @@ class User extends Authenticatable implements Auditable, UserResolver
     public function notes() {
         return $this->hasMany(ArticleNote::class);
     }
+
+    public function articleQuantityChangelogs() {
+        return $this->hasMany(ArticleQuantityChangelog::class);
+    }
 }

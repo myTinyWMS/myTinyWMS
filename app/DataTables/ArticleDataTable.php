@@ -38,7 +38,7 @@ class ArticleDataTable extends BaseDataTable
                 return $article->formatQuantity($article->currentSupplierArticle()->order_quantity);
             })
             ->addColumn('category', function (Article $article) {
-                return $article->categories()->pluck('name')->implode(', ');
+                return $article->categories->pluck('name')->implode(', ');
             })
             ->filterColumn('category', function ($query, $keyword) {
                 $query->whereHas('categories', function ($query) use ($keyword) {

@@ -26,6 +26,10 @@ class Article extends AuditableModel
         'notes' => 'Bemerkungen'
     ];
 
+    public function quantityChangelogs() {
+        return $this->hasMany(ArticleQuantityChangelog::class);
+    }
+
     public function tags() {
         return $this->morphToMany(Tag::class, 'taggable');
     }
@@ -39,7 +43,7 @@ class Article extends AuditableModel
     }
 
     public function currentSupplier() {
-        return $this->suppliers()->orderBy('created_at', 'DESC')->first();
+        return $this->suppliers->sortByDesc('created_at')->first();
     }
 
     public function currentSupplierArticle() {
