@@ -72,8 +72,13 @@ class ArticleController extends Controller
         // save data
         $article->update($request->all());
 
+        // tags
         $article->tags()->detach();
         $article->tags()->attach($request->get('tags'));
+
+        // categories
+        $article->categories()->detach();
+        $article->categories()->attach($request->get('categories'));
 
         flash('Artikel gespeichert')->success();
 
