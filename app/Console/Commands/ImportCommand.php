@@ -40,13 +40,13 @@ class ImportCommand extends Command
         $service = new ImportFromOnpService($this);
 
         // import categories
-//        $service->importCategories();
+        $service->importCategories();
 
         // import supplier
-//        $service->importSuppliers();
+        $service->importSuppliers();
 
         // import articles
-//        $service->importArticles();
+        $service->importArticles();
 
         // import log
         $service->importLog();
