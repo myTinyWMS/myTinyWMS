@@ -10,6 +10,7 @@ class ArticleQuantityChangelog extends Model
     const TYPE_INCOMING = 1;
     const TYPE_OUTGOING = 2;
     const TYPE_CORRECTION = 3;
+    const TYPE_COMMENT = 6;
 
     public function article() {
         return $this->belongsTo(Article::class);

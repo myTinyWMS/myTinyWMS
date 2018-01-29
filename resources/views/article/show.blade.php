@@ -87,6 +87,8 @@
                                 @include('components.quantity_log.outgoing')
                             @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_CORRECTION)
                                 @include('components.quantity_log.correction')
+                            @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_COMMENT)
+                                @include('components.quantity_log.comment')
                             @endif
                         @endforeach
                     </tbody>

@@ -40,8 +40,8 @@ class ImportFromOnpService {
             /* @var $category LegacyCategory */
             Category::create([
                 'id' => $category->id,
-                'name' => $category->name,
-                'notes' => $category->bemerkung
+                'name' => utf8_encode($category->name),
+                'notes' => utf8_encode($category->bemerkung)
             ]);
             $bar->advance();
         });
@@ -56,12 +56,12 @@ class ImportFromOnpService {
             /* @var $supplier LegacySupplier */
             Supplier::create([
                 'id' => $supplier->id,
-                'name' => $supplier->company_name,
-                'email' => $supplier->email,
-                'phone' => $supplier->phone,
-                'contact_person' => $supplier->contact_person,
-                'website' => $supplier->website,
-                'notes' => $supplier->comment
+                'name' => utf8_encode($supplier->company_name),
+                'email' => utf8_encode($supplier->email),
+                'phone' => utf8_encode($supplier->phone),
+                'contact_person' => utf8_encode($supplier->contact_person),
+                'website' => utf8_encode($supplier->website),
+                'notes' => utf8_encode($supplier->comment)
             ]);
             $bar->advance();
         });
@@ -76,7 +76,7 @@ class ImportFromOnpService {
         $articleCache = [];
         $userCache = [];
 
-        LegacyArticleLog::chunk(100, function ($items) use ($bar,$articleCache, $userCache) {
+        LegacyArticleLog::chunk(1000, function ($items) use ($bar,$articleCache, $userCache) {
             foreach ($items as $log) {
                 /* @var $log LegacyArticleLog */
 
@@ -101,22 +101,15 @@ class ImportFromOnpService {
                     ]);
                 }
 
-                if ($log->type == 6) {
-                    $article->articleNotes()->create([
-                        'user_id' => $user->id,
-                        'content' => $log->comment
-                    ]);
-                } else {
-                    $article->quantityChangelogs()->create([
-                        'type' => $log->type,
-                        'user_id' => $user->id,
-                        'created_at' => Carbon::parse($log->time_stamp),
-                        'updated_at' => Carbon::parse($log->time_stamp),
-                        'change' => ($log->type == ArticleQuantityChangelog::TYPE_OUTGOING ? (-1 * $log->count) : $log->count),
-                        'new_quantity' => $log->ist_count,
-                        'note' => $log->comment
-                    ]);
-                }
+                $article->quantityChangelogs()->create([
+                    'type' => $log->type,
+                    'user_id' => $user->id,
+                    'created_at' => Carbon::parse($log->time_stamp),
+                    'updated_at' => Carbon::parse($log->time_stamp),
+                    'change' => ($log->type == ArticleQuantityChangelog::TYPE_OUTGOING ? (-1 * $log->count) : $log->count),
+                    'new_quantity' => $log->ist_count,
+                    'note' => utf8_encode($log->comment)
+                ]);
                 $bar->advance();
             }
         });
@@ -134,11 +127,11 @@ class ImportFromOnpService {
             $unit = Unit::find($article->einheit + 1);
             $newArticle = Article::create([
                 'id' => $article->id,
-                'name' => $article->artikelbezeichnung,
+                'name' => utf8_encode($article->artikelbezeichnung),
                 'quantity' => $article->bestand,
                 'min_quantity' => $article->mindbestand,
                 'usage_quantity' => $article->verbrauch,
-                'notes' => $article->bemerkung,
+                'notes' => utf8_encode($article->bemerkung),
                 'status' => $article->status,
                 'issue_quantity' => $article->entnahmemenge,
                 'sort_id' => $article->sort_id,
@@ -146,17 +139,17 @@ class ImportFromOnpService {
                 'unit_id' => $unit ? $unit->id : null,
             ]);
 
-            $newArticle->addTag($article->maschinenzugehoerigkeit);
+            $newArticle->addTag(utf8_encode($article->maschinenzugehoerigkeit));
 
             /**
              * $article->maschinenzugehoerigkeit -> Tag?
              */
 
             $newArticle->suppliers()->attach($article->hersteller, [
-                'order_number' => $article->bestnr,
+                'order_number' => utf8_encode($article->bestnr),
                 'price' => $article->preis,
                 'order_quantity' => $article->bestellmenge,
-                'delivery_time' => $article->lieferzeit,
+                'delivery_time' => utf8_encode($article->lieferzeit),
             ]);
 
             $newArticle->categories()->attach($article->type);
