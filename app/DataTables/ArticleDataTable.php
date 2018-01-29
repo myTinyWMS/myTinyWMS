@@ -17,10 +17,13 @@ class ArticleDataTable extends BaseDataTable
         return datatables($query)
             ->setRowId('id')
             ->editColumn('quantity', function (Article $article) {
-                return $article->formatQuantity($article->quantity);
+                return $article->quantity;
             })
             ->editColumn('min_quantity', function (Article $article) {
-                return $article->formatQuantity($article->min_quantity);
+                return $article->min_quantity;
+            })
+            ->editColumn('name', function (Article $article) {
+                return link_to_route('article.show', $article->name, ['article' => $article]);
             })
             ->addColumn('price', function (Article $article) {
                 return formatPrice($article->currentSupplierArticle()->price);
@@ -35,10 +38,13 @@ class ArticleDataTable extends BaseDataTable
                 return $article->currentSupplier()->name;
             })
             ->addColumn('order_quantity', function (Article $article) {
-                return $article->formatQuantity($article->currentSupplierArticle()->order_quantity);
+                return $article->currentSupplierArticle()->order_quantity;
             })
             ->addColumn('category', function (Article $article) {
                 return $article->categories->pluck('name')->implode(', ');
+            })
+            ->addColumn('unit', function (Article $article) {
+                return $article->unit->name;
             })
             ->filterColumn('category', function ($query, $keyword) {
                 $query->whereHas('categories', function ($query) use ($keyword) {
@@ -103,11 +109,12 @@ class ArticleDataTable extends BaseDataTable
         return [
             ['data' => 'id', 'name' => 'id', 'title' => '#'],
             ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sortierung', 'visible' => false],
-            ['data' => 'name', 'name' => 'name', 'title' => 'Arikelbezeichnung'],
+            ['data' => 'name', 'name' => 'name', 'title' => 'Artikelbezeichnung'],
             ['data' => 'order_number', 'name' => 'order_number', 'title' => 'Bestellnummer'],
             ['data' => 'quantity', 'name' => 'quantity', 'title' => 'Bestand', 'class' => 'text-right'],
             ['data' => 'min_quantity', 'name' => 'min_quantity', 'title' => 'M-Bestand', 'class' => 'text-right'],
             ['data' => 'order_quantity', 'name' => 'order_quantity', 'title' => 'Bestellmenge', 'class' => 'text-right'],
+            ['data' => 'unit', 'name' => 'unit', 'title' => 'Einheit'],
             ['data' => 'price', 'name' => 'price', 'title' => 'Preis', 'class' => 'text-right'],
             ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung'],
             ['data' => 'delivery_time', 'name' => 'delivery_time', 'title' => 'Lieferzeit', 'class' => 'text-right'],
