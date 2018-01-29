@@ -3586,21 +3586,25 @@ body.tour-open .animated {
 }
 
 /* Activity stream */
+/* Activity stream */
 .stream {
   position: relative;
   padding: 10px 0;
 }
 
-.stream:first-child .stream-icon:before {
+.stream:first-child .stream-badge:before {
   top: 10px;
 }
 
-.stream .stream-icon {
-  float: left;
+.stream:last-child .stream-badge:before {
+  height: 30px;
+}
+
+.stream .stream-badge {
   width: 50px;
 }
 
-.stream .stream-icon i {
+.stream .stream-badge i {
   border: 1px solid #e7eaec;
   border-radius: 50%;
   padding: 6px;
@@ -3610,41 +3614,41 @@ body.tour-open .animated {
   left: 8px;
 }
 
-.stream .stream-icon i.fa-circle {
+.stream .stream-badge i.fa-circle {
   color: #ced0d1;
 }
 
-.stream .stream-icon i.bg-success {
+.stream .stream-badge i.bg-success {
   color: #ffffff;
   background-color: #449D44;
   border-color: #449D44;
 }
 
-.stream .stream-icon i.bg-primary {
+.stream .stream-badge i.bg-primary {
   color: #ffffff;
   background-color: #1ab394;
   border-color: #1ab394;
 }
 
-.stream .stream-icon i.bg-warning {
+.stream .stream-badge i.bg-warning {
   color: #ffffff;
   background-color: #f8ac59;
   border-color: #f8ac59;
 }
 
-.stream .stream-icon i.bg-info {
+.stream .stream-badge i.bg-info {
   color: #ffffff;
   background-color: #23c6c8;
   border-color: #23c6c8;
 }
 
-.stream .stream-icon i.bg-danger {
+.stream .stream-badge i.bg-danger {
   color: #ffffff;
   background-color: #ED5565;
   border-color: #ED5565;
 }
 
-.stream .stream-icon:before {
+.stream .stream-badge:before {
   content: '';
   width: 1px;
   background-color: #e7eaec;
@@ -3655,8 +3659,8 @@ body.tour-open .animated {
 }
 
 .stream .stream-info {
-  margin-left: 55px;
   font-size: 12px;
+  margin-bottom: 5px;
 }
 
 .stream .stream-info img {
@@ -3672,9 +3676,8 @@ body.tour-open .animated {
   font-size: 80%;
 }
 
-.stream .stream-content {
+.stream .stream-panel {
   margin-left: 55px;
-  margin-top: 5px;
 }
 
 .stream-small {
@@ -9880,6 +9883,19 @@ div.dataTables_wrapper #footer_buttons {
 
 .list-form {
   display: inline;
+}
+
+.select2-selection__choice {
+  background-color: #1c84c6 !important;
+  color: #fff !important;
+}
+
+.select2-selection__choice__remove {
+  color: #fff !important;
+}
+
+.text-nowrap {
+  white-space: nowrap;
 }
 
 @media print {

@@ -9,14 +9,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mss\DataTables\ArticleDataTable;
 use Mss\Http\Requests\ArticleRequest;
+use Mss\Models\Tag;
 
 class ArticleController extends Controller
 {
     public function index(ArticleDataTable $articleDataTable) {
         $categories = Category::all();
         $supplier = Supplier::all();
+        $tags = Tag::all();
 
-        return $articleDataTable->render('article.list', compact('categories', 'supplier'));
+        return $articleDataTable->render('article.list', compact('categories', 'supplier', 'tags'));
     }
 
     /**
@@ -71,6 +73,14 @@ class ArticleController extends Controller
 
         // save data
         $article->update($request->all());
+
+        // tags
+        $article->tags()->detach();
+        $article->tags()->attach($request->get('tags'));
+
+        // categories
+        $article->categories()->detach();
+        $article->categories()->attach($request->get('categories'));
 
         flash('Artikel gespeichert')->success();
 

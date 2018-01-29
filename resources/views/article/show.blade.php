@@ -20,7 +20,7 @@
 @endsection
 
 @section('secondCol')
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="ibox">
             <div class="ibox-title">
                 <h5>Notizen</h5>
@@ -48,7 +48,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-lg-5">
         <div class="ibox collapsed">
             <div class="ibox-title">
                 <h5>Logbuch</h5>
@@ -68,7 +68,29 @@
                 <h5>Bestands-Verlauf</h5>
             </div>
             <div class="ibox-content">
-
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Typ</th>
+                            <th class="text-center">Änderung</th>
+                            <th class="text-center">Bestand</th>
+                            <th>Zeitpunkt</th>
+                            <th>Kommentar</th>
+                            <th>Benutzer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($article->quantityChangelogs()->with('user')->orderBy('created_at', 'desc')->take(100)->get() as $log)
+                            @if ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING)
+                                @include('components.quantity_log.incoming')
+                            @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING)
+                                @include('components.quantity_log.outgoing')
+                            @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_CORRECTION)
+                                @include('components.quantity_log.correction')
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

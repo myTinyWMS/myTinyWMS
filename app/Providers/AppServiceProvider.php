@@ -5,6 +5,8 @@ namespace Mss\Providers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Mss\Models\Article;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
 
         date_default_timezone_set('Europe/Berlin');
         Carbon::setLocale('de');
+
+        Relation::morphMap([
+            'article' => Article::class,
+        ]);
     }
 
     /**

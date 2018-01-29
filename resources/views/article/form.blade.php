@@ -25,7 +25,9 @@
                     @yield('form_start')
 
                     {{ Form::bsTextarea('name', null, ['rows' => 2] , 'Name') }}
-                    {{ Form::bsSelect('unit', $article->unit_id, \Mss\Models\Unit::all()->pluck('name', 'id'),  'Einheit') }}
+                    {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderBy('name')->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
+                    {{ Form::bsSelect('categories', $article->categories->pluck('id'), \Mss\Models\Category::orderBy('name')->pluck('name', 'id'), 'Kategorie(n)', ['multiple' => 'multiple', 'name' => 'categories[]']) }}
+                    {{ Form::bsSelect('unit', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit') }}
                     {{ Form::bsText('sort_id', null, [], 'Sortierung') }}
                     {{ Form::bsText('quantity', null, [], 'Bestand') }}
                     {{ Form::bsText('min_quantity', null, [], 'Mindestbestand') }}
@@ -33,6 +35,7 @@
                     {{ Form::bsText('issue_quantity', null, [], 'Entnahmemenge') }}
                     {{ Form::bsCheckbox('inventory', null, 'Inventur', $article->inventory, []) }}
                     {{ Form::bsTextarea('notes', null, [], 'Bemerkungen') }}
+
 
                     <div class="form-group">
                         @yield('submit')
@@ -44,3 +47,21 @@
         @yield('secondCol')
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        $("#tags").select2({
+            tags: true,
+            tokenSeparators: [',', ' '],
+            theme: "bootstrap"
+        });
+
+        $("#categories").select2({
+            tags: true,
+            tokenSeparators: [',', ' '],
+            theme: "bootstrap"
+        });
+    });
+</script>
+@endpush

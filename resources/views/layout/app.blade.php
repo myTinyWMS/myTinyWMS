@@ -10,7 +10,6 @@
 
     <link rel="stylesheet" href="{!! asset('css/vendor.css') !!}" />
     <link rel="stylesheet" href="{!! asset('css/app.css') !!}" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.0/css/rowReorder.dataTables.min.css" />
 
     @yield('extra_head')
 
@@ -61,7 +60,6 @@
 
     <script src="{!! asset('js/vendor.js') !!}" type="text/javascript"></script>
     <script src="{!! asset('js/app.js') !!}" type="text/javascript"></script>
-    <script src="https://cdn.datatables.net/rowreorder/1.2.0/js/dataTables.rowReorder.min.js"></script>
 
     @if (!empty($__env->yieldContent('datatableFilters')))
         <script>

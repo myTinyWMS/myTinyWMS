@@ -4,11 +4,12 @@ namespace Mss\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Mss\Models\Traits\Taggable;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Article extends AuditableModel
 {
-    use SoftDeletes;
+    use SoftDeletes, Taggable;
 
     protected $fillable = [
         'name', 'notes'
@@ -25,6 +26,14 @@ class Article extends AuditableModel
         'notes' => 'Bemerkungen'
     ];
 
+    public function quantityChangelogs() {
+        return $this->hasMany(ArticleQuantityChangelog::class);
+    }
+
+    public function tags() {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
     public function unit() {
         return $this->belongsTo(Unit::class);
     }
@@ -34,7 +43,7 @@ class Article extends AuditableModel
     }
 
     public function currentSupplier() {
-        return $this->suppliers()->orderBy('created_at', 'DESC')->first();
+        return $this->suppliers->sortByDesc('created_at')->first();
     }
 
     public function currentSupplierArticle() {

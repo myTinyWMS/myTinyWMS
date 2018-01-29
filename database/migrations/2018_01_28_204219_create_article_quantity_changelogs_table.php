@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArticleSupplierTable extends Migration
+class CreateArticleQuantityChangelogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateArticleSupplierTable extends Migration
      */
     public function up()
     {
-        Schema::create('article_supplier', function (Blueprint $table) {
+        Schema::create('article_quantity_changelogs', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('article_id')->unsigned();
-            $table->integer('supplier_id')->unsigned();
-
-            $table->string('order_number');
-            $table->double('price');
-            $table->string('delivery_time')->nullable();
-            $table->integer('order_quantity')->nullable();
+            $table->integer('user_id')->unsigned();
+            $table->tinyInteger('type')->unsigned();
+            $table->integer('change');
+            $table->integer('new_quantity');
+            $table->string('note')->nullable();
 
             $table->timestamps();
         });
@@ -35,6 +34,6 @@ class CreateArticleSupplierTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('article_supplier');
+        Schema::dropIfExists('article_quantity_changelogs');
     }
 }

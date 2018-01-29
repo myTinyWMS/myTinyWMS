@@ -60,13 +60,13 @@ return [
     | sources which represent each model / table. These sources may then
     | be assigned to any extra authentication guards you have defined.
     |
-    | Supported: "database", "eloquent"
+    | Supported: "database", "eloquent", "adldap"
     |
     */
 
     'providers' => [
         'users' => [
-            'driver' => 'adldap',
+            'driver' => env('AUTH_DRIVER', 'eloquent'),
             'model' => Mss\Models\User::class,
         ],
 
