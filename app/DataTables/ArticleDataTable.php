@@ -16,6 +16,9 @@ class ArticleDataTable extends BaseDataTable
     {
         return datatables($query)
             ->setRowId('id')
+            ->editColumn('article_number', function (Article $article) {
+                return (empty($article->article_number)) ? '('.$article->quantity.')' : $article->article_number;
+            })
             ->editColumn('quantity', function (Article $article) {
                 return $article->quantity;
             })
@@ -112,7 +115,7 @@ class ArticleDataTable extends BaseDataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => '#'],
+            ['data' => 'article_number', 'name' => 'article_number', 'title' => '#'],
             ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sortierung', 'visible' => false],
             ['data' => 'name', 'name' => 'name', 'title' => 'Artikelbezeichnung'],
             ['data' => 'order_number', 'name' => 'order_number', 'title' => 'Bestellnummer'],

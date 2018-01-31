@@ -5,6 +5,7 @@ namespace Mss\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Mss\Console\Commands\ImportCommand;
+use Mss\Console\Commands\SetArticleNumbersCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,7 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        ImportCommand::class
+        ImportCommand::class,
+        SetArticleNumbersCommand::class
     ];
 
     /**

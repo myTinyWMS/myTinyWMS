@@ -61,4 +61,19 @@ class Article extends AuditableModel
     public function formatQuantity($value) {
         return (!empty($value) || $value === 0) ? $value.' '.$this->unit->name : $value;
     }
+
+    public function setNewArticleNumber() {
+        $categoryPart = $this->category->id + 10;
+        $latestArticleNumber = Article::where('article_number', 'like', $categoryPart.'%')->max('article_number');
+        if ($latestArticleNumber) {
+            $number = intval(substr($latestArticleNumber, strlen($categoryPart)));
+            $newNumber = ++$number;
+        } else {
+            $newNumber = 1;
+        }
+        $newArticleNumber = $categoryPart.sprintf('%03d', $newNumber);
+
+        $this->article_number = $newArticleNumber;
+        $this->save();
+    }
 }
