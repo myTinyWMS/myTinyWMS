@@ -26,7 +26,7 @@
 
                     {{ Form::bsTextarea('name', null, ['rows' => 2] , 'Name') }}
                     {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderBy('name')->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
-                    {{ Form::bsSelect('categories', $article->categories->pluck('id'), \Mss\Models\Category::orderBy('name')->pluck('name', 'id'), 'Kategorie(n)', ['multiple' => 'multiple', 'name' => 'categories[]']) }}
+                    {{ Form::bsSelect('category', $article->category, \Mss\Models\Category::orderBy('name')->pluck('name', 'id'), 'Kategorie', ['name' => 'category[]']) }}
                     {{ Form::bsSelect('unit', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit') }}
                     {{ Form::bsText('sort_id', null, [], 'Sortierung') }}
                     {{ Form::bsText('quantity', null, [], 'Bestand') }}
@@ -54,12 +54,22 @@
         $("#tags").select2({
             tags: true,
             tokenSeparators: [',', ' '],
-            theme: "bootstrap"
+            theme: "bootstrap",
+            createTag: function (params) {
+                var term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: 'newTag_'+term,
+                    text: term
+                }
+            }
         });
 
-        $("#categories").select2({
-            tags: true,
-            tokenSeparators: [',', ' '],
+        $("#category").select2({
             theme: "bootstrap"
         });
     });

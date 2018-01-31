@@ -93,7 +93,7 @@ class ImportFromOnpService {
                 if (array_key_exists($log->user_name, $userCache)) {
                     $user = $userCache[$log->user_name];
                 } else {
-                    $user = $userCache[$log->user_name] = User::firstOrCreate([
+                    $user = $userCache[$log->user_name] = dUser::firstOrCreate([
                         'name' => $log->user_name
                     ], [
                         'email' => $log->user_name,
@@ -152,7 +152,7 @@ class ImportFromOnpService {
                 'delivery_time' => utf8_encode($article->lieferzeit),
             ]);
 
-            $newArticle->categories()->attach($article->type);
+            $newArticle->category()->associate($article->type);
 
             $bar->advance();
         });

@@ -50,8 +50,8 @@ class Article extends AuditableModel
         return $this->currentSupplier()->pivot;
     }
 
-    public function categories() {
-        return $this->belongsToMany(Category::class);
+    public function category() {
+        return $this->belongsTo(Category::class);
     }
 
     public function articleNotes() {

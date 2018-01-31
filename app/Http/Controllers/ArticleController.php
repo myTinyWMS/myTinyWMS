@@ -76,11 +76,18 @@ class ArticleController extends Controller
 
         // tags
         $article->tags()->detach();
-        $article->tags()->attach($request->get('tags'));
+        collect($request->get('tags'))->each(function ($tagValue) use ($article) {
+            if (preg_match('/^newTag_(.+)/', $tagValue, $matches)) {
+                $tag = Tag::firstOrCreate(['name' => $matches[1]]);
+                $article->tags()->attach($tag);
+            } else {
+                $article->tags()->attach($tagValue);
+            }
+        });
 
         // categories
-        $article->categories()->detach();
-        $article->categories()->attach($request->get('categories'));
+        $article->category()->dissociate();
+        $article->category()->associate($request->get('category'));
 
         flash('Artikel gespeichert')->success();
 

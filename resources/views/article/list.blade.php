@@ -25,7 +25,7 @@
 @section('datatableFilters')
     <label>
        Kategorie:&nbsp;
-        <select id="filterCategory" data-target-col="11" class="form-control input-sm datatableFilter-select">
+        <select id="filterCategory" data-target-col="13" class="form-control input-sm datatableFilter-select">
             <option value=""></option>
             @foreach($categories as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -33,7 +33,7 @@
         </select>
     </label>
     Tags:&nbsp;
-        <select id="filterTags" data-target-col="11" class="form-control input-sm datatableFilter-select">
+        <select id="filterTags" data-target-col="12" class="form-control input-sm datatableFilter-select">
             <option value=""></option>
             @foreach($tags as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -42,7 +42,7 @@
     </label>
     <label>
        Lieferant:&nbsp;
-        <select id="filterSupplier" data-target-col="10" class="form-control input-sm datatableFilter-select">
+        <select id="filterSupplier" data-target-col="11" class="form-control input-sm datatableFilter-select">
             <option value=""></option>
             @foreach($supplier as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>

@@ -19,7 +19,7 @@ class TestDataSeeder extends Seeder
 
         factory(\Mss\Models\Article::class, 50)->create()->each(function ($article) use ($categories, $suppliers, $units, $faker) {
             $article->suppliers()->attach($suppliers->random(), ['order_number' => $faker->randomNumber(5).$faker->randomNumber(5), 'price' => $faker->randomFloat(2, 1, 1000)]);
-            $article->categories()->attach($categories->random());
+            $article->category()->associate($categories->random());
             $article->unit()->associate($units->random())->save();
         });
     }
