@@ -63,6 +63,9 @@ class Article extends AuditableModel
     }
 
     public function setNewArticleNumber() {
+        $this->article_number = null;
+        $this->save();
+
         $categoryPart = $this->category->id + 10;
         $latestArticleNumber = Article::where('article_number', 'like', $categoryPart.'%')->max('article_number');
         if ($latestArticleNumber) {
@@ -71,9 +74,8 @@ class Article extends AuditableModel
         } else {
             $newNumber = 1;
         }
-        $newArticleNumber = $categoryPart.sprintf('%03d', $newNumber);
 
-        $this->article_number = $newArticleNumber;
+        $this->article_number = $categoryPart.sprintf('%03d', $newNumber);
         $this->save();
     }
 }

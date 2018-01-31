@@ -1,6 +1,6 @@
 @extends('article.form')
 
-@section('title', 'Artikel Details')
+@section('title', 'Artikel Details'.((!empty($article->article_number)) ? ' #'.$article->article_number : ''))
 
 @section('breadcrumb')
     <li>

@@ -26,7 +26,19 @@
 
                     {{ Form::bsTextarea('name', null, ['rows' => 2] , 'Name') }}
                     {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderBy('name')->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
-                    {{ Form::bsSelect('category', $article->category, \Mss\Models\Category::orderBy('name')->pluck('name', 'id'), 'Kategorie', ['name' => 'category[]']) }}
+
+                    <div class="form-group">
+                        {!! Form::label('category', 'Kategorie', ['class' => 'control-label']) !!}
+                        {!! Form::select('category', \Mss\Models\Category::orderBy('name')->pluck('name', 'id'), $article->category->id, ['class' => 'form-control', 'name' => 'category', 'disabled' => 'disabled']) !!}
+                        <div class="checkbox checkbox-danger">
+                            <input type="checkbox" id="enableChangeCategory" name="changeCategory" value="1" />
+                            <label for="enableChangeCategory">
+                                 Kategorie ändern
+                            </label>
+                        </div>
+                        <span class="help-block m-b-none text-danger hidden" id="changeCategoryWarning">Beim Ändern der Kategorie wird eine neue Artikel Nummer vergeben!</span>
+                    </div>
+
                     {{ Form::bsSelect('unit', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit') }}
                     {{ Form::bsText('sort_id', null, [], 'Sortierung') }}
                     {{ Form::bsText('quantity', null, [], 'Bestand') }}
@@ -51,6 +63,16 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
+        $('#enableChangeCategory').click(function () {
+            if($(this).is(':checked')) {
+                $('#changeCategoryWarning').removeClass('hidden');
+                $("#category").prop('disabled', false);
+            } else {
+                $('#changeCategoryWarning').addClass('hidden');
+                $("#category").prop('disabled', true);
+            }
+        });
+        // changeCategoryWarning
         $("#tags").select2({
             tags: true,
             tokenSeparators: [',', ' '],

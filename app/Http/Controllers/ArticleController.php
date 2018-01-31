@@ -69,6 +69,7 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(ArticleRequest $request, $id) {
+        /* @var $article Article */
         $article = Article::findOrFail($id);
 
         // save data
@@ -86,8 +87,13 @@ class ArticleController extends Controller
         });
 
         // categories
-        $article->category()->dissociate();
-        $article->category()->associate($request->get('category'));
+        if ($request->get('category') != $article->category_id && $request->get('changeCategory') == 1 && !empty($request->get('category'))) {
+            $article->category()->associate($request->get('category'));
+            $article->save();
+            $article->load('category');
+
+            $article->setNewArticleNumber();
+        }
 
         flash('Artikel gespeichert')->success();
 
