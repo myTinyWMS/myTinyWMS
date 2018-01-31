@@ -47,7 +47,7 @@ class ArticleDataTable extends BaseDataTable
                 return $article->unit->name;
             })
             ->addColumn('tags', function (Article $article) {
-                return $article->tags->pluck('name');
+                return $article->tags->pluck('name')->implode(', ');
             })
             ->filterColumn('category', function ($query, $keyword) {
                 $query->where('category_id', $keyword);
@@ -125,7 +125,7 @@ class ArticleDataTable extends BaseDataTable
             ['data' => 'delivery_time', 'name' => 'delivery_time', 'title' => 'Lieferzeit', 'class' => 'text-right'],
             ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant'],
             ['data' => 'tags', 'name' => 'tags', 'title' => 'Tags'],
-            ['data' => 'category', 'name' => 'category', 'title' => 'Kategorie'],
+            ['data' => 'category', 'name' => 'category', 'title' => 'Kategorie', 'visible' => false],
         ];
     }
 
