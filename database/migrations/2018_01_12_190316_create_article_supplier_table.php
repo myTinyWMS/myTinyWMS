@@ -20,7 +20,7 @@ class CreateArticleSupplierTable extends Migration
             $table->integer('supplier_id')->unsigned();
 
             $table->string('order_number');
-            $table->double('price');
+            $table->integer('price');
             $table->string('delivery_time')->nullable();
             $table->integer('order_quantity')->nullable();
 

@@ -23,6 +23,7 @@ Route::group(['middleware' => ['auth']], function () {
         'article' => 'ArticleController',
         'supplier' => 'SupplierController',
         'category' => 'CategoryController',
+        'order' => 'OrderController',
     ]);
 
     Route::post('article/reorder', 'ArticleController@reorder')->name('article.reorder');

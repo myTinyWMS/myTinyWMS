@@ -58,6 +58,10 @@ class Article extends AuditableModel
         return $this->hasMany(ArticleNote::class);
     }
 
+    public function orderItems() {
+        return $this->hasMany(OrderItem::class);
+    }
+
     public function formatQuantity($value) {
         return (!empty($value) || $value === 0) ? $value.' '.$this->unit->name : $value;
     }

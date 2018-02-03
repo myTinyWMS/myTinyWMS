@@ -26,4 +26,8 @@ class Supplier extends AuditableModel
     public function articles() {
         return $this->belongsToMany(Article::class);
     }
+
+    public function orders() {
+        return $this->hasMany(Order::class);
+    }
 }

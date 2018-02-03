@@ -23,6 +23,11 @@
                         <span class="nav-label">Lieferanten</span>
                     </a>
                 </li>
+                <li class="{{ active_class(if_uri_pattern(['order*'])) }}">
+                    <a href="{{ url('/order') }}">
+                        <span class="nav-label">Bestellungen</span>
+                    </a>
+                </li>
                 <li class="{{ active_class(if_uri_pattern(['category*'])) }}">
                     <a href="{{ url('/category') }}">
                         <span class="nav-label">Kategorien</span>
@@ -67,6 +72,7 @@
                 </li>
 
             </ul>
+
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="false">
@@ -92,6 +98,12 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
                 </li>
             </ul>
+
+            <form role="search" class="navbar-form-custom pull-right" action="search_results.html">
+                <div class="form-group">
+                    <input placeholder="Suche ..." class="form-control" name="top-search" id="top-search" type="text">
+                </div>
+            </form>
         </div>
     </nav>
 </div>

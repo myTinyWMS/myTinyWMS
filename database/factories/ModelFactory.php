@@ -48,3 +48,25 @@ $factory->define(Mss\Models\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(Mss\Models\OrderItem::class, function (Faker\Generator $faker) {
+
+    return [
+        'article_id' => \Mss\Models\Article::inRandomOrder()->first()->id,
+        'price' => $faker->randomFloat(0, 5, 100),
+        'quantity' => $faker->randomNumber(),
+    ];
+});
+
+$factory->define(Mss\Models\Order::class, function (Faker\Generator $faker) {
+    $orderDate = \Carbon\Carbon::now()->subDays($faker->randomNumber(1));
+    return [
+        'supplier_id' => \Mss\Models\Supplier::inRandomOrder()->first()->id,
+        'internal_order_number' => $faker->randomNumber(8),
+        'external_order_number' => $faker->randomNumber(5),
+        'total_cost' => $faker->randomFloat(0, 50, 1000),
+        'shipping_cost' => $faker->randomFloat(0, 5, 50),
+        'order_date' => $orderDate,
+        'expected_delivery' => $orderDate->copy()->addDays($faker->randomFloat(0,1,50))
+    ];
+});
