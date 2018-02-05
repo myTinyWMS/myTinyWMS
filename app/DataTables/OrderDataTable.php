@@ -59,7 +59,7 @@ class OrderDataTable extends BaseDataTable
             ->minifiedAjax()
             ->columns($this->getColumns())
             ->parameters([
-                'order'   => [[0, 'asc']],
+                'order'   => [[0, 'desc']],
             ])
             ->addAction(['title' => '', 'width' => '150px']);
     }
@@ -72,6 +72,7 @@ class OrderDataTable extends BaseDataTable
     protected function getColumns()
     {
         return [
+            ['data' => 'internal_order_number', 'name' => 'internal_order_number', 'title' => 'Bestellnummer'],
             ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
             ['data' => 'article', 'name' => 'article', 'title' => 'Artikel', 'class' => 'text-right'],

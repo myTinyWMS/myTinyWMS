@@ -18,14 +18,14 @@
                         <span class="nav-label">Artikel</span>
                     </a>
                 </li>
-                <li class="{{ active_class(if_uri_pattern(['supplier*'])) }}">
-                    <a href="{{ url('/supplier') }}">
-                        <span class="nav-label">Lieferanten</span>
-                    </a>
-                </li>
                 <li class="{{ active_class(if_uri_pattern(['order*'])) }}">
                     <a href="{{ url('/order') }}">
                         <span class="nav-label">Bestellungen</span>
+                    </a>
+                </li>
+                <li class="{{ active_class(if_uri_pattern(['supplier*'])) }}">
+                    <a href="{{ url('/supplier') }}">
+                        <span class="nav-label">Lieferanten</span>
                     </a>
                 </li>
                 <li class="{{ active_class(if_uri_pattern(['category*'])) }}">
