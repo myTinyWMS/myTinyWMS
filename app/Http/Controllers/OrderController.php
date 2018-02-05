@@ -4,6 +4,9 @@ namespace Mss\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Mss\DataTables\OrderDataTable;
+use Mss\Models\Article;
+use Mss\Models\Order;
+use Mss\Models\Supplier;
 
 class OrderController extends Controller
 {
@@ -21,9 +24,21 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+        $articles = Article::with('suppliers')->orderBy('name')->get()
+            ->transform(function ($article) {
+                return [
+                    'id' => $article->id,
+                    'name' => $article->name,
+                    'supplier_id' => $article->currentSupplier()->id
+                ];
+            });
+
+        $order = new Order();
+        $order->internal_order_number = $order->getNextInternalOrderNumber();
+        $order->save();
+
+        return view('order.create', compact('order', 'articles'));
     }
 
     /**
@@ -80,5 +95,9 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function articleList(Supplier $supplier) {
+        return response()->json($supplier->articles->pluck(['name', 'id']));
     }
 }

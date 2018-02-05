@@ -20,11 +20,12 @@ class CreateOrdersTable extends Migration
             $table->string('internal_order_number');
             $table->string('external_order_number')->nullable();
             $table->tinyInteger('status')->unsigned()->default(0);
-            $table->integer('supplier_id')->unsigned();
+            $table->integer('supplier_id')->unsigned()->nullable();
             $table->integer('total_cost')->unsigned()->default(0);
             $table->integer('shipping_cost')->unsigned()->default(0);
             $table->date('expected_delivery')->nullable();
             $table->date('order_date')->nullable();
+            $table->text('notes')->nullable();
         });
     }
 

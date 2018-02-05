@@ -32,7 +32,8 @@ mix
         'resources/assets/vendor/jasny/jasny-bootstrap.min.css',
         'resources/assets/vendor/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
         'resources/assets/vendor/select2/select2.min.css',
-        'resources/assets/vendor/select2/select2-bootstrap.min.css'
+        'resources/assets/vendor/select2/select2-bootstrap.min.css',
+        'resources/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css'
     ], 'public/css/vendor.css')
     .combine([
         'resources/assets/vendor/jquery/jquery-3.1.1.min.js',
@@ -47,6 +48,8 @@ mix
         'resources/assets/vendor/chartjs/Chart.bundle.min.js',
         'resources/assets/vendor/chartjs/Chart.PieceLabel.min.js',
         'resources/assets/vendor/chartjs-plugin-annotation/chartjs-plugin-annotation.min.js',
-        'resources/assets/vendor/select2/select2.min.js'
+        'resources/assets/vendor/select2/select2.min.js',
+        'resources/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+        'resources/assets/vendor/bootstrap-datepicker/locales/bootstrap-datepicker.de.min.js'
     ], 'public/js/vendor.js')
     .copy('resources/assets/js/app.js', 'public/js');
