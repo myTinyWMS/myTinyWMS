@@ -5,5 +5,9 @@
  * @return string
  */
 function formatPrice($value) {
-    return !empty($value) ? number_format(($value / 100), 2, ',', '.') . " &euro;" : '';
+    return !empty($value) ? number_format($value, 2, ',', '.') . " &euro;" : '';
+}
+
+function parsePrice($value) {
+    return floatval(str_replace(',', '.', $value)) * 100;
 }

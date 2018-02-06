@@ -25,6 +25,9 @@ class TestDataSeeder extends Seeder
 
         factory(\Mss\Models\Order::class, 20)->create()->each(function ($order) use ($faker) {
             factory(\Mss\Models\OrderItem::class, $faker->randomFloat(0, 1, 10))->create()->each(function ($orderItem) use ($order, $faker) {
+                $orderItem->article_id = \Mss\Models\Article::whereHas('suppliers', function ($query) use ($order) {
+                    $query->where('supplier_id', $order->supplier_id);
+                })->inRandomOrder()->first()->id;
                 $orderItem->order()->associate($order);
                 $orderItem->save();
             });

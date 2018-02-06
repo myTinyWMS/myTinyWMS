@@ -1,5 +1,5 @@
-<a href="{{ route('category.show', $id) }}" class="btn btn-primary btn-xs">Details</a>
-<form action="{{ route('category.destroy', $id) }}" class="list-form" method="POST">
+<a href="{{ route('order.show', $id) }}" class="btn btn-primary btn-xs">Details</a>
+<form action="{{ route('order.destroy', $id) }}" class="list-form" method="POST">
     {{ method_field('DELETE') }}
     {{ csrf_field() }}
 

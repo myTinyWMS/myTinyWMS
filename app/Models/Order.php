@@ -35,4 +35,12 @@ class Order extends Model
 
         return date("ymd").($latestNumber+1);
     }
+
+    public function getTotalCostAttribute($value) {
+        return !empty($value) ? $value / 100 : 0;
+    }
+
+    public function getShippingCostAttribute($value) {
+        return !empty($value) ? $value / 100 : 0;
+    }
 }

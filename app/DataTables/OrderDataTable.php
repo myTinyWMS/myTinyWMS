@@ -17,13 +17,13 @@ class OrderDataTable extends BaseDataTable
         return datatables($query)
             ->setRowId('id')
             ->addColumn('supplier', function (Order $order) {
-                return $order->supplier->name;
+                return $order->supplier ? $order->supplier->name : '';
             })
             ->editColumn('order_date', function (Order $order) {
-                return $order->order_date->diffForHumans().' <small class="text-muted">('.$order->order_date->format('d.m.Y').')</small>';
+                return !empty($order->order_date) ? $order->order_date->diffForHumans().' <small class="text-muted">('.$order->order_date->format('d.m.Y').')</small>' : '';
             })
             ->editColumn('expected_delivery', function (Order $order) {
-                return $order->expected_delivery->diffForHumans().' <small class="text-muted">('.$order->expected_delivery->format('d.m.Y').')</small>';
+                return !empty($order->expected_delivery) ? $order->expected_delivery->diffForHumans().' <small class="text-muted">('.$order->expected_delivery->format('d.m.Y').')</small>' : '';
             })
             ->editColumn('total_cost', function (Order $order) {
                 return formatPrice($order->total_cost);

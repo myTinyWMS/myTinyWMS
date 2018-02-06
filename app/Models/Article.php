@@ -12,7 +12,7 @@ class Article extends AuditableModel
     use SoftDeletes, Taggable;
 
     protected $fillable = [
-        'name', 'notes'
+        'name', 'notes',
     ];
 
     protected $casts = [

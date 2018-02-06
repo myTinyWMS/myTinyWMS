@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth']], function () {
     ]);
 
     Route::get('order/article_list/{supplier}', 'OrderController@articleList')->name('order.article_list');
+    Route::get('order/{order}/cancel', 'OrderController@cancel')->name('order.cancel');
 
     Route::post('article/reorder', 'ArticleController@reorder')->name('article.reorder');
     Route::post('article/{article}/addnote', 'ArticleController@addNote')->name('article.add_note');
