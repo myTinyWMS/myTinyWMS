@@ -83,7 +83,7 @@ class ArticleDataTable extends BaseDataTable
     public function query(Article $model)
     {
         return $model->newQuery()
-            ->with(['category', 'suppliers', 'unit']);
+            ->with(['category', 'suppliers', 'unit', 'tags']);
     }
 
     /**

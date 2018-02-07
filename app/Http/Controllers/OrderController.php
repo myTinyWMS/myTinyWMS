@@ -102,6 +102,19 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+        $order = Order::findOrFail($id);
+        $audits = $order->getAudits();
+
+        return view('order.show', compact('order', 'audits'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id) {
         $articles = Article::with('suppliers')->orderBy('name')->get()
             ->transform(function ($article) {
                 /*@var $article Article */
@@ -114,18 +127,7 @@ class OrderController extends Controller
 
         $order = Order::findOrFail($id);
 
-        return view('order.show', compact('order', 'articles'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return view('order.edit', compact('order', 'articles'));
     }
 
     /**

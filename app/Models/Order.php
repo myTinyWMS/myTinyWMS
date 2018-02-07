@@ -4,7 +4,7 @@ namespace Mss\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Order extends AuditableModel
 {
     const STATUS_NEW = 0;
     const STATUS_ORDERED = 1;
@@ -13,6 +13,14 @@ class Order extends Model
     const STATUS_CANCELLED = 4;
 
     protected $dates = ['order_date', 'expected_delivery'];
+
+    /*
+     * @todo set correct field names!!!!
+     */
+    protected $fieldNames = [
+        'external_order_number' => 'Name',
+        'internal_order_number' => 'Bemerkungen'
+    ];
 
     public function items() {
         return $this->hasMany(OrderItem::class);

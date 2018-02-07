@@ -15,4 +15,8 @@ class OrderItem extends Model
     public function order() {
         return $this->belongsTo(Order::class);
     }
+
+    public function getPriceAttribute($value) {
+        return !empty($value) ? $value / 100 : 0;
+    }
 }

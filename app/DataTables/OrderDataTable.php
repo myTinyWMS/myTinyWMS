@@ -29,7 +29,7 @@ class OrderDataTable extends BaseDataTable
                 return formatPrice($order->total_cost);
             })
             ->addColumn('article', function (Order $order) {
-                return $order->items()->count();
+                return $order->items->count();
             })
             ->editColumn('status', 'order.status')
             ->addColumn('action', 'order.list_action')
@@ -45,7 +45,7 @@ class OrderDataTable extends BaseDataTable
     public function query(Order $model)
     {
         return $model->newQuery()
-            ->with(['items.article', 'supplier']);
+            ->with(['items', 'items.article', 'supplier']);
     }
 
     /**
