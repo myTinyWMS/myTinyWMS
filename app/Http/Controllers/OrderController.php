@@ -52,8 +52,6 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(OrderRequest $request) {
-        dd($request->all());
-
         /* @var $order Order */
         $order = Order::findOrFail($request->get('order_id'));
 
@@ -64,7 +62,11 @@ class OrderController extends Controller
         $order->order_date = Carbon::parse($request->get('order_date'));
         $order->expected_delivery = Carbon::parse($request->get('expected_delivery'));
         $order->notes = $request->get('notes');
-        $order->status = Order::STATUS_ORDERED;
+
+        if ($order->status === Order::STATUS_NEW) {
+            $order->status = Order::STATUS_ORDERED;
+        }
+
         $order->save();
 
         $order->items()->delete();

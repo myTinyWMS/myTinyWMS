@@ -57,7 +57,6 @@
 
                     <div class="form-group">
                         @yield('submit')
-                        <a href="{{ route('order.cancel', $order) }}" class="btn btn-danger pull-right">Abbrechen</a>
                     </div>
                 </div>
             </div>
@@ -77,6 +76,18 @@
     </div>
     {!! Form::close() !!}
 
+    <style>
+        #article-list .row {
+            position: relative;
+        }
+
+        #article-list .row .btn {
+            position: absolute;
+            right: 0;
+            top: -15px;
+        }
+    </style>
+
     <div class="article-template hidden">
         <div class="panel panel-primary">
             <div class="panel-body row">
@@ -89,6 +100,7 @@
                 <div class="col-lg-3 text-right">
                     {{ Form::bsText('price[]', null, ['class' => 'form-control text-right price-select'], 'Preis je Einheit') }}
                 </div>
+                <a href="#" class="btn btn-xs btn-default btn-circle remove-article"><i class="glyphicon glyphicon-remove"></i></a>
             </div>
         </div>
     </div>
@@ -183,6 +195,11 @@
                 placeholder: "Bitte Artikel wählen",
                 allowClear: true,
                 data: currentArticles
+            });
+
+            $('.remove-article').click(function () {
+                $(this).parent().parent().remove();
+                return false;
             });
         }
     </script>

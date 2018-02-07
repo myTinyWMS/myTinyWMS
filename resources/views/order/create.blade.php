@@ -17,4 +17,5 @@
 
 @section('submit')
     {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
+    <a href="{{ route('order.cancel', $order) }}" class="btn btn-danger pull-right">Abbrechen</a>
 @endsection
