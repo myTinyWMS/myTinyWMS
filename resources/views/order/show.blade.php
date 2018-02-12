@@ -25,22 +25,22 @@
                 <div class="row">
                     <div class="col-xs-3">
                         <small class="stats-label">interne Bestellnummer</small>
-                        <h3>{{ $order->internal_order_number }}</h3>
+                        <h2>{{ $order->internal_order_number }}</h2>
                     </div>
 
                     <div class="col-xs-3">
                         <small class="stats-label">Bestellnummer des Lieferanten</small>
-                        <h3>{{ $order->external_order_number }}</h3>
+                        <h2>{{ $order->external_order_number }}</h2>
                     </div>
 
                     <div class="col-xs-3">
                         <small class="stats-label">Gesamtkosten</small>
-                        <h3>{{ formatPrice($order->total_cost) }}</h3>
+                        <h2>{{ formatPrice($order->total_cost) }}</h2>
                     </div>
 
                     <div class="col-xs-3">
                         <small class="stats-label">Versandkosten</small>
-                        <h3>{{ formatPrice($order->shipping_cost) }}</h3>
+                        <h2>{{ formatPrice($order->shipping_cost) }}</h2>
                     </div>
                 </div>
             </div>
@@ -48,12 +48,12 @@
                 <div class="row">
                     <div class="col-xs-3">
                         <small class="stats-label">Bestelldatum</small>
-                        <h3>{{ !empty($order->order_date) ? $order->order_date->format('d.m.Y') : '' }}</h3>
+                        <h2>{{ !empty($order->order_date) ? $order->order_date->format('d.m.Y') : '' }}</h2>
                     </div>
 
                     <div class="col-xs-3">
                         <small class="stats-label">Liefertermin</small>
-                        <h3>{{ !empty($order->expected_delivery) ? $order->expected_delivery->format('d.m.Y') : '' }}</h3>
+                        <h2>{{ !empty($order->expected_delivery) ? $order->expected_delivery->format('d.m.Y') : '' }}</h2>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <small class="stats-label">Bemerkungen</small>
-                        <h3>{{ $order->notes ?: '-' }}</h3>
+                        <h2>{{ $order->notes ?: '-' }}</h2>
                     </div>
                 </div>
             </div>
