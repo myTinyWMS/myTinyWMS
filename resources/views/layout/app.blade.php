@@ -15,9 +15,10 @@
 
 </head>
 
-<body class="top-navigation">
+<body>
     <!-- Wrapper-->
     <div id="wrapper">
+        @include('layout.sidebar')
 
         <!-- Page wraper -->
         <div id="page-wrapper" class="gray-bg">
@@ -25,20 +26,20 @@
             <!-- Page wrapper -->
             @include('layout.topnavbar')
 
-            <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-lg-12">
-                    <h2>@yield('title')</h2>
-                    <ol class="breadcrumb pull-left">
-                        @yield('breadcrumb')
-                    </ol>
-                    <div class="btn-toolbar pull-right">
-                        @yield('subnav')
-                    </div>
-                </div>
-            </div>
-
             <!-- Main view  -->
             <div class="wrapper wrapper-content">
+                <div class="row border-bottom white-bg page-heading">
+                    <div class="col-lg-12">
+                        <h2>@yield('title')</h2>
+                        <ol class="breadcrumb pull-left">
+                            @yield('breadcrumb')
+                        </ol>
+                        <div class="btn-toolbar pull-right">
+                            @yield('subnav')
+                        </div>
+                    </div>
+                </div>
+
                 @include('flash::message')
 
                 @yield('content')

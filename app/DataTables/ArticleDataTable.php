@@ -124,10 +124,10 @@ class ArticleDataTable extends BaseDataTable
             ['data' => 'order_quantity', 'name' => 'order_quantity', 'title' => 'Bestellmenge', 'class' => 'text-right'],
             ['data' => 'unit', 'name' => 'unit', 'title' => 'Einheit'],
             ['data' => 'price', 'name' => 'price', 'title' => 'Preis', 'class' => 'text-right'],
-            ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung'],
+            ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung', 'visible' => false],
             ['data' => 'delivery_time', 'name' => 'delivery_time', 'title' => 'Lieferzeit', 'class' => 'text-right'],
             ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant'],
-            ['data' => 'tags', 'name' => 'tags', 'title' => 'Tags'],
+            ['data' => 'tags', 'name' => 'tags', 'title' => 'Tags', 'visible' => false],
             ['data' => 'category', 'name' => 'category', 'title' => 'Kategorie', 'visible' => false],
         ];
     }
