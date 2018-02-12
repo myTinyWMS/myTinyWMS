@@ -4,6 +4,7 @@ namespace Mss\Providers;
 
 use Carbon\Carbon;
 use Mss\Models\Article;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        Paginator::useBootstrapThree();
 
         date_default_timezone_set('Europe/Berlin');
         Carbon::setLocale('de');

@@ -10,7 +10,6 @@ function prod {
 	set -x
 	composer install -o --classmap-authoritative
 	clear
-	./artisan optimize
     ./artisan config:cache
     # ./artisan route:cache
     # npm run prod

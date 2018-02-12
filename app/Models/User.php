@@ -15,7 +15,7 @@ class User extends Authenticatable implements Auditable, UserResolver
     /**
      * {@inheritdoc}
      */
-    public static function resolveId() {
+    public static function resolve() {
         return Auth::check() ? Auth::user()->getAuthIdentifier() : null;
     }
 
