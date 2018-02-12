@@ -14,9 +14,9 @@ use Mss\Models\Tag;
 class ArticleController extends Controller
 {
     public function index(ArticleDataTable $articleDataTable) {
-        $categories = Category::all();
-        $supplier = Supplier::all();
-        $tags = Tag::all();
+        $categories = Category::orderedByName()->get();
+        $supplier = Supplier::orderedByName()->get();
+        $tags = Tag::orderedByName()->get();
 
         return $articleDataTable->render('article.list', compact('categories', 'supplier', 'tags'));
     }

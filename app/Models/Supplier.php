@@ -30,4 +30,8 @@ class Supplier extends AuditableModel
     public function orders() {
         return $this->hasMany(Order::class);
     }
+
+    public function scopeOrderedByName($query) {
+        $query->orderBy('name');
+    }
 }

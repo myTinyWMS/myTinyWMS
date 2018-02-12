@@ -33,7 +33,7 @@
 
                     <hr class="hr-line-solid">
 
-                    {{ Form::bsSelect('supplier', $order->supplier_id, \Mss\Models\Supplier::orderBy('name')->pluck('name', 'id'),  'Lieferant', ['placeholder' => '']) }}
+                    {{ Form::bsSelect('supplier', $order->supplier_id, \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'),  'Lieferant', ['placeholder' => '']) }}
                     {{ Form::bsText('external_order_number', null, [], 'Bestellnummer des Lieferanten') }}
                     <div class="row">
                         <div class="col-lg-6">

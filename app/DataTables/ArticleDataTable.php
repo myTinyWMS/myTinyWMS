@@ -29,19 +29,19 @@ class ArticleDataTable extends BaseDataTable
                 return link_to_route('article.show', $article->name, ['article' => $article]);
             })
             ->addColumn('price', function (Article $article) {
-                return formatPrice($article->currentSupplierArticle()->price);
+                return formatPrice($article->currentSupplierArticle->price);
             })
             ->addColumn('order_number', function (Article $article) {
-                return $article->currentSupplierArticle()->order_number;
+                return $article->currentSupplierArticle->order_number;
             })
             ->addColumn('delivery_time', function (Article $article) {
-                return $article->currentSupplierArticle()->delivery_time;
+                return $article->currentSupplierArticle->delivery_time;
             })
             ->addColumn('supplier', function (Article $article) {
-                return $article->currentSupplier()->name;
+                return $article->currentSupplier->name;
             })
             ->addColumn('order_quantity', function (Article $article) {
-                return $article->currentSupplierArticle()->order_quantity;
+                return $article->currentSupplierArticle->order_quantity;
             })
             ->editColumn('category', function (Article $article) {
                 return $article->category->name;
@@ -83,6 +83,7 @@ class ArticleDataTable extends BaseDataTable
     public function query(Article $model)
     {
         return $model->newQuery()
+            ->withCurrentSupplierArticle()->withCurrentSupplier()
             ->with(['category', 'suppliers', 'unit', 'tags']);
     }
 

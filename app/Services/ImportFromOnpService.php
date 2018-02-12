@@ -13,7 +13,7 @@ use Mss\Models\Legacy\Supplier as LegacySupplier;
 use Mss\Models\Legacy\Material as LegacyArticle;
 use Mss\Models\Legacy\MaterialLog as LegacyArticleLog;
 use Mss\Models\Supplier;
-use Mss\Models\SupplierArticle;
+use Mss\Models\ArticleSupplier;
 use Mss\Models\Tag;
 use Mss\Models\Unit;
 use Mss\Models\User;
@@ -27,7 +27,7 @@ class ImportFromOnpService {
         Category::unguard();
         Supplier::unguard();
         Article::unguard();
-        SupplierArticle::unguard();
+        ArticleSupplier::unguard();
         Tag::unguard();
         ArticleQuantityChangelog::unguard();
         ArticleNote::unguard();

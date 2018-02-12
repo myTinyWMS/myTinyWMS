@@ -39,15 +39,31 @@ class Article extends AuditableModel
     }
 
     public function suppliers() {
-        return $this->belongsToMany(Supplier::class)->withTimestamps()->withPivot('order_number', 'price', 'delivery_time', 'order_quantity')->using(SupplierArticle::class);
+        return $this->belongsToMany(Supplier::class)->withTimestamps()->withPivot('order_number', 'price', 'delivery_time', 'order_quantity')->using(ArticleSupplier::class);
     }
 
     public function currentSupplier() {
-        return $this->suppliers->sortByDesc('created_at')->first();
+        return $this->hasOne(Supplier::class, 'id', 'current_supplier_id');
+    }
+
+    public function scopeWithCurrentSupplierArticle($query)
+    {
+        $query->addSubSelect('current_supplier_article_id', ArticleSupplier::select('id')
+            ->whereRaw('article_id = articles.id')
+            ->latest()
+        )->with('currentSupplierArticle');
+    }
+
+    public function scopeWithCurrentSupplier($query)
+    {
+        $query->addSubSelect('current_supplier_id', ArticleSupplier::select('supplier_id')
+            ->whereRaw('article_id = articles.id')
+            ->latest()
+        )->with('currentSupplier');
     }
 
     public function currentSupplierArticle() {
-        return $this->currentSupplier()->pivot;
+        return $this->hasOne(ArticleSupplier::class, 'id', 'current_supplier_article_id');
     }
 
     public function category() {

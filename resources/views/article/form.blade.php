@@ -25,11 +25,11 @@
                     @yield('form_start')
 
                     {{ Form::bsTextarea('name', null, ['rows' => 2] , 'Name') }}
-                    {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderBy('name')->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
+                    {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderedByName()->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
 
                     <div class="form-group">
                         {!! Form::label('category', 'Kategorie', ['class' => 'control-label']) !!}
-                        {!! Form::select('category', \Mss\Models\Category::orderBy('name')->pluck('name', 'id'), $article->category->id, ['class' => 'form-control', 'name' => 'category', 'disabled' => 'disabled']) !!}
+                        {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), $article->category->id, ['class' => 'form-control', 'name' => 'category', 'disabled' => 'disabled']) !!}
                         <div class="checkbox checkbox-danger">
                             <input type="checkbox" id="enableChangeCategory" name="changeCategory" value="1" />
                             <label for="enableChangeCategory">

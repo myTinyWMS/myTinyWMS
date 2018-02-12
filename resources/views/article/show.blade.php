@@ -28,7 +28,7 @@
             </div>
             <div class="ibox-content">
                 <div class="feed-activity-list">
-                    @foreach($article->articleNotes()->orderBy('created_at', 'desc')->get() as $note)
+                    @foreach($article->articleNotes()->latest()->get() as $note)
                         <div class="feed-element">
                             <div>
                                 <small class="pull-right text-navy">{{ $note->created_at->diffForHumans() }}</small>
@@ -80,7 +80,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($article->quantityChangelogs()->with('user')->orderBy('created_at', 'desc')->take(100)->get() as $log)
+                        @foreach ($article->quantityChangelogs()->with('user')->latest()->take(100)->get() as $log)
                             @if ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING)
                                 @include('components.quantity_log.incoming')
                             @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING)

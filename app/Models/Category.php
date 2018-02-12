@@ -24,4 +24,8 @@ class Category extends AuditableModel
     public function articles() {
         return $this->hasMany(Article::class);
     }
+
+    public function scopeOrderedByName($query) {
+        $query->orderBy('name');
+    }
 }
