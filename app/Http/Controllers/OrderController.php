@@ -102,7 +102,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $order = Order::findOrFail($id);
+        $order = Order::with('items.order.items')->findOrFail($id);
         $audits = $order->getAudits();
 
         return view('order.show', compact('order', 'audits'));
@@ -157,5 +157,29 @@ class OrderController extends Controller
 
     public function articleList(Supplier $supplier) {
         return response()->json($supplier->articles->pluck(['name', 'id']));
+    }
+
+    public function createDelivery(Order $order) {
+        return view('order.delivery_form', compact('order'));
+    }
+
+    public function storeDelivery(Order $order, Request $request) {
+        $delivery = $order->deliveries()->create([
+            'delivery_date' => Carbon::parse($request->get('delivery_date')),
+            'delivery_note_number' => $request->get('delivery_note_number'),
+            'notes' => $request->get('notes')
+        ]);
+
+        $quantities = collect($request->get('quantities'));
+        $order->items->each(function ($orderItem) use ($quantities, $delivery) {
+            if ($quantities->has($orderItem->article->id) && intval($quantities->get($orderItem->article->id) > 0)) {
+                $delivery->items()->create([
+                    'article_id' => $orderItem->article->id,
+                    'quantity' => intval($quantities->get($orderItem->article->id))
+                ]);
+            }
+        });
+
+        return response()->redirectToRoute('order.show', $order);
     }
 }

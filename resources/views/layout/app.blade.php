@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') </title>
+    <title>@yield('title')</title>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -30,7 +30,10 @@
             <div class="wrapper wrapper-content">
                 <div class="row border-bottom white-bg page-heading">
                     <div class="col-lg-12">
-                        <h2>@yield('title')</h2>
+                        <h2>
+                            @yield('title')
+                            @yield('title_extra')
+                        </h2>
                         <ol class="breadcrumb pull-left">
                             @yield('breadcrumb')
                         </ol>

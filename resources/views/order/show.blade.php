@@ -2,6 +2,10 @@
 
 @section('title', 'Bestelldetails')
 
+@section('title_extra')
+    <a href="{{ route('order.create_delivery', $order) }}" class="btn btn-primary btn-sm pull-right">Wareneingang erfassen</a>
+@endsection
+
 @section('breadcrumb')
     <li>
         <a href="{{ route('order.index') }}">Übersicht</a>
@@ -75,17 +79,26 @@
                 @foreach($order->items as $item)
                     <div class="panel panel-primary">
                         <div class="panel-body row">
-                            <div class="col-lg-7">
+                            <div class="col-lg-6">
                                 <small class="stats-label">Artikel</small>
                                 <h4>{{ $item->article->name }}</h4>
                             </div>
                             <div class="col-lg-2">
-                                <small class="stats-label">Menge</small>
-                                <h4>{{ $item->quantity }}</h4>
-                            </div>
-                            <div class="col-lg-3">
                                 <small class="stats-label">Preis je Einheit</small>
                                 <h4>{!! formatPrice($item->price)  !!}</h4>
+                            </div>
+                            <div class="col-lg-2">
+                                <small class="stats-label">bestellte Menge</small>
+                                <h4>{{ $item->quantity }}</h4>
+                            </div>
+                            <div class="col-lg-2">
+                                @if($item->getQuantityDelivered() == $item->quantity)
+                                    <h1 class="pull-right" title="komplett geliefert"><i class="fa fa-check-circle text-success"></i></h1>
+                                @elseif($item->getQuantityDelivered() > $item->quantity)
+                                    <h1 class="pull-right" title="zu viel geliefert!"><i class="fa fa-exclamation-triangle text-danger"></i></h1>
+                                @endif
+                                <small class="stats-label">gelieferte Menge</small>
+                                <h4 class="@if($item->getQuantityDelivered() < $item->quantity) text-warning @elseif($item->getQuantityDelivered() > $item->quantity) text-danger @else text-success @endif">{{ $item->getQuantityDelivered() }}</h4>
                             </div>
                         </div>
                     </div>
@@ -94,6 +107,49 @@
         </div>
     </div>
     <div class="col-lg-6">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>Lieferungen</h5>
+            </div>
+            <div class="ibox-content">
+                @foreach($order->deliveries->sortByDesc('delivery_date') as $delivery)
+                <div class="panel panel-primary">
+                    <div class="panel-body row">
+                        <div class="col-lg-2">
+                            <small class="stats-label">Lieferdatum</small>
+                            <h3>{{ $delivery->delivery_date ? $delivery->delivery_date->format('d.m.Y') : '-' }}</h3>
+                        </div>
+                        <div class="col-lg-2">
+                            <small class="stats-label">Lieferscheinnummer</small>
+                            <h3>{{ $delivery->delivery_note_number }}</h3>
+                        </div>
+                        <div class="col-lg-8">
+                            <small class="stats-label">Bemerkung</small>
+                            <h3>{{ $delivery->notes }}</h3>
+                        </div>
+                        <div class="col-lg-12">
+                            <table class="table table-condensed table-border">
+                                <thead>
+                                    <tr>
+                                        <th>Artikel</th>
+                                        <th>Menge</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($delivery->items as $item)
+                                    <tr>
+                                        <td>{{ $item->article->name }}</td>
+                                        <td>{{ $item->quantity }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
         <div class="ibox collapsed">
             <div class="ibox-title">
                 <h5>Logbuch</h5>

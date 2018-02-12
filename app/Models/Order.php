@@ -31,6 +31,10 @@ class Order extends AuditableModel
         return $this->belongsTo(Supplier::class);
     }
 
+    public function deliveries() {
+        return $this->hasMany(Delivery::class);
+    }
+
     /**
      * @return string
      */

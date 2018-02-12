@@ -19,4 +19,11 @@ class OrderItem extends Model
     public function getPriceAttribute($value) {
         return !empty($value) ? $value / 100 : 0;
     }
+
+    public function getQuantityDelivered() {
+        return $this->order->deliveries->map(function ($delivery) {
+            $deliveryItem = $delivery->items->where('article_id', $this->article_id)->first();
+            return $deliveryItem ? $deliveryItem->quantity : 0;
+        })->sum();
+    }
 }
