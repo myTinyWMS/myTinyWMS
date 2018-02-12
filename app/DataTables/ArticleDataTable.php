@@ -71,7 +71,7 @@ class ArticleDataTable extends BaseDataTable
                 });
             })
             ->addColumn('action', 'article.list_action')
-            ->rawColumns(['action']);
+            ->rawColumns(['action', 'price']);
     }
 
     /**

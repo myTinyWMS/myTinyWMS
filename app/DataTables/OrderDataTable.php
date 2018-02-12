@@ -31,9 +31,16 @@ class OrderDataTable extends BaseDataTable
             ->addColumn('article', function (Order $order) {
                 return $order->items->count();
             })
+            ->filterColumn('status', function ($query, $keyword) {
+                if ($keyword === 'open') {
+                    $query->whereIn('status', [Order::STATUS_NEW, Order::STATUS_ORDERED, Order::STATUS_PARTIALLY_DELIVERED]);
+                } else {
+                    $query->where('status', $keyword);
+                }
+            })
             ->editColumn('status', 'order.status')
             ->addColumn('action', 'order.list_action')
-            ->rawColumns(['action', 'status', 'order_date', 'expected_delivery']);
+            ->rawColumns(['action', 'status', 'order_date', 'expected_delivery', 'total_cost']);
     }
 
     /**

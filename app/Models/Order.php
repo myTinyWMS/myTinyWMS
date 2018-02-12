@@ -11,6 +11,7 @@ class Order extends AuditableModel
     const STATUS_PARTIALLY_DELIVERED = 2;
     const STATUS_DELIVERED = 3;
     const STATUS_CANCELLED = 4;
+    const STATUS_PAID = 5;
 
     protected $dates = ['order_date', 'expected_delivery'];
 

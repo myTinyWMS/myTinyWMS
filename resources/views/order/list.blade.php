@@ -27,6 +27,21 @@
     </div>
 @endsection
 
+@section('datatableFilters')
+    <label>
+        Status:&nbsp;
+        <select id="filterStatus" data-target-col="2" class="form-control input-sm datatableFilter-select">
+            <option value="open">offen (neu, bestellt, teilweise geliefert)</option>
+            <option value="{{ \Mss\Models\Order::STATUS_NEW }}">neu</option>
+            <option value="{{ \Mss\Models\Order::STATUS_ORDERED }}">bestellt</option>
+            <option value="{{ \Mss\Models\Order::STATUS_PARTIALLY_DELIVERED }}">teilweise geliefert</option>
+            <option value="{{ \Mss\Models\Order::STATUS_DELIVERED }}">geliefert</option>
+            <option value="{{ \Mss\Models\Order::STATUS_PAID }}">bezahlt</option>
+            <option value="{{ \Mss\Models\Order::STATUS_CANCELLED }}">storniert</option>
+        </select>
+    </label>
+@endsection
+
 @push('scripts')
     {!! $dataTable->scripts() !!}
 @endpush

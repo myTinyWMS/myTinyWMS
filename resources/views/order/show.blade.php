@@ -35,12 +35,12 @@
 
                     <div class="col-xs-3">
                         <small class="stats-label">Gesamtkosten</small>
-                        <h2>{{ formatPrice($order->total_cost) }}</h2>
+                        <h2>{!! formatPrice($order->total_cost) !!}</h2>
                     </div>
 
                     <div class="col-xs-3">
                         <small class="stats-label">Versandkosten</small>
-                        <h2>{{ formatPrice($order->shipping_cost) }}</h2>
+                        <h2>{!! formatPrice($order->shipping_cost) !!}</h2>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <small class="stats-label">Preis je Einheit</small>
-                                <h4>{{ formatPrice($item->price) }}</h4>
+                                <h4>{!! formatPrice($item->price)  !!}</h4>
                             </div>
                         </div>
                     </div>
