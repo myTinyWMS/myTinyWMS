@@ -50,17 +50,29 @@
                     @foreach($order->items as $item)
                         <div class="panel panel-primary">
                             <div class="panel-body row">
-                                <div class="col-lg-7">
+                                <div class="col-lg-5">
                                     <small class="stats-label">Artikel</small>
-                                    <h4>{{ $item->article->name }}</h4>
+                                    <h4>
+                                        {{ $item->article->name }}
+                                        <a href="{{ route('article.show', $item->article) }}" class="btn btn-link btn-xs"><i class="fa fa-external-link"></i></a>
+                                    </h4>
                                 </div>
                                 <div class="col-lg-2">
                                     <small class="stats-label">bestellte Menge</small>
                                     <h4>{{ $item->quantity }}</h4>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-2">
+                                    <small class="stats-label">bereits geliefert</small>
+                                    <h4>{{ $item->getQuantityDelivered() }}</h4>
+                                </div>
+                                <div class="col-lg-2">
                                     <small class="stats-label">gelieferte Menge</small>
-                                    {{ Form::bsText('quantities['.$item->article->id.']', null, [], '') }}
+                                    <div class="input-group">
+                                        <input class="form-control" type="text" name="quantities[{{ $item->article->id }}]">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-success set-full-quantity" data-quantity="{{ ($item->quantity - $item->getQuantityDelivered() > 0) ? ($item->quantity - $item->getQuantityDelivered()) : 0 }}" title="alles"><i class="fa fa-check"></i></button>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -83,6 +95,10 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
+            $('.set-full-quantity').click(function () {
+                $(this).parent().parent().find('input').val($(this).attr('data-quantity'));
+            });
+
             $('.datepicker').datepicker({
                 format: 'dd.mm.yyyy',
                 language: 'de',

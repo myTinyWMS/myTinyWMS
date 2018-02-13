@@ -16,6 +16,9 @@ class SupplierDataTable extends BaseDataTable
     {
         return datatables($query)
             ->setRowId('id')
+            ->editColumn('name', function (Supplier $supplier) {
+                return link_to_route('supplier.show', $supplier->name, ['supplier' => $supplier]);
+            })
             ->addColumn('action', 'supplier.list_action')
             ->rawColumns(['action']);
     }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Mss\DataTables\OrderDataTable;
 use Mss\Http\Requests\OrderRequest;
 use Mss\Models\Article;
+use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\Order;
 use Mss\Models\OrderItem;
 use Mss\Models\Supplier;
@@ -55,6 +56,7 @@ class OrderController extends Controller
         /* @var $order Order */
         $order = Order::findOrFail($request->get('order_id'));
 
+        $order->status = $request->get('status');
         $order->supplier_id = $request->get('supplier');
         $order->external_order_number = $request->get('external_order_number');
         $order->total_cost = parsePrice($request->get('total_cost'));
@@ -71,7 +73,7 @@ class OrderController extends Controller
 
         $order->items()->delete();
         collect($request->get('article'))->each(function ($article, $key) use ($order, $request) {
-            $quantity = $request->get('quantity')[$key] ?: null;
+            $quantity = intval($request->get('quantity')[$key] ?: 0);
             $price = $request->get('price')[$key] ?: null;
 
             if (empty($article) || empty($quantity) || empty($price)) {
@@ -81,12 +83,12 @@ class OrderController extends Controller
             $order->items()->create([
                 'article_id' => $article,
                 'price' => parsePrice($price),
-                'quantity' => intval($quantity)
+                'quantity' => $quantity
             ]);
         });
 
-        flash('Bestellung gespeichert');
-        return response()->redirectToRoute('order.index');
+        flash('Bestellung gespeichert', 'success');
+        return response()->redirectToRoute('order.show', $order);
     }
 
     public function cancel(Order $order) {
@@ -151,7 +153,7 @@ class OrderController extends Controller
     public function destroy($id) {
         Order::findOrFail($id)->delete();
 
-        flash('Bestellung gelöscht');
+        flash('Bestellung gelöscht', 'success');
         return response()->redirectToRoute('order.index');
     }
 
@@ -171,14 +173,26 @@ class OrderController extends Controller
         ]);
 
         $quantities = collect($request->get('quantities'));
-        $order->items->each(function ($orderItem) use ($quantities, $delivery) {
-            if ($quantities->has($orderItem->article->id) && intval($quantities->get($orderItem->article->id) > 0)) {
+        $order->items->each(function ($orderItem) use ($quantities, $delivery, $order) {
+            $quantity = intval($quantities->get($orderItem->article->id));
+            if ($quantities->has($orderItem->article->id) && $quantity > 0) {
+
                 $delivery->items()->create([
                     'article_id' => $orderItem->article->id,
-                    'quantity' => intval($quantities->get($orderItem->article->id))
+                    'quantity' => $quantity
                 ]);
+
+                $orderItem->article->changeQuantity($quantity, ArticleQuantityChangelog::TYPE_INCOMING, 'Bestellung '.$order->internal_order_number);
             }
         });
+
+        if ($order->isFullyDelivered()) {
+            $order->status = Order::STATUS_DELIVERED;
+            $order->save();
+        } else {
+            $order->status = Order::STATUS_PARTIALLY_DELIVERED;
+            $order->save();
+        }
 
         return response()->redirectToRoute('order.show', $order);
     }

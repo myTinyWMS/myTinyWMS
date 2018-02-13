@@ -27,29 +27,29 @@
             @include('layout.topnavbar')
 
             <!-- Main view  -->
-            <div class="wrapper wrapper-content">
-                <div class="row border-bottom white-bg page-heading">
-                    <div class="col-lg-12">
-                        <h2>
-                            @yield('title')
-                            @yield('title_extra')
-                        </h2>
-                        <ol class="breadcrumb pull-left">
-                            @yield('breadcrumb')
-                        </ol>
-                        <div class="btn-toolbar pull-right">
-                            @yield('subnav')
-                        </div>
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-12">
+                    <h2>
+                        @yield('title')
+                        @yield('title_extra')
+                    </h2>
+                    <ol class="breadcrumb pull-left">
+                        @yield('breadcrumb')
+                    </ol>
+                    <div class="btn-toolbar pull-right">
+                        @yield('subnav')
                     </div>
                 </div>
+            </div>
 
+            <div class="wrapper wrapper-content animated fadeIn">
                 @include('flash::message')
 
                 @yield('content')
-            </div>
 
-            <!-- Footer -->
-            @include('layout.footer')
+                <!-- Footer -->
+                @include('layout.footer')
+            </div>
         </div>
 
         @if (!empty($__env->yieldContent('datatableFilters')))

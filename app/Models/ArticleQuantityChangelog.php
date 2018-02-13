@@ -12,6 +12,8 @@ class ArticleQuantityChangelog extends Model
     const TYPE_CORRECTION = 3;
     const TYPE_COMMENT = 6;
 
+    protected $fillable = ['user_id', 'type', 'change', 'new_quantity', 'note'];
+
     public function article() {
         return $this->belongsTo(Article::class);
     }

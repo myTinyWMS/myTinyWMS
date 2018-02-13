@@ -6,6 +6,9 @@
     <li>
         <a href="{{ route('order.index') }}">Übersicht</a>
     </li>
+    <li>
+        <a href="{{ route('order.show', $order) }}">Bestellung #{{ $order->internal_order_number }}</a>
+    </li>
     <li class="active">
         <strong>Bestellung bearbeiten</strong>
     </li>

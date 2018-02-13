@@ -28,6 +28,9 @@ class OrderDataTable extends BaseDataTable
             ->editColumn('total_cost', function (Order $order) {
                 return formatPrice($order->total_cost);
             })
+            ->editColumn('internal_order_number', function (Order $order) {
+                return link_to_route('order.show', $order->internal_order_number, ['order' => $order]);
+            })
             ->addColumn('article', function (Order $order) {
                 return $order->items->count();
             })

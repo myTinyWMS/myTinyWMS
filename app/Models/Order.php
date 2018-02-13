@@ -2,8 +2,6 @@
 
 namespace Mss\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Order extends AuditableModel
 {
     const STATUS_NEW = 0;
@@ -13,14 +11,25 @@ class Order extends AuditableModel
     const STATUS_CANCELLED = 4;
     const STATUS_PAID = 5;
 
+    const STATUS_TEXTS = [
+        self::STATUS_NEW => 'neu',
+        self::STATUS_ORDERED => 'bestellt',
+        self::STATUS_PARTIALLY_DELIVERED => 'teilweise geliefert',
+        self::STATUS_DELIVERED => 'geliefert',
+        self::STATUS_CANCELLED => 'storniert',
+        self::STATUS_PAID => 'bezahlt'
+    ];
+
     protected $dates = ['order_date', 'expected_delivery'];
 
-    /*
-     * @todo set correct field names!!!!
-     */
     protected $fieldNames = [
-        'external_order_number' => 'Name',
-        'internal_order_number' => 'Bemerkungen'
+        'status' => 'Status',
+        'total_cost' => 'Gesamtkosten',
+        'shipping_cost' => 'Versandkosten',
+        'order_date' => 'Bestelldatum',
+        'expected_delivery' => 'Liefertermin',
+        'external_order_number' => 'Bestellnummer des Lieferanten',
+        'internal_order_number' => 'interne Bestellnummer'
     ];
 
     public function items() {
@@ -55,5 +64,13 @@ class Order extends AuditableModel
 
     public function getShippingCostAttribute($value) {
         return !empty($value) ? $value / 100 : 0;
+    }
+
+    public function isFullyDelivered() {
+        $this->fresh();
+
+        return $this->items->reject(function ($item) {
+            return ($item->getQuantityDelivered() >= $item->quantity);
+        })->count() === 0;
     }
 }

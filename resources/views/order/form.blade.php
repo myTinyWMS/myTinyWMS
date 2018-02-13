@@ -23,18 +23,32 @@
                     <h5>Bestelldetails</h5>
                 </div>
                 <div class="ibox-content">
-                    <div class="form-group">
-                        <label class="control-label">interne Bestellnummer</label>
-                        <h2 class="form-control-static no-margins">
-                            {{ $order->internal_order_number }}
-                        </h2>
-                        <small class="text-danger">Bitte bei der Bestellung angeben</small>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="control-label">interne Bestellnummer</label>
+                                <h2 class="form-control-static no-margins">
+                                    {{ $order->internal_order_number }}
+                                </h2>
+                                <small class="text-danger">Bitte bei der Bestellung angeben</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            {{ Form::bsSelect('status', $order->status, \Mss\Models\Order::STATUS_TEXTS,  'Status') }}
+                        </div>
                     </div>
 
                     <hr class="hr-line-solid">
 
-                    {{ Form::bsSelect('supplier', $order->supplier_id, \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'),  'Lieferant', ['placeholder' => '']) }}
-                    {{ Form::bsText('external_order_number', null, [], 'Bestellnummer des Lieferanten') }}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{ Form::bsSelect('supplier', $order->supplier_id, \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'),  'Lieferant', ['placeholder' => '']) }}
+                        </div>
+                        <div class="col-lg-6">
+                            {{ Form::bsText('external_order_number', null, [], 'Bestellnummer des Lieferanten') }}
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-lg-6">
                             {{ Form::bsText('total_cost', str_replace('.', ',', $order->total_cost), [], 'Gesamtkosten') }}

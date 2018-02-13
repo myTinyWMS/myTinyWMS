@@ -4,6 +4,7 @@ namespace Mss\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Mss\Models\Traits\Taggable;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -97,5 +98,15 @@ class Article extends AuditableModel
 
         $this->article_number = $categoryPart.sprintf('%03d', $newNumber);
         $this->save();
+    }
+
+    public function changeQuantity($change, $type, $note = '') {
+        $this->quantityChangelogs()->create([
+            'user_id' => Auth::id(),
+            'type' => $type,
+            'change' => $change,
+            'new_quantity' => ($this->quantity + $change),
+            'note' => $note
+        ]);
     }
 }

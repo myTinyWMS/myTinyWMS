@@ -59,6 +59,11 @@
                         <small class="stats-label">Liefertermin</small>
                         <h2>{{ !empty($order->expected_delivery) ? $order->expected_delivery->format('d.m.Y') : '' }}</h2>
                     </div>
+
+                    <div class="col-xs-3">
+                        <small class="stats-label">Status</small>
+                        <h2>@include('order.status', ['status' => $order->status])</h2>
+                    </div>
                 </div>
             </div>
             <div class="ibox-content">
@@ -81,7 +86,10 @@
                         <div class="panel-body row">
                             <div class="col-lg-6">
                                 <small class="stats-label">Artikel</small>
-                                <h4>{{ $item->article->name }}</h4>
+                                <h4>
+                                    {{ $item->article->name }}
+                                    <a href="{{ route('article.show', $item->article) }}" class="btn btn-link btn-xs"><i class="fa fa-external-link"></i></a>
+                                </h4>
                             </div>
                             <div class="col-lg-2">
                                 <small class="stats-label">Preis je Einheit</small>
@@ -138,7 +146,10 @@
                                 <tbody>
                                     @foreach($delivery->items as $item)
                                     <tr>
-                                        <td>{{ $item->article->name }}</td>
+                                        <td>
+                                            {{ $item->article->name }}
+                                            <a href="{{ route('article.show', $item->article) }}" class="btn btn-link btn-xs"><i class="fa fa-external-link"></i></a>
+                                        </td>
                                         <td>{{ $item->quantity }}</td>
                                     </tr>
                                     @endforeach

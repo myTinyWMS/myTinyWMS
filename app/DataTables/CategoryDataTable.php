@@ -16,6 +16,9 @@ class CategoryDataTable extends BaseDataTable
     {
         return datatables($query)
             ->setRowId('id')
+            ->editColumn('name', function (Category $category) {
+                return link_to_route('category.show', $category->name, ['category' => $category]);
+            })
             ->addColumn('action', 'category.list_action')
             ->rawColumns(['action']);
     }
