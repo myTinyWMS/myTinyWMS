@@ -14,7 +14,7 @@
             </li>
             <li class="{{ active_class(if_uri_pattern(['article*'])) }}">
                 <a href="{{ url('/article') }}">
-                    <i class="fa fa-edit"></i> <span class="nav-label">Artikel</span>
+                    <i class="fa fa-file"></i> <span class="nav-label">Artikel</span>
                 </a>
             </li>
             <li class="{{ active_class(if_uri_pattern(['order*'])) }}">

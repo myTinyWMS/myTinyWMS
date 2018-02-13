@@ -1,4 +1,4 @@
-@extends('article.form')
+@extends('article.form', ['isNewArticle' => false])
 
 @section('title', 'Artikel Details'.((!empty($article->article_number)) ? ' #'.$article->article_number : ''))
 

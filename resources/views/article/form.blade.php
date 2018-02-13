@@ -29,22 +29,56 @@
 
                     <div class="form-group">
                         {!! Form::label('category', 'Kategorie', ['class' => 'control-label']) !!}
-                        {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), $article->category->id, ['class' => 'form-control', 'name' => 'category', 'disabled' => 'disabled']) !!}
-                        <div class="checkbox checkbox-danger">
-                            <input type="checkbox" id="enableChangeCategory" name="changeCategory" value="1" />
-                            <label for="enableChangeCategory">
-                                 Kategorie ändern
-                            </label>
-                        </div>
-                        <span class="help-block m-b-none text-danger hidden" id="changeCategoryWarning">Beim Ändern der Kategorie wird eine neue Artikel Nummer vergeben!</span>
+
+                        @if ($isNewArticle ?? true)
+                            {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), null, ['class' => 'form-control', 'name' => 'category']) !!}
+                        @else
+                            {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), $article->category->id ?? null, ['class' => 'form-control', 'name' => 'category', 'disabled' => 'disabled']) !!}
+                            <div class="checkbox checkbox-danger">
+                                <input type="checkbox" id="enableChangeCategory" name="changeCategory" value="1" />
+                                <label for="enableChangeCategory">
+                                    Kategorie ändern
+                                </label>
+                            </div>
+                            <span class="help-block m-b-none text-danger hidden" id="changeCategoryWarning">Beim Ändern der Kategorie wird eine neue Artikel Nummer vergeben!</span>
+                        @endif
                     </div>
 
-                    {{ Form::bsSelect('unit', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit') }}
-                    {{ Form::bsText('sort_id', null, [], 'Sortierung') }}
-                    {{ Form::bsText('quantity', null, [], 'Bestand') }}
-                    {{ Form::bsText('min_quantity', null, [], 'Mindestbestand') }}
-                    {{ Form::bsText('usage_quantity', null, [], 'Verbrauch') }}
-                    {{ Form::bsText('issue_quantity', null, [], 'Entnahmemenge') }}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{ Form::bsSelect('unit', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit') }}
+                        </div>
+                        <div class="col-lg-6">
+                            {{ Form::bsText('sort_id', null, [], 'Sortierung') }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            @if ($isNewArticle ?? true)
+                                {{ Form::bsText('quantity', null, [], 'Bestand') }}
+                            @else
+                                <div class="form-group">
+                                    <label class="control-label">Bestand</label>
+                                    <div class="form-control-static">{{ $article->quantity }} <button type="button" class="btn btn-link edit-quantity" data-toggle="modal" data-target="#changeQuantityModal"><i class="fa fa-edit"></i></button></div>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="col-lg-6">
+                            {{ Form::bsText('min_quantity', null, [], 'Mindestbestand') }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{ Form::bsText('usage_quantity', null, [], 'Verbrauch') }}
+                        </div>
+                        <div class="col-lg-6">
+                            {{ Form::bsText('issue_quantity', null, [], 'Entnahmemenge') }}
+                        </div>
+                    </div>
+
+
                     {{ Form::bsCheckbox('inventory', null, 'Inventur', $article->inventory, []) }}
                     {{ Form::bsTextarea('notes', null, [], 'Bemerkungen') }}
 
@@ -58,11 +92,113 @@
         </div>
         @yield('secondCol')
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="changeQuantityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Bestand ändern</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="changelogCurrentQuantity" class="control-label">aktueller Bestand</label>
+                                    <div class="form-control-static" id="changelogCurrentQuantity" data-quantity="{{ $article->quantity }}">{{ $article->quantity }}</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="changelogNewQuantity" class="control-label">neuer Bestand</label>
+                                    <div class="form-control-static" id="changelogNewQuantity"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="changelogChange" class="control-label">Veränderung</label>
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="changelog-current-math">+</span> <span class="caret"></span></button>
+                                            <ul class="dropdown-menu pull-left" id="changelogChangeDropdown">
+                                                <li><a href="#" class="changelog-set-add">+</a></li>
+                                                <li><a href="#" class="changelog-set-sub">-</a></li>
+                                            </ul>
+                                        </div>
+                                        <input class="form-control" type="text" id="changelogChange" value="" name="changelogChange" placeholder="Menge">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="changelogType" class="control-label">Typ der Änderung</label>
+                                    <select id="changelogType" class="form-control">
+                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING }}" data-type="add">Wareneingang</option>
+                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING }}" data-type="sub">Warenausgang</option>
+                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_CORRECTION }}" data-type="both">Korrektur</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="changelogNote" class="control-label">Bemerkung</label>
+                            <textarea class="form-control" rows="3" id="changelogNote"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                    <button type="button" class="btn btn-primary">Speichern</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
 <script>
+    var changelogMath = 'add';
+
     $(document).ready(function () {
+        $('#changelogChange').keyup(function () {
+            updateNewChangelogQuantity();
+        });
+
+        $('#changelogChange').change(function () {
+            updateNewChangelogQuantity();
+        });
+
+        $('.changelog-set-add').click(function () {
+            $('.changelog-current-math').text('+');
+            changelogMath = 'add';
+            updateNewChangelogQuantity();
+            updateChangelogType();
+            $('#changelogChangeDropdown').dropdown('toggle');
+            return false;
+        });
+
+        $('.changelog-set-sub').click(function () {
+            $('.changelog-current-math').text('-');
+            changelogMath = 'sub';
+            updateNewChangelogQuantity();
+            updateChangelogType();
+            $('#changelogChangeDropdown').dropdown('toggle');
+            return false;
+        });
+
+        $('#changeQuantityModal').on('show.bs.modal', function (e) {
+            $('#changelogChange').val('');
+            updateNewChangelogQuantity();
+            updateChangelogType();
+        });
+
         $('#enableChangeCategory').click(function () {
             if($(this).is(':checked')) {
                 $('#changeCategoryWarning').removeClass('hidden');
@@ -72,6 +208,7 @@
                 $("#category").prop('disabled', true);
             }
         });
+
         // changeCategoryWarning
         $("#tags").select2({
             tags: true,
@@ -95,5 +232,31 @@
             theme: "bootstrap"
         });
     });
+
+    function updateChangelogType() {
+        $('#changelogType option').show();
+        if (changelogMath === 'add') {
+            $('#changelogType option[data-type="sub"]').hide();
+        } else {
+            $('#changelogType option[data-type="add"]').hide();
+        }
+        $('#changelogType').val(null);
+    }
+
+    function updateNewChangelogQuantity() {
+        var currentQuantity = parseInt($('#changelogCurrentQuantity').attr('data-quantity'));
+        var change = parseInt($('#changelogChange').val());
+
+        var newQuantity = currentQuantity;
+        if (!isNaN(change) && change !== 0) {
+            if (changelogMath === 'add') {
+                newQuantity += change;
+            } else {
+                newQuantity -= change;
+            }
+        }
+
+        $('#changelogNewQuantity').text(newQuantity);
+    }
 </script>
 @endpush

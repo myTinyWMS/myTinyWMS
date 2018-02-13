@@ -27,7 +27,9 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+        $article = new Article();
+
+        return view('article.create', compact('article'));
     }
 
     /**
@@ -37,7 +39,26 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(ArticleRequest $request) {
-        Article::create($request->all());
+        $article = Article::create($request->all());
+
+        // tags
+        collect($request->get('tags'))->each(function ($tagValue) use ($article) {
+            if (preg_match('/^newTag_(.+)/', $tagValue, $matches)) {
+                $tag = Tag::firstOrCreate(['name' => $matches[1]]);
+                $article->tags()->attach($tag);
+            } else {
+                $article->tags()->attach($tagValue);
+            }
+        });
+
+        // categories
+        if (!empty($request->get('category'))) {
+            $article->category()->associate($request->get('category'));
+            $article->save();
+            $article->load('category');
+
+            $article->setNewArticleNumber();
+        }
 
         flash('Artikel angelegt')->success();
 
