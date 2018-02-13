@@ -108,5 +108,8 @@ class Article extends AuditableModel
             'new_quantity' => ($this->quantity + $change),
             'note' => $note
         ]);
+
+        $this->quantity = ($this->quantity + $change);
+        $this->save();
     }
 }
