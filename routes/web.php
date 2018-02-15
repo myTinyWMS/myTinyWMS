@@ -26,6 +26,8 @@ Route::group(['middleware' => ['auth']], function () {
         'order' => 'OrderController',
     ]);
 
+    Route::post('global-search', 'GlobalSearchController@process')->name('global_search');
+
     Route::get('order/article_list/{supplier}', 'OrderController@articleList')->name('order.article_list');
     Route::get('order/{order}/cancel', 'OrderController@cancel')->name('order.cancel');
     Route::get('order/{order}/create-delivery', 'OrderController@createDelivery')->name('order.create_delivery');

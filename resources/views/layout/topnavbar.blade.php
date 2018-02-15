@@ -4,7 +4,7 @@
             <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
             <form role="search" class="navbar-form-custom" action="">
                 <div class="form-group">
-                    <input placeholder="Suche ..." class="form-control" name="top-search" id="top-search" type="text">
+                    <input placeholder="Suche ..." class="form-control typeahead" name="top-search" id="top-search" data-provide="typeahead" type="text">
                 </div>
             </form>
         </div>
@@ -40,6 +40,20 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
+        $('#top-search').typeahead({
+            source:  function (query, process) {
+                return $.post('{{ route('global_search') }}', { query: query }, function (data) {
+                    return process(data);
+                });
+            },
+            displayText: function (item) {
+                return item.name
+            },
+            afterSelect: function (selected) {
+                window.location.href = selected.link;
+            }
+        });
+
         $('.delete-notification').click(function () {
             var notificationItem = $(this).parent().parent().parent();
             $.get('/notification/' + $(this).attr('data-id') + '/delete', function () {
