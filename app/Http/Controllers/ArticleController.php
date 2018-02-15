@@ -2,6 +2,7 @@
 
 namespace Mss\Http\Controllers;
 
+use Mss\Http\Requests\ChangeArticleQuantityRequest;
 use Mss\Models\Article;
 use Mss\Models\Category;
 use Mss\Models\Supplier;
@@ -170,5 +171,18 @@ class ArticleController extends Controller
 
     public function deleteNote(Article $article, Request $request) {
         return $article->articleNotes()->where('id', $request->get('note_id'))->delete();
+    }
+
+    public function changeQuantity(Article $article, ChangeArticleQuantityRequest $request) {
+        $quantity = $request->get('changelogChange');
+        if ($request->get('changelogChangeType') === 'sub') {
+            $quantity *= -1;
+        }
+
+        $article->changeQuantity($quantity, $request->get('changelogType'), $request->get('changelogNote'));
+
+        flash('Bestand geändert')->success();
+
+        return redirect()->route('article.show', $article);
     }
 }

@@ -97,12 +97,12 @@
     <div class="modal fade" id="changeQuantityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Bestand ändern</h4>
-                </div>
-                <div class="modal-body">
-                    <form>
+                {!! Form::open(['route' => ['article.change_quantity', $article], 'method' => 'POST']) !!}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Bestand ändern</h4>
+                    </div>
+                    <div class="modal-body">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -130,6 +130,7 @@
                                                 <li><a href="#" class="changelog-set-sub">-</a></li>
                                             </ul>
                                         </div>
+                                        <input type="hidden" name="changelogChangeType" value="">
                                         <input class="form-control" type="text" id="changelogChange" value="" name="changelogChange" placeholder="Menge">
                                     </div>
                                 </div>
@@ -137,7 +138,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="changelogType" class="control-label">Typ der Änderung</label>
-                                    <select id="changelogType" class="form-control">
+                                    <select id="changelogType" name="changelogType" class="form-control">
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING }}" data-type="add">Wareneingang</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING }}" data-type="sub">Warenausgang</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_CORRECTION }}" data-type="both">Korrektur</option>
@@ -149,14 +150,14 @@
 
                         <div class="form-group">
                             <label for="changelogNote" class="control-label">Bemerkung</label>
-                            <textarea class="form-control" rows="3" id="changelogNote"></textarea>
+                            <textarea class="form-control" rows="3" id="changelogNote" name="changelogNote"></textarea>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-                    <button type="button" class="btn btn-primary">Speichern</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" class="btn btn-primary" id="changelogSubmit">Speichern</button>
+                    </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -241,6 +242,8 @@
             $('#changelogType option[data-type="add"]').hide();
         }
         $('#changelogType').val(null);
+
+        $('input[name=changelogChangeType]').val(changelogMath);
     }
 
     function updateNewChangelogQuantity() {

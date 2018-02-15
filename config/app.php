@@ -179,6 +179,8 @@ return [
         Mss\Providers\RouteServiceProvider::class,
         Mss\Providers\ComposerServiceProvider::class,
         Mss\Providers\FormComponentsServiceProvider::class,
+        Mss\Providers\ValidatorServiceProvider::class,
+        Mss\Providers\DatabaseServiceProvider::class,
 
     ],
 
