@@ -29,13 +29,13 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $articles = Article::with('suppliers')->orderBy('name')->get()
+        $articles = Article::with('suppliers')->withCurrentSupplier()->orderBy('name')->get()
             ->transform(function ($article) {
                 /*@var $article Article */
                 return [
                     'id' => $article->id,
                     'name' => $article->name/*.(!empty($article->unit) ? ' ('.$article->unit->name.')' : '')*/,
-                    'supplier_id' => $article->currentSupplier()->id
+                    'supplier_id' => $article->currentSupplier->id
                 ];
             });
 

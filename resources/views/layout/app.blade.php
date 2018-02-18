@@ -27,7 +27,7 @@
             @include('layout.topnavbar')
 
             <!-- Main view  -->
-            <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="row wrapper page-heading">
                 <div class="col-lg-12">
                     <h2>
                         @yield('title')
