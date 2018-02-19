@@ -34,6 +34,7 @@ mix
         'resources/assets/vendor/select2/select2.min.css',
         'resources/assets/vendor/select2/select2-bootstrap.min.css',
         'resources/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css',
+        'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.css'
     ], 'public/css/vendor.css')
     .combine([
         'resources/assets/vendor/jquery/jquery-3.1.1.min.js',
@@ -51,6 +52,8 @@ mix
         'resources/assets/vendor/select2/select2.min.js',
         'resources/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
         'resources/assets/vendor/bootstrap-datepicker/locales/bootstrap-datepicker.de.min.js',
-        'resources/assets/vendor/bootstrap-typeahead/bootstrap3-typeahead.min.js'
+        'resources/assets/vendor/bootstrap-typeahead/bootstrap3-typeahead.min.js',
+        'resources/assets/vendor/momenjs/moment.min.js',
+        'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.js'
     ], 'public/js/vendor.js')
     .copy('resources/assets/js/app.js', 'public/js');

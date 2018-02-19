@@ -2,6 +2,7 @@
 
 namespace Mss\Http\Controllers;
 
+use Carbon\Carbon;
 use Mss\Http\Requests\ChangeArticleQuantityRequest;
 use Mss\Models\Article;
 use Mss\Models\Category;
@@ -184,5 +185,22 @@ class ArticleController extends Controller
         flash('Bestand geändert')->success();
 
         return redirect()->route('article.show', $article);
+    }
+
+    public function quantityChangelog(Article $article, Request $request) {
+        $dateStart = $request->has('start') ? Carbon::parse($request->get('start')) : Carbon::now()->subMonth(3);
+        $dateEnd = $request->has('end') ? Carbon::parse($request->get('end'))->addDay() : Carbon::now();
+        $changelog = $article->quantityChangelogs()->with('user')->latest()->whereBetween('created_at', [$dateStart, $dateEnd])->paginate(10);
+
+
+        $all = $article->quantityChangelogs()->latest()->whereBetween('created_at', [$dateStart, $dateEnd])->get();
+        $all = $all->groupBy(function ($item) {
+            return $item->created_at->format('M y');
+        });
+
+        dd($all);
+
+
+        return view('article.quantity_changelog', compact('article', 'changelog', 'dateStart', 'dateEnd'));
     }
 }

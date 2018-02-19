@@ -12,6 +12,7 @@ RUN set -e -x \
         libc-client-dev libkrb5-dev \
         libpq-dev \
         libldap2-dev \
+        locales \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install -j$(nproc) zip pdo_mysql mcrypt intl bcmath imap pgsql \
     && docker-php-ext-configure pgsql \
@@ -19,7 +20,11 @@ RUN set -e -x \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && pecl install redis-3.1.2 xdebug \
-    && docker-php-ext-enable redis
+    && docker-php-ext-enable redis \
+    && sed -i '/^#.* de_DE.* /s/^#//' /etc/locale.gen \
+    && locale-gen
+
+
 
 # Install nodejs-legacy and npm
 RUN set -e -x \
