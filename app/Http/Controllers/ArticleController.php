@@ -5,6 +5,7 @@ namespace Mss\Http\Controllers;
 use Carbon\Carbon;
 use Mss\Http\Requests\ChangeArticleQuantityRequest;
 use Mss\Models\Article;
+use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\Category;
 use Mss\Models\Supplier;
 use Illuminate\Http\Request;
@@ -192,15 +193,49 @@ class ArticleController extends Controller
         $dateEnd = $request->has('end') ? Carbon::parse($request->get('end'))->addDay() : Carbon::now();
         $changelog = $article->quantityChangelogs()->with('user')->latest()->whereBetween('created_at', [$dateStart, $dateEnd])->paginate(10);
 
+        $all = $article->quantityChangelogs()->oldest()->whereBetween('created_at', [$dateStart, $dateEnd])->get();
 
-        $all = $article->quantityChangelogs()->latest()->whereBetween('created_at', [$dateStart, $dateEnd])->get();
-        $all = $all->groupBy(function ($item) {
-            return $item->created_at->format('M y');
+        $chartLabels = $all->groupBy(function ($item) {
+            return $item->created_at->formatLocalized('%b %Y');
+        })->keys();
+
+        $chartValues = $all->groupBy(function ($item) {
+            return $item->type;
+        })->transform(function ($group, $type) use ($chartLabels) {
+            $data = $group->groupBy(function ($item) {
+                return $item->created_at->formatLocalized('%b %Y');
+            })->transform(function ($items) {
+                return $items->sum('change');
+            });
+            /*
+             * @todo remove me!
+             */
+            if ($type == 1) {
+                unset($data['Jan 2018']);
+            }
+
+            $chartLabels->each(function ($label) use ($data) {
+                if (!$key = $data->has($label)) {
+
+                    $data[$label] = 0;
+                }
+            });
+
+            $data = $data->mapWithKeys(function ($item, $key) use ($chartLabels) {
+                return [$chartLabels->search($key) => $item];
+            });
+
+            $data = $data->toArray();
+            ksort($data);
+            return collect($data);
         });
 
-        dd($all);
+        /*$quantities = $all->groupBy(function ($item) {
+            return $item->created_at->formatLocalized('%b %Y');
+        })->transform(function ($group) {
+            return $group->sum('new_')
+        });*/
 
-
-        return view('article.quantity_changelog', compact('article', 'changelog', 'dateStart', 'dateEnd'));
+        return view('article.quantity_changelog', compact('article', 'changelog', 'dateStart', 'dateEnd', 'chartLabels', 'chartValues'));
     }
 }

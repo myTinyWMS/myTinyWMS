@@ -17,6 +17,11 @@
 @section('content')
     <div class="row">
         <div class="col-lg-6">
+            <canvas id="chart"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
             <div class="ibox">
                 <div class="ibox-title" style="min-height: 55px">
                     <h5>Änderungsverlauf</h5>
@@ -62,7 +67,50 @@
 
 @push('scripts')
     <script type="text/javascript">
+        window.chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
+        };
+
+        var chartData = {
+            labels: {!! $chartLabels->toJson() !!},
+            datasets: [
+                {
+                    type: 'bar',
+                    backgroundColor: '#449D44',
+                    'label': 'Wareneingang',
+                    data: {!! $chartValues[1]->toJson() !!}
+                },
+                {
+                    type: 'bar',
+                    backgroundColor: '#ED5565',
+                    'label': 'Warenausgang',
+                    data: {!! $chartValues[2]->toJson() !!}
+                }
+            ]
+        };
+
         $(function() {
+            var ctx = document.getElementById("chart").getContext("2d");
+            new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    title: {
+                        display: false,
+                    },
+                    tooltips: {
+                        mode: 'point',
+                        // intersect: true
+                    }
+                }
+            });
 
             var start = moment('{{ $dateStart->format('Y-m-d') }}');
             var end = moment('{{ $dateEnd->format('Y-m-d') }}');

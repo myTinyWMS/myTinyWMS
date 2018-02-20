@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapThree();
 
-        setlocale(LC_TIME, 'German');
+        setlocale(LC_TIME, 'de_DE.utf8');
         date_default_timezone_set('Europe/Berlin');
         Carbon::setLocale('de');
 
