@@ -29,25 +29,25 @@ class ArticleDataTable extends BaseDataTable
                 return link_to_route('article.show', $article->name, ['article' => $article]);
             })
             ->addColumn('price', function (Article $article) {
-                return formatPrice($article->currentSupplierArticle->price);
+                return formatPrice(optional($article->currentSupplierArticle)->price);
             })
             ->addColumn('order_number', function (Article $article) {
-                return $article->currentSupplierArticle->order_number;
+                return optional($article->currentSupplierArticle)->order_number;
             })
             ->addColumn('delivery_time', function (Article $article) {
-                return $article->currentSupplierArticle->delivery_time;
+                return optional($article->currentSupplierArticle)->delivery_time;
             })
             ->addColumn('supplier', function (Article $article) {
-                return $article->currentSupplier->name;
+                return optional($article->currentSupplier)->name;
             })
             ->addColumn('order_quantity', function (Article $article) {
-                return $article->currentSupplierArticle->order_quantity;
+                return optional($article->currentSupplierArticle)->order_quantity;
             })
             ->editColumn('category', function (Article $article) {
-                return $article->category->name;
+                return optional($article->category)->name;
             })
             ->addColumn('unit', function (Article $article) {
-                return $article->unit->name;
+                return optional($article->unit)->name;
             })
             ->addColumn('tags', function (Article $article) {
                 return $article->tags->pluck('name')->implode(', ');
