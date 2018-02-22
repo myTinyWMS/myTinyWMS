@@ -93,7 +93,7 @@ class ImportFromOnpService {
                 if (array_key_exists($log->user_name, $userCache)) {
                     $user = $userCache[$log->user_name];
                 } else {
-                    $user = $userCache[$log->user_name] = dUser::firstOrCreate([
+                    $user = $userCache[$log->user_name] = User::firstOrCreate([
                         'name' => $log->user_name
                     ], [
                         'email' => $log->user_name,
