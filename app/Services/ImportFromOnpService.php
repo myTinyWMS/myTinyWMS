@@ -137,13 +137,10 @@ class ImportFromOnpService {
                 'sort_id' => $article->sort_id,
                 'inventory' => $article->inventur,
                 'unit_id' => $unit ? $unit->id : null,
+                'category_id' => $article->type
             ]);
 
             $newArticle->addTag(utf8_encode($article->maschinenzugehoerigkeit));
-
-            /**
-             * $article->maschinenzugehoerigkeit -> Tag?
-             */
 
             $newArticle->suppliers()->attach($article->hersteller, [
                 'order_number' => utf8_encode($article->bestnr),
@@ -151,8 +148,6 @@ class ImportFromOnpService {
                 'order_quantity' => $article->bestellmenge,
                 'delivery_time' => utf8_encode($article->lieferzeit),
             ]);
-
-            $newArticle->category()->associate($article->type);
 
             $bar->advance();
         });

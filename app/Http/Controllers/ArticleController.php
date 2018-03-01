@@ -189,9 +189,9 @@ class ArticleController extends Controller
     }
 
     public function quantityChangelog(Article $article, Request $request) {
-        $dateStart = $request->has('start') ? Carbon::parse($request->get('start')) : Carbon::now()->subMonth(3);
+        $dateStart = $request->has('start') ? Carbon::parse($request->get('start')) : Carbon::now()->subMonth(12);
         $dateEnd = $request->has('end') ? Carbon::parse($request->get('end'))->addDay() : Carbon::now();
-        $changelog = $article->quantityChangelogs()->with('user')->latest()->whereBetween('created_at', [$dateStart, $dateEnd])->paginate(10);
+        $changelog = $article->quantityChangelogs()->with('user')->latest()->whereBetween('created_at', [$dateStart, $dateEnd])->paginate(30);
 
         $all = $article->quantityChangelogs()->oldest()->whereBetween('created_at', [$dateStart, $dateEnd])->get();
 
@@ -207,12 +207,6 @@ class ArticleController extends Controller
             })->transform(function ($items) {
                 return $items->sum('change');
             });
-            /*
-             * @todo remove me!
-             */
-            if ($type == 1) {
-                unset($data['Jan 2018']);
-            }
 
             $chartLabels->each(function ($label) use ($data) {
                 if (!$key = $data->has($label)) {
@@ -229,12 +223,6 @@ class ArticleController extends Controller
             ksort($data);
             return collect($data);
         });
-
-        /*$quantities = $all->groupBy(function ($item) {
-            return $item->created_at->formatLocalized('%b %Y');
-        })->transform(function ($group) {
-            return $group->sum('new_')
-        });*/
 
         return view('article.quantity_changelog', compact('article', 'changelog', 'dateStart', 'dateEnd', 'chartLabels', 'chartValues'));
     }

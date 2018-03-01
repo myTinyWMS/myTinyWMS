@@ -69,7 +69,7 @@
                     Bestands-Verlauf
                 </h5>
                 <div class="pull-right">
-                    <a href="{{ route('article.quantity_changelog', $article) }}" class="btn btn-primary btn-xs">Details</a>
+                    <a href="{{ route('article.quantity_changelog', $article) }}" class="btn btn-primary btn-xs">mehr</a>
                 </div>
             </div>
             <div class="ibox-content">
@@ -85,7 +85,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($article->quantityChangelogs()->with('user')->latest()->take(50)->get() as $log)
+                        @foreach ($article->quantityChangelogs()->with('user')->latest()->take(30)->get() as $log)
                             @if ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING)
                                 @include('components.quantity_log.incoming')
                             @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING)

@@ -2,6 +2,10 @@
 
 @section('title', 'Änderungsverlauf Artikel '.((!empty($article->article_number)) ? ' #'.$article->article_number : ''))
 
+@section('title_extra')
+    <small>{{ $article->name }}</small>
+@endsection
+
 @section('breadcrumb')
     <li>
         <a href="{{ route('article.index') }}">Übersicht</a>
@@ -33,7 +37,7 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <table class="table table-condensed table-bordered">
+                    <table class="table table-condensed table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>Typ</th>
@@ -80,18 +84,22 @@
         var chartData = {
             labels: {!! $chartLabels->toJson() !!},
             datasets: [
+                @if(isset($chartValues[1]))
                 {
                     type: 'bar',
                     backgroundColor: '#449D44',
                     'label': 'Wareneingang',
                     data: {!! $chartValues[1]->toJson() !!}
                 },
+                @endif
+                @if(isset($chartValues[2]))
                 {
                     type: 'bar',
                     backgroundColor: '#ED5565',
                     'label': 'Warenausgang',
                     data: {!! $chartValues[2]->toJson() !!}
                 }
+                @endif
             ]
         };
 
