@@ -74,6 +74,8 @@
 
                     $('.datatableFilter-select').each(function () {
                         $(this).change(function () {
+                            console.log('changed');
+                            console.log($(this).val(), $(this).attr('data-target-col'));
                             window.LaravelDataTables.dataTableBuilder.columns($(this).attr('data-target-col')).search($(this).val()).draw();
                             saveFilterState($(this).attr('id'), $(this).attr('data-target-col'), $(this).val());
                         });
@@ -84,6 +86,14 @@
                     });
 
                     loadFilterState();
+
+                    $('.datatableFilter-select').each(function () {
+                        if ($(this).attr('data-pre-filter')) {
+                            console.log('pre filter');
+                            $(this).val($(this).attr('data-pre-filter'));
+                            $(this).change();
+                        }
+                    });
                 }
             });
 
@@ -99,7 +109,6 @@
 
             function loadFilterState() {
                 var currentFilterState = JSON.parse(localStorage.getItem('datatables-filterState'));
-                console.log(currentFilterState, typeof currentFilterState);
                 if (currentFilterState !== null) {
                     $.each(currentFilterState, function (elementId, item) {
                         $('#'+elementId).val(item.value);

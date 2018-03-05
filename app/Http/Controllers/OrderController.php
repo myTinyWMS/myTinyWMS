@@ -29,17 +29,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $articles = Article::with('suppliers')->withCurrentSupplier()->withCurrentSupplierArticle()->orderBy('name')->get()
-            ->transform(function ($article) {
-                /*@var $article Article */
-                return [
-                    'id' => $article->id,
-                    'name' => $article->name/*.(!empty($article->unit) ? ' ('.$article->unit->name.')' : '')*/,
-                    'supplier_id' => $article->currentSupplier->id,
-                    'order_quantity' => $article->currentSupplierArticle->order_quantity ?? 0,
-                    'price' => $article->currentSupplierArticle->price ?? 0
-                ];
-            });
+        $articles = $this->articleList();
 
         $order = new Order();
         $order->internal_order_number = $order->getNextInternalOrderNumber();
@@ -120,15 +110,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $articles = Article::with('suppliers')->withCurrentSupplier()->orderBy('name')->get()
-            ->transform(function ($article) {
-                /*@var $article Article */
-                return [
-                    'id' => $article->id,
-                    'name' => $article->name/*.(!empty($article->unit) ? ' ('.$article->unit->name.')' : '')*/,
-                    'supplier_id' => $article->currentSupplier->id
-                ];
-            });
+        $articles = $this->articleList();
 
         $order = Order::findOrFail($id);
 
@@ -198,5 +180,19 @@ class OrderController extends Controller
         }
 
         return response()->redirectToRoute('order.show', $order);
+    }
+
+    protected function getArticleList() {
+        return Article::active()->with('suppliers')->withCurrentSupplier()->withCurrentSupplierArticle()->orderBy('name')->get()
+            ->transform(function ($article) {
+                /*@var $article Article */
+                return [
+                    'id' => $article->id,
+                    'name' => $article->name/*.(!empty($article->unit) ? ' ('.$article->unit->name.')' : '')*/,
+                    'supplier_id' => $article->currentSupplier->id,
+                    'order_quantity' => $article->currentSupplierArticle->order_quantity ?? 0,
+                    'price' => $article->currentSupplierArticle->price ?? 0
+                ];
+            });
     }
 }

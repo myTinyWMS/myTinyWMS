@@ -12,8 +12,11 @@ class Article extends AuditableModel
 {
     use SoftDeletes, Taggable;
 
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+
     protected $fillable = [
-        'name', 'notes',
+        'name', 'notes', 'status'
     ];
 
     protected $casts = [
@@ -111,5 +114,16 @@ class Article extends AuditableModel
 
         $this->quantity = ($this->quantity + $change);
         $this->save();
+    }
+
+    public function scopeActive($query) {
+        $query->where('status', self::STATUS_ACTIVE);
+    }
+
+    public static function getStatusTextArray() {
+        return [
+            self::STATUS_ACTIVE => 'aktiv',
+            self::STATUS_INACTIVE => 'deaktiviert'
+        ];
     }
 }

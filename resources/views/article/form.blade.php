@@ -25,6 +25,7 @@
                     @yield('form_start')
 
                     {{ Form::bsTextarea('name', null, ['rows' => 2] , 'Name') }}
+                    {{ Form::bsSelect('status', $article->status, \Mss\Models\Article::getStatusTextArray(),  'Status') }}
                     {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderedByName()->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
 
                     <div class="form-group">

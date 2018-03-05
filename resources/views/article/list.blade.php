@@ -32,7 +32,8 @@
             @endforeach
         </select>
     </label>
-    Tags:&nbsp;
+    <label>
+        Tags:&nbsp;
         <select id="filterTags" data-target-col="12" class="form-control input-sm datatableFilter-select">
             <option value=""></option>
             @foreach($tags as $item)
@@ -47,6 +48,13 @@
             @foreach($supplier as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>
             @endforeach
+        </select>
+    </label>
+    <label>
+       Status:&nbsp;
+        <select id="filterStatus" data-target-col="14" class="form-control input-sm datatableFilter-select" data-pre-filter="1">
+            <option value="1">aktiv</option>
+            <option value="0">deaktiviert</option>
         </select>
     </label>
 @endsection
