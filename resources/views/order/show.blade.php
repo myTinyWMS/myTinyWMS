@@ -87,8 +87,9 @@
                             <div class="col-lg-6">
                                 <small class="stats-label">Artikel</small>
                                 <h4>
-                                    {{ $item->article->name }}
-                                    <a href="{{ route('article.show', $item->article) }}" class="btn btn-link btn-xs"><i class="fa fa-external-link"></i></a>
+                                    <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
+                                    <br/>
+                                    <small class="p-t-8"># {{ $item->article->article_number }}</small>
                                 </h4>
                             </div>
                             <div class="col-lg-2">
@@ -139,6 +140,7 @@
                             <table class="table table-condensed table-border">
                                 <thead>
                                     <tr>
+                                        <th style="width: 40px">#</th>
                                         <th>Artikel</th>
                                         <th>Menge</th>
                                     </tr>
@@ -146,9 +148,9 @@
                                 <tbody>
                                     @foreach($delivery->items as $item)
                                     <tr>
+                                        <td>{{ $item->article->article_number }}</td>
                                         <td>
-                                            {{ $item->article->name }}
-                                            <a href="{{ route('article.show', $item->article) }}" class="btn btn-link btn-xs"><i class="fa fa-external-link"></i></a>
+                                            <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
                                         </td>
                                         <td>{{ $item->quantity }}</td>
                                     </tr>

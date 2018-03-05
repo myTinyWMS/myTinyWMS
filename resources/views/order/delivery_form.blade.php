@@ -50,11 +50,12 @@
                     @foreach($order->items as $item)
                         <div class="panel panel-primary">
                             <div class="panel-body row">
-                                <div class="col-lg-5">
+                                <div class="col-lg-6">
                                     <small class="stats-label">Artikel</small>
                                     <h4>
-                                        {{ $item->article->name }}
-                                        <a href="{{ route('article.show', $item->article) }}" class="btn btn-link btn-xs"><i class="fa fa-external-link"></i></a>
+                                        <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
+                                        <br/>
+                                        <small class="p-t-8"># {{ $item->article->article_number }}</small>
                                     </h4>
                                 </div>
                                 <div class="col-lg-2">

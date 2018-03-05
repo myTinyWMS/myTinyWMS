@@ -16,7 +16,8 @@
 $factory->define(Mss\Models\Article::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
-        'quantity' => $faker->numberBetween(1, 10)
+        'quantity' => $faker->numberBetween(1, 10),
+        'status' => 1
     ];
 });
 
