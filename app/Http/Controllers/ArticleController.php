@@ -121,7 +121,7 @@ class ArticleController extends Controller
 
         flash('Artikel gespeichert')->success();
 
-        return redirect()->route('article.show', $id);
+        return redirect()->route('article.index');
     }
 
     /**

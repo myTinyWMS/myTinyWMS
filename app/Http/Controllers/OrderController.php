@@ -29,18 +29,21 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $articles = Article::with('suppliers')->withCurrentSupplier()->orderBy('name')->get()
+        $articles = Article::with('suppliers')->withCurrentSupplier()->withCurrentSupplierArticle()->orderBy('name')->get()
             ->transform(function ($article) {
                 /*@var $article Article */
                 return [
                     'id' => $article->id,
                     'name' => $article->name/*.(!empty($article->unit) ? ' ('.$article->unit->name.')' : '')*/,
-                    'supplier_id' => $article->currentSupplier->id
+                    'supplier_id' => $article->currentSupplier->id,
+                    'order_quantity' => $article->currentSupplierArticle->order_quantity ?? 0,
+                    'price' => $article->currentSupplierArticle->price ?? 0
                 ];
             });
 
         $order = new Order();
         $order->internal_order_number = $order->getNextInternalOrderNumber();
+        $order->order_date = Carbon::now();
         $order->save();
 
         return view('order.create', compact('order', 'articles'));

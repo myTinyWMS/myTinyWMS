@@ -144,6 +144,19 @@
                 filterArticlesAndSetSelects(e.params.data.id);
             });
 
+            $("#article-list .article-select").on('select2:select', function (e) {
+                var quantity = $(this).parent().parent().parent().find('.quantity-select');
+                var price = $(this).parent().parent().parent().find('.price-select');
+
+                $.each(allArticles, function (key, value) {
+                    if (value.id == e.params.data.id) {
+                        console.log(quantity, value);
+                        quantity.val(value.order_quantity);
+                        price.val(formatPrice(value.price / 100));
+                    }
+                });
+            });
+
             $('.datepicker').datepicker({
                 format: 'dd.mm.yyyy',
                 language: 'de',
