@@ -70,6 +70,11 @@ class ArticleDataTable extends BaseDataTable
                     $query->where('tags.id', $keyword);
                 });
             })
+            ->filter(function ($query) {
+                if (!isset(request('columns')[14]['search'])) {
+                    $query->where('status', Article::STATUS_ACTIVE);
+                }
+            })
             ->addColumn('action', 'article.list_action')
             ->rawColumns(['action', 'price']);
     }

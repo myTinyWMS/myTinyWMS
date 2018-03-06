@@ -86,14 +86,6 @@
                     });
 
                     loadFilterState();
-
-                    $('.datatableFilter-select').each(function () {
-                        if ($(this).attr('data-pre-filter')) {
-                            console.log('pre filter');
-                            $(this).val($(this).attr('data-pre-filter'));
-                            $(this).change();
-                        }
-                    });
                 }
             });
 
