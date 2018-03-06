@@ -5,6 +5,7 @@ namespace Mss\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Mss\Console\Commands\ImportCommand;
+use Mss\Console\Commands\ImportMailsCommand;
 use Mss\Console\Commands\SetArticleNumbersCommand;
 
 class Kernel extends ConsoleKernel
@@ -16,7 +17,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         ImportCommand::class,
-        SetArticleNumbersCommand::class
+        SetArticleNumbersCommand::class,
+        ImportMailsCommand::class
     ];
 
     /**

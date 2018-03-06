@@ -2,6 +2,8 @@
 
 namespace Mss\Models;
 
+use Mss\Models\OrderMessage;
+
 class Order extends AuditableModel
 {
     const STATUS_NEW = 0;
@@ -36,6 +38,10 @@ class Order extends AuditableModel
         'internal_order_number' => 'interne Bestellnummer',
         'confirmation_received' => 'Auftragsbestätigung erhalten'
     ];
+
+    public function messages() {
+        return $this->hasMany(OrderMessage::class);
+    }
 
     public function items() {
         return $this->hasMany(OrderItem::class);

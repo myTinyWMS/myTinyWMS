@@ -181,7 +181,7 @@ return [
         Mss\Providers\FormComponentsServiceProvider::class,
         Mss\Providers\ValidatorServiceProvider::class,
         Mss\Providers\DatabaseServiceProvider::class,
-
+        Webklex\IMAP\Providers\LaravelServiceProvider::class,
     ],
 
     /*
