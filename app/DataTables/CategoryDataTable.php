@@ -20,7 +20,8 @@ class CategoryDataTable extends BaseDataTable
                 return link_to_route('category.show', $category->name, ['category' => $category]);
             })
             ->addColumn('action', 'category.list_action')
-            ->rawColumns(['action']);
+            ->addColumn('checkbox', 'category.list_checkbox')
+            ->rawColumns(['action', 'checkbox']);
     }
 
     /**
@@ -45,7 +46,7 @@ class CategoryDataTable extends BaseDataTable
             ->minifiedAjax()
             ->columns($this->getColumns())
             ->parameters([
-                'order'   => [[0, 'asc']],
+                'order'   => [[1, 'asc']],
             ])
             ->addAction(['title' => '', 'width' => '150px']);
     }
@@ -58,6 +59,7 @@ class CategoryDataTable extends BaseDataTable
     protected function getColumns()
     {
         return [
+            ['data' => 'checkbox', 'name' => 'checkbox', 'title' => '', 'width' => '10px', 'orderable' => false],
             ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
             ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung'],
         ];

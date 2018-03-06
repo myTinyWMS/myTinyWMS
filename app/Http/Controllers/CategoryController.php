@@ -2,6 +2,9 @@
 
 namespace Mss\Http\Controllers;
 
+use Barryvdh\Snappy\Facades\SnappyPdf;
+use http\Env\Request;
+use Illuminate\Support\Facades\App;
 use Mss\Models\Category;
 use Illuminate\Http\Response;
 use Mss\DataTables\CategoryDataTable;
@@ -88,5 +91,21 @@ class CategoryController extends Controller
         flash('Kategorie gelöscht')->success();
 
         return redirect()->route('category.index');
+    }
+
+    public function printList() {
+        $categories = request('category');
+
+        if (empty($categories) || !is_array($categories) || count($categories) == 0) {
+            flash('Bitte mind. 1 Kategorie auswählen')->error();
+            return redirect()->route('category.index');
+        }
+
+        $categories = Category::withActiveArticles()->orderedByName()->find($categories);
+
+//        return view('documents.category_article_list', compact('categories'));
+
+        $pdf = App::make('snappy.pdf.wrapper');
+        return $pdf->loadView('documents.category_article_list', compact('categories'))->download('lagerliste.pdf');
     }
 }

@@ -28,4 +28,10 @@ class Category extends AuditableModel
     public function scopeOrderedByName($query) {
         $query->orderBy('name');
     }
+
+    public function scopeWithActiveArticles($query) {
+        $query->with(['articles' => function ($query) {
+            $query->active()->orderedByName();
+        }]);
+    }
 }

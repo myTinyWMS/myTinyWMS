@@ -120,6 +120,10 @@ class Article extends AuditableModel
         $query->where('status', self::STATUS_ACTIVE);
     }
 
+    public function scopeOrderedByName($query) {
+        $query->orderBy('name');
+    }
+
     public static function getStatusTextArray() {
         return [
             self::STATUS_ACTIVE => 'aktiv',

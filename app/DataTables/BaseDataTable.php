@@ -10,7 +10,7 @@ abstract class BaseDataTable extends DataTable
     public function builder() {
         $builder = parent::builder();
         $builder->parameters([
-            'dom'     => 'frtilp',
+            'dom'     => 'frt<"toolbar">ilp',
             'order'   => [[0, 'asc']],
             'language' => ['url' => asset('js/datatables/German.1.10.13.json')],
             'pageLength' => 25,
