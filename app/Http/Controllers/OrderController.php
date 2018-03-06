@@ -29,7 +29,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        $articles = $this->articleList();
+        $articles = $this->getArticleList();
 
         $order = new Order();
         $order->internal_order_number = $order->getNextInternalOrderNumber();
@@ -57,6 +57,7 @@ class OrderController extends Controller
         $order->order_date = Carbon::parse($request->get('order_date'));
         $order->expected_delivery = Carbon::parse($request->get('expected_delivery'));
         $order->notes = $request->get('notes');
+        $order->confirmation_received = $request->get('confirmation_received');
 
         if ($order->status === Order::STATUS_NEW) {
             $order->status = Order::STATUS_ORDERED;
@@ -110,8 +111,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $articles = $this->articleList();
-
+        $articles = $this->getArticleList();
         $order = Order::findOrFail($id);
 
         return view('order.edit', compact('order', 'articles'));

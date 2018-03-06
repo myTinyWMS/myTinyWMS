@@ -64,6 +64,17 @@
                         <small class="stats-label">Status</small>
                         <h2>@include('order.status', ['status' => $order->status])</h2>
                     </div>
+
+                    <div class="col-xs-3">
+                        <small class="stats-label">Auftragsbestätigung</small>
+                        <h2>
+                            @if($order->confirmation_received)
+                                <span class="text-success">erhalten</span>
+                            @else
+                                <span class="text-danger">nicht erhalten</span>
+                            @endif
+                        </h2>
+                    </div>
                 </div>
             </div>
             <div class="ibox-content">

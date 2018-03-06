@@ -22,6 +22,10 @@ class Order extends AuditableModel
 
     protected $dates = ['order_date', 'expected_delivery'];
 
+    protected $casts = [
+        'confirmation_received' => 'boolean',
+    ];
+
     protected $fieldNames = [
         'status' => 'Status',
         'total_cost' => 'Gesamtkosten',
@@ -29,7 +33,8 @@ class Order extends AuditableModel
         'order_date' => 'Bestelldatum',
         'expected_delivery' => 'Liefertermin',
         'external_order_number' => 'Bestellnummer des Lieferanten',
-        'internal_order_number' => 'interne Bestellnummer'
+        'internal_order_number' => 'interne Bestellnummer',
+        'confirmation_received' => 'Auftragsbestätigung erhalten'
     ];
 
     public function items() {
