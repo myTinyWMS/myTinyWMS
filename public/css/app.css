@@ -9957,6 +9957,15 @@ body {
   display: inline-block;
 }
 
+.table-striped tr.bg-danger {
+  background-color: #ED5565 !important;
+}
+
+.table-striped tr.bg-danger a {
+  color: #fff;
+  text-decoration: underline;
+}
+
 @media print {
   nav.navbar-static-side {
     display: none;

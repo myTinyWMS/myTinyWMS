@@ -16,7 +16,7 @@ class Article extends AuditableModel
     const STATUS_ACTIVE = 1;
 
     protected $fillable = [
-        'name', 'notes', 'status'
+        'name', 'notes', 'status', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id'
     ];
 
     protected $casts = [

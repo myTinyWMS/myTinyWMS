@@ -22,6 +22,9 @@ class ArticleDataTable extends BaseDataTable
             ->editColumn('quantity', function (Article $article) {
                 return $article->quantity;
             })
+            ->setRowClass(function ($article) {
+                return ($article->quantity <= $article->min_quantity) ? 'bg-danger' : '';
+            })
             ->editColumn('min_quantity', function (Article $article) {
                 return $article->min_quantity;
             })
