@@ -18,6 +18,7 @@ class CreateOrderMessagesTable extends Migration
             $table->integer('order_id')->unsigned()->nullable();
             $table->integer('user_id')->unsigned()->nullable();
 
+            $table->dateTime('received');
             $table->string('sender');
             $table->string('receiver');
             $table->text('subject');

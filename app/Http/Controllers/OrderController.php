@@ -10,6 +10,7 @@ use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\Order;
 use Mss\Models\OrderItem;
+use Mss\Models\OrderMessage;
 use Mss\Models\Supplier;
 
 class OrderController extends Controller
@@ -100,8 +101,9 @@ class OrderController extends Controller
     public function show($id) {
         $order = Order::with('items.order.items')->findOrFail($id);
         $audits = $order->getAudits();
+        $messages = $order->messages()->latest('received')->get();
 
-        return view('order.show', compact('order', 'audits'));
+        return view('order.show', compact('order', 'audits', 'messages'));
     }
 
     /**
@@ -194,5 +196,10 @@ class OrderController extends Controller
                     'price' => $article->currentSupplierArticle->price ?? 0
                 ];
             });
+    }
+
+    public function messageAttachmentDownload(OrderMessage $message, $attachment) {
+        $attachment = $message->attachments->where('fileName', $attachment)->first();
+        return response()->download(storage_path('attachments/'.$attachment['fileName']), $attachment['orgFileName'], ['Content-Type' => $attachment['contentType']]);
     }
 }

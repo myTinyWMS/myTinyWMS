@@ -12,8 +12,11 @@ class OrderMessage extends Model
         'receiver' => 'array',
     ];
 
+    protected $dates = ['received'];
+
     protected $fillable = [
         'order_id',
+        'received',
         'sender',
         'receiver',
         'subject',
@@ -25,5 +28,21 @@ class OrderMessage extends Model
 
     public function order() {
         return $this->belongsTo(Order::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getSenderAttribute($value) {
+        return collect($value);
+    }
+
+    public function getReceiverAttribute($value) {
+        return collect($value);
+    }
+
+    public function getAttachmentsAttribute($value) {
+        return collect(json_decode($value, true));
     }
 }

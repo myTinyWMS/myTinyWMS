@@ -40,6 +40,7 @@ class ImportMailsService {
         return [
             'sender' => collect($message->from)->pluck('mail'),
             'receiver' => ['System'],
+            'received' => $message->date,
             'subject' => $message->subject,
             'htmlBody' => $message->getHTMLBody(),
             'textBody' => $message->getTextBody(),
@@ -48,7 +49,8 @@ class ImportMailsService {
                 file_put_contents(storage_path('attachments/'.$fileName), $attachment->content);
                 return [
                     'fileName' => $fileName,
-                    'contentType' => $attachment->content_type
+                    'contentType' => $attachment->content_type,
+                    'orgFileName' => $attachment->name
                 ];
             })
         ];
