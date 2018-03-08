@@ -9,7 +9,13 @@
                                 <small class="pull-right text-muted" title="{{ $message->received->format('d.m.Y H:i:s') }}"> {{ $message->received->format('d.m.Y') }}</small>
                                 <strong title="{{ optional($message->user)->name }}">{{ ($message->sender == ['System']) ? 'System' : 'Lieferant' }}</strong>
                                 <div class="small m-t-xs">
-                                    <p>{{ $message->subject }}</p>
+                                    <p class="m-b-xs">{{ $message->subject }}</p>
+                                    @if(!$message->read)
+                                    <p class="m-b-none">
+                                        <span class="label pull-right label-primary">NEU</span>
+                                        &nbsp;
+                                    </p>
+                                    @endif
                                 </div>
                             </a>
                         </li>
@@ -28,14 +34,18 @@
                     <div class="tab-content">
                         @foreach($messages as $message)
                             <div id="tab-{{ $loop->iteration }}" class="tab-pane @if($loop->first) active @endif">
-                                {{--<div class="pull-right">
+                                <div class="pull-right">
                                     <div class="tooltip-demo">
-                                        <button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="left" title="Plug this message"><i class="fa fa-plug"></i> Plug it</button>
-                                        <button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="top" title="Mark as read"><i class="fa fa-eye"></i> </button>
-                                        <button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mark as important"><i class="fa fa-exclamation"></i> </button>
-                                        <button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="top" title="" data-original-title="Move to trash"><i class="fa fa-trash-o"></i> </button>
+                                        <button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="bottom" title="auf Nachricht antworten"><i class="fa fa-reply"></i> Antworten</button>
+                                        @if(!$message->read)
+                                        <button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="bottom" title="Als Gelesen markieren"><i class="fa fa-eye"></i> Gelesen</button>
+                                        @else
+                                        <button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="bottom" title="Als Ungelesen markieren"><i class="fa fa-eye"></i> Ungelesen</button>
+                                        @endif
+                                        {{--<button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mark as important"><i class="fa fa-exclamation"></i> </button>--}}
+                                        <button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Nachricht löschen"><i class="fa fa-trash-o"></i> Löschen</button>
                                     </div>
-                                </div>--}}
+                                </div>
                                 <div class="small text-muted">
                                     <i class="fa fa-clock-o"></i> {{ $message->received->formatLocalized('%A, %d.%B %Y, %H:%M Uhr') }}
                                     @if ($message->sender == ['System'] && $message->user)

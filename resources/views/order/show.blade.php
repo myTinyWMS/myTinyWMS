@@ -199,6 +199,7 @@
         <div class="ibox">
             <div class="ibox-title">
                 <h5>Kommunikation</h5>
+                <a href="{{ route('order.message_new', $order) }}" class="btn btn-primary btn-xs pull-right">Neue Nachricht</a>
             </div>
             <div class="ibox-content order-messages">
                 @include('order.communications')

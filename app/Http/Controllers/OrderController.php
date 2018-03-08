@@ -202,4 +202,12 @@ class OrderController extends Controller
         $attachment = $message->attachments->where('fileName', $attachment)->first();
         return response()->download(storage_path('attachments/'.$attachment['fileName']), $attachment['orgFileName'], ['Content-Type' => $attachment['contentType']]);
     }
+
+    public function newMessage(Order $order) {
+        return view('order.message_create', compact('order'));
+    }
+
+    public function createNewMessage(Order $order) {
+
+    }
 }

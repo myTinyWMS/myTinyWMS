@@ -19,6 +19,7 @@ mix
     .sass('resources/assets/sass/app.scss', 'public/css')
     .copy('resources/assets/vendor/bootstrap/fonts', 'public/fonts')
     .copy('resources/assets/vendor/font-awesome/fonts', 'public/fonts')
+    .copy('resources/assets/vendor/summernote/font', 'public/css/font')
     .copy('resources/assets/vendor/ace', 'public/js/ace')
     .copy('resources/assets/vendor/datatables/German.1.10.13.json', 'public/js/datatables')
     .copy('resources/assets/vendor/datatables/English.1.10.13.json', 'public/js/datatables')
@@ -34,7 +35,8 @@ mix
         'resources/assets/vendor/select2/select2.min.css',
         'resources/assets/vendor/select2/select2-bootstrap.min.css',
         'resources/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css',
-        'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.css'
+        'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.css',
+        'resources/assets/vendor/summernote/summernote.css'
     ], 'public/css/vendor.css')
     .combine([
         'resources/assets/vendor/jquery/jquery-3.1.1.min.js',
@@ -54,6 +56,8 @@ mix
         'resources/assets/vendor/bootstrap-datepicker/locales/bootstrap-datepicker.de.min.js',
         'resources/assets/vendor/bootstrap-typeahead/bootstrap3-typeahead.min.js',
         'resources/assets/vendor/momenjs/moment.min.js',
-        'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.js'
+        'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.js',
+        'resources/assets/vendor/summernote/summernote.min.js',
+        'resources/assets/vendor/summernote/summernote-de-DE.js'
     ], 'public/js/vendor.js')
     .copy('resources/assets/js/app.js', 'public/js');
