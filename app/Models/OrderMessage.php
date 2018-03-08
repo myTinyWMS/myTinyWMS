@@ -35,11 +35,11 @@ class OrderMessage extends Model
     }
 
     public function getSenderAttribute($value) {
-        return collect($value);
+        return collect(json_decode($value, true));
     }
 
     public function getReceiverAttribute($value) {
-        return collect($value);
+        return collect(json_decode($value, true));
     }
 
     public function getAttachmentsAttribute($value) {
