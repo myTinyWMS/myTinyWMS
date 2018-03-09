@@ -24,7 +24,7 @@
                 <h5>Neue Nachricht an {{ $order->supplier->name }}</h5>
             </div>
             <div class="ibox-content">
-                {{ Form::bsText('receiver', $order->supplier->email, [], 'Empfänger') }}
+                {{ Form::bsText('receiver', $orgMessage ? ($orgMessage->sender->contains('System') ? '' : $orgMessage->sender->implode(',')) : $order->supplier->email, [], 'Empfänger') }}
                 {{ Form::bsText('subject', null, [], 'Betreff') }}
                 {{ Form::summernote('body', null, [], 'Nachricht') }}
 
@@ -71,6 +71,11 @@
         $('#newMessageForm').submit(function() {
             $('input[name="attachments"]').val(JSON.stringify(attachments));
         });
+
+        @if($orgMessage)
+        var markupStr = '<br/><br/>Am {{ $orgMessage->received->formatLocalized('%A, %d.%B %Y, %H:%M Uhr') }} schrieb {{ $orgMessage->sender->contains('System') ? env('MAIL_FROM_ADDRESS') : $orgMessage->sender->first() }}:<br/><blockquote style="padding: 10px 20px;margin: 5px 0 20px;border-left: 5px solid #eee;">{!! $orgMessage->htmlBody !!}</blockquote>';
+        $('#body').summernote('code', markupStr);
+        @endif
     });
 </script>
 @endpush

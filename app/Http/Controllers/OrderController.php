@@ -210,9 +210,20 @@ class OrderController extends Controller
     }
 
     public function newMessage(Order $order) {
-        return view('order.message_create', compact('order'));
+        $orgMessage = null;
+        if (request('answer')) {
+            $orgMessage = OrderMessage::find(request('answer'));
+        }
+
+        return view('order.message_create', compact('order', 'orgMessage'));
     }
 
+    /**
+     * @param Order $order
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @todo validate input!
+     */
     public function createNewMessage(Order $order, Request $request) {
         $attachments = collect(json_decode($request->get('attachments'), true));
         $attachments->transform(function ($attachment) {

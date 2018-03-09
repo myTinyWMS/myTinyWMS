@@ -35,7 +35,7 @@
                             <div id="tab-{{ $loop->iteration }}" class="tab-pane @if($loop->first) active @endif">
                                 <div class="pull-right">
                                     <div class="tooltip-demo">
-                                        <button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="bottom" title="auf Nachricht antworten"><i class="fa fa-reply"></i> Antworten</button>
+                                        <a href="{{ route('order.message_create', ['order' => $order, 'answer' => $message->id]) }}" class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="bottom" title="auf Nachricht antworten"><i class="fa fa-reply"></i> Antworten</a>
                                         @if(!$message->read)
                                         <button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="bottom" title="Als Gelesen markieren"><i class="fa fa-eye"></i> Gelesen</button>
                                         @else
