@@ -57,7 +57,7 @@ mix
         'resources/assets/vendor/bootstrap-typeahead/bootstrap3-typeahead.min.js',
         'resources/assets/vendor/momenjs/moment.min.js',
         'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.js',
-        'resources/assets/vendor/summernote/summernote.min.js',
+        'resources/assets/vendor/summernote/summernote.js',
         'resources/assets/vendor/summernote/summernote-de-DE.js'
     ], 'public/js/vendor.js')
     .copy('resources/assets/js/app.js', 'public/js');

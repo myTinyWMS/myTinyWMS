@@ -133,3 +133,25 @@ body {
   margin-top: 20px;
   margin-bottom: 10px;
 }
+
+
+/* Summernote text editor  */
+.note-editor {
+  height: auto !important;
+}
+.note-editor.fullscreen {
+  z-index: 2050;
+}
+.note-editor.note-frame.fullscreen {
+  z-index: 2020;
+}
+.note-editor.note-frame .note-editing-area .note-editable {
+  color: #676a6c;
+  padding: 15px;
+}
+.note-editor.note-frame {
+  border: none;
+}
+.note-editor.panel {
+  margin-bottom: 0;
+}
