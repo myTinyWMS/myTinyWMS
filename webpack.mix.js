@@ -36,7 +36,8 @@ mix
         'resources/assets/vendor/select2/select2-bootstrap.min.css',
         'resources/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css',
         'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.css',
-        'resources/assets/vendor/summernote/summernote.css'
+        'resources/assets/vendor/summernote/summernote.css',
+        'resources/assets/vendor/dropzone/dropzone.css'
     ], 'public/css/vendor.css')
     .combine([
         'resources/assets/vendor/jquery/jquery-3.1.1.min.js',
@@ -58,6 +59,7 @@ mix
         'resources/assets/vendor/momenjs/moment.min.js',
         'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.js',
         'resources/assets/vendor/summernote/summernote.js',
-        'resources/assets/vendor/summernote/summernote-de-DE.js'
+        'resources/assets/vendor/summernote/summernote-de-DE.js',
+        'resources/assets/vendor/dropzone/dropzone.js'
     ], 'public/js/vendor.js')
     .copy('resources/assets/js/app.js', 'public/js');

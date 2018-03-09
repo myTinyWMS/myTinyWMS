@@ -16,6 +16,7 @@ class OrderMessage extends Model
 
     protected $fillable = [
         'order_id',
+        'user_id',
         'received',
         'sender',
         'receiver',

@@ -20,6 +20,7 @@ class FormComponentsServiceProvider extends ServiceProvider
         Form::component('bsFile', 'components.form.file', ['name', 'label' => '', 'helpBlock' => '', 'attributes' => []]);
         Form::component('bsSelect', 'components.form.select', ['name', 'value' => null, 'values' => collect([]), 'label' => '', 'attributes' => []]);
         Form::component('bsTextarea', 'components.form.textarea', ['name', 'value' => null, 'attributes' => [], 'label' => null]);
+        Form::component('dropzone', 'components.form.dropzone', ['name', 'label' => null, 'url' => null]);
     }
 
     /**

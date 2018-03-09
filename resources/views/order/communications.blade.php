@@ -7,13 +7,12 @@
                         <li class="list-group-item">
                             <a data-toggle="tab" href="#tab-{{ $loop->iteration }}">
                                 <small class="pull-right text-muted" title="{{ $message->received->format('d.m.Y H:i:s') }}"> {{ $message->received->format('d.m.Y') }}</small>
-                                <strong title="{{ optional($message->user)->name }}">{{ ($message->sender == ['System']) ? 'System' : 'Lieferant' }}</strong>
+                                <strong title="{{ optional($message->user)->name }}">{{ $message->sender->contains('System') ? 'System' : 'Lieferant' }}</strong>
                                 <div class="small m-t-xs">
                                     <p class="m-b-xs">{{ $message->subject }}</p>
                                     @if(!$message->read)
                                     <p class="m-b-none">
                                         <span class="label pull-right label-primary">NEU</span>
-                                        &nbsp;
                                     </p>
                                     @endif
                                 </div>
@@ -48,8 +47,8 @@
                                 </div>
                                 <div class="small text-muted">
                                     <i class="fa fa-clock-o"></i> {{ $message->received->formatLocalized('%A, %d.%B %Y, %H:%M Uhr') }}
-                                    @if ($message->sender == ['System'] && $message->user)
-                                        von {{ $message->user->name }}
+                                    @if ($message->sender->contains('System'))
+                                        von {{ $message->user ? $message->user->name : 'System' }} an {{ $message->receiver->implode(', ') }}
                                     @else
                                         von {{ $message->sender->implode(', ') }}
                                     @endif

@@ -19,10 +19,6 @@ class ImportMailsService {
         /** @var \Webklex\IMAP\Folder $oFolder */
         $oFolder = $oClient->getFolder('INBOX');
 
-        if (!is_dir(storage_path('attachments'))) {
-            mkdir(storage_path('attachments'));
-        }
-
         //Get all Messages
         /** @var \Webklex\IMAP\Message $message */
         foreach($oFolder->getMessages() as $message) {
@@ -46,7 +42,7 @@ class ImportMailsService {
             'textBody' => $message->getTextBody(),
             'attachments' => $message->getAttachments()->map(function ($attachment) {
                 $fileName = Uuid::generate(4)->string;
-                file_put_contents(storage_path('attachments/'.$fileName), $attachment->content);
+                Storage::put('attachments/'.$fileName, $attachment->content);
                 return [
                     'fileName' => $fileName,
                     'contentType' => $attachment->content_type,

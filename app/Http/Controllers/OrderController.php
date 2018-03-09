@@ -4,14 +4,20 @@ namespace Mss\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Mss\DataTables\OrderDataTable;
 use Mss\Http\Requests\OrderRequest;
+use Mss\Mail\SupplierMail;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\Order;
 use Mss\Models\OrderItem;
 use Mss\Models\OrderMessage;
 use Mss\Models\Supplier;
+use Webpatser\Uuid\Uuid;
 
 class OrderController extends Controller
 {
@@ -207,7 +213,49 @@ class OrderController extends Controller
         return view('order.message_create', compact('order'));
     }
 
-    public function createNewMessage(Order $order) {
+    public function createNewMessage(Order $order, Request $request) {
+        $attachments = collect(json_decode($request->get('attachments'), true));
+        $attachments->transform(function ($attachment) {
+            $fileName = Uuid::generate(4)->string;
+            if (Storage::move($attachment['tempFile'], 'attachments/'.$fileName)) {
+                return [
+                    'fileName' => $fileName,
+                    'contentType' => $attachment['type'],
+                    'orgFileName' => $attachment['orgName']
+                ];
+            }
+        });
 
+        $receiver = explode(',', $request->get('receiver'));
+
+        Mail::to($receiver)->send(new SupplierMail (
+            $request->get('subject'), $request->get('body'), $attachments
+        ));
+
+        $order->messages()->create([
+            'user_id' => Auth::id(),
+            'sender' => ['System'],
+            'receiver' => $receiver,
+            'subject' => $request->get('subject'),
+            'htmlBody' => $request->get('body'),
+            'attachments' => $attachments,
+            'read' => true,
+            'received' => Carbon::now()
+        ]);
+
+        flash('Nachricht verschickt')->success();
+
+        return response()->redirectToRoute('order.show', $order);
+    }
+
+    public function uploadNewAttachments(Order $order, Request $request) {
+        $file = $request->file('file');
+
+        $upload_success = $file->storeAs('upload_temp', $order->id.'_'.Uuid::generate(4)->string);
+        if ($upload_success) {
+            return response()->json($upload_success, 200);
+        } else {
+            return response()->json('error', 400);
+        }
     }
 }

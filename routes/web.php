@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('order/message/{message}/attachment-download/{attachment}', 'OrderController@messageAttachmentDownload')->name('order.message_attachment_download');
     Route::get('order/{order}/message/new', 'OrderController@newMessage')->name('order.message_new');
     Route::post('order/{order}/message/new', 'OrderController@createNewMessage')->name('order.message_create');
+    Route::post('order/{order}/message/upload', 'OrderController@uploadNewAttachments')->name('order.message_upload');
 
     Route::post('article/reorder', 'ArticleController@reorder')->name('article.reorder');
     Route::post('article/{article}/addnote', 'ArticleController@addNote')->name('article.add_note');

@@ -4,11 +4,11 @@
         <span class="fileinput-filename"></span>
     </div>
     <span class="input-group-addon btn btn-default btn-file">
-        <span class="fileinput-new">@lang('form.file_select')</span>
-        <span class="fileinput-exists">@lang('form.file_change')</span>
+        <span class="fileinput-new">auswählen</span>
+        <span class="fileinput-exists">ändern</span>
         {!! Form::file($name, $attributes) !!}
     </span>
-    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">@lang('form.file_remove')</a>
+    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">löschen</a>
 </div>
 @if(!empty($helpBlock))
     <p class="help-block">{{ $helpBlock }}</p>
