@@ -27,6 +27,25 @@ class ValidatorServiceProvider extends ServiceProvider
 
             return true;
         });
+
+        Validator::extend("emails", function($attribute, $values, $parameters) {
+            $value = explode(',', $values);
+            $rules = [
+                'email' => 'required|email',
+            ];
+            if ($value) {
+                foreach ($value as $email) {
+                    $data = [
+                        'email' => trim($email)
+                    ];
+                    $validator = Validator::make($data, $rules);
+                    if ($validator->fails()) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     /**

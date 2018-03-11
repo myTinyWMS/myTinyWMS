@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Mss\DataTables\OrderDataTable;
+use Mss\Http\Requests\NewOrderMessageRequest;
 use Mss\Http\Requests\OrderRequest;
 use Mss\Mail\SupplierMail;
 use Mss\Models\Article;
@@ -220,11 +221,10 @@ class OrderController extends Controller
 
     /**
      * @param Order $order
-     * @param Request $request
+     * @param NewOrderMessageRequest $request
      * @return \Illuminate\Http\RedirectResponse
-     * @todo validate input!
      */
-    public function createNewMessage(Order $order, Request $request) {
+    public function createNewMessage(Order $order, NewOrderMessageRequest $request) {
         $attachments = collect(json_decode($request->get('attachments'), true));
         $attachments->transform(function ($attachment) {
             $fileName = Uuid::generate(4)->string;
@@ -237,16 +237,24 @@ class OrderController extends Controller
             }
         });
 
-        $receiver = explode(',', $request->get('receiver'));
+        $receivers = collect(explode(',', $request->get('receiver')))->transform(function ($receiver) {
+            return trim($receiver);
+        });
 
-        Mail::to($receiver)->send(new SupplierMail (
-            $request->get('subject'), $request->get('body'), $attachments
-        ));
+        if (count($receivers) > 1) {
+            Mail::to($receivers->first())->cc($receivers->slice(1))->send(new SupplierMail (
+                $request->get('subject'), $request->get('body'), $attachments
+            ));
+        } else {
+            Mail::to($receivers)->send(new SupplierMail (
+                $request->get('subject'), $request->get('body'), $attachments
+            ));
+        }
 
         $order->messages()->create([
             'user_id' => Auth::id(),
             'sender' => ['System'],
-            'receiver' => $receiver,
+            'receiver' => $receivers,
             'subject' => $request->get('subject'),
             'htmlBody' => $request->get('body'),
             'attachments' => $attachments,

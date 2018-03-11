@@ -100,6 +100,7 @@ return [
     |
     */
 
+    'emails' => ':attribute muss gültige E-Mailadressen enthalten',
     'custom'               => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
