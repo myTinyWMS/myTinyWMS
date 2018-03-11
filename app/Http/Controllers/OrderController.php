@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 use Mss\DataTables\OrderDataTable;
 use Mss\Http\Requests\NewOrderMessageRequest;
 use Mss\Http\Requests\OrderRequest;
+use Mss\Mail\NewOrder;
 use Mss\Mail\SupplierMail;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
@@ -226,12 +228,29 @@ class OrderController extends Controller
     }
 
     public function newMessage(Order $order) {
-        $orgMessage = null;
+        $order->load(['items.article' => function ($query) {
+            $query->withCurrentSupplierArticle();
+        }]);
+
+        $preSetBody = null;
+        $preSetReceiver = null;
+
         if (request('answer')) {
             $orgMessage = OrderMessage::find(request('answer'));
+            $preSetReceiver = $orgMessage->sender->contains('System') ? '' : $orgMessage->sender->implode(',');
+            $preSetBody = '<br/><br/>Am '.$orgMessage->received->formatLocalized('%A, %d.%B %Y, %H:%M Uhr').' schrieb '.$orgMessage->sender->contains('System') ? env('MAIL_FROM_ADDRESS') : $orgMessage->sender->first().':<br/><blockquote style="padding: 10px 20px;margin: 5px 0 20px;border-left: 5px solid #eee;">'.$orgMessage->htmlBody.'</blockquote>';
         }
 
-        return view('order.message_create', compact('order', 'orgMessage'));
+        if (request('sendorder')) {
+//            $preSetBody = addslashes((new NewOrder($order))->render());
+            /**
+             * @todo
+             *
+             * funktioniert so nicht, da in den summernote kein komplettes html passt
+             */
+        }
+
+        return view('order.message_create', compact('order', 'preSetBody', 'preSetReceiver'));
     }
 
     /**

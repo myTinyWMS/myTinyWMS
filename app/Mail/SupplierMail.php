@@ -48,6 +48,6 @@ class SupplierMail extends Mailable
             ]);
         });
 
-        return $this->view('mails.blank', ['content' => $this->body]);
+        return $this->view('emails.blank', ['content' => $this->body]);
     }
 }

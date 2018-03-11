@@ -1,3 +1,7 @@
+@if($messages->count() == 0 && $order->supplier->email)
+    <a href="{{ route('order.message_create', ['order' => $order, 'sendorder' => 1]) }}" class="btn btn-lg btn-success">Bestellung per E-Mail an Lieferant schicken</a>
+@endif
+
 <div class="fh-breadcrumb">
     <div class="fh-column">
         <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">

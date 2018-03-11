@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Bestelldetails')
+@section('title', 'Bestellung bei '.$order->supplier->name)
 
 @section('title_extra')
     <a href="{{ route('order.create_delivery', $order) }}" class="btn btn-primary btn-sm pull-right">Wareneingang erfassen</a>
@@ -21,7 +21,7 @@
         <div class="ibox">
             <div class="ibox-title">
                 <h5>
-                    Bestelldetails
+                    Bestellung bei {{ $order->supplier->name }}
                 </h5>
                 <a href="{{ route('order.edit', $order) }}" class="btn btn-primary btn-xs pull-right">bearbeiten</a>
             </div>

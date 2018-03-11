@@ -10001,6 +10001,10 @@ body {
   margin-bottom: 0;
 }
 
+.force-inline {
+  display: inline;
+}
+
 @media print {
   nav.navbar-static-side {
     display: none;
