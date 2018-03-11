@@ -36,6 +36,7 @@
                         <div class="col-lg-6">
                             {{ Form::bsSelect('status', $order->status, \Mss\Models\Order::STATUS_TEXTS,  'Status') }}
                             {{ Form::bsCheckbox('confirmation_received', 1, 'Auftragsbetätigung erhalten', $order->confirmation_received, []) }}
+                            {{ Form::bsCheckbox('invoice_received', 1, 'Rechnung erhalten', $order->invoice_received, []) }}
                         </div>
                     </div>
 

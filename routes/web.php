@@ -32,6 +32,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('order/article_list/{supplier}', 'OrderController@articleList')->name('order.article_list');
     Route::get('order/{order}/cancel', 'OrderController@cancel')->name('order.cancel');
+    Route::post('order/{order}/invoice-received', 'OrderController@invoiceReceived')->name('order.invoice_received');
+    Route::post('order/{order}/confirmation-received', 'OrderController@confirmationReceived')->name('order.confirmation_received');
     Route::get('order/{order}/create-delivery', 'OrderController@createDelivery')->name('order.create_delivery');
     Route::post('order/{order}/store-delivery', 'OrderController@storeDelivery')->name('order.store_delivery');
     Route::get('order/message/{message}/attachment-download/{attachment}', 'OrderController@messageAttachmentDownload')->name('order.message_attachment_download');

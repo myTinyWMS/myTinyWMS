@@ -61,11 +61,12 @@ class OrderController extends Controller
         $order->supplier_id = $request->get('supplier');
         $order->external_order_number = $request->get('external_order_number');
         $order->total_cost = parsePrice($request->get('total_cost'));
-        $order->shipping_cost = parsePrice($request->get('shipping_cost'));
+        $order->shipping_cost = parsePrice($request->get('shipping_cost')) ?? 0;
         $order->order_date = Carbon::parse($request->get('order_date'));
         $order->expected_delivery = Carbon::parse($request->get('expected_delivery'));
         $order->notes = $request->get('notes');
-        $order->confirmation_received = $request->get('confirmation_received');
+        $order->confirmation_received = $request->get('confirmation_received') ?? false;
+        $order->invoice_received = $request->get('confirmation_received') ?? false;
 
         if ($order->status === Order::STATUS_NEW) {
             $order->status = Order::STATUS_ORDERED;
@@ -90,6 +91,20 @@ class OrderController extends Controller
         });
 
         flash('Bestellung gespeichert', 'success');
+        return response()->redirectToRoute('order.show', $order);
+    }
+
+    public function confirmationReceived(Order $order) {
+        $order->confirmation_received = true;
+        $order->save();
+
+        return response()->redirectToRoute('order.show', $order);
+    }
+
+    public function invoiceReceived(Order $order) {
+        $order->invoice_received = true;
+        $order->save();
+
         return response()->redirectToRoute('order.show', $order);
     }
 

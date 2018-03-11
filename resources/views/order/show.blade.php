@@ -72,6 +72,9 @@
                                 <span class="text-success">erhalten</span>
                             @else
                                 <span class="text-danger">nicht erhalten</span>
+                                {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.confirmation_received', $order]]) !!}
+                                <button type="submit" class="btn btn-xs btn-outline btn-success"><i class="fa fa-check"></i></button>
+                                {!! Form::close() !!}
                             @endif
                         </h2>
                     </div>
@@ -79,9 +82,22 @@
             </div>
             <div class="ibox-content">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-xs-9">
                         <small class="stats-label">Bemerkungen</small>
                         <h2>{{ $order->notes ?: '-' }}</h2>
+                    </div>
+                    <div class="col-xs-3">
+                        <small class="stats-label">Rechnung</small>
+                        <h2>
+                            @if($order->invoice_received)
+                                <span class="text-success">erhalten</span>
+                            @else
+                                <span class="text-danger">nicht erhalten</span>
+                                {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.invoice_received', $order]]) !!}
+                                <button type="submit" class="btn btn-xs btn-outline btn-success"><i class="fa fa-check"></i></button>
+                                {!! Form::close() !!}
+                            @endif
+                        </h2>
                     </div>
                 </div>
             </div>

@@ -26,6 +26,7 @@ class Order extends AuditableModel
 
     protected $casts = [
         'confirmation_received' => 'boolean',
+        'invoice_received' => 'boolean',
     ];
 
     protected $fieldNames = [
