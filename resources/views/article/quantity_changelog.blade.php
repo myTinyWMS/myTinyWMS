@@ -88,7 +88,7 @@
                 {
                     type: 'bar',
                     backgroundColor: '#449D44',
-                    'label': 'Wareneingang',
+                    'label': 'Wareneingang (Ø {{ round(abs($chartValues[1]->avg()), 0) }})',
                     data: {!! $chartValues[1]->toJson() !!}
                 },
                 @endif
@@ -96,7 +96,7 @@
                 {
                     type: 'bar',
                     backgroundColor: '#ED5565',
-                    'label': 'Warenausgang',
+                    'label': 'Warenausgang (Ø {{ round(abs($chartValues[2]->avg()), 0) }})',
                     data: {!! $chartValues[2]->toJson() !!}
                 }
                 @endif
