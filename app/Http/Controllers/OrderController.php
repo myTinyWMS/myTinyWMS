@@ -298,6 +298,28 @@ class OrderController extends Controller
         return response()->redirectToRoute('order.show', $order);
     }
 
+    public function deleteMessage(Order $order, OrderMessage $message) {
+        $message->delete();
+
+        flash('Nachricht gelöscht')->success();
+
+        return response()->redirectToRoute('order.show', $order);
+    }
+
+    public function markUnread(Order $order, OrderMessage $message) {
+        $message->read = false;
+        $message->save();
+
+        return response()->redirectToRoute('order.show', $order);
+    }
+
+    public function markRead(Order $order, OrderMessage $message) {
+        $message->read = true;
+        $message->save();
+
+        return response()->redirectToRoute('order.show', $order);
+    }
+
     public function uploadNewAttachments(Order $order, Request $request) {
         $file = $request->file('file');
 

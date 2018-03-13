@@ -1,4 +1,4 @@
-@if($messages->count() == 0 && $order->supplier->email)
+@if($messages->count() == 0 && $order->supplier->email && $order->status == \Mss\Models\Order::STATUS_NEW)
     <a href="{{ route('order.message_create', ['order' => $order, 'sendorder' => 1]) }}" class="btn btn-lg btn-success">Bestellung per E-Mail an Lieferant schicken</a>
 @endif
 
@@ -15,7 +15,7 @@
                                 <div class="small m-t-xs">
                                     <p class="m-b-xs">{{ $message->subject }}</p>
                                     @if(!$message->read)
-                                    <p class="m-b-none">
+                                    <p class="">
                                         <span class="label pull-right label-primary">NEU</span>
                                     </p>
                                     @endif
@@ -41,12 +41,15 @@
                                     <div class="tooltip-demo">
                                         <a href="{{ route('order.message_create', ['order' => $order, 'answer' => $message->id]) }}" class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="bottom" title="auf Nachricht antworten"><i class="fa fa-reply"></i> Antworten</a>
                                         @if(!$message->read)
-                                        <button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="bottom" title="Als Gelesen markieren"><i class="fa fa-eye"></i> Gelesen</button>
+                                        <a href="{{ route('order.message_read', [$order, $message]) }}" class="btn btn-white btn-xs" title="Als Gelesen markieren"><i class="fa fa-eye"></i> Gelesen</a>
                                         @else
-                                        <button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="bottom" title="Als Ungelesen markieren"><i class="fa fa-eye"></i> Ungelesen</button>
+                                        <a href="{{ route('order.message_unread', [$order, $message]) }}" class="btn btn-white btn-xs" title="Als Ungelesen markieren"><i class="fa fa-eye"></i> Ungelesen</a>
                                         @endif
                                         {{--<button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mark as important"><i class="fa fa-exclamation"></i> </button>--}}
-                                        <button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Nachricht löschen"><i class="fa fa-trash-o"></i> Löschen</button>
+                                        <form action="{{ route('order.message_delete', [$order, $message]) }}" class="list-form" method="POST">
+                                            {{ csrf_field() }}
+                                            <button class="btn btn-white btn-xs" onclick="return confirm('Wirklich löschen?')" title="Nachricht löschen"><i class="fa fa-trash-o"></i> Löschen</button>
+                                        </form>
                                     </div>
                                 </div>
                                 <div class="small text-muted">

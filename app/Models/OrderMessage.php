@@ -3,9 +3,12 @@
 namespace Mss\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderMessage extends Model
 {
+    use SoftDeletes;
+
     protected $casts = [
         'attachments' => 'array',
         'sender' => 'array',
@@ -45,5 +48,9 @@ class OrderMessage extends Model
 
     public function getAttachmentsAttribute($value) {
         return collect(json_decode($value, true));
+    }
+
+    public function scopeUnread($query) {
+        $query->where('read', false);
     }
 }

@@ -29,7 +29,7 @@ class OrderDataTable extends BaseDataTable
                 return formatPrice($order->total_cost);
             })
             ->editColumn('internal_order_number', function (Order $order) {
-                return link_to_route('order.show', $order->internal_order_number, ['order' => $order]);
+                return view('order.list_order_number', compact('order'))->render();
             })
             ->addColumn('article', function (Order $order) {
                 return $order->items->count();
@@ -43,7 +43,7 @@ class OrderDataTable extends BaseDataTable
             })
             ->editColumn('status', 'order.status')
             ->addColumn('action', 'order.list_action')
-            ->rawColumns(['action', 'status', 'order_date', 'expected_delivery', 'total_cost']);
+            ->rawColumns(['action', 'status', 'order_date', 'expected_delivery', 'total_cost', 'internal_order_number']);
     }
 
     /**
@@ -55,7 +55,7 @@ class OrderDataTable extends BaseDataTable
     public function query(Order $model)
     {
         return $model->newQuery()
-            ->with(['items', 'items.article', 'supplier']);
+            ->with(['items', 'items.article', 'supplier', 'messages']);
     }
 
     /**

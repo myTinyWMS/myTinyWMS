@@ -10005,6 +10005,27 @@ body {
   display: inline;
 }
 
+.inline-count-info {
+  position: relative;
+  margin-right: 10px;
+}
+
+.inline-count-info a {
+  padding-top: 3px;
+  display: block;
+  font-size: 14px;
+}
+
+.inline-count-info i {
+  margin-right: 6px;
+}
+
+.inline-count-info .label {
+  font-size: 10px;
+  right: -6px;
+  top: -4px;
+}
+
 @media print {
   nav.navbar-static-side {
     display: none;
