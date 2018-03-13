@@ -18,7 +18,7 @@
 <div class="middle-box text-center loginscreen   animated fadeInDown">
     <div>
         <div>
-            <img src="{{ asset('img/logo.png') }}" alt="MSS" width="280" />
+            <img src="{{ asset('img/logo.jpg') }}" alt="MSS" width="280" />
         </div>
         <br/>
 

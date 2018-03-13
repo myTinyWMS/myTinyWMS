@@ -8,7 +8,7 @@
         $(document).ready(function () {
             $('.summernote').summernote({
                 lang: 'de-DE',
-                height: 500,
+                height: 800,
                 toolbar: [
                     ['style', ['style']],
                     ['font', ['bold', 'italic', 'underline', 'clear']],
@@ -17,6 +17,8 @@
                     ['para', ['ul', 'ol', 'paragraph']],
                     ['height', ['height']],
                     ['table', ['table']],
+                    /*['insert', ['link', 'picture', 'hr']],
+                    ['view', ['fullscreen', 'codeview']],*/
                     ['help', ['help']]
                 ]
             });

@@ -25,8 +25,8 @@
             </div>
             <div class="ibox-content">
                 {{ Form::bsText('receiver', $preSetReceiver ?: $order->supplier->email, [], 'Empfänger') }}
-                {{ Form::bsText('subject', null, [], 'Betreff') }}
-                {{ Form::summernote('body', null, [], 'Nachricht') }}
+                {{ Form::bsText('subject', $preSetSubject, [], 'Betreff') }}
+                {{ Form::summernote('body', $preSetBody, [], 'Nachricht') }}
 
                 <hr class="hr-line-solid">
                 {!! Form::hidden('attachments') !!}
@@ -55,7 +55,6 @@
     Dropzone.options.dropzoneForm = {
         init: function() {
             this.on("complete", function(event) {
-                console.log(event);
                 var file = {
                     'tempFile': JSON.parse(event.xhr.response),
                     'orgName': event.name,
@@ -71,10 +70,6 @@
         $('#newMessageForm').submit(function() {
             $('input[name="attachments"]').val(JSON.stringify(attachments));
         });
-
-        @if($preSetBody)
-        $('#body').summernote('code', '{!! $preSetBody !!}');
-        @endif
     });
 </script>
 @endpush

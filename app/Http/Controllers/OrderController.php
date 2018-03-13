@@ -234,6 +234,7 @@ class OrderController extends Controller
 
         $preSetBody = null;
         $preSetReceiver = null;
+        $preSetSubject = null;
 
         if (request('answer')) {
             $orgMessage = OrderMessage::find(request('answer'));
@@ -242,15 +243,11 @@ class OrderController extends Controller
         }
 
         if (request('sendorder')) {
-//            $preSetBody = addslashes((new NewOrder($order))->render());
-            /**
-             * @todo
-             *
-             * funktioniert so nicht, da in den summernote kein komplettes html passt
-             */
+            $preSetBody = view('emails.new_order', compact('order'))->render();
+            $preSetSubject = 'Unsere Bestellung '.$order->internal_order_number;
         }
 
-        return view('order.message_create', compact('order', 'preSetBody', 'preSetReceiver'));
+        return view('order.message_create', compact('order', 'preSetBody', 'preSetReceiver', 'preSetSubject'));
     }
 
     /**
