@@ -68,7 +68,7 @@
                                 @if($message->attachments->count())
                                 <div class="m-t-lg">
                                     <p>
-                                        <span><i class="fa fa-paperclip"></i> {{ $message->attachments->count() }} {{ ($message->attachments->count() === 1 ? 'Anhang' : 'Anhänge') }}{{-- - --}}</span>
+                                        <span><i class="fa fa-paperclip"></i> {{ $message->attachments->count() }} {{ trans_choice('plural.attachment', $message->attachments->count()) }}{{-- - --}}</span>
                                         {{--<a href="#">Download all</a>
                                         |
                                         <a href="#">View all images</a>--}}

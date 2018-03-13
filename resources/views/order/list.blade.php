@@ -15,6 +15,12 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12">
+            @if($unassignedMessages)
+            <div class="alert alert-warning">
+                <strong>{{ $unassignedMessages }}</strong> nicht zugeordnete neue {{ trans_choice('plural.message', $unassignedMessages) }} - <a class="alert-link" href="{{ route('order.messages_unassigned') }}">mehr &raquo;</a>
+            </div>
+            @endif
+
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>Übersicht</h5>

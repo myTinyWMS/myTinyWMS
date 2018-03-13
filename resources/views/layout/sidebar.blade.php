@@ -20,6 +20,9 @@
             <li class="{{ active_class(if_uri_pattern(['order*'])) }}">
                 <a href="{{ url('/order') }}">
                     <i class="fa fa-shopping-cart"></i> <span class="nav-label">Bestellungen</span>
+                    @if($unreadMessages)
+                        <span class="label label-primary pull-right" title="{{ $unreadMessages }} ungelesene Nachrichten">{{ $unreadMessages }}</span>
+                    @endif
                 </a>
             </li>
             <li class="{{ active_class(if_uri_pattern(['supplier*'])) }}">

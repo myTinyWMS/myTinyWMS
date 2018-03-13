@@ -53,4 +53,8 @@ class OrderMessage extends Model
     public function scopeUnread($query) {
         $query->where('read', false);
     }
+
+    public function scopeUnassigned($query) {
+        $query->whereNull('order_id');
+    }
 }

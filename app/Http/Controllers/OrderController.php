@@ -30,7 +30,9 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(OrderDataTable $orderDataTable) {
-        return $orderDataTable->render('order.list');
+        $unassignedMessages = OrderMessage::unassigned()->count();
+
+        return $orderDataTable->render('order.list', compact('unassignedMessages'));
     }
 
     /**
@@ -329,5 +331,11 @@ class OrderController extends Controller
         } else {
             return response()->json('error', 400);
         }
+    }
+
+    public function unassignedMessages() {
+        $unassignedMessages = OrderMessage::unassigned()->get();
+
+        return view('order.unsassigned_messages', compact('unassignedMessages'));
     }
 }

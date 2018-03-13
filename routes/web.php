@@ -42,6 +42,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('order/{order}/message/{message}/delete', 'OrderController@deleteMessage')->name('order.message_delete');
     Route::get('order/{order}/message/{message}/read', 'OrderController@markRead')->name('order.message_read');
     Route::get('order/{order}/message/{message}/unread', 'OrderController@markUnread')->name('order.message_unread');
+    Route::get('order/message/unassigned', 'OrderController@unassignedMessages')->name('order.messages_unassigned');
+
     Route::post('order/{order}/message/upload', 'OrderController@uploadNewAttachments')->name('order.message_upload');
 
     Route::post('article/reorder', 'ArticleController@reorder')->name('article.reorder');
