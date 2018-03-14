@@ -33,9 +33,7 @@ class ImportFromOnpService {
         ArticleNote::unguard();
     }
 
-    public function importCategories() {
-        $this->command->info('Importing Categories');
-        $bar = $this->command->getOutput()->createProgressBar(LegacyCategory::count());
+    public function importCategories($bar) {
         LegacyCategory::all()->each(function ($category) use ($bar) {
             /* @var $category LegacyCategory */
             Category::create([
@@ -45,13 +43,9 @@ class ImportFromOnpService {
             ]);
             $bar->advance();
         });
-        $bar->finish();
-        $this->command->info(PHP_EOL);
     }
 
-    public function importSuppliers() {
-        $this->command->info('Importing Suppliers');
-        $bar = $this->command->getOutput()->createProgressBar(LegacySupplier::count());
+    public function importSuppliers($bar) {
         LegacySupplier::all()->each(function ($supplier) use ($bar) {
             /* @var $supplier LegacySupplier */
             Supplier::create([
@@ -65,18 +59,13 @@ class ImportFromOnpService {
             ]);
             $bar->advance();
         });
-        $bar->finish();
-        $this->command->info(PHP_EOL);
     }
 
-    public function importLog() {
-        $this->command->info('Importing Article Log');
-        $bar = $this->command->getOutput()->createProgressBar(LegacyArticleLog::count());
-
+    public function importLog($bar) {
         $articleCache = [];
         $userCache = [];
 
-        LegacyArticleLog::chunk(1000, function ($items) use ($bar,$articleCache, $userCache) {
+        LegacyArticleLog::chunk(1000, function ($items) use ($bar, $articleCache, $userCache) {
             foreach ($items as $log) {
                 /* @var $log LegacyArticleLog */
 
@@ -113,14 +102,9 @@ class ImportFromOnpService {
                 $bar->advance();
             }
         });
-
-        $bar->finish();
-        $this->command->info(PHP_EOL);
     }
 
-    public function importArticles() {
-        $this->command->info('Importing Articles');
-        $bar = $this->command->getOutput()->createProgressBar(LegacyArticle::count());
+    public function importArticles($bar) {
         LegacyArticle::all()->each(function ($article) use ($bar) {
             /* @var $article LegacyArticle */
             /* @var $newArticle Article */
@@ -151,7 +135,6 @@ class ImportFromOnpService {
 
             $bar->advance();
         });
-        $bar->finish();
-        $this->command->info(PHP_EOL);
+
     }
 }

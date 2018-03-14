@@ -70,3 +70,45 @@ $factory->define(Mss\Models\Order::class, function (Faker\Generator $faker) {
         'expected_delivery' => $orderDate->copy()->addDays($faker->randomFloat(0,1,50))
     ];
 });
+
+/**
+ * Legacy Models
+ */
+
+$factory->define(Mss\Models\Legacy\Category::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->unique()->word,
+        'bemerkung' => $faker->sentence,
+        'anzahl' => $faker->numberBetween(1,10)
+    ];
+});
+
+$factory->define(Mss\Models\Legacy\Supplier::class, function (Faker\Generator $faker) {
+    return [
+        'company_name' => $faker->unique()->word,
+        'email' => $faker->email
+    ];
+});
+
+$factory->define(Mss\Models\Legacy\Material::class, function (Faker\Generator $faker) {
+    return [
+        'artikelbezeichnung' => $faker->unique()->word,
+        'entnahmemenge' => $faker->randomNumber(1),
+        'bestand' => $faker->randomNumber(1),
+        'mindbestand' => $faker->randomNumber(1),
+        'verbrauch' => $faker->randomNumber(1),
+        'preis' => $faker->randomNumber(1),
+    ];
+});
+
+$factory->define(Mss\Models\Legacy\MaterialLog::class, function (Faker\Generator $faker) {
+    return [
+        'material_id' => function () {
+            return factory(\Mss\Models\Legacy\Material::class)->create()->id;
+        },
+        'user_name' => $faker->userName,
+        'type' => 1,
+        'count' => $faker->randomNumber(1),
+        'ist_count' => $faker->randomNumber(1),
+    ];
+});

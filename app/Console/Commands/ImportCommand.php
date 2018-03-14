@@ -4,6 +4,10 @@ namespace Mss\Console\Commands;
 
 use Illuminate\Console\Command;
 use Mss\Services\ImportFromOnpService;
+use Mss\Models\Legacy\Material as LegacyArticle;
+use Mss\Models\Legacy\Category as LegacyCategory;
+use Mss\Models\Legacy\Supplier as LegacySupplier;
+use Mss\Models\Legacy\MaterialLog as LegacyArticleLog;
 
 class ImportCommand extends Command
 {
@@ -40,15 +44,31 @@ class ImportCommand extends Command
         $service = new ImportFromOnpService($this);
 
         // import categories
-        $service->importCategories();
+        $this->info('Importing Categories');
+        $bar = $this->output->createProgressBar(LegacyCategory::count());
+        $service->importCategories($bar);
+        $bar->finish();
+        $this->info(PHP_EOL);
 
         // import supplier
-        $service->importSuppliers();
+        $this->info('Importing Suppliers');
+        $bar = $this->output->createProgressBar(LegacySupplier::count());
+        $service->importSuppliers($bar);
+        $bar->finish();
+        $this->info(PHP_EOL);
 
         // import articles
-        $service->importArticles();
+        $this->info('Importing Articles');
+        $bar = $this->output->createProgressBar(LegacyArticle::count());
+        $service->importArticles($bar);
+        $bar->finish();
+        $this->info(PHP_EOL);
 
         // import log
-        $service->importLog();
+        $this->info('Importing Article Log');
+        $bar = $this->output->createProgressBar(LegacyArticleLog::count());
+        $service->importLog($bar);
+        $bar->finish();
+        $this->info(PHP_EOL);
     }
 }
