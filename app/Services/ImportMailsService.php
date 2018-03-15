@@ -11,13 +11,24 @@ use Webpatser\Uuid\Uuid;
 
 class ImportMailsService {
 
+    /**
+     * @var \Webklex\IMAP\Client
+     */
+    protected $client;
+
+    /**
+     * ImportMailsService constructor.
+     * @param \Webklex\IMAP\Client $client
+     */
+    public function __construct(\Webklex\IMAP\Client $client) {
+        $this->client = $client;
+    }
+
     public function process() {
-        /** @var \Webklex\IMAP\Client $oClient */
-        $oClient = Client::account('default');
-        $oClient->connect();
+        $this->client->connect();
 
         /** @var \Webklex\IMAP\Folder $oFolder */
-        $oFolder = $oClient->getFolder('INBOX');
+        $oFolder = $this->client->getFolder('INBOX');
 
         //Get all Messages
         /** @var \Webklex\IMAP\Message $message */
@@ -62,7 +73,7 @@ class ImportMailsService {
         $textContent = $message->getTextBody();
 
         foreach(compact('subject', 'htmlContent', 'textContent') as $content) {
-            if (preg_match('/\{([0-9]{8})}/', $content, $matches)) {
+            if (preg_match('/([0-9]{8})/', $content, $matches)) {
                 $order = Order::where('internal_order_number', $matches[1])->firstOrFail();
                 if ($order) {
                     return $order;

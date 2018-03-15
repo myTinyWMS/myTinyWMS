@@ -38,7 +38,7 @@ class ImportMailsCommand extends Command
      * @return mixed
      */
     public function handle() {
-        $service = new ImportMailsService();
+        $service = resolve(ImportMailsService::class);
         $service->process();
     }
 }

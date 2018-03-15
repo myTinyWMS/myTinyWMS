@@ -7,6 +7,7 @@ use Mss\Models\Article;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Webklex\IMAP\Facades\Client;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
         Relation::morphMap([
             'article' => Article::class,
         ]);
+
+        $this->app->bind('\Webklex\IMAP\Client', function ($app) {
+            return Client::account('default');
+        });
     }
 
     /**
