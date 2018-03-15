@@ -23,7 +23,7 @@ class ApiMaterialControllerTest extends TestCase {
         }];
     }
 
-    public function testShow() {
+    /*public function testShow() {
         $response = $this->get('/api/material/1');
         $response->assertStatus(401);
         $auth = ["Authorization" => "Basic " . base64_encode('mail@example.com:testpass')];
@@ -46,5 +46,5 @@ class ApiMaterialControllerTest extends TestCase {
         $material = json_decode($response->getContent());
         $this->assertEquals('hijklmn', $material->barcode);
         $this->assertEquals(100, $material->entnahmemenge);
-    }
+    }*/
 }

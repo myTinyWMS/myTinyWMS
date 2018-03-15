@@ -11,3 +11,4 @@ npm-debug.log
 .env
 /tests/Browser/data/*.csv
 /data
+/mss
