@@ -43,6 +43,17 @@ class ImportMailsServiceTest extends TestCase
     /**
      * @test
      */
+    public function is_creating_assigned_order_message_with_wrong_number_in_subject() {
+        $order = factory(Order::class)->create();
+        $service = $this->getFakeServiceWithFakeMessage('foo bar '.substr($order->internal_order_number, 0, -1));
+        $service->process();
+
+        $this->assertEquals(0, OrderMessage::where('subject', 'foo bar '.$order->internal_order_number)->count());
+    }
+
+    /**
+     * @test
+     */
     public function is_creating_assigned_order_message_with_number_in_html() {
         $order = factory(Order::class)->create();
         $service = $this->getFakeServiceWithFakeMessage('my subject2', 'html '.$order->internal_order_number.' html');

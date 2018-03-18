@@ -74,7 +74,7 @@ class ImportMailsService {
 
         foreach(compact('subject', 'htmlContent', 'textContent') as $content) {
             if (preg_match('/([0-9]{8})/', $content, $matches)) {
-                $order = Order::where('internal_order_number', $matches[1])->firstOrFail();
+                $order = Order::where('internal_order_number', $matches[1])->first();
                 if ($order) {
                     return $order;
                 }
