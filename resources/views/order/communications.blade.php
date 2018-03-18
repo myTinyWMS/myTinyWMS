@@ -45,7 +45,7 @@
                                         @else
                                         <a href="{{ route('order.message_unread', [$order, $message]) }}" class="btn btn-white btn-xs" title="Als Ungelesen markieren"><i class="fa fa-eye"></i> Ungelesen</a>
                                         @endif
-                                        {{--<button class="btn btn-white btn-xs" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mark as important"><i class="fa fa-exclamation"></i> </button>--}}
+                                        <a href="#" class="btn btn-white btn-xs" title="In Bestellung verschieben" data-message-id="{{ $message->id }}" data-toggle="modal" data-target="#assignMessageModal"><i class="fa fa-share"></i> Verschieben</a>
                                         <form action="{{ route('order.message_delete', [$order, $message]) }}" class="list-form" method="POST">
                                             {{ csrf_field() }}
                                             <button class="btn btn-white btn-xs" onclick="return confirm('Wirklich löschen?')" title="Nachricht löschen"><i class="fa fa-trash-o"></i> Löschen</button>
@@ -105,3 +105,52 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="assignMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            {!! Form::open(['route' => ['order.message_assign'], 'method' => 'POST']) !!}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Nachricht zordnen</h4>
+            </div>
+            <div class="modal-body">
+                {!! $dataTable->table() !!}
+            </div>
+            <div class="modal-footer">
+                {!! Form::hidden('message', '', ['id' => 'message']) !!}
+                <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                <button type="submit" class="btn btn-success">Speichern</button>
+            </div>
+            {!! Form::close() !!}
+        </div>
+    </div>
+</div>
+
+@section('datatableFilters')
+    <label>
+        Status:&nbsp;
+        <select id="filterStatus" data-target-col="2" class="form-control input-sm datatableFilter-select">
+            <option value="open">offen (neu, bestellt, teilweise geliefert)</option>
+            <option value="{{ \Mss\Models\Order::STATUS_NEW }}">neu</option>
+            <option value="{{ \Mss\Models\Order::STATUS_ORDERED }}">bestellt</option>
+            <option value="{{ \Mss\Models\Order::STATUS_PARTIALLY_DELIVERED }}">teilweise geliefert</option>
+            <option value="{{ \Mss\Models\Order::STATUS_DELIVERED }}">geliefert</option>
+            <option value="{{ \Mss\Models\Order::STATUS_PAID }}">bezahlt</option>
+            <option value="{{ \Mss\Models\Order::STATUS_CANCELLED }}">storniert</option>
+        </select>
+    </label>
+@endsection
+
+@push('scripts')
+    {!! $dataTable->scripts() !!}
+
+    <script>
+        $(document).ready(function () {
+            $('#assignMessageModal').on('shown.bs.modal', function (e) {
+                $('#message').val($(e.relatedTarget).attr('data-message-id'));
+            })
+        });
+    </script>
+@endpush

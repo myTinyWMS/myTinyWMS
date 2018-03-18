@@ -142,8 +142,8 @@ class OrderMessageController extends Controller {
         if ($message && $order) {
             $message->order()->associate($order);
             $message->save();
-            flash('Nachricht in Bestellung '.link_to_route('order.show', $order->internal_order_number, $order).' verschoben')->success();
-            return redirect()->route('order.messages_unassigned');
+            flash('Nachricht verschoben')->success();
+            return redirect()->route('order.show', $order);
         }
 
         flash('Nachricht nicht verschoben')->error();

@@ -4,23 +4,14 @@ namespace Mss\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\View\View;
+use Mss\DataTables\AssignOrderDataTable;
 use Mss\DataTables\OrderDataTable;
-use Mss\Http\Requests\NewOrderMessageRequest;
 use Mss\Http\Requests\OrderRequest;
-use Mss\Mail\NewOrder;
-use Mss\Mail\SupplierMail;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\Order;
-use Mss\Models\OrderItem;
 use Mss\Models\OrderMessage;
 use Mss\Models\Supplier;
-use Webpatser\Uuid\Uuid;
 
 class OrderController extends Controller
 {
@@ -124,12 +115,12 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id, AssignOrderDataTable $assignOrderDataTable) {
         $order = Order::with('items.order.items')->findOrFail($id);
         $audits = $order->getAudits();
         $messages = $order->messages()->latest('received')->get();
 
-        return view('order.show', compact('order', 'audits', 'messages'));
+        return $assignOrderDataTable->render('order.show', compact('order', 'audits', 'messages'));
     }
 
     /**
