@@ -35,7 +35,7 @@ class OrderMessageController extends Controller {
             $preSetSubject = 'Unsere Bestellung '.$order->internal_order_number;
         }
 
-        return view('order.message_create', compact('order', 'preSetBody', 'preSetReceiver', 'preSetSubject'));
+        return view('order_messages.create', compact('order', 'preSetBody', 'preSetReceiver', 'preSetSubject'));
     }
 
     /**
@@ -122,7 +122,7 @@ class OrderMessageController extends Controller {
     public function unassignedMessages() {
         $unassignedMessages = OrderMessage::unassigned()->get();
 
-        return view('order.unsassigned_messages', compact('unassignedMessages'));
+        return view('order_messages.unsassigned_messages', compact('unassignedMessages'));
     }
 
     public function messageAttachmentDownload(OrderMessage $message, $attachment) {
