@@ -120,6 +120,13 @@
     @endif
 
     <script>
+        $('#dataTableBuilder').on( 'draw.dt', function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+        });
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -147,6 +154,11 @@
                      }
                 })
             }
+
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
         });
     </script>
     @stack('scripts')

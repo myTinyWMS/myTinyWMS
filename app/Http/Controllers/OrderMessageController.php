@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Mss\DataTables\AssignOrderDataTable;
+use Mss\DataTables\OrderDataTable;
 use Mss\Http\Requests\NewOrderMessageRequest;
 use Mss\Mail\SupplierMail;
 use Mss\Models\Order;
@@ -83,29 +85,33 @@ class OrderMessageController extends Controller {
 
         flash('Nachricht verschickt')->success();
 
-        return response()->redirectToRoute('order.show', $order);
+        return redirect()->route('order.show', $order);
     }
 
-    public function delete(Order $order, OrderMessage $message) {
+    public function delete(OrderMessage $message, $order = null) {
         $message->delete();
 
         flash('Nachricht gelöscht')->success();
 
-        return response()->redirectToRoute('order.show', $order);
+        if ($order instanceof Order) {
+            return redirect()->route('order.show', $order);
+        } else {
+            return redirect()->route('order.messages_unassigned');
+        }
     }
 
     public function markUnread(Order $order, OrderMessage $message) {
         $message->read = false;
         $message->save();
 
-        return response()->redirectToRoute('order.show', $order);
+        return redirect()->route('order.show', $order);
     }
 
     public function markRead(Order $order, OrderMessage $message) {
         $message->read = true;
         $message->save();
 
-        return response()->redirectToRoute('order.show', $order);
+        return redirect()->route('order.show', $order);
     }
 
     public function uploadNewAttachments(Order $order, Request $request) {
@@ -119,14 +125,28 @@ class OrderMessageController extends Controller {
         }
     }
 
-    public function unassignedMessages() {
+    public function unassignedMessages(AssignOrderDataTable $assignOrderDataTable) {
         $unassignedMessages = OrderMessage::unassigned()->get();
 
-        return view('order_messages.unsassigned_messages', compact('unassignedMessages'));
+        return $assignOrderDataTable->render('order_messages.unsassigned_messages', compact('unassignedMessages'));
     }
 
     public function messageAttachmentDownload(OrderMessage $message, $attachment) {
         $attachment = $message->attachments->where('fileName', $attachment)->first();
         return response()->download(storage_path('attachments/'.$attachment['fileName']), $attachment['orgFileName'], ['Content-Type' => $attachment['contentType']]);
+    }
+
+    public function assignToOrder(Request $request) {
+        $message = OrderMessage::find($request->get('message'));
+        $order = Order::find($request->get('orderid'));
+        if ($message && $order) {
+            $message->order()->associate($order);
+            $message->save();
+            flash('Nachricht in Bestellung '.link_to_route('order.show', $order->internal_order_number, $order).' verschoben')->success();
+            return redirect()->route('order.messages_unassigned');
+        }
+
+        flash('Nachricht nicht verschoben')->error();
+        return redirect()->route('order.messages_unassigned');
     }
 }

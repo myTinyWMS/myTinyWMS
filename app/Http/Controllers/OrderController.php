@@ -95,27 +95,27 @@ class OrderController extends Controller
         });
 
         flash('Bestellung gespeichert', 'success');
-        return response()->redirectToRoute('order.show', $order);
+        return redirect()->route('order.show', $order);
     }
 
     public function confirmationReceived(Order $order) {
         $order->confirmation_received = true;
         $order->save();
 
-        return response()->redirectToRoute('order.show', $order);
+        return redirect()->route('order.show', $order);
     }
 
     public function invoiceReceived(Order $order) {
         $order->invoice_received = true;
         $order->save();
 
-        return response()->redirectToRoute('order.show', $order);
+        return redirect()->route('order.show', $order);
     }
 
     public function cancel(Order $order) {
         $order->delete();
 
-        return response()->redirectToRoute('order.index');
+        return redirect()->route('order.index');
     }
 
     /**
@@ -167,7 +167,7 @@ class OrderController extends Controller
         Order::findOrFail($id)->delete();
 
         flash('Bestellung gelöscht', 'success');
-        return response()->redirectToRoute('order.index');
+        return redirect()->route('order.index');
     }
 
     public function articleList(Supplier $supplier) {
@@ -207,7 +207,7 @@ class OrderController extends Controller
             $order->save();
         }
 
-        return response()->redirectToRoute('order.show', $order);
+        return redirect()->route('order.show', $order);
     }
 
     protected function getArticleList() {

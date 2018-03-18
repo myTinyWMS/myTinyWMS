@@ -57,4 +57,11 @@ class OrderMessage extends Model
     public function scopeUnassigned($query) {
         $query->whereNull('order_id');
     }
+
+    /**
+     * @return Supplier|null
+     */
+    public function getSupplierBySender() {
+        return Supplier::where('email', $this->sender)->first();
+    }
 }

@@ -2,6 +2,8 @@
     "/css/app.css": "/css/app.css",
     "/js/datatables/German.1.10.13.json": "/js/datatables/German.1.10.13.json",
     "/js/datatables/English.1.10.13.json": "/js/datatables/English.1.10.13.json",
+    "/img/green.png": "/img/green.png",
+    "/img/green@2x.png": "/img/green@2x.png",
     "/css/vendor.css": "/css/vendor.css",
     "/js/vendor.js": "/js/vendor.js",
     "/js/app.js": "/js/app.js"

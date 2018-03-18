@@ -23,6 +23,8 @@ mix
     .copy('resources/assets/vendor/ace', 'public/js/ace')
     .copy('resources/assets/vendor/datatables/German.1.10.13.json', 'public/js/datatables')
     .copy('resources/assets/vendor/datatables/English.1.10.13.json', 'public/js/datatables')
+    .copy('resources/assets/vendor/iCheck/green.png', 'public/img')
+    .copy('resources/assets/vendor/iCheck/green@2x.png', 'public/img')
     .combine([
         'resources/assets/vendor/bootstrap/css/bootstrap.css',
         'resources/assets/vendor/animate/animate.css',
@@ -37,7 +39,8 @@ mix
         'resources/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css',
         'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.css',
         'resources/assets/vendor/summernote/summernote.css',
-        'resources/assets/vendor/dropzone/dropzone.css'
+        'resources/assets/vendor/dropzone/dropzone.css',
+        'resources/assets/vendor/iCheck/custom.css'
     ], 'public/css/vendor.css')
     .combine([
         'resources/assets/vendor/jquery/jquery-3.1.1.min.js',
@@ -60,6 +63,7 @@ mix
         'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.js',
         'resources/assets/vendor/summernote/summernote.js',
         'resources/assets/vendor/summernote/summernote-de-DE.js',
-        'resources/assets/vendor/dropzone/dropzone.js'
+        'resources/assets/vendor/dropzone/dropzone.js',
+        'resources/assets/vendor/iCheck/icheck.min.js'
     ], 'public/js/vendor.js')
     .copy('resources/assets/js/app.js', 'public/js');

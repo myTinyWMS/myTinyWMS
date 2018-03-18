@@ -12,3 +12,5 @@ npm-debug.log
 /tests/Browser/data/*.csv
 /data
 /mss
+/public/img/green.png
+/public/img/green@2x.png

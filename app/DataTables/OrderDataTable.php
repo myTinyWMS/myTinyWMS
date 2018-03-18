@@ -7,6 +7,11 @@ use Mss\Models\Order;
 class OrderDataTable extends BaseDataTable
 {
     /**
+     * @var string
+     */
+    protected $actionView = 'order.list_action';
+
+    /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
@@ -37,12 +42,17 @@ class OrderDataTable extends BaseDataTable
             ->filterColumn('status', function ($query, $keyword) {
                 if ($keyword === 'open') {
                     $query->whereIn('status', [Order::STATUS_NEW, Order::STATUS_ORDERED, Order::STATUS_PARTIALLY_DELIVERED]);
-                } else {
+                } elseif (is_numeric($keyword)) {
                     $query->where('status', $keyword);
                 }
             })
+            ->filterColumn('supplier', function ($query, $keyword) {
+                $query->whereHas('supplier', function ($query) use ($keyword) {
+                    $query->where('name', 'like', '%'.$keyword.'%');
+                });
+            })
             ->editColumn('status', 'order.status')
-            ->addColumn('action', 'order.list_action')
+            ->addColumn('action', $this->actionView)
             ->rawColumns(['action', 'status', 'order_date', 'expected_delivery', 'total_cost', 'internal_order_number']);
     }
 
@@ -86,9 +96,9 @@ class OrderDataTable extends BaseDataTable
             ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
             ['data' => 'article', 'name' => 'article', 'title' => 'Artikel', 'class' => 'text-right'],
-            ['data' => 'total_cost', 'name' => 'total_cost', 'title' => 'Gesamtkosten', 'class' => 'text-right'],
-            ['data' => 'order_date', 'name' => 'order_date', 'title' => 'Bestelldatum', 'class' => 'text-right'],
-            ['data' => 'expected_delivery', 'name' => 'expected_delivery', 'title' => 'gepl. Lieferdatum', 'class' => 'text-right'],
+            ['data' => 'total_cost', 'name' => 'total_cost', 'title' => 'Gesamtkosten', 'class' => 'text-right', 'searchable' => false],
+            ['data' => 'order_date', 'name' => 'order_date', 'title' => 'Bestelldatum', 'class' => 'text-right', 'searchable' => false],
+            ['data' => 'expected_delivery', 'name' => 'expected_delivery', 'title' => 'gepl. Lieferdatum', 'class' => 'text-right', 'searchable' => false],
         ];
     }
 
