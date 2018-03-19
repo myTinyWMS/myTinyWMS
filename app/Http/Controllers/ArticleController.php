@@ -241,7 +241,7 @@ class ArticleController extends Controller
         }
 
         $supplierArticle->order_number = $request->get('order_number');
-        $supplierArticle->price = $request->get('price');
+        $supplierArticle->price = round(floatval(str_replace(',', '.', $request->get('price'))) * 100, 0);
         $supplierArticle->delivery_time = $request->get('delivery_time');
         $supplierArticle->order_quantity = $request->get('order_quantity');
         $supplierArticle->save();
