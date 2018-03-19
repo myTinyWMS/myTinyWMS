@@ -24,7 +24,7 @@
                 <div class="ibox-content">
                     @yield('form_start')
 
-                    {{ Form::bsTextarea('name', null, ['rows' => 2] , 'Name') }}
+                    {{ Form::bsTextarea('name', $article->name, ['rows' => 2] , 'Name') }}
                     {{ Form::bsSelect('status', $article->status, \Mss\Models\Article::getStatusTextArray(),  'Status') }}
                     {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderedByName()->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
 
@@ -50,14 +50,14 @@
                             {{ Form::bsSelect('unit', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit') }}
                         </div>
                         <div class="col-lg-6">
-                            {{ Form::bsText('sort_id', null, [], 'Sortierung') }}
+                            {{ Form::bsText('sort_id', $article->sort_id, [], 'Sortierung') }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-6">
                             @if ($isNewArticle ?? true)
-                                {{ Form::bsText('quantity', null, [], 'Bestand') }}
+                                {{ Form::bsText('quantity', $article->quantity, [], 'Bestand') }}
                             @else
                                 <div class="form-group">
                                     <label class="control-label">Bestand</label>
@@ -66,21 +66,21 @@
                             @endif
                         </div>
                         <div class="col-lg-6">
-                            {{ Form::bsText('min_quantity', null, [], 'Mindestbestand') }}
+                            {{ Form::bsText('min_quantity', $article->min_quantity, [], 'Mindestbestand') }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-6">
-                            {{ Form::bsText('usage_quantity', null, [], 'Verbrauch') }}
+                            {{ Form::bsText('usage_quantity', $article->usage_quantity, [], 'Verbrauch') }}
                         </div>
                         <div class="col-lg-6">
-                            {{ Form::bsText('issue_quantity', null, [], 'Entnahmemenge') }}
+                            {{ Form::bsText('issue_quantity', $article->issue_quantity, [], 'Entnahmemenge') }}
                         </div>
                     </div>
 
-                    {{ Form::bsCheckbox('inventory', null, 'Inventur', $article->inventory, []) }}
-                    {{ Form::bsTextarea('notes', null, [], 'Bemerkungen') }}
+                    {{ Form::bsCheckbox('inventory', $article->inventory, 'Inventur', $article->inventory, []) }}
+                    {{ Form::bsTextarea('notes', $article->notes, [], 'Bemerkungen') }}
 
 
                     <div class="form-group">
