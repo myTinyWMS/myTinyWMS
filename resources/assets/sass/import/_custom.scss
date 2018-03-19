@@ -180,3 +180,10 @@ body {
   right: -6px;
   top: -4px;
 }
+
+.select2-close-mask{
+  z-index: 2099;
+}
+.select2-dropdown{
+  z-index: 3051;
+}

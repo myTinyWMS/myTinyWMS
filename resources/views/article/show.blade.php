@@ -23,6 +23,51 @@
     <div class="col-lg-3">
         <div class="ibox">
             <div class="ibox-title">
+                <h5>Aktueller Lieferant</h5>
+                <a href="#" class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target="#changeSupplierModal">ändern</a>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">Lieferant</label>
+                            <div class="form-control-static">{{ $article->currentSupplier->name }}</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">Bestellnummer</label>
+                            <div class="form-control-static">{{ $article->currentSupplierArticle->order_number }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">Preis</label>
+                            <div class="form-control-static">{!! formatPrice($article->currentSupplierArticle->price) !!}</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">Lieferzeit</label>
+                            <div class="form-control-static">{{ $article->currentSupplierArticle->delivery_time }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">Bestellmenge</label>
+                            <div class="form-control-static">{{ $article->currentSupplierArticle->order_quantity }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ibox">
+            <div class="ibox-title">
                 <h5>Notizen</h5>
                 <a href="#" class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#newNoteModal">Neue Notiz</a>
             </div>
@@ -102,6 +147,59 @@
         </div>
     </div>
 
+    <!-- Change Supplier Modal -->
+    <div class="modal fade" id="changeSupplierModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {!! Form::open(['route' => ['article.change_supplier', $article], 'method' => 'POST']) !!}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Lieferant bearbeiten</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="supplier" class="control-label">Lieferant</label>
+                                    {!! Form::select('supplier', \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'), $article->currentSupplier->id ?? null, ['class' => 'form-control', 'id' => 'supplier', 'name' => 'supplier', 'style' => 'width: 100%']) !!}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    {{ Form::bsText('order_number', $article->currentSupplierArticle->order_number, [], 'Bestellnummer') }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    {{ Form::bsText('price', $article->currentSupplierArticle->price, [], 'Preis') }}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    {{ Form::bsText('delivery_time', $article->currentSupplierArticle->delivery_time, [], 'Lieferzeit') }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    {{ Form::bsText('order_quantity', $article->currentSupplierArticle->order_quantity, [], 'Bestellmenge') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" class="btn btn-primary">Speichern</button>
+                    </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+
     <!-- New Note Modal -->
     <div class="modal fade" id="newNoteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -166,6 +264,10 @@
                     note_link.parent().parent().parent().remove();
                 }
             );
+        });
+
+        $("#supplier").select2({
+            theme: "bootstrap"
         });
     })
 </script>

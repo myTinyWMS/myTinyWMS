@@ -79,7 +79,6 @@
                         </div>
                     </div>
 
-
                     {{ Form::bsCheckbox('inventory', null, 'Inventur', $article->inventory, []) }}
                     {{ Form::bsTextarea('notes', null, [], 'Bemerkungen') }}
 

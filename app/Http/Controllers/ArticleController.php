@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Mss\Http\Requests\ChangeArticleQuantityRequest;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
+use Mss\Models\ArticleSupplier;
 use Mss\Models\Category;
 use Mss\Models\Supplier;
 use Illuminate\Http\Request;
@@ -75,7 +76,7 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $article = Article::findOrFail($id);
+        $article = Article::withCurrentSupplier()->withCurrentSupplierArticle()->findOrFail($id);
 
         $context = [
             "article" => $article,
@@ -225,5 +226,27 @@ class ArticleController extends Controller
         });
 
         return view('article.quantity_changelog', compact('article', 'changelog', 'dateStart', 'dateEnd', 'chartLabels', 'chartValues'));
+    }
+
+    public function changeSupplier(Article $article, Request $request) {
+        // reload with current supplier
+        $article = Article::withCurrentSupplier()->withCurrentSupplierArticle()->find($article->id);
+
+        if ($article->currentSupplier->id == $request->get('supplier')) {
+            $supplierArticle = $article->currentSupplierArticle;
+        } else {
+            $supplierArticle = new ArticleSupplier();
+            $supplierArticle->article_id = $article->id;
+            $supplierArticle->supplier_id = $request->get('supplier');
+        }
+
+        $supplierArticle->order_number = $request->get('order_number');
+        $supplierArticle->price = $request->get('price');
+        $supplierArticle->delivery_time = $request->get('delivery_time');
+        $supplierArticle->order_quantity = $request->get('order_quantity');
+        $supplierArticle->save();
+
+        flash('Lieferantendaten gespeichert', 'success');
+        return redirect()->route('article.show', $article);
     }
 }
