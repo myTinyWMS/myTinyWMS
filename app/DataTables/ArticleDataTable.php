@@ -7,6 +7,16 @@ use Mss\Models\Article;
 class ArticleDataTable extends BaseDataTable
 {
     /**
+     * @var array
+     */
+    protected $rawColumns = ['action', 'price'];
+
+    /**
+     * @var bool
+     */
+    protected $sortingEnabled = true;
+
+    /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
@@ -79,7 +89,7 @@ class ArticleDataTable extends BaseDataTable
                 }
             })
             ->addColumn('action', 'article.list_action')
-            ->rawColumns(['action', 'price']);
+            ->rawColumns($this->rawColumns);
     }
 
     /**
@@ -105,15 +115,24 @@ class ArticleDataTable extends BaseDataTable
         return $this->builder()
             ->minifiedAjax()
             ->columns($this->getColumns())
-            ->parameters([
-                'order'   => [[1, 'asc']],
-                'rowReorder' => [
-                    'selector' => 'tr>td:first-child', // I allow all columns for dragdrop except the last
-                    'dataSrc' => 'sort_id',
-                    'update' => false // this is key to prevent DT auto update
-                ]
-            ])
+            ->parameters($this->getHtmlParameters())
             ->addAction(['title' => '', 'width' => '80px']);
+    }
+
+    protected function getHtmlParameters() {
+        $parameters = [
+            'order' => [[1, 'asc']]
+        ];
+
+        if ($this->sortingEnabled) {
+            $parameters['rowReorder'] = [
+                'selector' => 'tr>td:first-child', // I allow all columns for dragdrop except the last
+                'dataSrc' => 'sort_id',
+                'update' => false // this is key to prevent DT auto update
+            ];
+        }
+
+        return $parameters;
     }
 
     /**
