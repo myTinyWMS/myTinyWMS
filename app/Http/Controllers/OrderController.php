@@ -4,6 +4,7 @@ namespace Mss\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Mss\DataTables\ArticleDataTable;
 use Mss\DataTables\AssignOrderDataTable;
 use Mss\DataTables\OrderDataTable;
 use Mss\Http\Requests\OrderRequest;
@@ -31,13 +32,27 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create(Request $request) {
         $articles = $this->getArticleList();
 
         $order = new Order();
         $order->internal_order_number = $order->getNextInternalOrderNumber();
         $order->order_date = Carbon::now();
         $order->save();
+
+        if ($request->has('article')) {
+            $preSetArticles = Article::withCurrentSupplierArticle()->find($request->get('article'));
+            $preSetOrderItems = $preSetArticles->map(function ($article) {
+                return [
+                    'article_id' => $article->id,
+                    'quantity' => $article->currentSupplierArticle->order_quantity ?? '',
+                    'price' => $article->currentSupplierArticle->price ?? ''
+                ];
+            });
+
+            $order->supplier_id = $preSetArticles->first()->currentSupplierArticle->supplier_id;
+            $order->items = $preSetOrderItems;
+        }
 
         return view('order.create', compact('order', 'articles'));
     }

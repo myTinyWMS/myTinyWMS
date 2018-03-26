@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('global-search', 'GlobalSearchController@process')->name('global_search');
 
+    Route::post('order/create', 'OrderController@create')->name('order.create_post');
     Route::get('order/article_list/{supplier}', 'OrderController@articleList')->name('order.article_list');
     Route::get('order/{order}/cancel', 'OrderController@cancel')->name('order.cancel');
     Route::post('order/{order}/invoice-received', 'OrderController@invoiceReceived')->name('order.invoice_received');

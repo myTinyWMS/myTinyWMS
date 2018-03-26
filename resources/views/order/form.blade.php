@@ -111,10 +111,10 @@
                     {{ Form::bsSelect('article[]', null, [],  'Artikel', ['class' => 'form-control article-select']) }}
                 </div>
                 <div class="col-lg-2 text-right">
-                    {{ Form::bsText('quantity[]', null, ['class' => 'form-control text-right quantity-select'], 'Menge') }}
+                    {{ Form::bsText('quantity[]', null, ['class' => 'form-control text-right quantity-select', 'required' => 'required'], 'Menge') }}
                 </div>
                 <div class="col-lg-3 text-right">
-                    {{ Form::bsText('price[]', null, ['class' => 'form-control text-right price-select'], 'Preis je Einheit') }}
+                    {{ Form::bsText('price[]', null, ['class' => 'form-control text-right price-select', 'required' => 'required'], 'Preis je Einheit') }}
                 </div>
                 <a href="#" class="btn btn-xs btn-default btn-circle remove-article"><i class="glyphicon glyphicon-remove"></i></a>
             </div>
@@ -152,7 +152,6 @@
 
                 $.each(allArticles, function (key, value) {
                     if (value.id == e.params.data.id) {
-                        console.log(quantity, value);
                         quantity.val(value.order_quantity);
                         price.val(formatPrice(value.price / 100));
                     }
@@ -168,6 +167,8 @@
             });
 
             @if(!empty($order->supplier_id))
+            $('#supplier').val('{{ $order->supplier_id }}'); // Select the option with a value of '1'
+            $('#supplier').trigger('change'); // Notify any JS components that the value changed
             filterArticlesAndSetSelects({{ $order->supplier_id }});
             @endif
 
@@ -184,7 +185,7 @@
 
                 $("#article-list .article-select:eq(" + key + ")").val(value.article_id).trigger("change");
                 $("#article-list .quantity-select:eq(" + key + ")").val(value.quantity).trigger("change");
-                $("#article-list .price-select:eq(" + key + ")").val(formatPrice(value.price)).trigger("change");
+                $("#article-list .price-select:eq(" + key + ")").val(formatPrice(value.price / 100)).trigger("change");
             });
         }
 
@@ -195,7 +196,7 @@
         function filterArticlesAndSetSelects(supplier_id) {
             currentArticles = [];
             $.each(allArticles, function (key, value) {
-                if (value.supplier_id == supplier_id) {
+                if (value.supplier_id === supplier_id) {
                     currentArticles.push({
                         id: value.id,
                         text: value.name
