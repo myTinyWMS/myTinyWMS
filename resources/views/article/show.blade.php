@@ -139,6 +139,8 @@
                                 @include('components.quantity_log.correction')
                             @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_COMMENT)
                                 @include('components.quantity_log.comment')
+                            @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_INVENTORY)
+                                @include('components.quantity_log.inventory')
                             @endif
                         @endforeach
                     </tbody>

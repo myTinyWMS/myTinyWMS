@@ -11,6 +11,7 @@ class ArticleQuantityChangelog extends Model
     const TYPE_OUTGOING = 2;
     const TYPE_CORRECTION = 3;
     const TYPE_COMMENT = 6;
+    const TYPE_INVENTORY = 7;
 
     protected $fillable = ['created_at', 'updated_at', 'user_id', 'type', 'change', 'new_quantity', 'note'];
 

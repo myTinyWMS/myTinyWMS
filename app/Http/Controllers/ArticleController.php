@@ -201,6 +201,10 @@ class ArticleController extends Controller
         })->keys();
 
         $chartValues = $all->groupBy(function ($item) {
+            if ($item->type == ArticleQuantityChangelog::TYPE_INVENTORY) {
+                return ($item->change < 0) ? ArticleQuantityChangelog::TYPE_OUTGOING : ArticleQuantityChangelog::TYPE_INCOMING;
+            }
+
             return $item->type;
         })->transform(function ($group, $type) use ($chartLabels) {
             $data = $group->groupBy(function ($item) {

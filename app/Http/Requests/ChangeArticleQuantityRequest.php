@@ -34,7 +34,7 @@ class ChangeArticleQuantityRequest extends FormRequest
             'changelogChange' => 'required|integer|min:1',
             'changelogType' => [
                 'required',
-                Rule::in([ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_OUTGOING, ArticleQuantityChangelog::TYPE_CORRECTION])
+                Rule::in([ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_OUTGOING, ArticleQuantityChangelog::TYPE_CORRECTION, ArticleQuantityChangelog::TYPE_INVENTORY])
             ],
         ];
     }
