@@ -5,6 +5,7 @@ namespace Mss\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Mss\Models\Traits\Taggable;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -50,14 +51,6 @@ class Article extends AuditableModel
         return $this->hasOne(Supplier::class, 'id', 'current_supplier_id');
     }
 
-    public function scopeWithCurrentSupplierArticle($query)
-    {
-        $query->addSubSelect('current_supplier_article_id', ArticleSupplier::select('id')
-            ->whereRaw('article_id = articles.id')
-            ->latest()
-        )->with('currentSupplierArticle');
-    }
-
     public function scopeWithCurrentSupplier($query)
     {
         $query->addSubSelect('current_supplier_id', ArticleSupplier::select('supplier_id')
@@ -68,6 +61,14 @@ class Article extends AuditableModel
 
     public function currentSupplierArticle() {
         return $this->hasOne(ArticleSupplier::class, 'id', 'current_supplier_article_id');
+    }
+
+    public function scopeWithCurrentSupplierArticle($query)
+    {
+        $query->addSubSelect('current_supplier_article_id', ArticleSupplier::select('id')
+            ->whereRaw('article_id = articles.id')
+            ->latest()
+        )->with('currentSupplierArticle');
     }
 
     public function category() {

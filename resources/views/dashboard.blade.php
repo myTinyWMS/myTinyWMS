@@ -8,7 +8,7 @@
         <div class="col-lg-12">
             <div class="ibox">
                 <div class="ibox-title">
-                    <h5>zu Bestellen - Artikel die den Mindestbestand erreicht oder unterschritten haben</h5>
+                    <h5>zu Bestellen</h5>
                 </div>
                 <div class="ibox-content">
                     {!! Form::open(['route' => ['order.create_post'], 'method' => 'POST']) !!}

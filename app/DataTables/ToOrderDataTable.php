@@ -2,7 +2,11 @@
 
 namespace Mss\DataTables;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Mss\Models\Article;
+use Mss\Models\Order;
+use Mss\Models\OrderItem;
 
 class ToOrderDataTable extends ArticleDataTable
 {
@@ -45,7 +49,12 @@ class ToOrderDataTable extends ArticleDataTable
         return $model->newQuery()
             ->withCurrentSupplierArticle()->withCurrentSupplier()
             ->with(['category', 'suppliers', 'unit', 'tags'])
-            ->whereRaw('quantity <= min_quantity');
+            ->whereRaw('quantity <= min_quantity')
+            ->whereDoesntHave('orderItems', function ($query) {
+                $query->whereHas('order', function ($query) {
+                    $query->statusOpen();
+                });
+            });
     }
 
     protected function getColumns()

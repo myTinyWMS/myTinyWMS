@@ -85,4 +85,8 @@ class Order extends AuditableModel
             return ($item->getQuantityDelivered() >= $item->quantity);
         })->count() === 0;
     }
+
+    public function scopeStatusOpen($query) {
+        $query->whereIn('status', [Order::STATUS_NEW, Order::STATUS_ORDERED, Order::STATUS_PARTIALLY_DELIVERED]);
+    }
 }

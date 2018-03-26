@@ -41,7 +41,7 @@ class OrderDataTable extends BaseDataTable
             })
             ->filterColumn('status', function ($query, $keyword) {
                 if ($keyword === 'open') {
-                    $query->whereIn('status', [Order::STATUS_NEW, Order::STATUS_ORDERED, Order::STATUS_PARTIALLY_DELIVERED]);
+                    $query->statusOpen();
                 } elseif (is_numeric($keyword)) {
                     $query->where('status', $keyword);
                 }
