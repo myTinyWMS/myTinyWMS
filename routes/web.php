@@ -26,6 +26,8 @@ Route::group(['middleware' => ['auth']], function () {
         'order' => 'OrderController',
     ]);
 
+    Route::get('inventory', 'InventoryController@generate')->name('inventory');
+
     Route::post('category/print-list', 'CategoryController@printList')->name('category.print_list');
 
     Route::post('global-search', 'GlobalSearchController@process')->name('global_search');

@@ -3,6 +3,7 @@
 namespace Mss\Providers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Mss\Models\Article;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
@@ -30,6 +31,14 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind('\Webklex\IMAP\Client', function ($app) {
             return Client::account('default');
+        });
+
+        Collection::macro('ksort', function(){
+            //macros callbacks are bound to collection so we can safely access
+            // protected Collection::items
+            ksort($this->items);
+
+            return $this;
         });
     }
 

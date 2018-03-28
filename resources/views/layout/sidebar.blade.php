@@ -35,6 +35,11 @@
                     <i class="fa fa-th-list"></i> <span class="nav-label">Kategorien</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ url('/inventory') }}">
+                    <i class="fa fa-th-large"></i> <span class="nav-label">Inventur</span>
+                </a>
+            </li>
         </ul>
 
     </div>

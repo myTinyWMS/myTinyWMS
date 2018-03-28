@@ -103,8 +103,6 @@ class CategoryController extends Controller
 
         $categories = Category::withActiveArticles()->orderedByName()->find($categories);
 
-//        return view('documents.category_article_list', compact('categories'));
-
         $pdf = App::make('snappy.pdf.wrapper');
         return $pdf->loadView('documents.category_article_list', compact('categories'))->download('lagerliste.pdf');
     }
