@@ -21,7 +21,7 @@
                 <a href="{{ url('/order') }}">
                     <i class="fa fa-shopping-cart"></i> <span class="nav-label">Bestellungen</span>
                     @if($unreadMessages)
-                        <span class="label label-primary pull-right" title="{{ $unreadMessages }} ungelesene Nachrichten">{{ $unreadMessages }}</span>
+                        <span class="label label-primary pull-right" title="{{ $unreadMessages }} ungelesene {{ trans_choice('plural.message', $unreadMessages) }}">{{ $unreadMessages }}</span>
                     @endif
                 </a>
             </li>
