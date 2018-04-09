@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('order/message/assign', 'OrderMessageController@assignToOrder')->name('order.message_assign');
 
     Route::post('article/reorder', 'ArticleController@reorder')->name('article.reorder');
+    Route::post('article/print-label', 'ArticleController@printLabel')->name('article.print_label');
     Route::post('article/{article}/addnote', 'ArticleController@addNote')->name('article.add_note');
     Route::post('article/{article}/deletenote', 'ArticleController@deleteNote')->name('article.delete_note');
     Route::get('article/{article}/quantity-changelog', 'ArticleController@quantityChangelog')->name('article.quantity_changelog');

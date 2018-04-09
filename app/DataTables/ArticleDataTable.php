@@ -9,7 +9,7 @@ class ArticleDataTable extends BaseDataTable
     /**
      * @var array
      */
-    protected $rawColumns = ['action', 'price'];
+    protected $rawColumns = ['action', 'price', 'checkbox'];
 
     /**
      * @var bool
@@ -89,6 +89,7 @@ class ArticleDataTable extends BaseDataTable
                 }
             })
             ->addColumn('action', 'article.list_action')
+            ->addColumn('checkbox', 'article.list_checkbox')
             ->rawColumns($this->rawColumns);
     }
 
@@ -126,7 +127,7 @@ class ArticleDataTable extends BaseDataTable
 
         if ($this->sortingEnabled) {
             $parameters['rowReorder'] = [
-                'selector' => 'tr>td:first-child', // I allow all columns for dragdrop except the last
+                'selector' => 'tr>td:nth-child(2)', // I allow all columns for dragdrop except the last
                 'dataSrc' => 'sort_id',
                 'update' => false // this is key to prevent DT auto update
             ];
@@ -143,6 +144,7 @@ class ArticleDataTable extends BaseDataTable
     protected function getColumns()
     {
         return [
+            ['data' => 'checkbox', 'name' => 'checkbox', 'title' => '<input type="checkbox" value="" id="select_all" />', 'width' => '10px', 'orderable' => false, 'class' => 'text-center'],
             ['data' => 'article_number', 'name' => 'article_number', 'title' => '#'],
             ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sortierung', 'visible' => false],
             ['data' => 'name', 'name' => 'name', 'title' => 'Artikelbezeichnung'],

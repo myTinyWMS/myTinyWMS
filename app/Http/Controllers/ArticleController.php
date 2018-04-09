@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Mss\DataTables\ArticleDataTable;
 use Mss\Http\Requests\ArticleRequest;
 use Mss\Models\Tag;
+use Mss\Services\PrintLabelService;
 
 class ArticleController extends Controller
 {
@@ -252,5 +253,12 @@ class ArticleController extends Controller
 
         flash('Lieferantendaten gespeichert', 'success');
         return redirect()->route('article.show', $article);
+    }
+
+    public function printLabel(Request $request) {
+        $articles = Article::whereIn('id', $request->get('article'))->get();
+        $labelService = new PrintLabelService();
+
+        return $labelService->printArticleLabels($articles)->download('labels.pdf');
     }
 }

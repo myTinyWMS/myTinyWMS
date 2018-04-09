@@ -23,7 +23,6 @@ class ToOrderDataTable extends ArticleDataTable
      */
     public function dataTable($query)
     {
-        $this->rawColumns[] = 'checkbox';
         $dataTable = parent::dataTable($query);
         $dataTable->setRowClass(function ($article) {
             return '';
@@ -33,7 +32,7 @@ class ToOrderDataTable extends ArticleDataTable
                 return $article->currentSupplier->id;
             }
         ])
-        ->addColumn('checkbox', 'dashboard.to_order_list_checkbox');
+        ->editColumn('checkbox', 'dashboard.to_order_list_checkbox');
 
         return $dataTable;
     }
@@ -55,13 +54,5 @@ class ToOrderDataTable extends ArticleDataTable
                     $query->statusOpen();
                 });
             });
-    }
-
-    protected function getColumns()
-    {
-        $columns = parent::getColumns();
-        $checkboxCol = ['data' => 'checkbox', 'name' => 'checkbox', 'title' => 'Bestellung', 'width' => '10px', 'orderable' => false, 'class' => 'text-center'];
-        $columns = array_prepend($columns, $checkboxCol);
-        return $columns;
     }
 }

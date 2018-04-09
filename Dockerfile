@@ -13,12 +13,21 @@ RUN set -e -x \
         libpq-dev \
         libldap2-dev libxrender1 libxext6 \
         locales \
+        libfreetype6-dev libmcrypt-dev libpng12-dev libjpeg-dev libpng-dev \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
-    && docker-php-ext-install -j$(nproc) zip pdo_mysql mcrypt intl bcmath imap pgsql \
+    && docker-php-ext-install -j$(nproc) zip pdo_mysql mcrypt intl bcmath imap pgsql iconv  \
     && docker-php-ext-configure pgsql \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
+    && docker-php-ext-configure gd \
+            --enable-gd-native-ttf \
+            --with-freetype-dir=/usr/include/freetype2 \
+            --with-png-dir=/usr/include \
+            --with-jpeg-dir=/usr/include \
+    && docker-php-ext-install gd \
+    && docker-php-ext-install mbstring \
+    && docker-php-ext-enable opcache gd \
     && pecl install redis-3.1.2 xdebug \
     && docker-php-ext-enable redis \
     && sed -i '/^#.* de_DE.* /s/^#//' /etc/locale.gen \

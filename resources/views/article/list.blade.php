@@ -14,18 +14,23 @@
                     </div>
                 </div>
                 <div class="ibox-content">
+                    {!! Form::open(['route' => ['article.print_label'], 'method' => 'POST']) !!}
                     {!! $dataTable->table() !!}
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div class="toolbar_content hidden">
+    <button class="btn btn-xs btn-primary" type="submit">Label erstellen</button>
 </div>
 @endsection
 
 @section('datatableFilters')
     <label>
        Kategorie:&nbsp;
-        <select id="filterCategory" data-target-col="13" class="form-control input-sm datatableFilter-select">
+        <select id="filterCategory" data-target-col="14" class="form-control input-sm datatableFilter-select">
             <option value=""></option>
             @foreach($categories as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -34,7 +39,7 @@
     </label>
     <label>
         Tags:&nbsp;
-        <select id="filterTags" data-target-col="12" class="form-control input-sm datatableFilter-select">
+        <select id="filterTags" data-target-col="13" class="form-control input-sm datatableFilter-select">
             <option value=""></option>
             @foreach($tags as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -43,7 +48,7 @@
     </label>
     <label>
        Lieferant:&nbsp;
-        <select id="filterSupplier" data-target-col="11" class="form-control input-sm datatableFilter-select">
+        <select id="filterSupplier" data-target-col="12" class="form-control input-sm datatableFilter-select">
             <option value=""></option>
             @foreach($supplier as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -52,7 +57,7 @@
     </label>
     <label>
        Status:&nbsp;
-        <select id="filterStatus" data-target-col="14" class="form-control input-sm datatableFilter-select" data-pre-select="1">
+        <select id="filterStatus" data-target-col="15" class="form-control input-sm datatableFilter-select" data-pre-select="1">
             <option value="1">aktiv</option>
             <option value="0">deaktiviert</option>
         </select>
@@ -62,6 +67,10 @@
 @push('scripts')
     {!! $dataTable->scripts() !!}
     <script>
+        $(document).ready(function () {
+            $('.toolbar').html($('.toolbar_content').html());
+        });
+
         window.LaravelDataTables.dataTableBuilder.on( 'row-reorder', function ( e, diff, edit ) {
             var myArray = [];
             for ( var i=0, ien=diff.length ; i<ien ; i++ ) {
