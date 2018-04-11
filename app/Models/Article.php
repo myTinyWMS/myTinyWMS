@@ -139,4 +139,8 @@ class Article extends AuditableModel
             self::STATUS_INACTIVE => 'deaktiviert'
         ];
     }
+
+    public function getShortChangelog() {
+        return $this->quantityChangelogs()->with(['user', 'deliveryItem.delivery.order'])->latest()->take(30)->get();
+    }
 }

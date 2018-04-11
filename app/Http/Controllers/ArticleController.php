@@ -233,6 +233,28 @@ class ArticleController extends Controller
         return view('article.quantity_changelog', compact('article', 'changelog', 'dateStart', 'dateEnd', 'chartLabels', 'chartValues'));
     }
 
+    public function deleteQuantityChangelog(Article $article, ArticleQuantityChangelog $changelog) {
+        if ($changelog->deliveryItem) {
+            $changelog->deliveryItem->delete();
+
+            $delivery = $changelog->deliveryItem->delivery;
+            if ($delivery && $delivery->items()->count() == 0) {
+                $order = $delivery->order;
+                $delivery->delete();
+                flash('Lieferung zur Bestellung '.link_to_route('order.show', $order->internal_order_number, $order).' gelöscht, da keine Artikel mehr vorhanden', 'warning');
+            }
+        }
+
+        $change = $changelog->change * -1;
+        $article->quantity += $change;
+        $article->save();
+
+        $changelog->delete();
+
+        flash('Bestandsänderung gelöscht');
+        return redirect()->route('article.show', $article);
+    }
+
     public function changeSupplier(Article $article, Request $request) {
         // reload with current supplier
         $article = Article::withCurrentSupplier()->withCurrentSupplierArticle()->find($article->id);

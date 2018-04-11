@@ -22,4 +22,8 @@ class ArticleQuantityChangelog extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function deliveryItem() {
+        return $this->belongsTo(DeliveryItem::class);
+    }
 }

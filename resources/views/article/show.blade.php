@@ -93,7 +93,7 @@
         </div>
     </div>
 
-    <div class="col-lg-6 col-xxl-5">
+    <div class="col-lg-12 col-xxl-5">
         <div class="ibox collapsed">
             <div class="ibox-title">
                 <h5>Logbuch</h5>
@@ -127,21 +127,29 @@
                             <th>Zeitpunkt</th>
                             <th>Kommentar</th>
                             <th>Benutzer</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($article->quantityChangelogs()->with('user')->latest()->take(30)->get() as $log)
-                            @if ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING)
-                                @include('components.quantity_log.incoming')
-                            @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING)
-                                @include('components.quantity_log.outgoing')
-                            @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_CORRECTION)
-                                @include('components.quantity_log.correction')
-                            @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_COMMENT)
-                                @include('components.quantity_log.comment')
-                            @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_INVENTORY)
-                                @include('components.quantity_log.inventory')
-                            @endif
+                        @foreach ($article->getShortChangelog() as $log)
+                            <tr>
+                                @if ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING)
+                                    @include('components.quantity_log.incoming')
+                                @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING)
+                                    @include('components.quantity_log.outgoing')
+                                @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_CORRECTION)
+                                    @include('components.quantity_log.correction')
+                                @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_COMMENT)
+                                    @include('components.quantity_log.comment')
+                                @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_INVENTORY)
+                                    @include('components.quantity_log.inventory')
+                                @endif
+                                <td>
+                                    @if (\Carbon\Carbon::now()->diffInDays($log->created_at) == 0 && $loop->first)
+                                    <a href="{{ route('article.quantity_changelog.delete', [$article, $log]) }}" class="btn btn-danger btn-xs" @if($log->deliveryItem) onclick="return confirm('Achtung, der Eintrag wird auch aus der dazugehörigen Lieferung gelöscht!')" @endif>Löschen</a>
+                                    @endif
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
