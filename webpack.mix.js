@@ -27,6 +27,7 @@ mix
     .copy('resources/assets/vendor/iCheck/green@2x.png', 'public/img')
     .combine([
         'resources/assets/vendor/bootstrap/css/bootstrap.css',
+        'resources/assets/vendor/bootstrap/css/bootstrap-xlgrid.min.css',
         'resources/assets/vendor/animate/animate.css',
         'resources/assets/vendor/font-awesome/css/font-awesome.css',
         'resources/assets/vendor/footable/footable.bootstrap.min.css',

@@ -160,7 +160,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-12 col-xxl-">
+    <div class="col-lg-12 col-xxl-6">
         <div class="ibox">
             <div class="ibox-title">
                 <h5>Lieferungen</h5>

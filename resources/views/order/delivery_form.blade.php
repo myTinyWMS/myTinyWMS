@@ -38,7 +38,7 @@
                 </div>
                 <div class="ibox-content">
                     {{ Form::bsText('delivery_note_number', null, [], 'Lieferscheinnummer') }}
-                    {{ Form::bsText('delivery_date', '', ['class' => 'form-control datepicker', 'data-date-end-date' => '0d'], 'Lieferdatum') }}
+                    {{ Form::bsText('delivery_date', \Carbon\Carbon::now()->format('d.m.Y'), ['class' => 'form-control datepicker', 'data-date-end-date' => '0d'], 'Lieferdatum') }}
                     {{ Form::bsTextarea('notes', null, [], 'Bemerkungen') }}
                 </div>
             </div>
