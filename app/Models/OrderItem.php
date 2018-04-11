@@ -4,10 +4,21 @@ namespace Mss\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class OrderItem
+ *
+ * @property Article $article
+ * @property Order $order
+ * @package Mss\Models
+ */
 class OrderItem extends Model
 {
     protected $fillable = ['article_id', 'price', 'quantity'];
 
+    /**
+     * @mixin Article
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function article() {
         return $this->belongsTo(Article::class);
     }

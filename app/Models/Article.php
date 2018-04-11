@@ -4,11 +4,18 @@ namespace Mss\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Mss\Models\Traits\Taggable;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * Class Article
+ *
+ * @method static Builder active()
+ * @package Mss\Models
+ */
 class Article extends AuditableModel
 {
     use SoftDeletes, Taggable;
@@ -104,13 +111,14 @@ class Article extends AuditableModel
         $this->save();
     }
 
-    public function changeQuantity($change, $type, $note = '') {
+    public function changeQuantity($change, $type, $note = '', $deliveryItem = null) {
         $this->quantityChangelogs()->create([
             'user_id' => Auth::id(),
             'type' => $type,
             'change' => $change,
             'new_quantity' => ($this->quantity + $change),
-            'note' => $note
+            'note' => $note,
+            'delivery_item_id' => optional($deliveryItem)->id
         ]);
 
         $this->quantity = ($this->quantity + $change);

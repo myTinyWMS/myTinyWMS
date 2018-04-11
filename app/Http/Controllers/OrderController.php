@@ -10,7 +10,9 @@ use Mss\DataTables\OrderDataTable;
 use Mss\Http\Requests\OrderRequest;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
+use Mss\Models\Delivery;
 use Mss\Models\Order;
+use Mss\Models\OrderItem;
 use Mss\Models\OrderMessage;
 use Mss\Models\Supplier;
 
@@ -185,6 +187,7 @@ class OrderController extends Controller
     }
 
     public function storeDelivery(Order $order, Request $request) {
+        /* @var Delivery $delivery */
         $delivery = $order->deliveries()->create([
             'delivery_date' => Carbon::parse($request->get('delivery_date')),
             'delivery_note_number' => $request->get('delivery_note_number'),
@@ -193,15 +196,15 @@ class OrderController extends Controller
 
         $quantities = collect($request->get('quantities'));
         $order->items->each(function ($orderItem) use ($quantities, $delivery, $order) {
+            /* @var OrderItem $orderItem */
             $quantity = intval($quantities->get($orderItem->article->id));
             if ($quantities->has($orderItem->article->id) && $quantity > 0) {
-
-                $delivery->items()->create([
+                $deliveryItem = $delivery->items()->create([
                     'article_id' => $orderItem->article->id,
                     'quantity' => $quantity
                 ]);
 
-                $orderItem->article->changeQuantity($quantity, ArticleQuantityChangelog::TYPE_INCOMING, 'Bestellung '.$order->internal_order_number);
+                $orderItem->article->changeQuantity($quantity, ArticleQuantityChangelog::TYPE_INCOMING, 'Bestellung '.$order->internal_order_number, $deliveryItem);
             }
         });
 

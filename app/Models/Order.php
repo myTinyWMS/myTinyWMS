@@ -2,8 +2,16 @@
 
 namespace Mss\Models;
 
-use Mss\Models\OrderMessage;
+use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class Order
+ *
+ * @property string $internal_order_number
+ * @property Collection $messages
+ * @property Collection $items
+ * @package Mss\Models
+ */
 class Order extends AuditableModel
 {
     const STATUS_NEW = 0;
