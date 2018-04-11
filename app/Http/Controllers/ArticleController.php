@@ -259,6 +259,6 @@ class ArticleController extends Controller
         $articles = Article::whereIn('id', $request->get('article'))->get();
         $labelService = new PrintLabelService();
 
-        return $labelService->printArticleLabels3($articles)->download('labels.pdf');
+        return $labelService->printArticleLabels($articles)->download('labels.pdf');
     }
 }
