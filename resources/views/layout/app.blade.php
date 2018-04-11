@@ -15,7 +15,7 @@
 
 </head>
 
-<body>
+<body @if ($miniNavbar) class="mini-navbar" @endif>
     <!-- Wrapper-->
     <div id="wrapper">
         @include('layout.sidebar')

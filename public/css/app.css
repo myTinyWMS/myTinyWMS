@@ -10038,6 +10038,13 @@ body {
   z-index: 3051;
 }
 
+body.mini-navbar .navbar-default .nav li a .label {
+  position: absolute;
+  right: 14px;
+  top: 8px;
+  padding: 3px 5px;
+}
+
 @media print {
   nav.navbar-static-side {
     display: none;

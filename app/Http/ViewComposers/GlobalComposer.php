@@ -20,6 +20,8 @@ class GlobalComposer {
             $view->with('notifications', []/*Auth::user()->unreadNotifications*/);
             $view->with('unreadMessages', OrderMessage::unread()->count());
         }
+
+        $view->with('miniNavbar', isset($_COOKIE['mini-navbar']));
     }
 
 }

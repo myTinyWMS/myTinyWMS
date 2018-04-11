@@ -6,8 +6,6 @@
  */
 
 $(document).ready(function () {
-
-
     // Add body-small class if window less than 768px
     if ($(this).width() < 769) {
         $('body').addClass('body-small')
@@ -56,9 +54,12 @@ $(document).ready(function () {
         $("body").toggleClass("mini-navbar");
         SmoothlyMenu();
 
+        if ($("body").hasClass('mini-navbar')) {
+            Cookies.set('mini-navbar', true);
+        } else {
+            Cookies.remove('mini-navbar');
+        }
     });
-
-
 
     // Full height of sidebar
     function fix_height() {

@@ -20,12 +20,12 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12 col-xxl-6">
             <canvas id="chart"></canvas>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12 col-xxl-6">
             <div class="ibox">
                 <div class="ibox-title" style="min-height: 55px">
                     <h5>Änderungsverlauf</h5>

@@ -64,6 +64,7 @@ mix
         'resources/assets/vendor/summernote/summernote.js',
         'resources/assets/vendor/summernote/summernote-de-DE.js',
         'resources/assets/vendor/dropzone/dropzone.js',
-        'resources/assets/vendor/iCheck/icheck.min.js'
+        'resources/assets/vendor/iCheck/icheck.min.js',
+        'resources/assets/vendor/js-cookie/js.cookie.js'
     ], 'public/js/vendor.js')
     .copy('resources/assets/js/app.js', 'public/js');

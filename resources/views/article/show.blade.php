@@ -20,7 +20,7 @@
 @endsection
 
 @section('secondCol')
-    <div class="col-lg-3">
+    <div class="col-lg-6 col-xxl-3">
         <div class="ibox">
             <div class="ibox-title">
                 <h5>Aktueller Lieferant</h5>
@@ -93,7 +93,7 @@
         </div>
     </div>
 
-    <div class="col-lg-5">
+    <div class="col-lg-6 col-xxl-5">
         <div class="ibox collapsed">
             <div class="ibox-title">
                 <h5>Logbuch</h5>

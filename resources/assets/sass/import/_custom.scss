@@ -191,3 +191,10 @@ body {
 .select2-dropdown{
   z-index: 3051;
 }
+
+body.mini-navbar .navbar-default .nav li a .label {
+  position: absolute;
+  right: 14px;
+  top: 8px;
+  padding: 3px 5px;
+}

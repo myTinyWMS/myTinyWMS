@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Bestellung bei '.$order->supplier->name)
+@section('title', 'Bestellung bei '.optional($order->supplier)->name)
 
 @section('title_extra')
     <a href="{{ route('order.create_delivery', $order) }}" class="btn btn-primary btn-sm pull-right">Wareneingang erfassen</a>
@@ -17,11 +17,11 @@
 
 @section('content')
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-12 col-xxl-6">
         <div class="ibox">
             <div class="ibox-title">
                 <h5>
-                    Bestellung bei {{ $order->supplier->name }}
+                    Bestellung bei {{ optional($order->supplier)->name }}
                 </h5>
                 <a href="{{ route('order.edit', $order) }}" class="btn btn-primary btn-xs pull-right">bearbeiten</a>
             </div>
@@ -103,7 +103,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-12 col-xxl-6">
         <div class="ibox collapsed">
             <div class="ibox-title">
                 <h5>Logbuch</h5>
@@ -120,7 +120,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-12 col-xxl-6">
         <div class="ibox">
             <div class="ibox-title">
                 <h5>Artikel</h5>
@@ -160,7 +160,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-12 col-xxl-">
         <div class="ibox">
             <div class="ibox-title">
                 <h5>Lieferungen</h5>
