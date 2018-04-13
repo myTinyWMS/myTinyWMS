@@ -40,6 +40,8 @@ class ImportMailsService {
             } else {
                 OrderMessage::create($this->getOrderMessageData($message));
             }
+
+            $message->delete();
         }
     }
 
