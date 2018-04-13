@@ -7,7 +7,7 @@ services:
     image: project_mss
     links:
     - db
-    - db_onp
+#    - db_onp
     - redis
     ports:
     - 3080:80
