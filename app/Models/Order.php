@@ -30,6 +30,18 @@ class Order extends AuditableModel
         self::STATUS_PAID => 'bezahlt'
     ];
 
+    const PAYMENT_STATUS_UNPAID = 0;
+    const PAYMENT_STATUS_PAID_WITH_PAYPAL = 1;
+    const PAYMENT_STATUS_PAID_WITH_CREDIT_CARD = 2;
+    const PAYMENT_STATUS_PAID_WITH_INVOICE = 3;
+
+    const PAYMENT_STATUS_TEXT = [
+        self::PAYMENT_STATUS_UNPAID => 'unbezahlt',
+        self::PAYMENT_STATUS_PAID_WITH_PAYPAL => 'bezahlt - Paypal',
+        self::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD => 'bezahlt - Kreditkarte',
+        self::PAYMENT_STATUS_PAID_WITH_INVOICE => 'bezahlt - Rechnung',
+    ];
+
     protected $dates = ['order_date', 'expected_delivery'];
 
     protected $casts = [

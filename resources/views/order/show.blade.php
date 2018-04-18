@@ -82,7 +82,7 @@
             </div>
             <div class="ibox-content">
                 <div class="row">
-                    <div class="col-xs-9">
+                    <div class="col-xs-6">
                         <small class="stats-label">Bemerkungen</small>
                         <h2>{{ $order->notes ?: '-' }}</h2>
                     </div>
@@ -95,6 +95,27 @@
                                 <span class="text-danger">nicht erhalten</span>
                                 {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.invoice_received', $order]]) !!}
                                 <button type="submit" class="btn btn-xs btn-outline btn-success"><i class="fa fa-check"></i></button>
+                                {!! Form::close() !!}
+                            @endif
+                        </h2>
+                    </div>
+                    <div class="col-xs-3">
+                        <small class="stats-label">Bezahlstatus</small>
+                        <h2>
+                            @if($order->payment_status > 0)
+                                <span class="text-success">{{ \Mss\Models\Order::PAYMENT_STATUS_TEXT[$order->payment_status] }}</span>
+                            @else
+                                <span class="text-danger">{{ \Mss\Models\Order::PAYMENT_STATUS_TEXT[$order->payment_status] }}</span>
+                                {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.change_payment_status', $order]]) !!}
+                                    <button type="button" class="btn btn-xs btn-outline btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                    <ul class="dropdown-menu payment-type-dropdown" aria-labelledby="dLabel">
+                                        <li><a href="#" data-value="{{ \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_PAYPAL }}">Paypal</a></li>
+                                        <li><a href="#" data-value="{{ \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD }}">Kreditkarte</a></li>
+                                        <li><a href="#" data-value="{{ \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_INVOICE }}">Rechnung</a></li>
+                                    </ul>
+                                    <input type="hidden" id="payment_type" name="type" value="" />
                                 {!! Form::close() !!}
                             @endif
                         </h2>
@@ -224,3 +245,15 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        $('.payment-type-dropdown a').click(function (e) {
+            e.preventDefault();
+            $('#payment_type').val($(this).data('value'));
+            $(this).closest('form').submit();
+        });
+    })
+</script>
+@endpush

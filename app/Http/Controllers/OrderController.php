@@ -233,5 +233,15 @@ class OrderController extends Controller
             });
     }
 
+    public function changePaymentStatus(Order $order, Request $request) {
+        if (array_key_exists(intval($request->get('type')), Order::PAYMENT_STATUS_TEXT)) {
+            $order->payment_status = intval($request->get('type'));
+            $order->save();
+            flash('Bezahlstatus geändert.', 'success');
+        } else {
+            flash('Bezahltstatus ungültig.', 'error');
+        }
 
+        return redirect()->route('order.show', $order);
+    }
 }
