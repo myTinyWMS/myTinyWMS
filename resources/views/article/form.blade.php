@@ -61,7 +61,10 @@
                             @else
                                 <div class="form-group">
                                     <label class="control-label">Bestand</label>
-                                    <div class="form-control-static">{{ $article->quantity }} <button type="button" class="btn btn-link edit-quantity" data-toggle="modal" data-target="#changeQuantityModal"><i class="fa fa-edit"></i></button></div>
+                                    <div class="form-control-static">
+                                        {{ $article->quantity }} <button type="button" class="btn btn-link edit-quantity" data-toggle="modal" data-target="#changeQuantityModal"><i class="fa fa-edit"></i></button>
+                                        <a href="{{ route('order.create', ['article' => [$article->id]]) }}" class="btn btn-primary btn-xs pull-right">Neue Bestellung</a>
+                                    </div>
                                 </div>
                             @endif
                         </div>
