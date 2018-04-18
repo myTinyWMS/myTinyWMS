@@ -2,7 +2,7 @@
 
 @section('content')
     <h3>Welcome to MSS</h3>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam</p>
+
     <form class="m-t" role="form" method="post" action="{{ route('login') }}">
         {{ csrf_field() }}
         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">

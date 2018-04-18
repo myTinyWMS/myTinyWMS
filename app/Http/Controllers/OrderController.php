@@ -91,7 +91,7 @@ class OrderController extends Controller
             $quantity = intval($request->get('quantity')[$key] ?: 0);
             $price = $request->get('price')[$key] ?: null;
 
-            if (empty($article) || empty($quantity) || empty($price)) {
+            if (empty($article) || empty($quantity)) {
                 return true;
             }
 
