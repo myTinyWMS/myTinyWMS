@@ -9882,7 +9882,7 @@ div.dataTables_wrapper #footer_buttons {
 }
 
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-  vertical-align: bottom;
+  vertical-align: top;
 }
 
 .list-form {

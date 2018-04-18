@@ -8,8 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="stylesheet" href="{!! asset('css/vendor.css') !!}" />
-    <link rel="stylesheet" href="{!! asset('css/app.css') !!}" />
+    <link rel="stylesheet" href="{!! mix('css/vendor.css') !!}" />
+    <link rel="stylesheet" href="{!! mix('css/app.css') !!}" />
 
     @yield('extra_head')
 
