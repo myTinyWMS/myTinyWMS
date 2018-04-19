@@ -281,6 +281,12 @@ class ArticleController extends Controller
         $articles = Article::whereIn('id', $request->get('article'))->get();
         $labelService = new PrintLabelService();
 
-        return $labelService->printArticleLabels($articles)->download('labels.pdf');
+        if ($labelService->printArticleLabels($articles)) {
+            flash('Label werden gedruckt', 'success');
+        } else {
+            flash('Label wurden nicht gedruckt', 'danger');
+        }
+
+        return redirect()->route('article.index');
     }
 }

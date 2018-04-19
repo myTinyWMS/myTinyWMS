@@ -11,6 +11,7 @@
         "codeitnowin/barcode": "^3.0",
         "doctrine/dbal": "^2.6",
         "fideloper/proxy": "~4.0",
+        "guzzlehttp/guzzle": "^6.3",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "hieu-le/active": "^3.5",

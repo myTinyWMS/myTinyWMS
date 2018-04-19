@@ -3,6 +3,7 @@
 namespace Mss\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Mss\DataTables\ArticleDataTable;
 use Mss\DataTables\AssignOrderDataTable;
@@ -15,6 +16,7 @@ use Mss\Models\Order;
 use Mss\Models\OrderItem;
 use Mss\Models\OrderMessage;
 use Mss\Models\Supplier;
+use Mss\Services\PrintLabelService;
 
 class OrderController extends Controller
 {
@@ -194,8 +196,9 @@ class OrderController extends Controller
             'notes' => $request->get('notes')
         ]);
 
+        $articlesToPrint = new Collection();
         $quantities = collect($request->get('quantities'));
-        $order->items->each(function ($orderItem) use ($quantities, $delivery, $order) {
+        $order->items->each(function ($orderItem) use ($quantities, $delivery, $order, $request, &$articlesToPrint) {
             /* @var OrderItem $orderItem */
             $quantity = intval($quantities->get($orderItem->article->id));
             if ($quantities->has($orderItem->article->id) && $quantity > 0) {
@@ -203,6 +206,10 @@ class OrderController extends Controller
                     'article_id' => $orderItem->article->id,
                     'quantity' => $quantity
                 ]);
+
+                if ($request->get('print_label')) {
+                    $articlesToPrint->push($orderItem->article);
+                }
 
                 $orderItem->article->changeQuantity($quantity, ArticleQuantityChangelog::TYPE_INCOMING, 'Bestellung '.$order->internal_order_number, $deliveryItem);
             }
@@ -214,6 +221,11 @@ class OrderController extends Controller
         } else {
             $order->status = Order::STATUS_PARTIALLY_DELIVERED;
             $order->save();
+        }
+
+        if ($request->get('print_label') && $articlesToPrint->count() > 0) {
+            $labelService = new PrintLabelService();
+            $labelService->printArticleLabels($articlesToPrint);
         }
 
         return redirect()->route('order.show', $order);

@@ -2,16 +2,18 @@
 
 namespace Mss\Services;
 
+use Barryvdh\Snappy\PdfWrapper;
 use CodeItNow\BarcodeBundle\Utils\QrCode;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Collection;
-use CodeItNow\BarcodeBundle\Utils\BarcodeGenerator;
+use Illuminate\Support\Facades\Log;
 
 class PrintLabelService {
 
     /**
      * @param Collection $articles
-     * @return mixed
+     * @return boolean
      */
     public function printArticleLabels(Collection $articles) {
         $barcodes = [];
@@ -19,6 +21,9 @@ class PrintLabelService {
             $barcodes[$article->id] = $this->generateQr($article->article_number);
         });
 
+        /**
+         * @var PdfWrapper $pdf
+         */
         $pdf = App::make('snappy.pdf.wrapper');
         $pdf = $pdf->loadView('documents.article_labels', compact('barcodes', 'articles'));
         $pdf->setOptions([
@@ -31,7 +36,26 @@ class PrintLabelService {
             'encoding' => 'utf-8'
         ]);
 
-        return $pdf;
+        return $this->sendPdfToLocalPrinter($pdf);
+    }
+
+    protected function sendPdfToLocalPrinter(PdfWrapper $pdf) {
+        $client = new Client();
+        $response = $client->request('POST', env('PRINT_URL'), [
+            'connect_timeout' => 5,
+            'http_errors' => false,
+            'multipart' => [
+                ['name' => 'type', 'contents' => 'brother'],
+                ['name' => 'format', 'contents' => 'pdf'],
+                ['name' => 'data', 'contents' => $pdf->output()]
+            ]
+        ]);
+
+        if ($response->getStatusCode() != 200) {
+            Log::warning('Label printing failed', ['reponse' => $response->getBody()->getContents()]);
+        }
+
+        return ($response->getStatusCode() == 200);
     }
 
     protected function generateQr($value) {

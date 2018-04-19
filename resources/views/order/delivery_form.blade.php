@@ -83,7 +83,8 @@
             <div class="ibox">
                 <div class="ibox-content">
                     <div class="form-group">
-                        {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
+                        {!! Form::submit('Speichern', ['class' => 'btn btn-primary force-inline']) !!}
+                        {{ Form::bsCheckbox('print_label', 1, 'Label drucken', false, [], 'force-inline p-xl') }}
                     </div>
                 </div>
             </div>
