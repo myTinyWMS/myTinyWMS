@@ -11,9 +11,9 @@ class BaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(\Mss\Models\User::class, 1)->create([
+        /*factory(\Mss\Models\User::class, 1)->create([
             'email' => 'admin@example.com'
-        ]);
+        ]);*/
 
         \Mss\Models\Unit::create(['id' => 1, 'name' => 'Stück']);
         \Mss\Models\Unit::create(['id' => 2, 'name' => 'Palette']);
