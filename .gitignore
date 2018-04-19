@@ -12,5 +12,7 @@ npm-debug.log
 /tests/Browser/data/*.csv
 /data
 /mss
-/public/img/green.png
-/public/img/green@2x.png
+/public/css
+/public/js
+/public/img
+/public/mix-manifest.json
