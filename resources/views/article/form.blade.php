@@ -69,13 +69,13 @@
                             @endif
                         </div>
                         <div class="col-lg-6">
-                            {{ Form::bsText('min_quantity', $article->min_quantity, [], 'Mindestbestand') }}
+
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-6">
-                            {{ Form::bsText('usage_quantity', $article->usage_quantity, [], 'Verbrauch') }}
+                            {{ Form::bsText('min_quantity', $article->min_quantity, [], 'Mindestbestand') }}
                         </div>
                         <div class="col-lg-6">
                             {{ Form::bsText('issue_quantity', $article->issue_quantity, [], 'Entnahmemenge') }}
