@@ -196,7 +196,7 @@
         function filterArticlesAndSetSelects(supplier_id) {
             currentArticles = [];
             $.each(allArticles, function (key, value) {
-                if (value.supplier_id === supplier_id) {
+                if (value.supplier_id == supplier_id) {
                     currentArticles.push({
                         id: value.id,
                         text: value.name
