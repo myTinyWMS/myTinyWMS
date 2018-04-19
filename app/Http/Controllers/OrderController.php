@@ -16,6 +16,8 @@ use Mss\Models\Order;
 use Mss\Models\OrderItem;
 use Mss\Models\OrderMessage;
 use Mss\Models\Supplier;
+use Mss\Models\User;
+use Mss\Notifications\NewDeliverySaved;
 use Mss\Services\PrintLabelService;
 
 class OrderController extends Controller
@@ -221,6 +223,10 @@ class OrderController extends Controller
         } else {
             $order->status = Order::STATUS_PARTIALLY_DELIVERED;
             $order->save();
+        }
+
+        if ($order->invoice_received) {
+            User::first()->notify(new NewDeliverySaved($delivery));
         }
 
         if ($request->get('print_label') && $articlesToPrint->count() > 0) {

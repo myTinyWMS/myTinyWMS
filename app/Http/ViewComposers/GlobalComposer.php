@@ -17,7 +17,7 @@ class GlobalComposer {
     public function compose(View $view)
     {
         if (Auth::check()) {
-            $view->with('notifications', []/*Auth::user()->unreadNotifications*/);
+            $view->with('notifications', Auth::user()->unreadNotifications);
             $view->with('unreadMessages', OrderMessage::unread()->count());
         }
 

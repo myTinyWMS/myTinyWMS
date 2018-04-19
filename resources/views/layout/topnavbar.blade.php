@@ -11,16 +11,16 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="false">
-                    <i class="fa fa-bell"></i>  <span class="label @if(count($notifications)) label-primary @else label-default @endif">{{ count($notifications) }}</span>
+                    <i class="fa fa-bell"></i>  <span class="label @if(count($notifications)) label-danger @else label-default @endif">{{ count($notifications) }}</span>
                 </a>
-                <ul class="dropdown-menu dropdown-messages">
+                <ul class="dropdown-menu dropdown-alerts">
                     @if(count($notifications))
                         @foreach($notifications as $notification)
-                            @include('components.notification_item', [$notification])
+                            @include('notifications.'.last(explode('\\', $notification->type)), compact('notification'))
                         @endforeach
                     @else
                         <li>
-                            <div>@lang('notifications.empty')</div>
+                            <div>Keine Nachrichten vorhanden</div>
                         </li>
                     @endif
                 </ul>
