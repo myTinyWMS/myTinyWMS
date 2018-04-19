@@ -40,8 +40,9 @@
         <table class="table @if (!$loop->last) break-after @endif" cellpadding="0" cellspacing="1">
             <thead>
                 <tr>
-                    <th style="width: 30px">Nummer</th>
+                    <th style="width: 25px">Nummer</th>
                     <th style="width: 200px">Name</th>
+                    <th style="width: 100px">Entnahme</th>
                     <th>Ausgabe</th>
                 </tr>
             </thead>
@@ -50,6 +51,7 @@
                 <tr>
                     <td>{{ $article->article_number }}</td>
                     <td>{{ $article->name }}</td>
+                    <td>{{ $article->issue_quantity }} {{ optional($article->unit)->name }}</td>
                     <td></td>
                 </tr>
                 @endforeach
