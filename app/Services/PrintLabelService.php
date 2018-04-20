@@ -47,7 +47,7 @@ class PrintLabelService {
             'multipart' => [
                 ['name' => 'type', 'contents' => 'brother'],
                 ['name' => 'format', 'contents' => 'pdf'],
-                ['name' => 'data', 'contents' => $pdf->output()]
+                ['name' => 'data', 'contents' => $pdf->output(), 'filename' => 'label.pdf']
             ]
         ]);
 
