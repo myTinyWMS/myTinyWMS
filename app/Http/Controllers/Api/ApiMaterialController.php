@@ -5,6 +5,7 @@ namespace Mss\Http\Controllers\Api;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Mss\Http\Controllers\Controller;
+use Mss\Models\Article;
 use Mss\Models\Legacy\Material;
 use Illuminate\Http\Request;
 use Psy\Util\Json;
@@ -13,11 +14,11 @@ class ApiMaterialController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  Material  $material
+     * @param  Article $article
      * @return \Illuminate\Http\Response
      */
-    public function show(Material $material) {
-        return response()->json($material);
+    public function show(Article $article) {
+        return response()->json($article);
     }
 
     /**
@@ -27,10 +28,11 @@ class ApiMaterialController extends Controller {
      * @param  Material  $material
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Material $material) {
-        $data = $request->request->all();
+    public function update(Request $request, Article $article) {
+        /*$data = $request->request->all();
         if (isset($data['date']) && is_array($data['date'])) $data['date'] = $data['date']['date'];
         $material->update($data);
-        return Response::create(Json::encode(['result' => 'success']));
+        return Response::create(Json::encode(['result' => 'success']));*/
+        return Response::create(Json::encode(['result' => 'failure']));
     }
 }
