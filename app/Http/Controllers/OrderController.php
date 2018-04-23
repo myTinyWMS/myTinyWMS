@@ -52,7 +52,7 @@ class OrderController extends Controller
                 return [
                     'article_id' => $article->id,
                     'quantity' => $article->currentSupplierArticle->order_quantity ?? '',
-                    'price' => $article->currentSupplierArticle->price ? $article->currentSupplierArticle->price /100 : ''
+                    'price' => $article->currentSupplierArticle->price ? $article->currentSupplierArticle->price / 100 : ''
                 ];
             });
 

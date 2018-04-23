@@ -153,7 +153,7 @@
                 $.each(allArticles, function (key, value) {
                     if (value.id == e.params.data.id) {
                         quantity.val(value.order_quantity);
-                        price.val(formatPrice(value.price / 100));
+                        price.val(formatPrice(value.price));
                     }
                 });
             });
@@ -203,13 +203,13 @@
                     });
                 }
             });
-            $("#article-list .article-select").val(null).trigger("change");
             $("#article-list .article-select").select2({
                 theme: "bootstrap",
                 placeholder: "Bitte Artikel wählen",
                 allowClear: true,
                 data: currentArticles
             });
+            $("#article-list .article-select").val(null).trigger("change");
         }
 
         function addArticle() {
