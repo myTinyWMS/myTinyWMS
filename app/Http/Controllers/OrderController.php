@@ -78,8 +78,8 @@ class OrderController extends Controller
         $order->external_order_number = $request->get('external_order_number');
         $order->total_cost = parsePrice($request->get('total_cost'));
         $order->shipping_cost = parsePrice($request->get('shipping_cost')) ?? 0;
-        $order->order_date = Carbon::parse($request->get('order_date'));
-        $order->expected_delivery = Carbon::parse($request->get('expected_delivery'));
+        $order->order_date = !empty($request->get('order_date')) ? Carbon::parse($request->get('order_date')) : null;
+        $order->expected_delivery = !empty($request->get('expected_delivery')) ? Carbon::parse($request->get('expected_delivery')) : null;
         $order->notes = $request->get('notes');
         $order->confirmation_received = $request->get('confirmation_received') ?? false;
         $order->invoice_received = $request->get('confirmation_received') ?? false;
