@@ -52,7 +52,7 @@ class OrderController extends Controller
                 return [
                     'article_id' => $article->id,
                     'quantity' => $article->currentSupplierArticle->order_quantity ?? '',
-                    'price' => $article->currentSupplierArticle->price ?? ''
+                    'price' => $article->currentSupplierArticle->price ? $article->currentSupplierArticle->price /100 : ''
                 ];
             });
 
@@ -246,7 +246,7 @@ class OrderController extends Controller
                     'name' => $article->name/*.(!empty($article->unit) ? ' ('.$article->unit->name.')' : '')*/,
                     'supplier_id' => $article->currentSupplier->id,
                     'order_quantity' => $article->currentSupplierArticle->order_quantity ?? 0,
-                    'price' => $article->currentSupplierArticle->price ?? 0
+                    'price' => $article->currentSupplierArticle->price ? $article->currentSupplierArticle->price / 100 : 0
                 ];
             });
     }
