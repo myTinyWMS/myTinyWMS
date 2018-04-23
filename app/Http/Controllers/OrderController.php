@@ -82,7 +82,7 @@ class OrderController extends Controller
         $order->expected_delivery = !empty($request->get('expected_delivery')) ? Carbon::parse($request->get('expected_delivery')) : null;
         $order->notes = $request->get('notes');
         $order->confirmation_received = $request->get('confirmation_received') ?? false;
-        $order->invoice_received = $request->get('confirmation_received') ?? false;
+        $order->invoice_received = $request->get('invoice_received') ?? false;
 
         if ($order->status === Order::STATUS_NEW) {
             $order->status = Order::STATUS_ORDERED;
