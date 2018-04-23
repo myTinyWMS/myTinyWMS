@@ -46,7 +46,7 @@ class ToOrderDataTable extends ArticleDataTable
     public function query(Article $model)
     {
         return $model->newQuery()
-            ->withCurrentSupplierArticle()->withCurrentSupplier()
+            ->withCurrentSupplierArticle()->withCurrentSupplier()->withCurrentSupplierName()
             ->with(['category', 'suppliers', 'unit', 'tags'])
             ->whereRaw('quantity <= min_quantity')
             ->whereDoesntHave('orderItems', function ($query) {

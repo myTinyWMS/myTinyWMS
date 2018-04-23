@@ -88,6 +88,14 @@ class ArticleDataTable extends BaseDataTable
                     $query->where('status', Article::STATUS_ACTIVE);
                 }
             })
+            ->orderColumn('supplier', 'supplier_name $1')
+
+            /*->order(function ($query) {
+                dd(request()->all());
+                if (request()->has('supplier')) {
+                    dd(request('supplier'));
+                }
+            })*/
             ->addColumn('action', 'article.list_action')
             ->addColumn('checkbox', 'article.list_checkbox')
             ->rawColumns($this->rawColumns);
@@ -102,7 +110,7 @@ class ArticleDataTable extends BaseDataTable
     public function query(Article $model)
     {
         return $model->newQuery()
-            ->withCurrentSupplierArticle()->withCurrentSupplier()
+            ->withCurrentSupplierArticle()->withCurrentSupplier()->withCurrentSupplierName()
             ->with(['category', 'suppliers', 'unit', 'tags']);
     }
 
