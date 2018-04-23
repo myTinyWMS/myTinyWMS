@@ -58,20 +58,19 @@ class Article extends AuditableModel
         return $this->hasOne(Supplier::class, 'id', 'current_supplier_id');
     }
 
+    public function scopeWithCurrentSupplierName($query)
+    {
+        $query->addSubSelect('supplier_name', Supplier::select('name')
+            ->whereRaw('current_supplier_id = suppliers.id')
+        );
+    }
+
     public function scopeWithCurrentSupplier($query)
     {
         $query->addSubSelect('current_supplier_id', ArticleSupplier::select('supplier_id')
             ->whereRaw('article_id = articles.id')
             ->latest()
         )->with('currentSupplier');
-    }
-
-    public function scopeWithCurrentSupplierName($query)
-    {
-        $query->addSubSelect('supplier_name', ArticleSupplier::select('name')
-            ->whereRaw('article_id = articles.id')
-            ->latest()
-        );
     }
 
     public function currentSupplierArticle() {
