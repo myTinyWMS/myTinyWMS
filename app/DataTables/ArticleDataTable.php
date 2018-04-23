@@ -70,10 +70,11 @@ class ArticleDataTable extends BaseDataTable
                     $query->where('delivery_time', $keyword);
                 });
             })
-            ->filterColumn('supplier', function ($query, $keyword) {
-                $query->whereHas('suppliers', function ($query) use ($keyword) {
-                    $query->where('suppliers.id', $keyword);
-                });
+            ->filterColumn('supplier_name', function ($query, $keyword) {
+                /*
+                 * @todo optimize me!
+                 */
+                $query->whereRaw('(SELECT supplier_id FROM article_supplier WHERE article_supplier.article_id = articles.id order by created_at desc limit 1) = '.$keyword);
             })
             ->filterColumn('tags', function ($query, $keyword) {
                 $query->whereHas('tags', function ($query) use ($keyword) {
