@@ -108,7 +108,7 @@ class ImportFromOnpService {
         LegacyArticle::all()->each(function ($article) use ($bar) {
             /* @var $article LegacyArticle */
             /* @var $newArticle Article */
-            $unit = Unit::find($article->einheit + 1);
+            $unit = !is_null($article->einheit) ? Unit::find($article->einheit + 1) : null;
             $newArticle = Article::create([
                 'id' => $article->id,
                 'name' => utf8_encode($article->artikelbezeichnung),
@@ -120,7 +120,7 @@ class ImportFromOnpService {
                 'issue_quantity' => $article->entnahmemenge,
                 'sort_id' => $article->sort_id,
                 'inventory' => $article->inventur,
-                'unit_id' => $unit ? $unit->id : null,
+                'unit_id' => $unit ? optional($unit)->id : null,
                 'category_id' => $article->type
             ]);
 

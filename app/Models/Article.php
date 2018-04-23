@@ -24,7 +24,7 @@ class Article extends AuditableModel
     const STATUS_ACTIVE = 1;
 
     protected $fillable = [
-        'name', 'notes', 'status', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id'
+        'name', 'notes', 'status', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'unit_id', 'inventory'
     ];
 
     protected $casts = [
@@ -118,7 +118,8 @@ class Article extends AuditableModel
             'change' => $change,
             'new_quantity' => ($this->quantity + $change),
             'note' => $note,
-            'delivery_item_id' => optional($deliveryItem)->id
+            'delivery_item_id' => optional($deliveryItem)->id,
+            'unit_id' => $this->unit_id
         ]);
 
         $this->quantity = ($this->quantity + $change);

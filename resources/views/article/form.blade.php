@@ -47,7 +47,7 @@
 
                     <div class="row">
                         <div class="col-lg-6">
-                            {{ Form::bsSelect('unit', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit') }}
+                            {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => '']) }}
                         </div>
                         <div class="col-lg-6">
                             {{ Form::bsText('sort_id', $article->sort_id, [], 'Sortierung') }}
