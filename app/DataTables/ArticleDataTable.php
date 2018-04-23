@@ -42,7 +42,7 @@ class ArticleDataTable extends BaseDataTable
                 return link_to_route('article.show', $article->name, ['article' => $article]);
             })
             ->addColumn('price', function (Article $article) {
-                return formatPrice(optional($article->currentSupplierArticle)->price);
+                return formatPrice(optional($article->currentSupplierArticle)->price / 100);
             })
             ->addColumn('order_number', function (Article $article) {
                 return optional($article->currentSupplierArticle)->order_number;
