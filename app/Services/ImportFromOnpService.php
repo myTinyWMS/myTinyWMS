@@ -128,7 +128,7 @@ class ImportFromOnpService {
 
             $newArticle->suppliers()->attach($article->hersteller, [
                 'order_number' => utf8_encode($article->bestnr),
-                'price' => $article->preis,
+                'price' => $article->preis * 100,
                 'order_quantity' => $article->bestellmenge,
                 'delivery_time' => utf8_encode($article->lieferzeit),
             ]);
