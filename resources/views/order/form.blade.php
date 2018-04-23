@@ -163,7 +163,8 @@
                 language: 'de',
                 todayHighlight: true,
                 daysOfWeekDisabled: [0,6],
-                autoclose: true
+                autoclose: true,
+                calendarWeeks: true
             });
 
             @if(!empty($order->supplier_id))
