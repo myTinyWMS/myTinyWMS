@@ -200,15 +200,25 @@
                 if (value.supplier_id == supplier_id) {
                     currentArticles.push({
                         id: value.id,
-                        text: value.name
+                        text: value.name,
+                        category: value.category
                     });
                 }
             });
+
+            groupedCurrentArticles = [];
+            $.each(groupBy(currentArticles, 'category'), function (key, value) {
+                groupedCurrentArticles.push({
+                    text: key,
+                    children: value
+                })
+            });
+
             $("#article-list .article-select").select2({
                 theme: "bootstrap",
                 placeholder: "Bitte Artikel wählen",
                 allowClear: true,
-                data: currentArticles
+                data: groupedCurrentArticles
             });
             $("#article-list .article-select").val(null).trigger("change");
         }
@@ -230,5 +240,12 @@
                 return false;
             });
         }
+
+        var groupBy = function(xs, key) {
+            return xs.reduce(function(rv, x) {
+                (rv[x[key]] = rv[x[key]] || []).push(x);
+                return rv;
+            }, {});
+        };
     </script>
 @endpush

@@ -245,6 +245,7 @@ class OrderController extends Controller
                     'id' => $article->id,
                     'name' => $article->name/*.(!empty($article->unit) ? ' ('.$article->unit->name.')' : '')*/,
                     'supplier_id' => $article->currentSupplier->id,
+                    'category' => $article->category->name ?? '',
                     'order_quantity' => $article->currentSupplierArticle->order_quantity ?? 0,
                     'price' => $article->currentSupplierArticle->price ? $article->currentSupplierArticle->price / 100 : 0
                 ];
