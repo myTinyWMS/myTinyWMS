@@ -83,8 +83,6 @@
 
                     $('.datatableFilter-select').each(function () {
                         $(this).change(function () {
-                            console.log('changed');
-                            console.log($(this).val(), $(this).attr('data-target-col'));
                             window.LaravelDataTables.dataTableBuilder.columns($(this).attr('data-target-col')).search($(this).val()).draw();
                             saveFilterState($(this).attr('id'), $(this).attr('data-target-col'), $(this).val());
                         });
