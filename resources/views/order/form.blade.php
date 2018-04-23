@@ -185,7 +185,7 @@
 
                 $("#article-list .article-select:eq(" + key + ")").val(value.article_id).trigger("change");
                 $("#article-list .quantity-select:eq(" + key + ")").val(value.quantity).trigger("change");
-                $("#article-list .price-select:eq(" + key + ")").val(formatPrice(value.price / 100)).trigger("change");
+                $("#article-list .price-select:eq(" + key + ")").val(formatPrice(value.price)).trigger("change");
             });
         }
 
