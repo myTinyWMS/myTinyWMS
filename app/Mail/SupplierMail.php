@@ -7,6 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class SupplierMail extends Mailable
@@ -48,6 +49,6 @@ class SupplierMail extends Mailable
             ]);
         });
 
-        return $this->view('emails.blank', ['content' => $this->body]);
+        return $this->from('mail@example.com', Auth::user()->name)->view('emails.blank', ['content' => $this->body]);
     }
 }
