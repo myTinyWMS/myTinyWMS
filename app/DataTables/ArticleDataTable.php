@@ -81,8 +81,15 @@ class ArticleDataTable extends BaseDataTable
                     $query->where('tags.id', $keyword);
                 });
             })
+            ->filterColumn('status', function ($query, $keyword) {
+                if ($keyword == 'all') {
+                    $query->whereIn('status', [Article::STATUS_ACTIVE, Article::STATUS_INACTIVE]);
+                } else {
+                    $query->where('status', $keyword);
+                }
+            })
             ->filter(function ($query) {
-                if (!isset(request('columns')[14]['search'])) {
+                if (!isset(request('columns')[15]['search'])) {
                     $query->where('status', Article::STATUS_ACTIVE);
                 }
             })

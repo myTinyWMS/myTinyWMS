@@ -51,6 +51,11 @@ class OrderDataTable extends BaseDataTable
                     $query->where('name', 'like', '%'.$keyword.'%');
                 });
             })
+            ->filter(function ($query) {
+                if (!isset(request('columns')[2]['search'])) {
+                    $query->whereIn('status', Order::STATUSES_OPEN);
+                }
+            })
             ->editColumn('status', 'order.status')
             ->addColumn('action', $this->actionView)
             ->rawColumns(['action', 'status', 'order_date', 'expected_delivery', 'total_cost', 'internal_order_number']);

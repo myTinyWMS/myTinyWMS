@@ -31,7 +31,7 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label class="control-label">Lieferant</label>
-                            <div class="form-control-static">{{ $article->currentSupplier->name }}</div>
+                            <div class="form-control-static"><a href="{{ route('supplier.show', $article->currentSupplier) }}" target="_blank">{{ $article->currentSupplier->name }}</a></div>
                         </div>
                     </div>
                     <div class="col-lg-6">

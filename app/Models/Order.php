@@ -21,6 +21,8 @@ class Order extends AuditableModel
     const STATUS_CANCELLED = 4;
     const STATUS_PAID = 5;
 
+    const STATUSES_OPEN = [Order::STATUS_NEW, Order::STATUS_ORDERED, Order::STATUS_PARTIALLY_DELIVERED];
+
     const STATUS_TEXTS = [
         self::STATUS_NEW => 'neu',
         self::STATUS_ORDERED => 'bestellt',

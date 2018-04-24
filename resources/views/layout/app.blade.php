@@ -84,7 +84,7 @@
                     $('.datatableFilter-select').each(function () {
                         $(this).change(function () {
                             window.LaravelDataTables.dataTableBuilder.columns($(this).attr('data-target-col')).search($(this).val()).draw();
-                            saveFilterState($(this).attr('id'), $(this).attr('data-target-col'), $(this).val());
+                            // saveFilterState($(this).attr('id'), $(this).attr('data-target-col'), $(this).val());
                         });
 
                         if ($(this).attr('data-pre-select')) {
@@ -92,7 +92,7 @@
                         }
                     });
 
-                    loadFilterState();
+                    //loadFilterState();
                 }
             });
 

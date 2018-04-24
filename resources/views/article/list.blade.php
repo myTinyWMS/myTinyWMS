@@ -58,6 +58,7 @@
     <label>
        Status:&nbsp;
         <select id="filterStatus" data-target-col="15" class="form-control input-sm datatableFilter-select" data-pre-select="1">
+            <option value="all">alle</option>
             <option value="1">aktiv</option>
             <option value="0">deaktiviert</option>
         </select>
