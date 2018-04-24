@@ -63,7 +63,11 @@
 
                                 <h1>{{ $message->subject }}</h1>
 
-                                <iframe seamless frameborder="0" class="full-width" srcdoc='{!! $message->htmlBody  !!}'></iframe>
+                                @if (!empty($message->htmlBody))
+                                    <iframe seamless frameborder="0" class="full-width" srcdoc='{!! $message->htmlBody  !!}'></iframe>
+                                @else
+                                    {!! nl2br($message->textBody) !!}
+                                @endif
 
                                 @if($message->attachments->count())
                                 <div class="m-t-lg">
