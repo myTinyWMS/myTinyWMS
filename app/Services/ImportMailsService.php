@@ -2,6 +2,7 @@
 
 namespace Mss\Services;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Storage;
 use Mss\Models\Order;
 use Mss\Models\OrderMessage;
@@ -32,7 +33,7 @@ class ImportMailsService {
 
         //Get all Messages
         /** @var \Webklex\IMAP\Message $message */
-        foreach($oFolder->getMessages() as $message) {
+        foreach($oFolder->getMessages('UNSEEN') as $message) {
             $order = $this->getOrderFromMessage($message);
 
             if ($order) {
@@ -41,7 +42,7 @@ class ImportMailsService {
                 OrderMessage::create($this->getOrderMessageData($message));
             }
 
-            $message->delete();
+            $message->setFlag('SEEN');
         }
     }
 
@@ -55,7 +56,10 @@ class ImportMailsService {
             'textBody' => $message->getTextBody(),
             'attachments' => $message->getAttachments()->map(function ($attachment) {
                 $fileName = Uuid::generate(4)->string;
-                Storage::put('attachments/'.$fileName, $attachment->content);
+                file_put_contents(storage_path('attachments').DIRECTORY_SEPARATOR.$fileName, $attachment->content);
+                if (!file_exists(storage_path('attachments').DIRECTORY_SEPARATOR.$fileName)) {
+                    throw new FileNotFoundException('Attachment not saved');
+                }
                 return [
                     'fileName' => $fileName,
                     'contentType' => $attachment->content_type,
