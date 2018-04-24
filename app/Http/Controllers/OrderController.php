@@ -226,7 +226,7 @@ class OrderController extends Controller
         }
 
         if ($order->invoice_received) {
-            User::first()->notify(new NewDeliverySaved($delivery));
+            User::where('email', 'mail@example.com')->first()->notify(new NewDeliverySaved($delivery));
         }
 
         if ($request->get('print_label') && $articlesToPrint->count() > 0) {
