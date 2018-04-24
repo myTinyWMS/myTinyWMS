@@ -18,6 +18,11 @@ class GlobalSearchController extends Controller
             if ($order) {
                 $this->addResult('Bestellung: '.$phrase, route('order.show', $order));
             }
+        } elseif (preg_match('/^[0-9]{5}$/', $phrase)) {
+            $order = Article::where('article_number', $phrase)->first();
+            if ($order) {
+                $this->addResult('Artikel: '.$order->name.' ('.$phrase.')', route('article.show', $order));
+            }
         } else {
             $articles = Article::where('name', 'like', '%'.$phrase.'%')->get();
             if ($articles) {

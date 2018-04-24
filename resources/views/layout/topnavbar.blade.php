@@ -51,7 +51,8 @@
             },
             afterSelect: function (selected) {
                 window.location.href = selected.link;
-            }
+            },
+            minLength: 3
         });
 
         $('.delete-notification').click(function () {
