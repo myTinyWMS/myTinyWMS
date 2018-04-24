@@ -50,9 +50,6 @@ class ArticleDataTable extends BaseDataTable
             ->addColumn('delivery_time', function (Article $article) {
                 return optional($article->currentSupplierArticle)->delivery_time;
             })
-            ->addColumn('supplier', function (Article $article) {
-                return optional($article->currentSupplier)->name;
-            })
             ->addColumn('order_quantity', function (Article $article) {
                 return optional($article->currentSupplierArticle)->order_quantity;
             })
@@ -73,10 +70,11 @@ class ArticleDataTable extends BaseDataTable
                     $query->where('delivery_time', $keyword);
                 });
             })
-            ->filterColumn('supplier', function ($query, $keyword) {
-                $query->whereHas('suppliers', function ($query) use ($keyword) {
-                    $query->where('suppliers.id', $keyword);
-                });
+            ->filterColumn('supplier_name', function ($query, $keyword) {
+                /*
+                 * @todo optimize me!
+                 */
+                $query->whereRaw('(SELECT supplier_id FROM article_supplier WHERE article_supplier.article_id = articles.id order by created_at desc limit 1) = '.$keyword);
             })
             ->filterColumn('tags', function ($query, $keyword) {
                 $query->whereHas('tags', function ($query) use ($keyword) {
@@ -88,6 +86,7 @@ class ArticleDataTable extends BaseDataTable
                     $query->where('status', Article::STATUS_ACTIVE);
                 }
             })
+            ->orderColumn('supplier', 'supplier_name $1')
             ->addColumn('action', 'article.list_action')
             ->addColumn('checkbox', 'article.list_checkbox')
             ->rawColumns($this->rawColumns);
@@ -102,7 +101,7 @@ class ArticleDataTable extends BaseDataTable
     public function query(Article $model)
     {
         return $model->newQuery()
-            ->withCurrentSupplierArticle()->withCurrentSupplier()
+            ->withCurrentSupplierArticle()->withCurrentSupplier()->withCurrentSupplierName()
             ->with(['category', 'suppliers', 'unit', 'tags']);
     }
 
@@ -156,7 +155,7 @@ class ArticleDataTable extends BaseDataTable
             ['data' => 'price', 'name' => 'price', 'title' => 'Preis', 'class' => 'text-right'],
             ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung', 'visible' => false],
             ['data' => 'delivery_time', 'name' => 'delivery_time', 'title' => 'Lieferzeit', 'class' => 'text-right'],
-            ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant'],
+            ['data' => 'supplier_name', 'name' => 'supplier_name', 'title' => 'Lieferant'],
             ['data' => 'tags', 'name' => 'tags', 'title' => 'Tags', 'visible' => false],
             ['data' => 'category', 'name' => 'category', 'title' => 'Kategorie', 'visible' => false],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'visible' => false],
