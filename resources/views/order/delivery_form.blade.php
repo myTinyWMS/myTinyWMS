@@ -31,15 +31,26 @@
 
     {!! Form::open(['route' => ['order.store_delivery', $order], 'method' => 'POST']) !!}
     <div class="row">
-        <div class="col-lg-12 col-xxl-6">
+        <div class="col-lg-12 col-xl-6">
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>Neuer Wareneingang</h5>
                 </div>
                 <div class="ibox-content">
-                    {{ Form::bsText('delivery_note_number', null, [], 'Lieferscheinnummer') }}
-                    {{ Form::bsText('delivery_date', \Carbon\Carbon::now()->format('d.m.Y'), ['class' => 'form-control datepicker', 'data-date-end-date' => '0d'], 'Lieferdatum') }}
-                    {{ Form::bsTextarea('notes', null, [], 'Bemerkungen') }}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{ Form::bsText('delivery_note_number', null, [], 'Lieferscheinnummer') }}
+                        </div>
+
+                        <div class="col-lg-6">
+                            {{ Form::bsText('delivery_date', \Carbon\Carbon::now()->format('d.m.Y'), ['class' => 'form-control datepicker', 'data-date-end-date' => '0d'], 'Lieferdatum') }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {{ Form::bsTextarea('notes', null, ['rows' => 3], 'Bemerkungen') }}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="ibox">

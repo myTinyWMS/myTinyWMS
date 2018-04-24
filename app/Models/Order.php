@@ -46,11 +46,6 @@ class Order extends AuditableModel
 
     protected $dates = ['order_date', 'expected_delivery'];
 
-    protected $casts = [
-        'confirmation_received' => 'boolean',
-        'invoice_received' => 'boolean',
-    ];
-
     protected $fieldNames = [
         'status' => 'Status',
         'total_cost' => 'Gesamtkosten',

@@ -13,7 +13,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class OrderItem extends Model
 {
-    protected $fillable = ['article_id', 'price', 'quantity'];
+    protected $fillable = ['article_id', 'price', 'quantity', 'expected_delivery'];
+
+    protected $casts = [
+        'confirmation_received' => 'boolean',
+        'invoice_received' => 'boolean',
+    ];
+
+    protected $dates = ['expected_delivery'];
 
     /**
      * @mixin Article

@@ -17,7 +17,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-lg-12 col-xxl-6">
+    <div class="col-lg-12 col-xl-6">
         <div class="ibox">
             <div class="ibox-title">
                 <h5>
@@ -56,8 +56,7 @@
                     </div>
 
                     <div class="col-xs-3">
-                        <small class="stats-label">Liefertermin</small>
-                        <h2>{{ !empty($order->expected_delivery) ? $order->expected_delivery->format('d.m.Y') : '' }}</h2>
+
                     </div>
 
                     <div class="col-xs-3">
@@ -66,14 +65,22 @@
                     </div>
 
                     <div class="col-xs-3">
-                        <small class="stats-label">Auftragsbestätigung</small>
+                        <small class="stats-label">Bezahlstatus</small>
                         <h2>
-                            @if($order->confirmation_received)
-                                <span class="text-success">erhalten</span>
+                            @if($order->payment_status > 0)
+                                <span class="text-success">{{ \Mss\Models\Order::PAYMENT_STATUS_TEXT[$order->payment_status] }}</span>
                             @else
-                                <span class="text-danger">nicht erhalten</span>
-                                {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.confirmation_received', $order]]) !!}
-                                <button type="submit" class="btn btn-xs btn-outline btn-success"><i class="fa fa-check"></i></button>
+                                <span class="text-danger">{{ \Mss\Models\Order::PAYMENT_STATUS_TEXT[$order->payment_status] }}</span>
+                                {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.change_payment_status', $order]]) !!}
+                                <button type="button" class="btn btn-xs btn-outline btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-check"></i>
+                                </button>
+                                <ul class="dropdown-menu payment-type-dropdown" aria-labelledby="dLabel">
+                                    <li><a href="#" data-value="{{ \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_PAYPAL }}">Paypal</a></li>
+                                    <li><a href="#" data-value="{{ \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD }}">Kreditkarte</a></li>
+                                    <li><a href="#" data-value="{{ \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_INVOICE }}">Rechnung</a></li>
+                                </ul>
+                                <input type="hidden" id="payment_type" name="type" value="" />
                                 {!! Form::close() !!}
                             @endif
                         </h2>
@@ -82,49 +89,15 @@
             </div>
             <div class="ibox-content">
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-12">
                         <small class="stats-label">Bemerkungen</small>
                         <h2>{{ $order->notes ?: '-' }}</h2>
-                    </div>
-                    <div class="col-xs-3">
-                        <small class="stats-label">Rechnung</small>
-                        <h2>
-                            @if($order->invoice_received)
-                                <span class="text-success">erhalten</span>
-                            @else
-                                <span class="text-danger">nicht erhalten</span>
-                                {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.invoice_received', $order]]) !!}
-                                <button type="submit" class="btn btn-xs btn-outline btn-success"><i class="fa fa-check"></i></button>
-                                {!! Form::close() !!}
-                            @endif
-                        </h2>
-                    </div>
-                    <div class="col-xs-3">
-                        <small class="stats-label">Bezahlstatus</small>
-                        <h2>
-                            @if($order->payment_status > 0)
-                                <span class="text-success">{{ \Mss\Models\Order::PAYMENT_STATUS_TEXT[$order->payment_status] }}</span>
-                            @else
-                                <span class="text-danger">{{ \Mss\Models\Order::PAYMENT_STATUS_TEXT[$order->payment_status] }}</span>
-                                {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.change_payment_status', $order]]) !!}
-                                    <button type="button" class="btn btn-xs btn-outline btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                    <ul class="dropdown-menu payment-type-dropdown" aria-labelledby="dLabel">
-                                        <li><a href="#" data-value="{{ \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_PAYPAL }}">Paypal</a></li>
-                                        <li><a href="#" data-value="{{ \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD }}">Kreditkarte</a></li>
-                                        <li><a href="#" data-value="{{ \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_INVOICE }}">Rechnung</a></li>
-                                    </ul>
-                                    <input type="hidden" id="payment_type" name="type" value="" />
-                                {!! Form::close() !!}
-                            @endif
-                        </h2>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-12 col-xxl-6">
+    <div class="col-lg-12 col-xl-6">
         <div class="ibox collapsed">
             <div class="ibox-title">
                 <h5>Logbuch</h5>
@@ -144,7 +117,21 @@
     <div class="col-lg-12 col-xxl-6">
         <div class="ibox">
             <div class="ibox-title">
-                <h5>Artikel</h5>
+                <div class="col-lg-6">
+                    <h5>Artikel</h5>
+                </div>
+                <div class="col-lg-6">
+                    <div class="col-lg-4">
+                        {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.all_items_confirmation_received', $order]]) !!}
+                        <button type="submit" class="btn btn-xs btn-outline btn-success btn-xs" title="alle Auftragsbestätigungen erhalten"><i class="fa fa-check"></i> Auftragsbestätigung</button>
+                        {!! Form::close() !!}
+                    </div>
+                    <div class="col-lg-4">
+                        {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.all_items_invoice_received', $order]]) !!}
+                        <button type="submit" class="btn btn-xs btn-outline btn-success btn-xs" title="alle Rechnungen erhalten"><i class="fa fa-check"></i> Rechnung</button>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
             </div>
             <div class="ibox-content">
                 @foreach($order->items as $item)
@@ -152,28 +139,64 @@
                         <div class="panel-body row">
                             <div class="col-lg-6">
                                 <small class="stats-label">Artikel</small>
-                                <h4>
+                                <h3>
                                     <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
                                     <br/>
                                     <small class="p-t-8"># {{ $item->article->article_number }}</small>
-                                </h4>
+                                </h3>
                             </div>
-                            <div class="col-lg-2">
-                                <small class="stats-label">Preis je Einheit</small>
-                                <h4>{!! formatPrice($item->price)  !!}</h4>
-                            </div>
-                            <div class="col-lg-2">
-                                <small class="stats-label">bestellte Menge</small>
-                                <h4>{{ $item->quantity }}</h4>
-                            </div>
-                            <div class="col-lg-2">
-                                @if($item->getQuantityDelivered() == $item->quantity)
-                                    <h1 class="pull-right" title="komplett geliefert"><i class="fa fa-check-circle text-success"></i></h1>
-                                @elseif($item->getQuantityDelivered() > $item->quantity)
-                                    <h1 class="pull-right" title="zu viel geliefert!"><i class="fa fa-exclamation-triangle text-danger"></i></h1>
-                                @endif
-                                <small class="stats-label">gelieferte Menge</small>
-                                <h4 class="@if($item->getQuantityDelivered() < $item->quantity) text-warning @elseif($item->getQuantityDelivered() > $item->quantity) text-danger @else text-success @endif">{{ $item->getQuantityDelivered() }}</h4>
+                            <div class="col-lg-6">
+                                <div class="col-lg-4">
+                                    <small class="stats-label">Preis je Einheit</small>
+                                    <h3>{!! formatPrice($item->price)  !!}</h3>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <small class="stats-label">bestellte Menge</small>
+                                    <h3>{{ $item->quantity }}</h3>
+                                </div>
+                                <div class="col-lg-4">
+                                    @if($item->getQuantityDelivered() == $item->quantity)
+                                        <h1 class="pull-right" title="komplett geliefert"><i class="fa fa-check-circle text-success"></i></h1>
+                                    @elseif($item->getQuantityDelivered() > $item->quantity)
+                                        <h1 class="pull-right" title="zu viel geliefert!"><i class="fa fa-exclamation-triangle text-danger"></i></h1>
+                                    @endif
+                                    <small class="stats-label">gelieferte Menge</small>
+                                    <h3 class="@if($item->getQuantityDelivered() < $item->quantity) text-warning @elseif($item->getQuantityDelivered() > $item->quantity) text-danger @else text-success @endif">{{ $item->getQuantityDelivered() }}</h3>
+                                </div>
+
+                                <div class="col-lg-4 m-t-md">
+                                    <small class="stats-label">Auftragsbestätigung</small>
+                                    <h3>
+                                        @if($item->confirmation_received)
+                                            <span class="text-success">erhalten</span>
+                                        @else
+                                            <span class="text-danger">nicht erhalten</span>
+                                            {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.item_confirmation_received', $item]]) !!}
+                                            <button type="submit" class="btn btn-xs btn-outline btn-success"><i class="fa fa-check"></i></button>
+                                            {!! Form::close() !!}
+                                        @endif
+                                    </h3>
+                                </div>
+
+                                <div class="col-lg-4 m-t-md">
+                                    <small class="stats-label">Rechnung</small>
+                                    <h3>
+                                        @if($item->invoice_received)
+                                            <span class="text-success">erhalten</span>
+                                        @else
+                                            <span class="text-danger">nicht erhalten</span>
+                                            {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.item_invoice_received', $item]]) !!}
+                                            <button type="submit" class="btn btn-xs btn-outline btn-success"><i class="fa fa-check"></i></button>
+                                            {!! Form::close() !!}
+                                        @endif
+                                    </h3>
+                                </div>
+
+                                <div class="col-lg-4 m-t-md">
+                                    <small class="stats-label">Liefertermin</small>
+                                    <h3>{{ !empty($item->expected_delivery) ? $item->expected_delivery->format('d.m.Y') : '' }}</h3>
+                                </div>
                             </div>
                         </div>
                     </div>

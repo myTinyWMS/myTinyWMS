@@ -43,7 +43,7 @@ var SignatureButton = function (context) {
 
 @section('content')
 <div class="row">
-    <div class="col-lg-8 col-xxl-6">
+    <div class="col-lg-8 col-xl-8">
         {!! Form::open(['route' => ['order.message_create', $order], 'method' => 'POST', 'id' => 'newMessageForm']) !!}
         <div class="ibox">
             <div class="ibox-title">
@@ -61,7 +61,7 @@ var SignatureButton = function (context) {
         </div>
         {!! Form::close() !!}
     </div>
-    <div class="col-lg-4 col-xxl-6">
+    <div class="col-lg-4 col-xl-4">
         <div class="ibox">
             <div class="ibox-title">
                 <h5>Anhänge</h5>

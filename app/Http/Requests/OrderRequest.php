@@ -29,7 +29,7 @@ class OrderRequest extends FormRequest
             'total_cost' => 'nullable|regex:/[0-9]+[.,]?[0-9]*/',
             'shipping_cost' => 'nullable|regex:/[0-9]+[.,]?[0-9]*/',
             'order_date' => 'nullable|date',
-            'expected_delivery' => 'nullable|date',
+            'expected_delivery.*' => 'nullable|date',
             'article.*' => 'nullable|exists:articles,id',
             'quantity.*' => 'nullable|integer',
             'price.*' => 'nullable|regex:/[0-9]+[.,]?[0-9]*/'

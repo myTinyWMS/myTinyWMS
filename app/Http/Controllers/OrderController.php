@@ -80,10 +80,7 @@ class OrderController extends Controller
         $order->total_cost = parsePrice($request->get('total_cost'));
         $order->shipping_cost = parsePrice($request->get('shipping_cost')) ?? 0;
         $order->order_date = !empty($request->get('order_date')) ? Carbon::parse($request->get('order_date')) : null;
-        $order->expected_delivery = !empty($request->get('expected_delivery')) ? Carbon::parse($request->get('expected_delivery')) : null;
         $order->notes = $request->get('notes');
-        $order->confirmation_received = $request->get('confirmation_received') ?? false;
-        $order->invoice_received = $request->get('invoice_received') ?? false;
 
         if ($order->status === Order::STATUS_NEW) {
             $order->status = Order::STATUS_ORDERED;
@@ -95,6 +92,7 @@ class OrderController extends Controller
         collect($request->get('article'))->each(function ($article, $key) use ($order, $request) {
             $quantity = intval($request->get('quantity')[$key] ?: 0);
             $price = $request->get('price')[$key] ?: null;
+            $expectedDelivery = !empty($request->get('expected_delivery')[$key]) ? Carbon::parse($request->get('expected_delivery')[$key]) : null;
 
             if (empty($article) || empty($quantity)) {
                 return true;
@@ -103,7 +101,8 @@ class OrderController extends Controller
             $order->items()->create([
                 'article_id' => $article,
                 'price' => parsePrice($price),
-                'quantity' => $quantity
+                'quantity' => $quantity,
+                'expected_delivery' => $expectedDelivery
             ]);
         });
 
@@ -111,16 +110,38 @@ class OrderController extends Controller
         return redirect()->route('order.show', $order);
     }
 
-    public function confirmationReceived(Order $order) {
-        $order->confirmation_received = true;
-        $order->save();
+    public function itemConfirmationReceived(OrderItem $orderitem) {
+        $orderitem->confirmation_received = true;
+        $orderitem->save();
+
+        return redirect()->route('order.show', $orderitem->order);
+    }
+
+    public function itemInvoiceReceived(OrderItem $orderitem) {
+        $orderitem->invoice_received = true;
+        $orderitem->save();
+
+        return redirect()->route('order.show', $orderitem->order);
+    }
+
+    public function allItemsInvoiceReceived(Order $order) {
+        $order->items->each(function ($orderitem) {
+            if (!$orderitem->invoice_received) {
+                $orderitem->invoice_received = true;
+                $orderitem->save();
+            }
+        });
 
         return redirect()->route('order.show', $order);
     }
 
-    public function invoiceReceived(Order $order) {
-        $order->invoice_received = true;
-        $order->save();
+    public function allItemsConfirmationReceived(Order $order) {
+        $order->items->each(function ($orderitem) {
+            if (!$orderitem->confirmation_received) {
+                $orderitem->confirmation_received = true;
+                $orderitem->save();
+            }
+        });
 
         return redirect()->route('order.show', $order);
     }
