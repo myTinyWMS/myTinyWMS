@@ -35,6 +35,16 @@
 
 @section('datatableFilters')
     <label>
+        Lieferant:&nbsp;
+        <select id="filterSupplier" data-target-col="1" class="form-control input-sm datatableFilter-select">
+            <option value=""></option>
+            @foreach($supplier as $item)
+                <option value="{{ $item->id }}">{{ $item->name }}</option>
+            @endforeach
+        </select>
+    </label>
+
+    <label>
         Status:&nbsp;
         <select id="filterStatus" data-target-col="2" class="form-control input-sm datatableFilter-select">
             <option value="open">offen (neu, bestellt, teilweise geliefert)</option>
@@ -42,8 +52,28 @@
             <option value="{{ \Mss\Models\Order::STATUS_ORDERED }}">bestellt</option>
             <option value="{{ \Mss\Models\Order::STATUS_PARTIALLY_DELIVERED }}">teilweise geliefert</option>
             <option value="{{ \Mss\Models\Order::STATUS_DELIVERED }}">geliefert</option>
-            <option value="{{ \Mss\Models\Order::STATUS_PAID }}">bezahlt</option>
-            <option value="{{ \Mss\Models\Order::STATUS_CANCELLED }}">storniert</option>
+            {{--<option value="{{ \Mss\Models\Order::STATUS_PAID }}">bezahlt</option>--}}
+{{--            <option value="{{ \Mss\Models\Order::STATUS_CANCELLED }}">storniert</option>--}}
+        </select>
+    </label>
+
+    <label>
+        Rechnungsstatus:&nbsp;
+        <select id="filterInvoiceStatus" data-target-col="4" class="form-control input-sm datatableFilter-select">
+            <option value="empty">alle</option>
+            <option value="none">offen</option>
+            <option value="all">komplett erhalten</option>
+            <option value="partial">teilweise erhalten</option>
+        </select>
+    </label>
+
+    <label>
+        AB-Status:&nbsp;
+        <select id="filterConfirmationStatus" data-target-col="3" class="form-control input-sm datatableFilter-select">
+            <option value="empty">alle</option>
+            <option value="none">offen</option>
+            <option value="all">komplett erhalten</option>
+            <option value="partial">teilweise erhalten</option>
         </select>
     </label>
 @endsection

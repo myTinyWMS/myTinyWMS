@@ -106,4 +106,10 @@ class Order extends AuditableModel
     public function scopeStatusOpen($query) {
         $query->whereIn('status', [Order::STATUS_NEW, Order::STATUS_ORDERED, Order::STATUS_PARTIALLY_DELIVERED]);
     }
+
+    public function scopeWithSupplierName($query) {
+        $query->addSubSelect('supplier_name', Supplier::select('name')
+            ->whereRaw('supplier_id = suppliers.id')
+        );
+    }
 }

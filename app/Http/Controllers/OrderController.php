@@ -29,8 +29,9 @@ class OrderController extends Controller
      */
     public function index(OrderDataTable $orderDataTable) {
         $unassignedMessages = OrderMessage::unassigned()->count();
+        $supplier = Supplier::orderedByName()->get();
 
-        return $orderDataTable->render('order.list', compact('unassignedMessages'));
+        return $orderDataTable->render('order.list', compact('unassignedMessages', 'supplier'));
     }
 
     /**
