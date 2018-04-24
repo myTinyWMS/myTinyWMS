@@ -84,6 +84,7 @@
 
                     {{ Form::bsCheckbox('inventory', $article->inventory, 'Inventur', $article->inventory, []) }}
                     {{ Form::bsTextarea('notes', $article->notes, [], 'Bemerkungen') }}
+                    {{ Form::bsTextarea('order_notes', $article->order_notes, [], 'Bestell Hinweise') }}
 
 
                     <div class="form-group">

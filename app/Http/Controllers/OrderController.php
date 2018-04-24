@@ -52,6 +52,7 @@ class OrderController extends Controller
                 return [
                     'article_id' => $article->id,
                     'quantity' => $article->currentSupplierArticle->order_quantity ?? '',
+                    'order_notes' => $article->order_notes ?? '',
                     'price' => $article->currentSupplierArticle->price ? $article->currentSupplierArticle->price / 100 : ''
                 ];
             });
@@ -238,7 +239,7 @@ class OrderController extends Controller
     }
 
     protected function getArticleList() {
-        return Article::active()->with('suppliers')->withCurrentSupplier()->withCurrentSupplierArticle()->orderBy('name')->get()
+        return Article::active()->with(['suppliers', 'category'])->withCurrentSupplier()->withCurrentSupplierArticle()->orderBy('name')->get()
             ->transform(function ($article) {
                 /*@var $article Article */
                 return [
@@ -246,6 +247,7 @@ class OrderController extends Controller
                     'name' => $article->name/*.(!empty($article->unit) ? ' ('.$article->unit->name.')' : '')*/,
                     'supplier_id' => $article->currentSupplier->id,
                     'category' => $article->category->name ?? '',
+                    'order_notes' => $article->order_notes ?? '',
                     'order_quantity' => $article->currentSupplierArticle->order_quantity ?? 0,
                     'price' => $article->currentSupplierArticle->price ? $article->currentSupplierArticle->price / 100 : 0
                 ];

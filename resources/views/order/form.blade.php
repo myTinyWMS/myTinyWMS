@@ -109,6 +109,7 @@
             <div class="panel-body row">
                 <div class="col-lg-7">
                     {{ Form::bsSelect('article[]', null, [],  'Artikel', ['class' => 'form-control article-select']) }}
+                    <button type="button" class="btn btn-warning btn-xs m-t-sm m-r-md article-order-notes" data-toggle="tooltip" data-placement="left" title=""><i class="fa fa-exclamation-triangle"></i></button>
                 </div>
                 <div class="col-lg-2 text-right">
                     {{ Form::bsText('quantity[]', null, ['class' => 'form-control text-right quantity-select', 'required' => 'required'], 'Menge') }}
@@ -147,13 +148,19 @@
             });
 
             $("#article-list .article-select").on('select2:select', function (e) {
+                var tooltip = $(this).parent().parent().parent().find('.article-order-notes');
                 var quantity = $(this).parent().parent().parent().find('.quantity-select');
                 var price = $(this).parent().parent().parent().find('.price-select');
+
+                tooltip.hide();
 
                 $.each(allArticles, function (key, value) {
                     if (value.id == e.params.data.id) {
                         quantity.val(value.order_quantity);
                         price.val(formatPrice(value.price));
+                        if (value.order_notes != '') {
+                            tooltip.show().attr('title', value.order_notes).tooltip('fixTitle');
+                        }
                     }
                 });
             });
@@ -184,6 +191,7 @@
                     addArticle();
                 }
 
+                $("#article-list .article-order-notes:eq(" + key + ")").attr('title', value.order_notes).tooltip('fixTitle');
                 $("#article-list .article-select:eq(" + key + ")").val(value.article_id).trigger("change");
                 $("#article-list .quantity-select:eq(" + key + ")").val(value.quantity).trigger("change");
                 $("#article-list .price-select:eq(" + key + ")").val(formatPrice(value.price)).trigger("change");
@@ -201,7 +209,8 @@
                     currentArticles.push({
                         id: value.id,
                         text: value.name,
-                        category: value.category
+                        category: value.category,
+                        order_notes: value.order_notes
                     });
                 }
             });
