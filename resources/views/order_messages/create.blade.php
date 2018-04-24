@@ -15,12 +15,12 @@
 @endsection
 
 @section('summernote_custom_toolbar')
-['custom', [ 'hello']],
+['custom', [ 'signature']],
 @endsection
 
 @section('summernote_custom_config')
 ,buttons: {
-    hello: SignatureButton
+    signature: SignatureButton
 }
 @endsection
 
@@ -56,6 +56,7 @@ var SignatureButton = function (context) {
 
                 <hr class="hr-line-solid">
                 {!! Form::hidden('attachments') !!}
+                {!! Form::hidden('sendOrder', $sendOrder) !!}
                 {!! Form::submit('Abschicken', ['class' => 'btn btn-primary']) !!}
             </div>
         </div>

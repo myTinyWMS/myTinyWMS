@@ -34,12 +34,14 @@ class OrderMessageController extends Controller {
             $preSetBody = '<br/><br/>Am '.$orgMessage->received->formatLocalized('%A, %d.%B %Y, %H:%M Uhr').' schrieb '.($orgMessage->sender->contains('System') ? env('MAIL_FROM_ADDRESS') : $orgMessage->sender->first()).':<br/><blockquote style="padding: 10px 20px;margin: 5px 0 20px;border-left: 5px solid #eee;">'.$orgMessage->htmlBody.'</blockquote>';
         }
 
+        $sendOrder = false;
         if (request('sendorder')) {
             $preSetBody = view('emails.new_order', compact('order'))->render();
             $preSetSubject = 'Unsere Bestellung '.$order->internal_order_number;
+            $sendOrder = true;
         }
 
-        return view('order_messages.create', compact('order', 'preSetBody', 'preSetReceiver', 'preSetSubject'));
+        return view('order_messages.create', compact('order', 'preSetBody', 'preSetReceiver', 'preSetSubject', 'sendOrder'));
     }
 
     /**
@@ -84,6 +86,11 @@ class OrderMessageController extends Controller {
             'read' => true,
             'received' => Carbon::now()
         ]);
+
+        if ($request->get('sendOrder')) {
+            $order->status = Order::STATUS_ORDERED;
+            $order->save();
+        }
 
         flash('Nachricht verschickt')->success();
 

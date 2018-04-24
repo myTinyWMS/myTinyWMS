@@ -21,7 +21,7 @@
         <div class="ibox">
             <div class="ibox-title">
                 <h5>
-                    Bestellung bei {{ optional($order->supplier)->name }}
+                    Bestellung #{{ $order->internal_order_number }}
                 </h5>
                 <a href="{{ route('order.edit', $order) }}" class="btn btn-primary btn-xs pull-right">bearbeiten</a>
             </div>
@@ -37,14 +37,9 @@
                         <h2>{{ $order->external_order_number }}</h2>
                     </div>
 
-                    <div class="col-xs-3">
-                        <small class="stats-label">Gesamtkosten</small>
-                        <h2>{!! formatPrice($order->total_cost) !!}</h2>
-                    </div>
-
-                    <div class="col-xs-3">
-                        <small class="stats-label">Versandkosten</small>
-                        <h2>{!! formatPrice($order->shipping_cost) !!}</h2>
+                    <div class="col-xs-6">
+                        <small class="stats-label">Lieferant</small>
+                        <h2><a href="{{ route('supplier.show', $order->supplier) }}" target="_blank">{{ optional($order->supplier)->name }}</a></h2>
                     </div>
                 </div>
             </div>
