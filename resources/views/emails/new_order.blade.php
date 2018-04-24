@@ -46,13 +46,7 @@
         <td align="left" valign="middle" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 14px; color: #353535; padding:3%; padding-top:40px; padding-bottom:40px;">
             Bitte bestätigen Sie uns die Bestellung unter Angabe unserer Auftragsnummer "{{ $order->internal_order_number }}".
             <br/><br/><br/>
-            Mit freundlichen Grüßen<br/>
-            <br/>
-            {{ \Illuminate\Support\Facades\Auth::user()->name }}<br><br>
-            Test GmbH<br>
-            Abt. Einkauf<br>
-            Teststraße 1<br>
-            01234 Test<br>
+            @include('components.signature')
         </td>
     </tr>
 </table>

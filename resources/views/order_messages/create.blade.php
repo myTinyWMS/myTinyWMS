@@ -14,8 +14,34 @@
     </li>
 @endsection
 
-@section('content')
+@section('summernote_custom_toolbar')
+['custom', [ 'hello']],
+@endsection
 
+@section('summernote_custom_config')
+,buttons: {
+    hello: SignatureButton
+}
+@endsection
+
+@section('summernote_custom_js')
+var SignatureButton = function (context) {
+    var ui = $.summernote.ui;
+
+    // create button
+    var button = ui.button({
+    contents: '<i class="fa fa-plus"/> Signatur',
+    tooltip: 'Signatur einfügen',
+    click: function () {
+        context.invoke('editor.pasteHTML', `@include('components.signature')`);
+    }
+    });
+
+    return button.render();   // return button as jquery object
+};
+@endsection
+
+@section('content')
 <div class="row">
     <div class="col-lg-8 col-xxl-6">
         {!! Form::open(['route' => ['order.message_create', $order], 'method' => 'POST', 'id' => 'newMessageForm']) !!}

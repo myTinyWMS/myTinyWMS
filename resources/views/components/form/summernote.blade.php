@@ -5,6 +5,7 @@
 
 @push('scripts')
     <script>
+        @yield('summernote_custom_js')
         $(document).ready(function () {
             $('.summernote').summernote({
                 lang: 'de-DE',
@@ -17,10 +18,12 @@
                     ['para', ['ul', 'ol', 'paragraph']],
                     ['height', ['height']],
                     ['table', ['table']],
+                    @yield('summernote_custom_toolbar')
                     /*['insert', ['link', 'picture', 'hr']],
                     ['view', ['fullscreen', 'codeview']],*/
                     ['help', ['help']]
                 ]
+                @yield('summernote_custom_config')
             });
         });
     </script>
