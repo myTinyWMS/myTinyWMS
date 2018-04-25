@@ -134,10 +134,10 @@
                                     <label for="changelogChange" class="control-label">Veränderung</label>
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="changelog-current-math">+</span> <span class="caret"></span></button>
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="changelog-current-math">-</span> <span class="caret"></span></button>
                                             <ul class="dropdown-menu pull-left" id="changelogChangeDropdown">
-                                                <li><a href="#" class="changelog-set-add">+</a></li>
                                                 <li><a href="#" class="changelog-set-sub">-</a></li>
+                                                <li><a href="#" class="changelog-set-add">+</a></li>
                                             </ul>
                                         </div>
                                         <input type="hidden" name="changelogChangeType" value="">
@@ -176,7 +176,7 @@
 
 @push('scripts')
 <script>
-    var changelogMath = 'add';
+    var changelogMath = 'sub';
 
     $(document).ready(function () {
         $('#changelogChange').keyup(function () {
