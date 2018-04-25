@@ -1,7 +1,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
     <tr>
         <td align="left" valign="middle" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 14px; color: #353535; padding:3%; padding-top:40px; padding-bottom:40px;">
-            <p>Sehr geehrte/geehrter {{ $order->supplier->contact_person ?: 'Damen und Herren' }},</p>
+            <p>Sehr geehrte Damen und Herren,</p>
 
             <p>hiermit bestellen wir folgende Artikel:</p>
         </td>
