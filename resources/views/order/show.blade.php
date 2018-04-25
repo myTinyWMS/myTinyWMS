@@ -17,7 +17,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-lg-12 col-xl-6">
+    <div class="col-lg-12 col-xxl-8">
         <div class="ibox">
             <div class="ibox-title">
                 <h5>
@@ -92,7 +92,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-12 col-xl-6">
+    <div class="col-lg-12 col-xxl-4">
         <div class="ibox collapsed">
             <div class="ibox-title">
                 <h5>Logbuch</h5>
@@ -109,7 +109,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12 col-xxl-6">
+    <div class="col-lg-12 col-xxl-8">
         <div class="ibox">
             <div class="ibox-title">
                 <div class="col-lg-6">
@@ -132,7 +132,7 @@
                 @foreach($order->items as $item)
                     <div class="panel panel-primary">
                         <div class="panel-body row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-5">
                                 <small class="stats-label">Artikel</small>
                                 <h3>
                                     <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
@@ -140,7 +140,7 @@
                                     <small class="p-t-8"># {{ $item->article->article_number }}</small>
                                 </h3>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-7">
                                 <div class="col-lg-4">
                                     <small class="stats-label">Preis je Einheit</small>
                                     <h3>{!! formatPrice($item->price)  !!}</h3>
@@ -199,7 +199,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-12 col-xxl-6">
+    <div class="col-lg-12 col-xxl-4">
         <div class="ibox">
             <div class="ibox-title">
                 <h5>Lieferungen</h5>
@@ -208,13 +208,9 @@
                 @foreach($order->deliveries->sortByDesc('delivery_date') as $delivery)
                 <div class="panel panel-primary">
                     <div class="panel-body row">
-                        <div class="col-lg-2">
+                        <div class="col-lg-4">
                             <small class="stats-label">Lieferdatum</small>
                             <h3>{{ $delivery->delivery_date ? $delivery->delivery_date->format('d.m.Y') : '-' }}</h3>
-                        </div>
-                        <div class="col-lg-2">
-                            <small class="stats-label">Lieferscheinnummer</small>
-                            <h3>{{ $delivery->delivery_note_number }}</h3>
                         </div>
                         <div class="col-lg-8">
                             <small class="stats-label">Bemerkung</small>
