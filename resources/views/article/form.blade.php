@@ -141,14 +141,15 @@
                                             </ul>
                                         </div>
                                         <input type="hidden" name="changelogChangeType" value="">
-                                        <input class="form-control" type="text" id="changelogChange" value="" name="changelogChange" placeholder="Menge">
+                                        <input class="form-control" type="text" id="changelogChange" value="" name="changelogChange" placeholder="Menge" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="changelogType" class="control-label">Typ der Änderung</label>
-                                    <select id="changelogType" name="changelogType" class="form-control">
+                                    <select id="changelogType" name="changelogType" class="form-control" required>
+                                        <option value=""></option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING }}" data-type="add">Wareneingang</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING }}" data-type="sub">Warenausgang</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_CORRECTION }}" data-type="both">Korrektur</option>
