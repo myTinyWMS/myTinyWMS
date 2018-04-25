@@ -26,6 +26,24 @@
                 <div class="ibox-content">
                     @yield('form_start')
 
+                    <div class="row">
+                        <div class="col-lg-6">
+                            @if ($isNewArticle ?? true)
+                                {{ Form::bsText('quantity', $article->quantity, [], 'Bestand') }}
+                            @else
+                                <div class="form-group">
+                                    <label class="control-label">Bestand</label>
+                                    <div class="form-control-static">
+                                        {{ $article->quantity }} <button type="button" class="btn btn-danger btn-xs edit-quantity m-l-md" data-toggle="modal" data-target="#changeQuantityModal">ändern</button>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="col-lg-6">
+
+                        </div>
+                    </div>
+
                     {{ Form::bsTextarea('name', $article->name, ['rows' => 2] , 'Name') }}
                     {{ Form::bsSelect('status', $article->status, \Mss\Models\Article::getStatusTextArray(),  'Status') }}
                     {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderedByName()->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
@@ -56,23 +74,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-6">
-                            @if ($isNewArticle ?? true)
-                                {{ Form::bsText('quantity', $article->quantity, [], 'Bestand') }}
-                            @else
-                                <div class="form-group">
-                                    <label class="control-label">Bestand</label>
-                                    <div class="form-control-static">
-                                        {{ $article->quantity }} <button type="button" class="btn btn-danger btn-xs edit-quantity m-l-md" data-toggle="modal" data-target="#changeQuantityModal">ändern</button>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="col-lg-6">
 
-                        </div>
-                    </div>
 
                     <div class="row">
                         <div class="col-lg-6">
@@ -80,6 +82,9 @@
                         </div>
                         <div class="col-lg-6">
                             {{ Form::bsText('issue_quantity', $article->issue_quantity, [], 'Entnahmemenge') }}
+                        </div>
+                        <div class="col-lg-12 m-b-md">
+                            <span class="help-block m-b-none">Mindestbestand = -1 &raquo; der Artikel erscheint nicht in der zu Bestellen Liste</span>
                         </div>
                     </div>
 
