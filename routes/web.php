@@ -18,6 +18,9 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => ['auth']], function () {
+    Route::get('article/fix-inventory', 'ArticleController@fixInventoryForm')->name('article.fix_inventory_form');
+    Route::post('article/fix-inventory', 'ArticleController@fixInventorySave')->name('article.fix_inventory_save');
+
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::resources([
         'article' => 'ArticleController',

@@ -289,4 +289,20 @@ class ArticleController extends Controller
 
         return redirect()->route('article.index');
     }
+
+    public function fixInventoryForm() {
+        $articles = Article::active()->with('category')->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
+            return $article->category->name;
+        })->ksort();
+
+        return view('article.fix_inventory', compact('articles'));
+    }
+
+    public function fixInventorySave(Request $request) {
+        Article::active()->update(['inventory' => 0]);
+        Article::whereIn('id', array_keys($request->get('inventory')))->update(['inventory' => 1]);
+        flash('Inventur Feld gespeichert');
+
+        return response()->redirectToRoute('article.fix_inventory_form', 'success');
+    }
 }
