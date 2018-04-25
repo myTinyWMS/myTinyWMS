@@ -102,7 +102,7 @@ class OrderMessageController extends Controller {
 
         flash('Nachricht gelöscht')->success();
 
-        if ($order instanceof Order) {
+        if ($order = Order::find($order)) {
             return redirect()->route('order.show', $order);
         } else {
             return redirect()->route('order.messages_unassigned');
