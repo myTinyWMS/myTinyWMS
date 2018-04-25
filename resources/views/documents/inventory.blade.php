@@ -40,6 +40,10 @@
                 background-color: #f2f2f2;
             }
 
+            table, tr, td, th, tbody, thead, tfoot {
+                page-break-inside: avoid !important;
+            }
+
             thead { display: table-row-group; }
         </style>
     </head>
@@ -61,7 +65,7 @@
                 <tbody>
                 @foreach($articles as $article)
                     <tr>
-                        <td>{{ $article->article_number }}</td>
+                        <td class="text-center">{{ $article->article_number }}</td>
                         <td>{{ $article->name }}</td>
                         <td class="text-center">{{ $article->quantity }}</td>
                         <td></td>
