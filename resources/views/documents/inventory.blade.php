@@ -65,7 +65,7 @@
                         <td>{{ $article->name }}</td>
                         <td class="text-center">{{ $article->quantity }}</td>
                         <td></td>
-                        <td>{{ $article->unit->name }}</td>
+                        <td>{{ optional($article->unit)->name }}</td>
                         <td>{{ $article->notes }}</td>
                     </tr>
                 @endforeach
