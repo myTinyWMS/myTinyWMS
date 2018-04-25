@@ -46,7 +46,7 @@
                                         <a href="{{ route('order.message_unread', [$order, $message]) }}" class="btn btn-white btn-xs" title="Als Ungelesen markieren"><i class="fa fa-eye"></i> Ungelesen</a>
                                         @endif
                                         <a href="#" class="btn btn-white btn-xs" title="In Bestellung verschieben" data-message-id="{{ $message->id }}" data-toggle="modal" data-target="#assignMessageModal"><i class="fa fa-share"></i> Verschieben</a>
-                                        <form action="{{ route('order.message_delete', [$order, $message]) }}" class="list-form" method="POST">
+                                        <form action="{{ route('order.message_delete', ['message' => $message, 'order' => $order]) }}" class="list-form" method="POST">
                                             {{ csrf_field() }}
                                             <button class="btn btn-white btn-xs" onclick="return confirm('Wirklich löschen?')" title="Nachricht löschen"><i class="fa fa-trash-o"></i> Löschen</button>
                                         </form>

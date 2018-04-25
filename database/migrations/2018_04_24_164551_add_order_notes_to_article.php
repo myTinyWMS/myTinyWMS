@@ -14,7 +14,7 @@ class AddOrderNotesToArticle extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->text('order_notes');
+            $table->text('order_notes')->nullable();
         });
     }
 
