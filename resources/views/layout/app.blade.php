@@ -63,7 +63,7 @@
 
         @if (!empty($__env->yieldContent('datatableFilters')))
             <div id="datatableFilter" class="hidden">
-                <div class="pull-left m-b-md">
+                <div class="pull-left m-b-md text-left">
                     <h4 class="text-left">Filter:</h4>
                     @yield('datatableFilters')
                 </div>

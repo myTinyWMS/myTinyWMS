@@ -119,7 +119,9 @@ class OrderDataTable extends BaseDataTable
             ->minifiedAjax()
             ->columns($this->getColumns())
             ->parameters([
+                'paging' => false,
                 'order'   => [[0, 'desc']],
+                'rowGroup' => ['dataSrc' => 'supplier']
             ])
             ->addAction(['title' => '', 'width' => '150px']);
     }

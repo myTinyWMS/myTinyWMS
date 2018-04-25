@@ -52,8 +52,6 @@
             <option value="{{ \Mss\Models\Order::STATUS_ORDERED }}">bestellt</option>
             <option value="{{ \Mss\Models\Order::STATUS_PARTIALLY_DELIVERED }}">teilweise geliefert</option>
             <option value="{{ \Mss\Models\Order::STATUS_DELIVERED }}">geliefert</option>
-            {{--<option value="{{ \Mss\Models\Order::STATUS_PAID }}">bezahlt</option>--}}
-{{--            <option value="{{ \Mss\Models\Order::STATUS_CANCELLED }}">storniert</option>--}}
         </select>
     </label>
 
