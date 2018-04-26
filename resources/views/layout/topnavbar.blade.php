@@ -55,8 +55,9 @@
             minLength: 3
         });
 
-        $('.delete-notification').click(function () {
-            var notificationItem = $(this).parent().parent().parent();
+        $('.delete-notification').click(function (event) {
+            event.stopImmediatePropagation();
+            var notificationItem = $(this).parent().parent();
             $.get('/notification/' + $(this).attr('data-id') + '/delete', function () {
                 notificationItem.remove();
 
@@ -65,7 +66,7 @@
                 $('.count-info > .label')[0].innerText = current;
 
                 if (current == 0) {
-                    $('.count-info .label').removeClass('label-primary');
+                    $('.count-info .label').removeClass('label-danger');
                     $('.count-info .label').addClass('label-default');
                 }
             });

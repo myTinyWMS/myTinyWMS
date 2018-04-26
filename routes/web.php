@@ -29,6 +29,8 @@ Route::group(['middleware' => ['auth']], function () {
         'order' => 'OrderController',
     ]);
 
+    Route::get('notification/{id}/delete', 'NotificationController@delete');
+
     Route::get('inventory', 'InventoryController@generate')->name('inventory');
 
     Route::post('category/print-list', 'CategoryController@printList')->name('category.print_list');
