@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Order $order
  * @package Mss\Models
  */
-class OrderItem extends Model
+class OrderItem extends AuditableModel
 {
     protected $fillable = ['article_id', 'price', 'quantity', 'expected_delivery'];
 
