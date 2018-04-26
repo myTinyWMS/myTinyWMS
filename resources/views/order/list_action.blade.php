@@ -1,4 +1,5 @@
-<a href="{{ route('order.show', $id) }}" class="btn btn-primary btn-xs">Details</a>
+<a href="{{ route('order.show', $id) }}" class="btn btn-primary btn-xs m-b-sm">Details</a>
+<br>
 <form action="{{ route('order.destroy', $id) }}" class="list-form" method="POST">
     {{ method_field('DELETE') }}
     {{ csrf_field() }}

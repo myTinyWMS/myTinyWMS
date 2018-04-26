@@ -2,7 +2,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h5 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $order->id }}">Artikel</a>
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $order->id }}">anzeigen</a>
             </h5>
         </div>
         <div id="collapse{{ $order->id }}" class="panel-collapse collapse">
