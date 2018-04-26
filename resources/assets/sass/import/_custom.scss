@@ -211,3 +211,10 @@ body.mini-navbar .navbar-default .nav li a .label {
   display: block!important;
   margin-top: 3px;
 }
+
+.modal.modal-wide .modal-dialog {
+  width: 90%;
+}
+.modal-wide .modal-body {
+  overflow-y: auto;
+}

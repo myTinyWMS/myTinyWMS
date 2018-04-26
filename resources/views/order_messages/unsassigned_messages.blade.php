@@ -123,7 +123,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="assignMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal modal-wide fade" id="assignMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 {!! Form::open(['route' => ['order.message_assign'], 'method' => 'POST']) !!}

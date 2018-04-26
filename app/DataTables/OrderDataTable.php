@@ -91,9 +91,12 @@ class OrderDataTable extends BaseDataTable
                     $query->whereIn('status', Order::STATUSES_OPEN);
                 }
             })
+            ->addColumn('items', function ($order) {
+                return view('order.list_items', compact('order'))->render();
+            })
             ->editColumn('status', 'order.status')
             ->addColumn('action', $this->actionView)
-            ->rawColumns(['action', 'status', 'order_date', 'expected_delivery', 'internal_order_number', 'invoice_status', 'confirmation_status']);
+            ->rawColumns(['action', 'status', 'order_date', 'expected_delivery', 'internal_order_number', 'invoice_status', 'confirmation_status', 'items']);
     }
 
     /**
@@ -135,7 +138,8 @@ class OrderDataTable extends BaseDataTable
     {
         return [
             ['data' => 'internal_order_number', 'name' => 'internal_order_number', 'title' => 'Bestellnummer'],
-            ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant'],
+            ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant', 'visible' => false],
+            ['data' => 'items', 'name' => 'items', 'title' => 'Artikel'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Bestellstatus', 'width' => '50px', 'class' => 'text-center'],
             ['data' => 'confirmation_status', 'name' => 'confirmation_status', 'title' => 'AB', 'width' => '50px', 'class' => 'text-center', 'orderable' => false],
             ['data' => 'invoice_status', 'name' => 'invoice_status', 'title' => 'Rechnung', 'width' => '50px', 'class' => 'text-center', 'orderable' => false],

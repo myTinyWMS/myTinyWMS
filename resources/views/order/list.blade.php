@@ -46,7 +46,7 @@
 
     <label>
         Status:&nbsp;
-        <select id="filterStatus" data-target-col="2" class="form-control input-sm datatableFilter-select">
+        <select id="filterStatus" data-target-col="3" class="form-control input-sm datatableFilter-select">
             <option value="open">offen (neu, bestellt, teilweise geliefert)</option>
             <option value="{{ \Mss\Models\Order::STATUS_NEW }}">neu</option>
             <option value="{{ \Mss\Models\Order::STATUS_ORDERED }}">bestellt</option>
@@ -57,7 +57,7 @@
 
     <label>
         Rechnungsstatus:&nbsp;
-        <select id="filterInvoiceStatus" data-target-col="4" class="form-control input-sm datatableFilter-select">
+        <select id="filterInvoiceStatus" data-target-col="5" class="form-control input-sm datatableFilter-select">
             <option value="empty">alle</option>
             <option value="none">offen</option>
             <option value="all">komplett erhalten</option>
@@ -67,7 +67,7 @@
 
     <label>
         AB-Status:&nbsp;
-        <select id="filterConfirmationStatus" data-target-col="3" class="form-control input-sm datatableFilter-select">
+        <select id="filterConfirmationStatus" data-target-col="4" class="form-control input-sm datatableFilter-select">
             <option value="empty">alle</option>
             <option value="none">offen</option>
             <option value="all">komplett erhalten</option>
