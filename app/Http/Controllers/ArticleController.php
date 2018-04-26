@@ -278,7 +278,7 @@ class ArticleController extends Controller
     }
 
     public function printLabel(Request $request) {
-        $articles = Article::whereIn('id', $request->get('article'))->get();
+        $articles = Article::whereIn('id', $request->get('article'))->orderedByArticleNumber()->get();
         $labelService = new PrintLabelService();
 
         if ($labelService->printArticleLabels($articles)) {

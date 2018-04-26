@@ -141,6 +141,10 @@ class Article extends AuditableModel
         $query->orderBy('name');
     }
 
+    public function scopeOrderedByArticleNumber($query) {
+        $query->orderBy('article_number');
+    }
+
     public static function getStatusTextArray() {
         return [
             self::STATUS_ACTIVE => 'aktiv',

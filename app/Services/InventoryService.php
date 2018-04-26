@@ -16,7 +16,7 @@ class InventoryService {
      * @return PdfWrapper
      */
     public static function generatePdf(Carbon $date) {
-        $articles = Article::where('inventory', true)->active()->orderedByName()->with(['unit', 'category'])->get();
+        $articles = Article::where('inventory', true)->active()->orderedByArticleNumber()->with(['unit', 'category'])->get();
         $groupedArticles = $articles->groupBy(function ($article) {
             return $article->category->name;
         })->ksort();

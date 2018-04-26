@@ -120,7 +120,7 @@ class OrderDataTable extends BaseDataTable
             ->columns($this->getColumns())
             ->parameters([
                 'paging' => false,
-                'order'   => [[0, 'desc']],
+                'order'   => [[1, 'desc']],
                 'rowGroup' => ['dataSrc' => 'supplier']
             ])
             ->addAction(['title' => '', 'width' => '150px']);
