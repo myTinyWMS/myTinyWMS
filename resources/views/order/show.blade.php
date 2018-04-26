@@ -112,10 +112,10 @@
     <div class="col-lg-12 col-xxl-8">
         <div class="ibox">
             <div class="ibox-title">
-                <div class="col-lg-6">
+                <div class="col-lg-5">
                     <h5>Artikel</h5>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-7">
                     <div class="col-lg-4">
                         {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.all_items_confirmation_received', $order]]) !!}
                         <button type="submit" class="btn btn-xs btn-outline btn-success btn-xs" title="alle Auftragsbestätigungen erhalten"><i class="fa fa-check"></i> Auftragsbestätigung</button>

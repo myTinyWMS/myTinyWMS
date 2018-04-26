@@ -223,7 +223,8 @@ class OrderController extends Controller
 
         $articlesToPrint = new Collection();
         $quantities = collect($request->get('quantities'));
-        $order->items->each(function ($orderItem) use ($quantities, $delivery, $order, $request, &$articlesToPrint) {
+        $invoiceReceivedForAtLeastOneItem = false;
+        $order->items->each(function ($orderItem) use ($quantities, $delivery, $order, $request, &$articlesToPrint, &$invoiceReceivedForAtLeastOneItem) {
             /* @var OrderItem $orderItem */
             $quantity = intval($quantities->get($orderItem->article->id));
             if ($quantities->has($orderItem->article->id) && $quantity > 0) {
@@ -231,6 +232,10 @@ class OrderController extends Controller
                     'article_id' => $orderItem->article->id,
                     'quantity' => $quantity
                 ]);
+
+                if ($orderItem->invoice_received) {
+                    $invoiceReceivedForAtLeastOneItem = true;
+                }
 
                 if ($request->get('print_label')) {
                     $articlesToPrint->push($orderItem->article);
@@ -248,7 +253,7 @@ class OrderController extends Controller
             $order->save();
         }
 
-        if ($order->invoice_received) {
+        if ($invoiceReceivedForAtLeastOneItem) {
             User::where('email', 'mail@example.com')->first()->notify(new NewDeliverySaved($delivery));
         }
 
