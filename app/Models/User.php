@@ -37,11 +37,22 @@ class User extends Authenticatable implements Auditable, UserResolver
         'password', 'remember_token',
     ];
 
+    protected $casts = [
+        'settings' => 'json'
+    ];
+
     public function notes() {
         return $this->hasMany(ArticleNote::class);
     }
 
     public function articleQuantityChangelogs() {
         return $this->hasMany(ArticleQuantityChangelog::class);
+    }
+
+    /**
+     * @return UserSettings
+     */
+    public function settings() {
+        return new UserSettings($this);
     }
 }
