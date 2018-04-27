@@ -19,7 +19,6 @@
                 font-size: 24px;
                 page-break-after: avoid !important;
                 page-break-inside: avoid !important;
-                border: 1px solid red;
             }
 
             .table {
