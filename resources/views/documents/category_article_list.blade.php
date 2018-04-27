@@ -17,12 +17,16 @@
 
             h1 {
                 font-size: 24px;
+                page-break-after: avoid !important;
+                page-break-inside: avoid !important;
+                border: 1px solid red;
             }
 
             .table {
                 border-collapse: collapse;
                 background: #000;
                 width: 100%;
+                page-break-before: avoid !important;
             }
 
             td, th {
@@ -32,7 +36,7 @@
                 padding: 5px;
             }
 
-            table, tr, td, th, tbody, thead, tfoot {
+            tr, td, th, thead, tfoot {
                 page-break-inside: avoid !important;
             }
         </style>
