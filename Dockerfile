@@ -12,7 +12,7 @@ RUN set -e -x \
         libc-client-dev libkrb5-dev \
         libpq-dev \
         libldap2-dev libxrender1 libxext6 \
-        locales \
+        locales git \
         libfreetype6-dev libmcrypt-dev libpng12-dev libjpeg-dev libpng-dev \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install -j$(nproc) zip pdo_mysql mcrypt intl bcmath imap pgsql iconv  \
