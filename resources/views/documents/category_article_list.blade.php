@@ -31,6 +31,10 @@
                 text-align: left;
                 padding: 5px;
             }
+
+            table, tr, td, th, tbody, thead, tfoot {
+                page-break-inside: avoid !important;
+            }
         </style>
     </head>
 
