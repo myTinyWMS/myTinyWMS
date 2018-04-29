@@ -2,6 +2,7 @@
 
 namespace Mss\Models;
 
+use Illuminate\Support\Collection;
 use Mss\Exceptions\InvalidParameterException;
 
 class UserSettings {
@@ -17,52 +18,104 @@ class UserSettings {
     /**
      * array
      */
-    const DEFAULTS = [
-        [
-            'key' => self::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IF_INVOICE_RECEIVED,
+    const SETTINGS = [
+        self::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IF_INVOICE_RECEIVED => [
             'default' => false,
             'type' => 'boolean'
         ],
-        [
-            'key' => self::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES,
+        self::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES => [
             'default' => [],
             'type' => 'array'
         ]
     ];
 
+    /**
+     * UserSettings constructor.
+     * @param User $user
+     */
     public function __construct(User $user) {
         $this->user = $user;
+
+        if (is_null($this->user->settings)) {
+            $this->user->settings = [];
+        }
     }
 
+    /**
+     * @param $key
+     * @return mixed
+     * @throws InvalidParameterException
+     */
     public function get($key) {
+        if (!array_key_exists($key, self::SETTINGS)) {
+            throw new InvalidParameterException('Invalid Setting Key "'.$key.'"');
+        }
 
+        if (!array_key_exists($key, $this->user->settings)) {
+            return self::SETTINGS[$key]['default'];
+        }
+
+        $value = $this->user->settings[$key];
+        settype($value, self::SETTINGS[$key]['type']);
+
+        return $this->user->settings[$key];
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     * @param bool $save
+     * @return $this
+     * @throws InvalidParameterException
+     */
+    public function set($key, $value, $save = false) {
+        if (!array_key_exists($key, $this->user->settings) && !array_key_exists($key, self::SETTINGS)) {
+            throw new InvalidParameterException('Invalid Setting Key "'.$key.'"');
+        }
+
+        settype($value, self::SETTINGS[$key]['type']);
+        $settings = $this->user->settings;
+        $settings[$key] = $value;
+        $this->user->settings = $settings;
+
+        if ($save) {
+            $this->user->save();
+        }
+
+        return $this;
     }
 
     /**
      * @param array $attributes
-     * @return bool
+     * @return $this
      */
     public function merge(array $attributes) {
-        $settings = array_merge($this->user->settings, array_only($attributes, collect(self::DEFAULTS)->pluck('key')));
-
-        return $this->user->update(compact('settings'));
-    }
-
-    /*protected function mergeWithDefault(array $attributes) {
-        $settings = collect(self::DEFAULTS);
-        collect($attributes)->each(function ($key, $value) use (&$settings, $attributes) {
-            $setting = $settings->where('key', $key);
-            if (!$setting) {
-                throw new InvalidParameterException('Invalid Setting Key "'.$key.'"', $attributes);
-            }
-
-            if (gettype($value) !== $setting['type']) {
-                throw new InvalidParameterException('Invalid Setting Type for Key "'.$key.'"', $attributes);
-            }
-
-
+        collect($attributes)->each(function ($value, $key) {
+            $this->set($key, $value);
         });
 
-        return $settings;
-    }*/
+        $this->user->save();
+
+        return $this;
+    }
+
+    /**
+     * @param $key
+     * @return Collection
+     */
+    public static function getUsersWhereTrue($key) {
+        return User::all()->filter(function ($user) use ($key) {
+            return $user->settings()->get($key);
+        });
+    }
+
+    /**
+     * @param $key
+     * @return Collection
+     */
+    public static function getUsersWhereHas($key) {
+        return User::all()->filter(function ($user) use ($key) {
+            return !empty($user->settings()->get($key));
+        });
+    }
 }

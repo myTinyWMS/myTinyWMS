@@ -5,9 +5,11 @@ namespace Mss\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Mss\DataTables\ArticleDataTable;
 use Mss\DataTables\AssignOrderDataTable;
 use Mss\DataTables\OrderDataTable;
+use Mss\Events\DeliverySaved;
 use Mss\Http\Requests\OrderRequest;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
@@ -17,7 +19,8 @@ use Mss\Models\OrderItem;
 use Mss\Models\OrderMessage;
 use Mss\Models\Supplier;
 use Mss\Models\User;
-use Mss\Notifications\NewDeliverySaved;
+use Mss\Models\UserSettings;
+use Mss\Notifications\NewDeliverySavedAndInvoiceExists;
 use Mss\Services\PrintLabelService;
 
 class OrderController extends Controller
@@ -253,9 +256,7 @@ class OrderController extends Controller
             $order->save();
         }
 
-        if ($invoiceReceivedForAtLeastOneItem) {
-            User::where('email', 'mail@example.com')->first()->notify(new NewDeliverySaved($delivery));
-        }
+        event(new DeliverySaved($delivery));
 
         if ($request->get('print_label') && $articlesToPrint->count() > 0) {
             $labelService = new PrintLabelService();
