@@ -2,6 +2,7 @@
 
 namespace Mss\DataTables;
 
+use Carbon\Carbon;
 use Mss\Models\Order;
 
 class OrderDataTable extends BaseDataTable
@@ -26,11 +27,27 @@ class OrderDataTable extends BaseDataTable
             })
             ->orderColumn('supplier', 'supplier_name $1')
             ->editColumn('order_date', function (Order $order) {
-                return !empty($order->order_date) ? $order->order_date->diffForHumans().'<br><small class="text-muted">('.$order->order_date->format('d.m.Y').')</small>' : '';
+                if (empty($order->order_date)) {
+                    return '';
+                }
+
+                if ($order->order_date->diffInDays(Carbon::now()) < 1) {
+                    return 'heute';
+                }
+
+                return $order->order_date->diffForHumans(Carbon::now()->startOfDay()).'<br><small class="text-muted">('.$order->order_date->format('d.m.Y').')</small>';
             })
             ->editColumn('expected_delivery', function (Order $order) {
                 $expectedDelivery = $order->items->max('expected_delivery');
-                return !empty($expectedDelivery) ? $expectedDelivery->diffForHumans().'<br><small class="text-muted">('.$expectedDelivery->format('d.m.Y').')</small>' : '';
+                if (empty($expectedDelivery)) {
+                    return '';
+                }
+
+                if ($expectedDelivery->diffInDays(Carbon::now()) < 1) {
+                    return 'heute';
+                }
+
+                return $expectedDelivery->diffForHumans(Carbon::now()->startOfDay()).'<br><small class="text-muted">('.$expectedDelivery->format('d.m.Y').')</small>';
             })
             ->editColumn('internal_order_number', function (Order $order) {
                 return view('order.list_order_number', compact('order'))->render();
@@ -123,7 +140,7 @@ class OrderDataTable extends BaseDataTable
             ->columns($this->getColumns())
             ->parameters([
                 'paging' => false,
-                'order'   => [[1, 'desc']],
+                'order'   => [[1, 'asc']],
                 'rowGroup' => ['dataSrc' => 'supplier']
             ])
             ->addAction(['title' => '', 'width' => '100px']);

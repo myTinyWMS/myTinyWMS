@@ -10,7 +10,7 @@
                     <li>
                         <strong>{{ $data['name'] }}:</strong><br/>
                         @if (array_key_exists('old', $data))
-                        alt: {{ str_limit($data['old'], 50, ' (...)') }}, neu: {{ str_limit($data['new'], 50, ' (...)') }}
+                        alt: {{ str_limit($data['old'], 50, ' (...)') }}, neu: {{ str_limit($data['new'] ?? '', 50, ' (...)') }}
                         @else
                         neu: {{ str_limit($data['new'], 50, ' (...)') }}
                         @endif
