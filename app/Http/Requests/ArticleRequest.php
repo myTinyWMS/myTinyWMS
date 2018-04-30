@@ -25,12 +25,15 @@ class ArticleRequest extends FormRequest
     public function rules() {
         return [
             'name' => 'required',
+            'quantity' => 'required|integer',
+            'supplier_id' => 'required|exists:suppliers,id',
         ];
     }
 
     public function attributes() {
         return [
             'name' => 'Name',
+            'supplier_id' => 'Lieferant',
         ];
     }
 }

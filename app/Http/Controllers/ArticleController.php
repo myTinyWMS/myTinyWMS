@@ -65,9 +65,19 @@ class ArticleController extends Controller
             $article->setNewArticleNumber();
         }
 
+        // supplier
+        ArticleSupplier::create([
+            'article_id' => $article->id,
+            'supplier_id' => $request->get('supplier_id'),
+            'order_number' => $request->get('supplier_order_number'),
+            'delivery_time' => $request->get('supplier_delivery_time'),
+            'order_quantity' => $request->get('supplier_order_quantity'),
+            'price' => round(floatval(str_replace(',', '.', $request->get('supplier_price'))) * 100, 0)
+        ]);
+
         flash('Artikel angelegt')->success();
 
-        return redirect()->route('article.index');
+        return redirect()->route('article.show', $article);
     }
 
     /**

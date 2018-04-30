@@ -23,9 +23,7 @@ class Article extends AuditableModel
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
 
-    protected $fillable = [
-        'name', 'notes', 'order_notes', 'status', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'unit_id', 'inventory'
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'inventory' => 'boolean'
@@ -35,7 +33,16 @@ class Article extends AuditableModel
 
     protected $fieldNames = [
         'name' => 'Name',
-        'notes' => 'Bemerkungen'
+        'notes' => 'Bemerkungen',
+        'article_number' => 'Artikelnummer',
+        'status' => 'Status',
+        'unit_id' => 'Einheit',
+        'quantity' => 'Bestand',
+        'min_quantity' => 'Mindestbestand',
+        'issue_quantity' => 'Entnahmemenge',
+        'order_notes' => 'Bestellhinweise',
+        'category_id' => 'Kategorie',
+        'sort_id' => 'Sortierung',
     ];
 
     public function quantityChangelogs() {

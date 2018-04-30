@@ -1,36 +1,27 @@
 @extends('layout.app')
 
 @section('content')
-    @if (count($errors) > 0)
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-    @endif
-
+@if ($isNewArticle ?? true)
+    @yield('form_start')
+@endif
     <div class="row">
         <div class="col-lg-6 col-xxl-4">
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>Details</h5>
 
+                    @if (!($isNewArticle ?? true))
                     <a href="{{ route('order.create', ['article' => [$article->id]]) }}" class="btn btn-primary btn-xs pull-right">Neue Bestellung</a>
+                    @endif
                 </div>
                 <div class="ibox-content">
-                    @yield('form_start')
+                    @if (!($isNewArticle ?? true))
+                        @yield('form_start')
+                    @endif
 
                     <div class="row">
                         <div class="col-lg-6">
-                            @if ($isNewArticle ?? true)
-                                {{ Form::bsText('quantity', $article->quantity, [], 'Bestand') }}
-                            @else
+                            @if (!($isNewArticle ?? true))
                                 <div class="form-group">
                                     <label class="control-label">Bestand</label>
                                     <div class="form-control-static">
@@ -70,38 +61,52 @@
                             {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => '']) }}
                         </div>
                         <div class="col-lg-6">
-                            {{ Form::bsText('sort_id', $article->sort_id, [], 'Sortierung') }}
+                            {{ Form::bsText('sort_id', $article->sort_id ?? 0, [], 'Sortierung') }}
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-lg-6">
+                            @if ($isNewArticle ?? true)
+                                {{ Form::bsText('quantity', $article->quantity, [], 'Bestand') }}
+                            @endif
+                        </div>
+                        <div class="col-lg-6">
 
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-lg-6">
-                            {{ Form::bsText('min_quantity', $article->min_quantity, [], 'Mindestbestand') }}
+                            {{ Form::bsText('min_quantity', $article->min_quantity ?? 0, [], 'Mindestbestand') }}
                         </div>
                         <div class="col-lg-6">
-                            {{ Form::bsText('issue_quantity', $article->issue_quantity, [], 'Entnahmemenge') }}
+                            {{ Form::bsText('issue_quantity', $article->issue_quantity ?? 0, [], 'Entnahmemenge') }}
                         </div>
                         <div class="col-lg-12 m-b-md">
                             <span class="help-block m-b-none">Mindestbestand = -1 &raquo; der Artikel erscheint nicht in der zu Bestellen Liste</span>
                         </div>
                     </div>
 
-                    {{ Form::bsCheckbox('inventory', $article->inventory, 'Inventur', $article->inventory, []) }}
-                    {{ Form::bsTextarea('notes', $article->notes, [], 'Bemerkungen') }}
-                    {{ Form::bsTextarea('order_notes', $article->order_notes, [], 'Bestell Hinweise') }}
-
+                    {{ Form::bsCheckbox('inventory', $article->inventory ?? false, 'Inventur (Artikel wird in Inventurliste angezeigt)', $article->inventory, []) }}
+                    {{ Form::bsTextarea('notes', $article->notes, ['rows' => 4], 'Bemerkungen') }}
+                    {{ Form::bsTextarea('order_notes', $article->order_notes, ['rows' => 2], 'Bestell Hinweise') }}
 
                     <div class="form-group">
                         @yield('submit')
                     </div>
-                    {!! Form::close() !!}
+                    @if (!($isNewArticle ?? true))
+                        {!! Form::close() !!}
+                    @endif
+
                 </div>
             </div>
         </div>
         @yield('secondCol')
     </div>
+@if ($isNewArticle ?? true)
+    {!! Form::close() !!}
+@endif
 
     <!-- Modal -->
     <div class="modal fade" id="changeQuantityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

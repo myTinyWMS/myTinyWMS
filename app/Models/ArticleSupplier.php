@@ -9,6 +9,8 @@ class ArticleSupplier extends Pivot implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
+    protected $guarded = [];
+
     /**
      * @return string
      */
