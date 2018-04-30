@@ -222,3 +222,19 @@ body.mini-navbar .navbar-default .nav li a .label {
 .delete-notification {
   margin-top: 15px;
 }
+
+#top-search {
+  background: #fff;
+  color: #3c8dbc;
+  height: 45px;
+  width: 300px;
+  margin-top: 7px;
+  margin-left: 15px;
+
+  &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #3c8dbc;
+  }
+  &::-moz-placeholder { /* Firefox 19+ */
+    color: #3c8dbc;
+  }
+}
