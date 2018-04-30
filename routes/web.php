@@ -13,9 +13,7 @@
 
 Auth::routes();
 
-Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
+Route::get('/', 'DashboardController@index');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('article/fix-inventory', 'ArticleController@fixInventoryForm')->name('article.fix_inventory_form');

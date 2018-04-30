@@ -5,6 +5,7 @@ namespace Mss\Console;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Mss\Console\Commands\CleanupEmptyOrdersCommand;
 use Mss\Console\Commands\ImportCommand;
 use Mss\Console\Commands\ImportMailsCommand;
 use Mss\Console\Commands\SendInventoryMailCommand;
@@ -21,7 +22,8 @@ class Kernel extends ConsoleKernel
         ImportCommand::class,
         SetArticleNumbersCommand::class,
         ImportMailsCommand::class,
-        SendInventoryMailCommand::class
+        SendInventoryMailCommand::class,
+        CleanupEmptyOrdersCommand::class
     ];
 
     /**
@@ -32,6 +34,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('emptyorders:clear')->everyTenMinutes();
         $schedule->command('import:mails')->everyFiveMinutes();
         $schedule->command('send:inventory')->dailyAt('07:00')->when(function () {
             return Carbon::now()->firstOfMonth()->isToday();

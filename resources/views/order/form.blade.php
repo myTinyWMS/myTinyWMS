@@ -159,6 +159,9 @@
                 var tooltip = $(this).parent().parent().parent().find('.article-order-notes');
                 var quantity = $(this).parent().parent().parent().find('.quantity-select');
                 var price = $(this).parent().parent().parent().find('.price-select');
+                var delivery_date = $(this).parent().parent().parent().find('.delivery-input');
+
+                console.log(quantity, price, delivery_date);
 
                 tooltip.hide();
 
@@ -166,6 +169,7 @@
                     if (value.id == e.params.data.id) {
                         quantity.val(value.order_quantity);
                         price.val(formatPrice(value.price));
+                        delivery_date.val(moment(value.delivery_date).format('DD.MM.YYYY'));
                         if (value.order_notes != '') {
                             tooltip.show().attr('title', value.order_notes).tooltip('fixTitle');
                         }
@@ -199,11 +203,13 @@
                     addArticle();
                 }
 
+                console.log(value);
+
                 $("#article-list .article-order-notes:eq(" + key + ")").attr('title', value.order_notes).tooltip('fixTitle');
                 $("#article-list .article-select:eq(" + key + ")").val(value.article_id).trigger("change");
                 $("#article-list .quantity-select:eq(" + key + ")").val(value.quantity).trigger("change");
                 $("#article-list .price-select:eq(" + key + ")").val(formatPrice(value.price)).trigger("change");
-                $("#article-list .delivery-input:eq(" + key + ")").val((moment(value.expected_delivery).isValid() ? moment(value.expected_delivery).format('DD.MM.YYYY') : ''));
+                $("#article-list .delivery-input:eq(" + key + ")").val((moment(value.delivery_date).isValid() ? moment(value.delivery_date).format('DD.MM.YYYY') : ''));
             });
 
             $('.datepicker').datepicker({
@@ -228,7 +234,8 @@
                         id: value.id,
                         text: value.name,
                         category: value.category,
-                        order_notes: value.order_notes
+                        order_notes: value.order_notes,
+                        delivery_date: value.delivery_date
                     });
                 }
             });

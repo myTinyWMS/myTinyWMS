@@ -53,10 +53,14 @@ class OrderController extends Controller
         if ($request->has('article')) {
             $preSetArticles = Article::withCurrentSupplierArticle()->find($request->get('article'));
             $preSetOrderItems = $preSetArticles->map(function ($article) {
+                $deliveryTime = intval($article->currentSupplierArticle->delivery_time);
+                $deliveryDate = Carbon::now()->addWeekdays($deliveryTime);
+
                 return [
                     'article_id' => $article->id,
                     'quantity' => $article->currentSupplierArticle->order_quantity ?? '',
                     'order_notes' => $article->order_notes ?? '',
+                    'delivery_date' => $deliveryDate->format('Y-m-d'),
                     'price' => $article->currentSupplierArticle->price ? $article->currentSupplierArticle->price / 100 : ''
                 ];
             });
@@ -226,7 +230,6 @@ class OrderController extends Controller
 
         $articlesToPrint = new Collection();
         $quantities = collect($request->get('quantities'));
-        $invoiceReceivedForAtLeastOneItem = false;
         $order->items->each(function ($orderItem) use ($quantities, $delivery, $order, $request, &$articlesToPrint, &$invoiceReceivedForAtLeastOneItem) {
             /* @var OrderItem $orderItem */
             $quantity = intval($quantities->get($orderItem->article->id));
@@ -235,10 +238,6 @@ class OrderController extends Controller
                     'article_id' => $orderItem->article->id,
                     'quantity' => $quantity
                 ]);
-
-                if ($orderItem->invoice_received) {
-                    $invoiceReceivedForAtLeastOneItem = true;
-                }
 
                 if ($request->get('print_label')) {
                     $articlesToPrint->push($orderItem->article);
@@ -270,12 +269,15 @@ class OrderController extends Controller
         return Article::active()->with(['suppliers', 'category'])->withCurrentSupplier()->withCurrentSupplierArticle()->orderBy('name')->get()
             ->transform(function ($article) {
                 /*@var $article Article */
+                $deliveryTime = intval($article->currentSupplierArticle->delivery_time);
+                $deliveryDate = Carbon::now()->addWeekdays($deliveryTime);
                 return [
                     'id' => $article->id,
                     'name' => $article->name/*.(!empty($article->unit) ? ' ('.$article->unit->name.')' : '')*/,
                     'supplier_id' => $article->currentSupplier->id,
                     'category' => $article->category->name ?? '',
                     'order_notes' => $article->order_notes ?? '',
+                    'delivery_date' =>  $deliveryDate->format('Y-m-d'),
                     'order_quantity' => $article->currentSupplierArticle->order_quantity ?? 0,
                     'price' => $article->currentSupplierArticle->price ? $article->currentSupplierArticle->price / 100 : 0
                 ];
