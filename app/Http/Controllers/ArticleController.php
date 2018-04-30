@@ -4,6 +4,7 @@ namespace Mss\Http\Controllers;
 
 use Carbon\Carbon;
 use Mss\Http\Requests\ChangeArticleQuantityRequest;
+use Mss\Http\Requests\NewArticleRequest;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\ArticleSupplier;
@@ -43,7 +44,7 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ArticleRequest $request) {
+    public function store(NewArticleRequest $request) {
         $article = Article::create($request->all());
 
         // tags
@@ -110,6 +111,8 @@ class ArticleController extends Controller
 
         // save data
         $article->update($request->all());
+        $article->inventory = $request->get('inventory', false);
+        $article->save();
 
         // tags
         $article->tags()->detach();

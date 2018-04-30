@@ -43,6 +43,7 @@ class Article extends AuditableModel
         'order_notes' => 'Bestellhinweise',
         'category_id' => 'Kategorie',
         'sort_id' => 'Sortierung',
+        'inventory' => 'Inventur',
     ];
 
     public function quantityChangelogs() {

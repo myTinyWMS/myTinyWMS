@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Route;
 
-class ArticleRequest extends FormRequest
+class NewArticleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +25,16 @@ class ArticleRequest extends FormRequest
     public function rules() {
         return [
             'name' => 'required',
+            'quantity' => 'required|integer',
+            'supplier_id' => 'required|exists:suppliers,id',
         ];
     }
 
     public function attributes() {
         return [
             'name' => 'Name',
+            'supplier_id' => 'Lieferant',
+            'quantity' => 'Bestand',
         ];
     }
 }

@@ -88,7 +88,7 @@
                         </div>
                     </div>
 
-                    {{ Form::bsCheckbox('inventory', $article->inventory ?? false, 'Inventur (Artikel wird in Inventurliste angezeigt)', $article->inventory, []) }}
+                    {{ Form::bsCheckbox('inventory', 1, 'Inventur (Artikel wird in Inventurliste angezeigt)', $article->inventory, []) }}
                     {{ Form::bsTextarea('notes', $article->notes, ['rows' => 4], 'Bemerkungen') }}
                     {{ Form::bsTextarea('order_notes', $article->order_notes, ['rows' => 2], 'Bestell Hinweise') }}
 
