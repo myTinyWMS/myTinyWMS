@@ -95,7 +95,19 @@
                 <div class="ibox-content">
                     <div class="form-group">
                         {!! Form::submit('Speichern', ['class' => 'btn btn-primary force-inline']) !!}
-                        {{ Form::bsCheckbox('print_label', 1, 'Label drucken', false, [], 'force-inline p-xl') }}
+
+                        <div class="radio radio-primary radio-inline m-l-xl">
+                            <input id="print_label_none" value="none" name="print_label" checked type="radio">
+                            <label for="print_label_none"> Kein Label </label>
+                        </div>
+                        <div class="radio radio-primary radio-inline">
+                            <input id="print_label_small" value="small" name="print_label"  type="radio">
+                            <label for="print_label_small"> Label drucken (klein) </label>
+                        </div>
+                        <div class="radio radio-primary radio-inline">
+                            <input id="print_label_large" value="large" name="print_label" type="radio">
+                            <label for="print_label_large"> Label drucken (groß) </label>
+                        </div>
                     </div>
                 </div>
             </div>

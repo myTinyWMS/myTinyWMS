@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    {!! Form::open(['route' => ['article.print_label'], 'method' => 'POST']) !!}
+                    {!! Form::open(['route' => ['article.print_label'], 'method' => 'POST', 'id' => 'print_label_form']) !!}
                     {!! $dataTable->table() !!}
                     {!! Form::close() !!}
                 </div>
@@ -23,7 +23,14 @@
     </div>
 </div>
 <div class="toolbar_content hidden">
-    <button class="btn btn-xs btn-primary" type="submit">Label erstellen</button>
+    <div class="btn-group">
+        <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">Aktion <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li><a href="#" id="print_small_label">Label erstellen (klein)</a></li>
+            <li><a href="#" id="print_large_label">Label erstellen (groß)</a></li>
+        </ul>
+    </div>
+    <input type="hidden" name="label_size" id="label_size" value="" />
 </div>
 @endsection
 
@@ -70,6 +77,18 @@
     <script>
         $(document).ready(function () {
             $('.toolbar').html($('.toolbar_content').html());
+
+            $('#print_small_label').click(function () {
+                $('#label_size').val('small');
+                $('#print_label_form').submit();
+                return false;
+            });
+
+            $('#print_large_label').click(function () {
+                $('#label_size').val('large');
+                $('#print_label_form').submit();
+                return false;
+            });
         });
 
         window.LaravelDataTables.dataTableBuilder.on( 'row-reorder', function ( e, diff, edit ) {

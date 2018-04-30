@@ -257,9 +257,9 @@ class OrderController extends Controller
 
         event(new DeliverySaved($delivery));
 
-        if ($request->get('print_label') && $articlesToPrint->count() > 0) {
+        if ($request->get('print_label', 'none') !== 'none' && $articlesToPrint->count() > 0) {
             $labelService = new PrintLabelService();
-            $labelService->printArticleLabels($articlesToPrint);
+            $labelService->printArticleLabels($articlesToPrint, $request->get('print_label'));
         }
 
         return redirect()->route('order.show', $order);

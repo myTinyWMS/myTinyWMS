@@ -279,9 +279,10 @@ class ArticleController extends Controller
 
     public function printLabel(Request $request) {
         $articles = Article::whereIn('id', $request->get('article'))->orderedByArticleNumber()->get();
+        $size = $request->get('label_size', 'small');
         $labelService = new PrintLabelService();
 
-        if ($labelService->printArticleLabels($articles)) {
+        if ($labelService->printArticleLabels($articles, $size)) {
             flash('Label werden gedruckt', 'success');
         } else {
             flash('Label wurden nicht gedruckt', 'danger');
