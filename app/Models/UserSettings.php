@@ -58,7 +58,7 @@ class UserSettings {
         $value = $this->user->settings[$key];
         settype($value, self::SETTINGS[$key]['type']);
 
-        return $this->user->settings[$key];
+        return $value;
     }
 
     /**
