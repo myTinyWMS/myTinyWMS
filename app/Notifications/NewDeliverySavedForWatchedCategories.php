@@ -19,13 +19,19 @@ class NewDeliverySavedForWatchedCategories extends Notification
     protected $articles;
 
     /**
+     * @var Delivery
+     */
+    protected $delivery;
+
+    /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Collection $articles)
+    public function __construct(Collection $articles, Delivery $delivery)
     {
         $this->articles = $articles;
+        $this->delivery = $delivery;
     }
 
     /**
@@ -36,7 +42,7 @@ class NewDeliverySavedForWatchedCategories extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail'];
     }
 
     /**
@@ -49,9 +55,7 @@ class NewDeliverySavedForWatchedCategories extends Notification
     {
         return (new MailMessage)
                     ->subject('Neue Lieferung zu beobachteten Kategorien')
-                    /*->line('Zu Bestellung '.$this->delivery->order->internal_order_number.' ist eine Lieferung eingegangen.')
-                    ->action('Bestellung anzeigen', route('order.show', $this->delivery->order))
-                    ->line('Bitte prüfen!')*/;
+                    ->view('emails.new_delivery_for_watched_categories', ['articles' => $this->articles, 'delivery' => $this->delivery]);
     }
 
     /**
