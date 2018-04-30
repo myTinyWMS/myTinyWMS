@@ -1,4 +1,4 @@
-FROM mariadb:10.1
+FROM mariadb:10.2
 
 # To be changed here
 ENV MYSQL_UID 1000

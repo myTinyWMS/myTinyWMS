@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Mss\Models\Delivery;
 
-class NewDeliverySaved extends Notification
+class NewDeliverySavedAndInvoiceExists extends Notification
 {
     use Queueable;
 
