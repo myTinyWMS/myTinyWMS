@@ -5,6 +5,7 @@ namespace Mss\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Mss\Models\Traits\Taggable;
@@ -23,7 +24,7 @@ class Article extends AuditableModel
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
 
-    protected $guarded = [];
+    protected $fillable = ['name', 'article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes'];
 
     protected $casts = [
         'inventory' => 'boolean'
@@ -44,6 +45,7 @@ class Article extends AuditableModel
         'category_id' => 'Kategorie',
         'sort_id' => 'Sortierung',
         'inventory' => 'Inventur',
+        'inventory_text' => 'Inventur',
     ];
 
     public function quantityChangelogs() {
@@ -162,5 +164,34 @@ class Article extends AuditableModel
 
     public function getShortChangelog() {
         return $this->quantityChangelogs()->with(['user', 'deliveryItem.delivery.order'])->latest()->take(30)->get();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function transformAudit(array $data): array {
+        if (Arr::has($data, 'new_values.unit_id')) {
+            $data['old_values']['unit_id'] = Unit::find($this->getOriginal('unit_id'))->name;
+            $data['new_values']['unit_id'] = Unit::find($this->getAttribute('unit_id'))->name;
+        }
+
+        if (Arr::has($data, 'new_values.category_id')) {
+            $data['old_values']['category_id'] = Category::find($this->getOriginal('category_id'))->name;
+            $data['new_values']['category_id'] = Category::find($this->getAttribute('category_id'))->name;
+        }
+
+        if (Arr::has($data, 'new_values.status')) {
+            $data['old_values']['status'] = Article::getStatusTextArray()[$this->getOriginal('status')];
+            $data['new_values']['status'] = Article::getStatusTextArray()[$this->getAttribute('status')];
+        }
+
+        if (Arr::has($data, 'new_values.inventory')) {
+            unset($data['old_values']['inventory']);
+            unset($data['new_values']['inventory']);
+            $data['old_values']['inventory_text'] = $this->getOriginal('inventory') ? 'Ja' : 'Nein';
+            $data['new_values']['inventory_text'] = $this->getAttribute('inventory') ? 'Ja' : 'Nein';
+        }
+
+        return $data;
     }
 }
