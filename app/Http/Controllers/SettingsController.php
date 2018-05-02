@@ -12,7 +12,6 @@ use Mss\Models\UserSettings;
 class SettingsController extends Controller
 {
     public function show() {
-        event(new DeliverySaved(Delivery::find(17)));
         $settings = Auth::user()->settings();
 
         return view('settings.form', compact('settings'));
