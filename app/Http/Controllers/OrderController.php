@@ -217,6 +217,10 @@ class OrderController extends Controller
     }
 
     public function createDelivery(Order $order) {
+        $order->load(['items.article' => function($query) {
+            $query->withCurrentSupplierArticle();
+        }]);
+
         return view('order.delivery_form', compact('order'));
     }
 
@@ -239,7 +243,7 @@ class OrderController extends Controller
                     'quantity' => $quantity
                 ]);
 
-                if ($request->get('print_label')) {
+                if (array_key_exists($orderItem->article->id, $request->get('label_count', [])) && intval($request->get('label_count', [])[$orderItem->article->id]) > 0) {
                     $articlesToPrint->push($orderItem->article);
                 }
 
@@ -257,9 +261,14 @@ class OrderController extends Controller
 
         event(new DeliverySaved($delivery));
 
-        if ($request->get('print_label', 'none') !== 'none' && $articlesToPrint->count() > 0) {
+        if ($articlesToPrint->count() > 0) {
             $labelService = new PrintLabelService();
-            $labelService->printArticleLabels($articlesToPrint, $request->get('print_label'));
+            $articlesToPrint->each(function ($article) use ($request, $labelService) {
+                $count = intval($request->get('label_count', [])[$article->id]);
+                for($i=1; $i<=$count; $i++) {
+                    $labelService->printArticleLabels(new Collection([$article]), $request->get('label_type', [$article->id => 'small'])[$article->id]);
+                }
+            });
         }
 
         return redirect()->route('order.show', $order);
