@@ -2,9 +2,7 @@
 
 namespace Mss\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class ArticleQuantityChangelog extends Model
+class ArticleQuantityChangelog extends AuditableModel
 {
     const TYPE_START = 0;
     const TYPE_INCOMING = 1;

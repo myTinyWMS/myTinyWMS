@@ -319,4 +319,12 @@ class ArticleController extends Controller
 
         return response()->redirectToRoute('article.fix_inventory_form', 'success');
     }
+
+    public function changeChangelogNote(Request $request) {
+        $changelog = ArticleQuantityChangelog::findOrFail($request->get('id'));
+        $changelog->note = $request->get('content');
+        $changelog->save();
+
+        return response('', 200);
+    }
 }
