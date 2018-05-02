@@ -119,7 +119,7 @@ class Order extends AuditableModel
      */
     public function transformAudit(array $data): array {
         if (Arr::has($data, 'new_values.supplier_id')) {
-            $data['old_values']['supplier_id'] = Supplier::find($this->getOriginal('supplier_id'))->name;
+            $data['old_values']['supplier_id'] = optional(Supplier::find($this->getOriginal('supplier_id')))->name;
             $data['new_values']['supplier_id'] = Supplier::find($this->getAttribute('supplier_id'))->name;
         }
 
