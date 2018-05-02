@@ -16,8 +16,8 @@ class AssignOrderDataTable extends OrderDataTable {
     {
         return [
             ['data' => 'internal_order_number', 'name' => 'internal_order_number', 'title' => 'Bestellnummer'],
-            ['data' => 'items', 'name' => 'items', 'title' => 'Artikel'],
             ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant', 'visible' => false],
+            ['data' => 'items', 'name' => 'items', 'title' => 'Artikel'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status']
         ];
     }
