@@ -166,6 +166,10 @@ class Article extends AuditableModel
         return $this->quantityChangelogs()->with(['user', 'deliveryItem.delivery.order'])->latest()->take(30)->get();
     }
 
+    public function openOrders() {
+        return $this->belongsToMany(Order::class, 'order_items', 'article_id', 'order_id')->with('items')->statusOpen();
+    }
+
     /**
      * {@inheritdoc}
      */

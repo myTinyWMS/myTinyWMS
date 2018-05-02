@@ -3,6 +3,7 @@
 namespace Mss\Models;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 
 /**
  * Class Order
@@ -111,5 +112,17 @@ class Order extends AuditableModel
         $query->addSubSelect('supplier_name', Supplier::select('name')
             ->whereRaw('supplier_id = suppliers.id')
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function transformAudit(array $data): array {
+        if (Arr::has($data, 'new_values.supplier_id')) {
+            $data['old_values']['supplier_id'] = Supplier::find($this->getOriginal('supplier_id'))->name;
+            $data['new_values']['supplier_id'] = Supplier::find($this->getAttribute('supplier_id'))->name;
+        }
+
+        return $data;
     }
 }

@@ -276,6 +276,9 @@ class OrderController extends Controller
 
     protected function getArticleList() {
         return Article::active()->with(['suppliers', 'category'])->withCurrentSupplier()->withCurrentSupplierArticle()->orderBy('name')->get()
+            ->filter(function ($article) {
+                return !empty($article->currentSupplierArticle);
+            })
             ->transform(function ($article) {
                 /*@var $article Article */
                 $deliveryTime = intval($article->currentSupplierArticle->delivery_time);
