@@ -104,7 +104,7 @@ class OrderDataTable extends BaseDataTable
                 $query->where('supplier_id', $keyword);
             })
             ->filter(function ($query) {
-                if (!isset(request('columns')[2]['search'])) {
+                if (!isset(request('columns')[3]['search'])) {
                     $query->whereIn('status', Order::STATUSES_OPEN);
                 }
             })
