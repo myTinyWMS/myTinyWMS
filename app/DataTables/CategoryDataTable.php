@@ -46,6 +46,7 @@ class CategoryDataTable extends BaseDataTable
             ->minifiedAjax()
             ->columns($this->getColumns())
             ->parameters([
+                'paging' => false,
                 'order'   => [[1, 'asc']],
             ])
             ->addAction(['title' => '', 'width' => '150px']);

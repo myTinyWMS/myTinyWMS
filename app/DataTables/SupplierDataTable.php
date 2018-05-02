@@ -45,6 +45,7 @@ class SupplierDataTable extends BaseDataTable
             ->minifiedAjax()
             ->columns($this->getColumns())
             ->parameters([
+                'paging' => false,
                 'order'   => [[0, 'asc']],
             ])
             ->addAction(['title' => '', 'width' => '150px']);
