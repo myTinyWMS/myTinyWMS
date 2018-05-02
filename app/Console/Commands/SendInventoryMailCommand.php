@@ -43,6 +43,6 @@ class SendInventoryMailCommand extends Command
         $date = Carbon::now();
         $excel = InventoryService::generateExcel($date);
 
-        Mail::to('mail@example.com')->send(new InventoryMail($date, $excel, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'inventory.xslx'));
+        Mail::to('mail@example.com')->cc(['mail@example.com', 'mail@example.com'])->send(new InventoryMail($date, $excel, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'inventory.xlsx'));
     }
 }

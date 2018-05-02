@@ -33,7 +33,7 @@ class InventoryService {
         return Excel::create('inventory_'.$date->format('Y-m-d'), function($excel) {
             /* @var LaravelExcelWriter $excel */
             $excel->sheet('sheet1', function($sheet) {
-                $articles = Article::where('inventory', true)->active()->orderedByName()->with(['unit', 'category'])->get();
+                $articles = Article::where('inventory', true)->withCurrentSupplierArticle()->active()->orderedByName()->with(['unit', 'category'])->get();
                 $articles->transform(function ($article) {
                     /* @var Article $article */
                     return [
@@ -41,8 +41,9 @@ class InventoryService {
                         'nummer' => $article->article_number,
                         'kategorie' => $article->category->name,
                         'bestand' => $article->quantity,
-                        'mindestbestand' => $article->min_quantity,
-                        'einheit' => optional($article->unit)->name
+                        'einheit' => optional($article->unit)->name,
+                        'preis' => round(($article->currentSupplierArticle->price / 100), 2),
+                        'gesamt' => round((($article->currentSupplierArticle->price * $article->quantity) / 100), 2)
                     ];
                 });
                 $sheet->fromArray($articles->toArray());
