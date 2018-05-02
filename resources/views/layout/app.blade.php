@@ -1,3 +1,4 @@
+@inject('globalPageService', 'Mss\Services\GlobalPageService')
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +16,7 @@
 
 </head>
 
-<body @if ($miniNavbar) class="mini-navbar" @endif>
+<body @if ($globalPageService->hasMiniNavbar()) class="mini-navbar" @endif>
     <!-- Wrapper-->
     <div id="wrapper">
         @include('layout.sidebar')

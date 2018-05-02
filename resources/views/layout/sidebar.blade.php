@@ -20,8 +20,8 @@
             <li class="{{ active_class(if_uri_pattern(['order*'])) }}">
                 <a href="{{ url('/order') }}" title="Bestellungen">
                     <i class="fa fa-shopping-cart"></i> <span class="nav-label">Bestellungen</span>
-                    @if($unreadMessages)
-                        <div class="label label-primary pull-right" title="{{ $unreadMessages }} ungelesene {{ trans_choice('plural.message', $unreadMessages) }}">{{ $unreadMessages }}</div>
+                    @if($globalPageService->getUnreadMessageCount())
+                        <div class="label label-primary pull-right" title="{{ $globalPageService->getUnreadMessageCount() }} ungelesene {{ trans_choice('plural.message', $globalPageService->getUnreadMessageCount()) }}">{{ $globalPageService->getUnreadMessageCount() }}</div>
                     @endif
                 </a>
             </li>

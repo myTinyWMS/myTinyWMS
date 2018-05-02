@@ -11,6 +11,7 @@
                     <thead>
                         <tr>
                             <th>Artikel</th>
+                            <th>Bestellnummer</th>
                             <th>best. Menge</th>
                         </tr>
                     </thead>
@@ -18,6 +19,7 @@
                     @foreach($order->items as $item)
                         <tr>
                             <td>{{ $item->article->name }}</td>
+                            <td>{{ $item->article->currentSupplierArticle->order_number }}</td>
                             <td>{{ $item->quantity }}</td>
                         </tr>
                     @endforeach

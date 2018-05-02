@@ -125,7 +125,9 @@ class OrderDataTable extends BaseDataTable
     public function query(Order $model)
     {
         return $model->newQuery()->withSupplierName()
-            ->with(['items', 'items.article', 'supplier', 'messages']);
+            ->with(['items', 'items.article' => function ($query) {
+                $query->withCurrentSupplierArticle();
+            }, 'supplier', 'messages']);
     }
 
     /**

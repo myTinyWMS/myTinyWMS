@@ -13,7 +13,6 @@ class ComposerServiceProvider extends ServiceProvider {
      */
     public function boot(ViewFactory $view)
     {
-        $view->composer('*', 'Mss\Http\ViewComposers\GlobalComposer');
     }
 
     public function register()
