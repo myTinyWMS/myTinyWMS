@@ -13,7 +13,7 @@ class GlobalSearchController extends Controller
     public function process(Request $request) {
         $phrase = $request->get('query');
 
-        if (preg_match('/^[0-9]{8}$/', $phrase)) {
+        if (preg_match('/^[0-9]{7,8}$/', $phrase)) {
             $order = Order::where('internal_order_number', $phrase)->first();
             if ($order) {
                 $this->addResult('Bestellung: '.$phrase, route('order.show', $order));
