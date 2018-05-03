@@ -148,7 +148,7 @@
 @section('datatableFilters')
     <label>
         Status:&nbsp;
-        <select id="filterStatus" data-target-col="2" class="form-control input-sm datatableFilter-select">
+        <select id="filterStatus" data-target-col="3" class="form-control input-sm datatableFilter-select">
             <option value="open">offen (neu, bestellt, teilweise geliefert)</option>
             <option value="{{ \Mss\Models\Order::STATUS_NEW }}">neu</option>
             <option value="{{ \Mss\Models\Order::STATUS_ORDERED }}">bestellt</option>
