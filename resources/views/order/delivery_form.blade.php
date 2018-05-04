@@ -61,7 +61,7 @@
                     @foreach($order->items as $item)
                         <div class="panel panel-primary">
                             <div class="panel-body row">
-                                <div class="col-lg-5">
+                                <div class="col-lg-4">
                                     <small class="stats-label">Artikel</small>
                                     <h4>
                                         <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
@@ -69,7 +69,7 @@
                                         <small class="p-t-8"># {{ $item->article->article_number }}</small>
                                     </h4>
                                 </div>
-                                <div class="col-lg-1">
+                                <div class="col-lg-2">
                                     <small class="stats-label">Bestellnummer</small>
                                     <h4>{{ $item->article->currentSupplierArticle->order_number }}</h4>
                                 </div>
@@ -100,7 +100,7 @@
                                         </div>
                                         <div class="col-lg-8">
                                             <div class="input-group has-feedback">
-                                                <select class="form-control" name="label_type[{{ $item->article->id }}]">
+                                                <select class="form-control p-l-xs" name="label_type[{{ $item->article->id }}]">
                                                     <option value="small">Klein</option>
                                                     <option value="large">Groß</option>
                                                 </select>
