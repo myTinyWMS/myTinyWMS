@@ -20,6 +20,6 @@
 <div class="page">
     <div style="width: 250px; padding: 0; position:absolute; top: 0; left: 0;"><img src="data:image/png;base64,{{ $barcodes[$article->id] }}" /></div>
     <div style="width: 400px;  position:absolute; left: 290px; top: 50px;font-size: 120px;">{{ $article->article_number }}</div>
-    <div style="position: absolute; top: 280px; left: 0; font-size: 50px; line-height: 18px; height: 150px; width: 680px; overflow: hidden; padding-top: 15px;">{{ mb_substr(preg_replace('/[[:cntrl:]]/', '', $article->name), 0, 55, 'utf-8') }}</div>
+    <div style="position: absolute; top: 270px; left: 0; font-size: 40px; line-height: 40px; height: 150px; width: 680px; overflow: hidden; padding-top: 15px;">{{ mb_substr(preg_replace('/[[:cntrl:]]/', '', $article->name), 0, 55, 'utf-8') }}</div>
 </div>
 @endforeach
