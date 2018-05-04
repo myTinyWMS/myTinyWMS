@@ -23,12 +23,13 @@ class PrintLabelService {
 
     const PDF_OPTIONS_LARGE = [
         'page-width' => 152,
-        'page-height' => 101,
-        'margin-bottom' => 1,
-        'margin-left' => 1,
-        'margin-right' => 1,
+        'page-height' => 100,
+        'margin-bottom' => 4,
+        'margin-left' => 4,
+        'margin-right' => 4,
         'margin-top' => 4,
-        'encoding' => 'utf-8'
+        'encoding' => 'utf-8',
+        'orientation' => 'Landscape'
     ];
 
     /**
