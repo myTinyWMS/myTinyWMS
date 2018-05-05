@@ -234,7 +234,7 @@ class OrderController extends Controller
 
         $articlesToPrint = new Collection();
         $quantities = collect($request->get('quantities'));
-        $order->items->each(function ($orderItem) use ($quantities, $delivery, $order, $request, &$articlesToPrint, &$invoiceReceivedForAtLeastOneItem) {
+        $order->items->each(function ($orderItem) use ($quantities, $delivery, $order, $request, &$articlesToPrint) {
             /* @var OrderItem $orderItem */
             $quantity = intval($quantities->get($orderItem->article->id));
             if ($quantities->has($orderItem->article->id) && $quantity > 0) {

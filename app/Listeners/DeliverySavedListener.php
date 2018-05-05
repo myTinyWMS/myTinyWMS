@@ -44,12 +44,14 @@ class DeliverySavedListener
 
         UserSettings::getUsersWhereHas(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES)->each(function ($user) use ($articles, $event) {
             $watchedArticles = $articles->whereIn('category_id', $user->settings()->get(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES));
-            Notification::send(UserSettings::getUsersWhereHas(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES), new NewDeliverySavedForWatchedCategories($watchedArticles, $event->delivery));
+            if ($watchedArticles->count()) {
+                Notification::send(UserSettings::getUsersWhereHas(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES), new NewDeliverySavedForWatchedCategories($watchedArticles, $event->delivery));
+            }
         });
     }
 
     protected function notifyIfInvoiceHasBeenReceived(DeliverySaved $event) {
-        $invoiceReceivedForAtLeastOneItem = ($event->delivery->items->where('invoice_received', true)->count() > 0);
+        $invoiceReceivedForAtLeastOneItem = ($event->delivery->order->items->where('invoice_received', true)->count() > 0);
         if ($invoiceReceivedForAtLeastOneItem) {
             Notification::send(UserSettings::getUsersWhereTrue(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IF_INVOICE_RECEIVED), new NewDeliverySavedAndInvoiceExists($event->delivery));
         }

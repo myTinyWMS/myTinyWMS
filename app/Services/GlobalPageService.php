@@ -9,7 +9,7 @@ use Mss\Models\OrderMessage;
 class GlobalPageService {
 
     public function getNotifications() {
-        return Auth::check() ? Auth::user()->unreadNotifications : 0;
+        return Auth::check() ? Auth::user()->unreadNotifications : [];
     }
 
     public function getUnreadMessageCount() {

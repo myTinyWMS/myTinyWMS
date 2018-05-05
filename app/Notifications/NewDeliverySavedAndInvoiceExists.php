@@ -48,7 +48,7 @@ class NewDeliverySavedAndInvoiceExists extends Notification
     {
         return (new MailMessage)
                     ->subject('Neue Lieferung zur vorhandener Rechnung')
-                    ->line('Zu Bestellung '.$this->delivery->order->internal_order_number.' ist eine Lieferung eingegangen.')
+                    ->line('Zur Bestellung '.$this->delivery->order->internal_order_number.' ist eine Lieferung eingegangen.')
                     ->action('Bestellung anzeigen', route('order.show', $this->delivery->order))
                     ->line('Bitte prüfen!');
     }
