@@ -12,6 +12,7 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        '/order/3/message/upload'
+        '/order/*/message/upload',
+        '/order/*/invoicecheck/upload'
     ];
 }

@@ -14,11 +14,16 @@ class UserSettings {
 
     const SETTING_NOTIFY_AFTER_NEW_DELIVERY_IF_INVOICE_RECEIVED = 'notify_after_new_delivery_if_invoice_received';
     const SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES = 'notify_after_new_delivery_in_those_categories';
+    const SETTING_NOTIFY_ON_INVOICE_CHECKS = 'notify_on_invoice_checks';
 
     /**
      * array
      */
     const SETTINGS = [
+        self::SETTING_NOTIFY_ON_INVOICE_CHECKS => [
+            'default' => false,
+            'type' => 'boolean'
+        ],
         self::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IF_INVOICE_RECEIVED => [
             'default' => false,
             'type' => 'boolean'

@@ -62,6 +62,7 @@
             <option value="none">offen</option>
             <option value="all">komplett erhalten</option>
             <option value="partial">teilweise erhalten</option>
+            <option value="check">in Prüfung</option>
         </select>
     </label>
 

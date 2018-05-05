@@ -126,6 +126,9 @@ class OrderMessageController extends Controller {
     public function uploadNewAttachments(Order $order, Request $request) {
         $file = $request->file('file');
 
+        /**
+         * @todo queue file to delete after some time
+         */
         $upload_success = $file->storeAs('upload_temp', $order->id.'_'.Uuid::generate(4)->string);
         if ($upload_success) {
             return response()->json($upload_success, 200);

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Notification;
 use Mss\Events\DeliverySaved;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Mss\Models\OrderItem;
 use Mss\Models\UserSettings;
 use Mss\Notifications\NewDeliverySavedAndInvoiceExists;
 use Mss\Notifications\NewDeliverySavedForWatchedCategories;
@@ -51,7 +52,7 @@ class DeliverySavedListener
     }
 
     protected function notifyIfInvoiceHasBeenReceived(DeliverySaved $event) {
-        $invoiceReceivedForAtLeastOneItem = ($event->delivery->order->items->where('invoice_received', true)->count() > 0);
+        $invoiceReceivedForAtLeastOneItem = ($event->delivery->order->items->whereIn('invoice_received', [OrderItem::INVOICE_STATUS_RECEIVED, OrderItem::INVOICE_STATUS_CHECK])->count() > 0);
         if ($invoiceReceivedForAtLeastOneItem) {
             Notification::send(UserSettings::getUsersWhereTrue(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IF_INVOICE_RECEIVED), new NewDeliverySavedAndInvoiceExists($event->delivery));
         }

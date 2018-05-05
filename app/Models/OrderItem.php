@@ -13,11 +13,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class OrderItem extends AuditableModel
 {
+    const INVOICE_STATUS_OPEN = 0;
+    const INVOICE_STATUS_RECEIVED = 1;
+    const INVOICE_STATUS_CHECK = 2;
+
     protected $fillable = ['article_id', 'price', 'quantity', 'expected_delivery'];
 
     protected $casts = [
-        'confirmation_received' => 'boolean',
-        'invoice_received' => 'boolean',
+        'confirmation_received' => 'boolean'
     ];
 
     protected $dates = ['expected_delivery'];

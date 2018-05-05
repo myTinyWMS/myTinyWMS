@@ -11,6 +11,7 @@ use Mss\DataTables\AssignOrderDataTable;
 use Mss\DataTables\OrderDataTable;
 use Mss\Events\DeliverySaved;
 use Mss\Http\Requests\OrderRequest;
+use Mss\Mail\InvoiceCheckMail;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\Delivery;
@@ -22,6 +23,9 @@ use Mss\Models\User;
 use Mss\Models\UserSettings;
 use Mss\Notifications\NewDeliverySavedAndInvoiceExists;
 use Mss\Services\PrintLabelService;
+use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -125,17 +129,26 @@ class OrderController extends Controller
         return redirect()->route('order.show', $orderitem->order);
     }
 
-    public function itemInvoiceReceived(OrderItem $orderitem) {
-        $orderitem->invoice_received = true;
+    public function itemInvoiceReceived(OrderItem $orderitem, Request $request) {
+        $request->validate([
+            'invoice_status' => 'required|in:0,1,2'
+        ]);
+
+        $orderitem->invoice_received = $request->get('invoice_status');
         $orderitem->save();
+
+        if (!empty($request->get('mail_note'))) {
+            $attachments = collect(json_decode($request->get('mail_attachments'), true));
+            Mail::to(UserSettings::getUsersWhereTrue(UserSettings::SETTING_NOTIFY_ON_INVOICE_CHECKS))->send(new InvoiceCheckMail($orderitem->order, $request->get('mail_note'), $attachments));
+        }
 
         return redirect()->route('order.show', $orderitem->order);
     }
 
     public function allItemsInvoiceReceived(Order $order) {
         $order->items->each(function ($orderitem) {
-            if (!$orderitem->invoice_received) {
-                $orderitem->invoice_received = true;
+            if ($orderitem->invoice_received !== OrderItem::INVOICE_STATUS_RECEIVED) {
+                $orderitem->invoice_received = OrderItem::INVOICE_STATUS_RECEIVED;
                 $orderitem->save();
             }
         });
@@ -306,5 +319,19 @@ class OrderController extends Controller
         }
 
         return redirect()->route('order.show', $order);
+    }
+
+    public function uploadInvoiceCheckAttachments(Order $order, Request $request) {
+        $file = $request->file('file');
+
+        /**
+         * @todo queue file to delete after some time
+         */
+        $upload_success = $file->storeAs('upload_temp', $order->id.'_'.Uuid::generate(4)->string);
+        if ($upload_success) {
+            return response()->json($upload_success, 200);
+        } else {
+            return response()->json('error', 400);
+        }
     }
 }

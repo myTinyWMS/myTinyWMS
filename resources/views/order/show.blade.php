@@ -177,14 +177,28 @@
                                 <div class="col-lg-4 m-t-md">
                                     <small class="stats-label">Rechnung</small>
                                     <h3>
-                                        @if($item->invoice_received)
+                                        @if($item->invoice_received === \Mss\Models\OrderItem::INVOICE_STATUS_RECEIVED)
                                             <span class="text-success">erhalten</span>
+                                        @elseif($item->invoice_received === \Mss\Models\OrderItem::INVOICE_STATUS_CHECK)
+                                            <span class="text-warning">in Prüfung</span>
                                         @else
                                             <span class="text-danger">nicht erhalten</span>
-                                            {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.item_invoice_received', $item]]) !!}
-                                            <button type="submit" class="btn btn-xs btn-outline btn-success"><i class="fa fa-check"></i></button>
-                                            {!! Form::close() !!}
                                         @endif
+
+                                        {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.item_invoice_received', $item]]) !!}
+                                        <button type="button" class="btn btn-xs btn-outline btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-check"></i>
+                                        </button>
+                                        <ul class="dropdown-menu invoice-status-dropdown" aria-labelledby="dLabel">
+                                            <li><a href="#" data-value="{{ \Mss\Models\OrderItem::INVOICE_STATUS_RECEIVED }}">erhalten</a></li>
+                                            <li><a href="#" data-value="{{ \Mss\Models\OrderItem::INVOICE_STATUS_CHECK }}">in Prüfung</a></li>
+                                            <li><a href="#" data-value="{{ \Mss\Models\OrderItem::INVOICE_STATUS_OPEN }}">nicht erhalten</a></li>
+                                        </ul>
+                                        <input type="hidden" name="invoice_status" value="" />
+                                        <input type="hidden" name="mail_note" value="" />
+                                        <input type="hidden" name="mail_attachments" value="" />
+                                        {!! Form::close() !!}
+
                                     </h3>
                                 </div>
 
@@ -258,15 +272,89 @@
         </div>
     </div>
 </div>
+
+<!-- New Note Modal -->
+<div class="modal fade" id="invoiceCheckModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Rechnungsprüfung - Mail an Einkaufsteam</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="invoice_check_note">Bemerkungen zur Rechnung</label>
+                        <textarea id="invoice_check_note" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="dropzone"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ohne Mail weiter</button>
+                <button type="button" class="btn btn-primary" id="send_invoice_check_mail">Mail verschicken</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
 <script>
+    var attachments = [];
+
+    Dropzone.autoDiscover = false;
+    var dropzoneOptions = {
+        url: "{{ route('order.invoice_check_upload', $order) }}",
+        clickable: true,
+        dictDefaultMessage: 'Dateien hier ablegen',
+        init: function() {
+            this.on("complete", function(event) {
+                var file = {
+                    'tempFile': JSON.parse(event.xhr.response),
+                    'orgName': event.name,
+                    'type': event.type
+                };
+
+                attachments.push(file);
+            });
+        }
+    };
+
+    var currentForm = null;
+
     $(document).ready(function () {
         $('.payment-type-dropdown a').click(function (e) {
             e.preventDefault();
             $('#payment_type').val($(this).data('value'));
             $(this).closest('form').submit();
+        });
+
+        $('.invoice-status-dropdown a').click(function (e) {
+            e.preventDefault();
+            $(this).parent().parent().parent().find('input[name="invoice_status"]').val($(this).data('value'));
+
+            if ($(this).data('value') === 2) {
+                currentForm = $(this).closest('form');
+                $('#invoiceCheckModal').modal('show');
+
+                return false;
+            }
+
+            $(this).closest('form').submit();
+        });
+
+        $('#send_invoice_check_mail').click(function () {
+            $(currentForm).find('input[name="mail_note"]').val($('#invoice_check_note').val());
+            $(currentForm).find('input[name="mail_attachments"]').val(JSON.stringify(attachments));
+            $('#invoiceCheckModal').modal('hide');
+        });
+
+        $('#invoiceCheckModal').on('hide.bs.modal', function (e) {
+            $(currentForm).submit();
+        });
+        $('#invoiceCheckModal').on('shown.bs.modal', function (e) {
+            $('.dropzone').dropzone(dropzoneOptions);
         });
     })
 </script>

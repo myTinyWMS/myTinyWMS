@@ -72,6 +72,10 @@ class OrderDataTable extends BaseDataTable
                     case 'partial':
                         $query->whereRaw('(SELECT COUNT(*) FROM order_items WHERE order_id = orders.id AND invoice_received = 1) > 0 AND (SELECT COUNT(*) FROM order_items WHERE order_id = orders.id AND invoice_received = 1) < (SELECT COUNT(*) FROM order_items WHERE order_id = orders.id)');
                         break;
+
+                    case 'check':
+                        $query->whereRaw('(SELECT COUNT(*) FROM order_items WHERE order_id = orders.id AND invoice_received = 2) > 0');
+                        break;
                 }
             })
             ->addColumn('confirmation_status', 'order.list_confirmation_received')
