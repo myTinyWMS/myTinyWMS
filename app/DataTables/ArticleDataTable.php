@@ -9,7 +9,7 @@ class ArticleDataTable extends BaseDataTable
     /**
      * @var array
      */
-    protected $rawColumns = ['action', 'price', 'checkbox'];
+    protected $rawColumns = ['action', 'price', 'checkbox', 'order_number'];
 
     /**
      * @var bool
@@ -42,7 +42,21 @@ class ArticleDataTable extends BaseDataTable
                 return formatPrice(optional($article->currentSupplierArticle)->price / 100);
             })
             ->addColumn('order_number', function (Article $article) {
-                return optional($article->currentSupplierArticle)->order_number;
+                $orderNumber = optional($article->currentSupplierArticle)->order_number;
+
+                if ($article->openOrders->count()) {
+                    $orderNumber .= '<i class="fa fa-shopping-cart pull-right" title="offene Bestellung"></i>';
+                }
+
+                return $orderNumber;
+            })
+            ->addColumn('average_usage', function (Article $article) {
+                return $article->getAverageUsage();
+            })
+            ->addColumn('last_receipt', function (Article $article) {
+                $latestReceipt = $article->getLatestReceipt();
+
+                return ($latestReceipt) ? $latestReceipt->created_at->format('d.m.Y') : '';
             })
             ->addColumn('delivery_time', function (Article $article) {
                 return optional($article->currentSupplierArticle)->delivery_time;
@@ -106,7 +120,7 @@ class ArticleDataTable extends BaseDataTable
     {
         return $model->newQuery()
             ->withCurrentSupplierArticle()->withCurrentSupplier()->withCurrentSupplierName()
-            ->with(['category', 'suppliers', 'unit', 'tags']);
+            ->with(['category', 'suppliers', 'unit', 'tags', 'openOrders']);
     }
 
     /**
@@ -155,11 +169,13 @@ class ArticleDataTable extends BaseDataTable
             ['data' => 'quantity', 'name' => 'quantity', 'title' => 'Bestand', 'class' => 'text-center', 'width' => '40px'],
             ['data' => 'min_quantity', 'name' => 'min_quantity', 'title' => 'M.Bestand', 'class' => 'text-center', 'width' => '55px'],
             ['data' => 'order_quantity', 'name' => 'order_quantity', 'title' => 'B.Menge', 'class' => 'text-center', 'width' => '55px'],
+            ['data' => 'average_usage', 'name' => 'average_usage', 'title' => '&#x00D8; Verbr.', 'class' => 'text-center', 'width' => '60px'],
             ['data' => 'unit', 'name' => 'unit', 'title' => 'Einheit'],
             ['data' => 'price', 'name' => 'price', 'title' => 'Preis', 'class' => 'text-right'],
             ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung', 'visible' => false],
             ['data' => 'delivery_time', 'name' => 'delivery_time', 'title' => 'Lieferzeit', 'class' => 'text-right'],
             ['data' => 'supplier_name', 'name' => 'supplier_name', 'title' => 'Lieferant'],
+            ['data' => 'last_receipt', 'name' => 'last_receipt', 'title' => 'letzter WE', 'width' => '70px'],
             ['data' => 'tags', 'name' => 'tags', 'title' => 'Tags', 'visible' => false],
             ['data' => 'category', 'name' => 'category', 'title' => 'Kategorie', 'visible' => false],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'visible' => false],

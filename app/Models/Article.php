@@ -2,6 +2,7 @@
 
 namespace Mss\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
@@ -197,5 +198,21 @@ class Article extends AuditableModel
         }
 
         return $data;
+    }
+
+    public function getLatestReceipt() {
+        return $this->quantityChangelogs()->where('type', ArticleQuantityChangelog::TYPE_INCOMING)->latest()->first();
+    }
+
+    /**
+     * return integer
+     */
+    public function getAverageUsage() {
+        return round($this->quantityChangelogs()
+            ->whereIn('type', [ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_CORRECTION])
+            ->where('change', '>', 0)
+            ->where('created_at', '>', Carbon::now()->subYear())
+            ->get()
+            ->average('change'), 0);
     }
 }
