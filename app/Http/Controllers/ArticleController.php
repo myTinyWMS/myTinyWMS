@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Mss\DataTables\ArticleDataTable;
 use Mss\Http\Requests\ArticleRequest;
 use Mss\Models\Tag;
+use Mss\Models\Unit;
 use Mss\Services\PrintLabelService;
 
 class ArticleController extends Controller
@@ -308,13 +309,23 @@ class ArticleController extends Controller
         $articles = Article::active()->with('category')->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
             return $article->category->name;
         })->ksort();
+        $units = Unit::pluck('name', 'id');
 
-        return view('article.fix_inventory', compact('articles'));
+        return view('article.fix_inventory', compact('articles', 'units'));
     }
 
     public function fixInventorySave(Request $request) {
         Article::active()->update(['inventory' => 0]);
         Article::whereIn('id', array_keys($request->get('inventory')))->update(['inventory' => 1]);
+
+        Article::whereIn('id', array_keys($request->get('unit_id')))->get()->each(function ($article) use ($request) {
+            $newUnitId = intval($request->get('unit_id')[$article->id]);
+            if ($article->unit_id !== $newUnitId) {
+                $article->unit_id = $newUnitId;
+                $article->save();
+            }
+        });
+
         flash('Inventur Feld gespeichert');
 
         return response()->redirectToRoute('article.fix_inventory_form', 'success');

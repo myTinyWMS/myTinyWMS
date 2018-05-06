@@ -176,7 +176,7 @@ class Article extends AuditableModel
      */
     public function transformAudit(array $data): array {
         if (Arr::has($data, 'new_values.unit_id')) {
-            $data['old_values']['unit_id'] = Unit::find($this->getOriginal('unit_id'))->name;
+            $data['old_values']['unit_id'] = optional(Unit::find($this->getOriginal('unit_id')))->name;
             $data['new_values']['unit_id'] = Unit::find($this->getAttribute('unit_id'))->name;
         }
 
