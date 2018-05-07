@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Notification;
 use Mss\DataTables\ArticleDataTable;
 use Mss\DataTables\AssignOrderDataTable;
 use Mss\DataTables\OrderDataTable;
+use Mss\DataTables\SelectArticleDataTable;
 use Mss\Events\DeliverySaved;
 use Mss\Http\Requests\OrderRequest;
 use Mss\Mail\InvoiceCheckMail;
@@ -46,7 +47,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) {
+    public function create(Request $request, SelectArticleDataTable $selectArticleDataTable) {
         $articles = $this->getArticleList();
 
         $order = new Order();
@@ -73,7 +74,7 @@ class OrderController extends Controller
             $order->items = $preSetOrderItems;
         }
 
-        return view('order.create', compact('order', 'articles'));
+        return $selectArticleDataTable->render('order.create', compact('order', 'articles'));
     }
 
     /**
@@ -303,8 +304,8 @@ class OrderController extends Controller
                     'category' => $article->category->name ?? '',
                     'order_notes' => $article->order_notes ?? '',
                     'delivery_date' =>  $deliveryDate->format('Y-m-d'),
-                    'order_quantity' => $article->currentSupplierArticle->order_quantity ?? 0,
-                    'price' => $article->currentSupplierArticle->price ? $article->currentSupplierArticle->price / 100 : 0
+                    'order_quantity' => $article->currentSupplierArticle->order_quantity ?? '',
+                    'price' => $article->currentSupplierArticle->price ? $article->currentSupplierArticle->price / 100 : ''
                 ];
             });
     }

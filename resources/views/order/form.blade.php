@@ -76,9 +76,8 @@
                 <div class="ibox-title">
                     <h5>Bestellte Artikel</h5>
                 </div>
-                <div class="ibox-content">
-                    <div id="article-list"></div>
-                    <button class="btn btn-primary btn-sm" id="add-article">weiterer Artikel</button>
+                <div class="ibox-content" id="article-list">
+                    <order-article-list ref="articleList" :all-articles="{{ json_encode($articles) }}" :existing-articles="{{ json_encode($order->item) }}"></order-article-list>
                 </div>
             </div>
         </div>
@@ -96,19 +95,22 @@
     </div>
     {!! Form::close() !!}
 
-    <style>
-        #article-list .row {
-            position: relative;
-        }
+    <!-- Modal -->
+    <div class="modal modal-wide" id="articleSelectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Artikel auswählen:</h4>
+                </div>
+                <div class="modal-body">
+                    {!! $dataTable->table() !!}
+                </div>
+            </div>
+        </div>
+    </div>
 
-        #article-list .row .btn {
-            position: absolute;
-            right: 0;
-            top: -15px;
-        }
-    </style>
-
-    <div class="article-template hidden">
+    {{--<div class="article-template hidden">
         <div class="panel panel-primary">
             <div class="panel-body row">
                 <div class="col-lg-6">
@@ -127,12 +129,23 @@
                 <a href="#" class="btn btn-xs btn-default btn-circle remove-article"><i class="glyphicon glyphicon-remove"></i></a>
             </div>
         </div>
-    </div>
+    </div>--}}
 @endsection
 
 @push('scripts')
+    {!! $dataTable->scripts() !!}
     <script>
-        addArticle();
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                format: 'dd.mm.yyyy',
+                language: 'de',
+                todayHighlight: true,
+                daysOfWeekDisabled: [0,6],
+                autoclose: true,
+                calendarWeeks: true
+            });
+        });
+        /*addArticle();
 
         var existingArticles = {!! $order->items->toJson() !!};
         var currentArticles = [];
@@ -177,14 +190,7 @@
                 });
             });
 
-            $('.datepicker').datepicker({
-                format: 'dd.mm.yyyy',
-                language: 'de',
-                todayHighlight: true,
-                daysOfWeekDisabled: [0,6],
-                autoclose: true,
-                calendarWeeks: true
-            });
+
 
             @if(!empty($order->supplier_id))
             $('#supplier').val('{{ $order->supplier_id }}'); // Select the option with a value of '1'
@@ -280,6 +286,6 @@
                 (rv[x[key]] = rv[x[key]] || []).push(x);
                 return rv;
             }, {});
-        };
+        };*/
     </script>
 @endpush

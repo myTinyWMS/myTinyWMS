@@ -70,5 +70,5 @@ mix
         'resources/assets/vendor/iCheck/icheck.min.js',
         'resources/assets/vendor/js-cookie/js.cookie.js'
     ], 'public/js/vendor.js')
-    .copy('resources/assets/js/app.js', 'public/js')
+    .js('resources/assets/js/app.js', 'public/js')
     .version();

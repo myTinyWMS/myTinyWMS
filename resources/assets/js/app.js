@@ -5,6 +5,21 @@
  *
  */
 
+require('./bootstrap');
+window.Vue = require('vue');
+
+Vue.component('order-article-list', require('./components/OrderArticleList.vue'));
+
+const app = new Vue({
+    el: '#wrapper',
+    methods: {
+        selectArticle: function (id) {
+            console.log('select', id);
+            this.$refs.articleList.selectArticle(id);
+        }
+    }
+});
+
 $(document).ready(function () {
     // Add body-small class if window less than 768px
     if ($(this).width() < 769) {

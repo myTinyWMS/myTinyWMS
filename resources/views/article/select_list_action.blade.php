@@ -1,0 +1,1 @@
+<button type="button" class="btn btn-primary btn-xs" @click.prevent="selectArticle({{ $id }})" data-dismiss="modal">auswählen</button>
