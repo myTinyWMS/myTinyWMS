@@ -24,15 +24,15 @@ class OrderRequest extends FormRequest
      */
     public function rules() {
         return [
-            'order_id' => 'exists:orders,id',
-            'supplier' => 'exists:suppliers,id',
+            'order_id' => 'required|exists:orders,id',
+            'supplier_id' => 'required|exists:suppliers,id',
             'total_cost' => 'nullable|regex:/[0-9]+[.,]?[0-9]*/',
             'shipping_cost' => 'nullable|regex:/[0-9]+[.,]?[0-9]*/',
             'order_date' => 'nullable|date',
             'expected_delivery.*' => 'nullable|date',
-            'article.*' => 'nullable|exists:articles,id',
-            'quantity.*' => 'nullable|integer',
-            'price.*' => 'nullable|regex:/[0-9]+[.,]?[0-9]*/'
+            'article_data.*.id' => 'required|exists:articles,id',
+            'article_data.*.quantity' => 'required|integer',
+            'article_data.*.price' => 'required|regex:/[0-9]+[.,]?[0-9]*/'
         ];
     }
 

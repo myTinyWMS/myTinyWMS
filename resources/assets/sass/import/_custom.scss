@@ -242,3 +242,13 @@ body.mini-navbar .navbar-default .nav li a .label {
 .p-l-xs {
   padding-left: 5px;
 }
+
+#article-list .row {
+  position: relative;
+}
+
+#article-list .row .delete-btn {
+  position: absolute;
+  right: 0;
+  top: -15px;
+}

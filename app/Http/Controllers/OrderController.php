@@ -9,16 +9,19 @@ use Illuminate\Support\Facades\Notification;
 use Mss\DataTables\ArticleDataTable;
 use Mss\DataTables\AssignOrderDataTable;
 use Mss\DataTables\OrderDataTable;
+use Mss\DataTables\SelectArticleDataTable;
 use Mss\Events\DeliverySaved;
 use Mss\Http\Requests\OrderRequest;
 use Mss\Mail\InvoiceCheckMail;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
+use Mss\Models\Category;
 use Mss\Models\Delivery;
 use Mss\Models\Order;
 use Mss\Models\OrderItem;
 use Mss\Models\OrderMessage;
 use Mss\Models\Supplier;
+use Mss\Models\Tag;
 use Mss\Models\User;
 use Mss\Models\UserSettings;
 use Mss\Notifications\NewDeliverySavedAndInvoiceExists;
@@ -46,34 +49,37 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request) {
+    public function create(Request $request, SelectArticleDataTable $selectArticleDataTable) {
         $articles = $this->getArticleList();
+        $categories = Category::orderedByName()->get();
+        $tags = Tag::orderedByName()->get();
 
         $order = new Order();
         $order->internal_order_number = $order->getNextInternalOrderNumber();
         $order->order_date = Carbon::now();
         $order->save();
 
+        $preSetArticles = collect();
         if ($request->has('article')) {
             $preSetArticles = Article::withCurrentSupplierArticle()->find($request->get('article'));
-            $preSetOrderItems = $preSetArticles->map(function ($article) {
+            $preSetArticles->transform(function ($article) {
                 $deliveryTime = intval($article->currentSupplierArticle->delivery_time);
                 $deliveryDate = Carbon::now()->addWeekdays($deliveryTime);
 
                 return [
-                    'article_id' => $article->id,
-                    'quantity' => $article->currentSupplierArticle->order_quantity ?? '',
+                    'id' => $article->id,
+                    'order_item_id' => null,
+                    'name' => $article->name,
+                    'supplier_id' => $article->currentSupplierArticle->supplier_id,
                     'order_notes' => $article->order_notes ?? '',
-                    'delivery_date' => $deliveryDate->format('Y-m-d'),
-                    'price' => $article->currentSupplierArticle->price ? $article->currentSupplierArticle->price / 100 : ''
+                    'price' => $article->currentSupplierArticle->price ? formatPriceValue($article->currentSupplierArticle->price / 100) : '',
+                    'quantity' => $article->currentSupplierArticle->order_quantity ?? '',
+                    'expected_delivery' => $deliveryDate->format('Y-m-d')
                 ];
             });
-
-            $order->supplier_id = $preSetArticles->first()->currentSupplierArticle->supplier_id;
-            $order->items = $preSetOrderItems;
         }
 
-        return view('order.create', compact('order', 'articles'));
+        return $selectArticleDataTable->render('order.create', compact('order', 'articles', 'tags', 'categories', 'preSetArticles'));
     }
 
     /**
@@ -87,7 +93,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($request->get('order_id'));
 
         $order->status = $request->get('status');
-        $order->supplier_id = $request->get('supplier');
+        $order->supplier_id = $request->get('supplier_id');
         $order->external_order_number = $request->get('external_order_number');
         $order->total_cost = parsePrice($request->get('total_cost'));
         $order->shipping_cost = parsePrice($request->get('shipping_cost')) ?? 0;
@@ -100,22 +106,22 @@ class OrderController extends Controller
 
         $order->save();
 
-        $order->items()->delete();
-        collect($request->get('article'))->each(function ($article, $key) use ($order, $request) {
-            $quantity = intval($request->get('quantity')[$key] ?: 0);
-            $price = $request->get('price')[$key] ?: null;
-            $expectedDelivery = !empty($request->get('expected_delivery')[$key]) ? Carbon::parse($request->get('expected_delivery')[$key]) : null;
-
-            if (empty($article) || empty($quantity)) {
-                return true;
+        // save order items
+        collect(\GuzzleHttp\json_decode($request->get('article_data'), true))->each(function ($item) use ($order) {
+            if (!empty($item['order_item_id'])) {
+                $orderItem = OrderItem::findOrFail($item['order_item_id']);
+                $orderItem->price = parsePrice($item['price']);
+                $orderItem->quantity = intval($item['quantity']);
+                $orderItem->expected_delivery = !empty($item['expected_delivery']) ? Carbon::parse($item['expected_delivery']) : null;
+                $orderItem->save();
+            } else {
+                $order->items()->create([
+                    'article_id' => $item['id'],
+                    'price' => parsePrice($item['price']),
+                    'quantity' => $item['quantity'],
+                    'expected_delivery' => !empty($item['expected_delivery']) ? Carbon::parse($item['expected_delivery']) : null
+                ]);
             }
-
-            $order->items()->create([
-                'article_id' => $article,
-                'price' => parsePrice($price),
-                'quantity' => $quantity,
-                'expected_delivery' => $expectedDelivery
-            ]);
         });
 
         flash('Bestellung gespeichert', 'success');
@@ -193,11 +199,30 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id, SelectArticleDataTable $selectArticleDataTable) {
         $articles = $this->getArticleList();
-        $order = Order::findOrFail($id);
+        $order = Order::with(['items.article' => function($query) {
+            $query->withCurrentSupplierArticle();
+        }])->findOrFail($id);
+        $categories = Category::orderedByName()->get();
+        $tags = Tag::orderedByName()->get();
 
-        return view('order.edit', compact('order', 'articles'));
+        /* @var $order Order */
+        $preSetArticles = $order->items;
+        $preSetArticles->transform(function ($item) {
+            return [
+                'id' => $item->article->id,
+                'order_item_id' => $item->id,
+                'name' => $item->article->name,
+                'supplier_id' => $item->article->currentSupplierArticle->supplier_id,
+                'order_notes' => $item->article->order_notes ?? '',
+                'price' => formatPriceValue($item->price),
+                'quantity' => $item->quantity,
+                'expected_delivery' => optional($item->expected_delivery)->format('d.m.Y')
+            ];
+        });
+
+        return $selectArticleDataTable->render('order.edit', compact('order', 'preSetArticles', 'articles', 'tags', 'categories'));
     }
 
     /**
@@ -303,8 +328,8 @@ class OrderController extends Controller
                     'category' => $article->category->name ?? '',
                     'order_notes' => $article->order_notes ?? '',
                     'delivery_date' =>  $deliveryDate->format('Y-m-d'),
-                    'order_quantity' => $article->currentSupplierArticle->order_quantity ?? 0,
-                    'price' => $article->currentSupplierArticle->price ? $article->currentSupplierArticle->price / 100 : 0
+                    'order_quantity' => $article->currentSupplierArticle->order_quantity ?? '',
+                    'price' => $article->currentSupplierArticle->price ? formatPriceValue($article->currentSupplierArticle->price / 100) : ''
                 ];
             });
     }

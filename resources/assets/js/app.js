@@ -5,6 +5,15 @@
  *
  */
 
+require('./bootstrap');
+window.Vue = require('vue');
+
+Vue.component('order-form', require('./components/OrderForm.vue'));
+
+window.app = new Vue({
+    el: '#wrapper'
+});
+
 $(document).ready(function () {
     // Add body-small class if window less than 768px
     if ($(this).width() < 769) {
