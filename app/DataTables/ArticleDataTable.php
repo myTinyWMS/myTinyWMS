@@ -6,6 +6,11 @@ use Mss\Models\Article;
 
 class ArticleDataTable extends BaseDataTable
 {
+    const STATUS_COL_ID = 17;
+    const CATEGORY_COL_ID = 16;
+    const TAGS_COL_ID = 15;
+    const SUPPLIER_COL_ID = 13;
+
     /**
      * @var array
      */

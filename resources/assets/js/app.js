@@ -8,16 +8,10 @@
 require('./bootstrap');
 window.Vue = require('vue');
 
-Vue.component('order-article-list', require('./components/OrderArticleList.vue'));
+Vue.component('order-form', require('./components/OrderForm.vue'));
 
-const app = new Vue({
-    el: '#wrapper',
-    methods: {
-        selectArticle: function (id) {
-            console.log('select', id);
-            this.$refs.articleList.selectArticle(id);
-        }
-    }
+window.app = new Vue({
+    el: '#wrapper'
 });
 
 $(document).ready(function () {

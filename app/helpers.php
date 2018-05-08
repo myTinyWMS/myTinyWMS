@@ -11,3 +11,7 @@ function formatPrice($value) {
 function parsePrice($value) {
     return floatval(str_replace(',', '.', $value)) * 100;
 }
+
+function formatPriceValue($value) {
+    return number_format($value, 2, ',', '.');
+}

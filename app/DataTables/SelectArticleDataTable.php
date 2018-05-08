@@ -2,10 +2,13 @@
 
 namespace Mss\DataTables;
 
-use Mss\Models\Article;
-
 class SelectArticleDataTable extends ArticleDataTable
 {
+    const STATUS_COL_ID = 16;
+    const CATEGORY_COL_ID = 15;
+    const TAGS_COL_ID = 14;
+    const SUPPLIER_COL_ID = 12;
+
     /**
      * @var bool
      */
@@ -26,17 +29,19 @@ class SelectArticleDataTable extends ArticleDataTable
         return $datatable;
     }
 
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
-    /*public function html()
-    {
-        return $this->builder()
-            ->minifiedAjax()
-            ->columns($this->getColumns())
-            ->parameters($this->getHtmlParameters());
-    }*/
+    protected function getHtmlParameters() {
+        $parameters = [
+            'paging' => false,
+            'order' => [[self::SUPPLIER_COL_ID, 'asc']],
+            'rowGroup' => ['dataSrc' => 'category']
+        ];
 
+        return $parameters;
+    }
+
+    protected function getColumns() {
+        $cols = parent::getColumns();
+        array_shift($cols);
+        return $cols;
+    }
 }

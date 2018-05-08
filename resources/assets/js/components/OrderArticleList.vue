@@ -8,7 +8,8 @@
                         <label class="control-label">Name</label>
                         <div class="form-control-static">
                             {{ article.name }}
-                            <button type="button" class="btn btn-primary btn-xs" v-bind:class="{ 'm-l-md': (article.id) }" data-toggle="modal" data-target="#articleSelectModal" @click.prevent="saveCurrentIndex(index)">ändern</button>
+                            <button type="button" class="btn btn-primary btn-xs" v-if="supplier" v-bind:class="{ 'm-l-md': (article.id) }" data-toggle="modal" data-target="#articleSelectModal" @click.prevent="showArticleList(index)">Artikel auswählen</button>
+                            <div class="text-danger" v-if="!supplier">Bitte zuerst einen Lieferanten auswählen!</div>
                         </div>
                     </div>
 
@@ -44,37 +45,40 @@
 
 <script>
     export default {
-        props: ['allArticles', 'existingArticles'],
+        props: ['allArticles', 'existingArticles', 'supplier', 'articles'],
 
         data() {
             return {
-                articles: [],
                 currentIndex: null
             }
         },
 
         created() {
-            this.addArticle();
+            if (!this.articles.length) {
+                this.addArticle();
+            }
         },
 
         methods: {
             addArticle() {
                 this.articles.push({
                     id: null,
+                    order_item_id: null,
                     name: null,
                     order_notes: '',
                     quantity: '',
                     price: '',
                     expected_delivery: ''
-                })
+                });
             },
 
             removeArticle(index) {
                 this.articles.splice(index, 1);
             },
 
-            saveCurrentIndex(currentIndex) {
+            showArticleList(currentIndex) {
                 this.currentIndex = currentIndex;
+                window.LaravelDataTables.dataTableBuilder.columns(12).search().draw();
             },
 
             formatPrice(value) {
@@ -82,16 +86,14 @@
             },
 
             selectArticle(id) {
-                console.log('got', id);
                 let article = _.find(this.allArticles, _.matchesProperty('id', id));
-                console.log(article);
                 this.articles[this.currentIndex].id = article.id;
+                this.articles[this.currentIndex].order_item_id = null;
                 this.articles[this.currentIndex].name = article.name;
                 this.articles[this.currentIndex].order_notes = article.order_notes;
                 this.articles[this.currentIndex].quantity = article.order_quantity;
                 this.articles[this.currentIndex].price = this.formatPrice(article.price);
                 this.articles[this.currentIndex].expected_delivery = (moment(article.delivery_date).isValid() ? moment(article.delivery_date).format('DD.MM.YYYY') : '');
-                console.log(id, this.currentIndex);
             }
         }
     }
