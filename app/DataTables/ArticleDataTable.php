@@ -2,6 +2,7 @@
 
 namespace Mss\DataTables;
 
+use Carbon\Carbon;
 use Mss\Models\Article;
 
 class ArticleDataTable extends BaseDataTable
@@ -51,12 +52,12 @@ class ArticleDataTable extends BaseDataTable
                 return $orderNumber;
             })
             ->addColumn('average_usage', function (Article $article) {
-                return $article->getAverageUsage();
+                return intval($article->average_usage);
             })
             ->addColumn('last_receipt', function (Article $article) {
-                $latestReceipt = $article->getLatestReceipt();
+                $latestReceipt = $article->last_receipt;
 
-                return ($latestReceipt) ? $latestReceipt->created_at->format('d.m.Y') : '';
+                return ($latestReceipt) ? Carbon::parse($latestReceipt)->format('d.m.Y') : '';
             })
             ->addColumn('delivery_time', function (Article $article) {
                 return optional($article->currentSupplierArticle)->delivery_time;
@@ -119,7 +120,7 @@ class ArticleDataTable extends BaseDataTable
     public function query(Article $model)
     {
         return $model->newQuery()
-            ->withCurrentSupplierArticle()->withCurrentSupplier()->withCurrentSupplierName()
+            ->withCurrentSupplierArticle()->withCurrentSupplier()->withCurrentSupplierName()->withAverageUsage()->withLastReceipt()
             ->with(['category', 'suppliers', 'unit', 'tags', 'openOrders']);
     }
 
