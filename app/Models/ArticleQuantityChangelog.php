@@ -21,6 +21,10 @@ class ArticleQuantityChangelog extends AuditableModel
         return $this->belongsTo(User::class);
     }
 
+    public function unit() {
+        return $this->belongsTo(Unit::class);
+    }
+
     public function deliveryItem() {
         return $this->belongsTo(DeliveryItem::class);
     }

@@ -43,6 +43,7 @@
                                 <th>Typ</th>
                                 <th class="text-center">Änderung</th>
                                 <th class="text-center">Bestand</th>
+                                <th class="text-center">Einheit</th>
                                 <th>Zeitpunkt</th>
                                 <th>Kommentar</th>
                                 <th>Benutzer</th>

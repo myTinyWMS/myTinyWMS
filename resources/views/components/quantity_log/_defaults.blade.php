@@ -1,3 +1,4 @@
+<td class="text-nowrap text-center">{{ optional($log->unit)->name }}</td>
 <td class="text-nowrap">{{ $log->created_at->format('d.m.Y H:i') }} Uhr</td>
 <td>
     @if ($log->deliveryItem)

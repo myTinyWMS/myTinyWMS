@@ -164,7 +164,7 @@ class Article extends AuditableModel
     }
 
     public function getShortChangelog() {
-        return $this->quantityChangelogs()->with(['user', 'deliveryItem.delivery.order'])->latest()->take(30)->get();
+        return $this->quantityChangelogs()->with(['user', 'deliveryItem.delivery.order', 'unit'])->latest()->take(30)->get();
     }
 
     public function openOrders() {
