@@ -56,7 +56,19 @@
 
                     <div class="col-xs-3">
                         <small class="stats-label">Status</small>
-                        <h2>@include('order.status', ['status' => $order->status])</h2>
+                        <h2>
+                        {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.change_status', $order]]) !!}
+                        <button type="button" class="btn btn-xs btn-link dropdown-toggle no-padding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @include('order.status', ['status' => $order->status])
+                        </button>
+                        <ul class="dropdown-menu status-dropdown" aria-labelledby="dLabel">
+                            @foreach(\Mss\Models\Order::STATUS_TEXTS as $value => $name)
+                            <li><a href="#" data-value="{{ $value }}">{{ $name }}</a></li>
+                            @endforeach
+                        </ul>
+                        <input type="hidden" id="status" name="status" value="" />
+                        {!! Form::close() !!}
+                        </h2>
                     </div>
 
                     <div class="col-xs-3">
@@ -327,6 +339,12 @@
         $('.payment-type-dropdown a').click(function (e) {
             e.preventDefault();
             $('#payment_type').val($(this).data('value'));
+            $(this).closest('form').submit();
+        });
+
+        $('.status-dropdown a').click(function (e) {
+            e.preventDefault();
+            $('#status').val($(this).data('value'));
             $(this).closest('form').submit();
         });
 

@@ -346,6 +346,18 @@ class OrderController extends Controller
         return redirect()->route('order.show', $order);
     }
 
+    public function changeStatus(Order $order, Request $request) {
+        if (array_key_exists(intval($request->get('status')), Order::STATUS_TEXTS)) {
+            $order->status = intval($request->get('status'));
+            $order->save();
+            flash('Status geändert.', 'success');
+        } else {
+            flash('Status ungültig.', 'error');
+        }
+
+        return redirect()->route('order.show', $order);
+    }
+
     public function uploadInvoiceCheckAttachments(Order $order, Request $request) {
         $file = $request->file('file');
 

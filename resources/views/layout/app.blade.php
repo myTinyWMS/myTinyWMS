@@ -43,7 +43,7 @@
                 </div>
             </div>
 
-            <div class="wrapper wrapper-content animated fadeIn">
+            <div class="wrapper wrapper-content">
                 @include('flash::message')
                 @if ($errors->any())
                     <div class="alert alert-danger">

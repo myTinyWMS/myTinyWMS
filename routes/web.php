@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('order/{order}/create-delivery', 'OrderController@createDelivery')->name('order.create_delivery');
     Route::post('order/{order}/store-delivery', 'OrderController@storeDelivery')->name('order.store_delivery');
     Route::post('order/{order}/change-payment-status', 'OrderController@changePaymentStatus')->name('order.change_payment_status');
+    Route::post('order/{order}/change-status', 'OrderController@changeStatus')->name('order.change_status');
     Route::post('order/{order}/invoicecheck/upload', 'OrderController@uploadInvoiceCheckAttachments')->name('order.invoice_check_upload');
 
     Route::post('order/{orderitem}/item-invoice-received', 'OrderController@itemInvoiceReceived')->name('order.item_invoice_received');

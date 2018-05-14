@@ -168,6 +168,7 @@ return [
          */
         Laravel\Tinker\TinkerServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Webklex\IMAP\Providers\LaravelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -181,7 +182,6 @@ return [
         Mss\Providers\FormComponentsServiceProvider::class,
         Mss\Providers\ValidatorServiceProvider::class,
         Mss\Providers\DatabaseServiceProvider::class,
-        Webklex\IMAP\Providers\LaravelServiceProvider::class,
     ],
 
     /*
