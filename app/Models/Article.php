@@ -181,7 +181,7 @@ class Article extends AuditableModel
         }
 
         if (Arr::has($data, 'new_values.category_id')) {
-            $data['old_values']['category_id'] = Category::find($this->getOriginal('category_id'))->name;
+            $data['old_values']['category_id'] = optional(Category::find($this->getOriginal('category_id')))->name;
             $data['new_values']['category_id'] = Category::find($this->getAttribute('category_id'))->name;
         }
 
