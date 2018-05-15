@@ -148,25 +148,8 @@
 @push('scripts')
     {!! $dataTable->scripts() !!}
     <script>
-
         function selectArticle(id) {
             window.app.$refs.orderForm.selectArticle(id);
-            initDatepicker();
         }
-
-        function initDatepicker() {
-            $('.datepicker').datepicker({
-                format: 'dd.mm.yyyy',
-                language: 'de',
-                todayHighlight: true,
-                daysOfWeekDisabled: [0,6],
-                autoclose: true,
-                calendarWeeks: true
-            });
-        }
-
-        $(document).ready(function () {
-            initDatepicker();
-        });
     </script>
 @endpush

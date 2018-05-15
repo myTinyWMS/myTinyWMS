@@ -31,8 +31,8 @@
                 </div>
                 <div class="col-lg-2 text-right">
                     <div class="form-group">
-                        <label for="expected_delivery[]" class="control-label">Liefertermin</label>
-                        <input class="form-control datepicker delivery-input" name="expected_delivery[]" id="expected_delivery[]" type="text" v-model="article.expected_delivery">
+                        <label :for="'expected_delivery' + index" class="control-label">Liefertermin</label>
+                        <input class="form-control datepicker delivery-input" name="expected_delivery[]" :id="'expected_delivery' + index" :data-index="index" type="text" v-model="article.expected_delivery">
                     </div>
                 </div>
                 <a href="#" class="btn btn-xs btn-default btn-circle delete-btn" @click.prevent="removeArticle(index)"><i class="glyphicon glyphicon-remove"></i></a>
@@ -59,7 +59,31 @@
             }
         },
 
+        mounted() {
+            this.handleDatepicker();
+        },
+
+        updated() {
+            this.handleDatepicker();
+        },
+
         methods: {
+            handleDatepicker() {
+                var that = this;
+                $(".delivery-input").datepicker({
+                    format: 'dd.mm.yyyy',
+                    language: 'de',
+                    todayHighlight: true,
+                    daysOfWeekDisabled: [0,6],
+                    autoclose: true,
+                    calendarWeeks: true
+                }).on(
+                    "changeDate", function (e) {
+                        that.articles[$(this).attr('data-index')].expected_delivery = moment(e.date).format('DD.MM.YYYY');
+                    }
+                );
+            },
+
             addArticle() {
                 this.articles.push({
                     id: null,

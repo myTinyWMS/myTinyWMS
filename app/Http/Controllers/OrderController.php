@@ -107,13 +107,16 @@ class OrderController extends Controller
         $order->save();
 
         // save order items
-        collect(\GuzzleHttp\json_decode($request->get('article_data'), true))->each(function ($item) use ($order) {
+        $existingItemIds = $order->items->pluck('id');
+        $updatedItemIds = collect();
+        collect(\GuzzleHttp\json_decode($request->get('article_data'), true))->each(function ($item) use ($order, $updatedItemIds) {
             if (!empty($item['order_item_id'])) {
                 $orderItem = OrderItem::findOrFail($item['order_item_id']);
                 $orderItem->price = parsePrice($item['price']);
                 $orderItem->quantity = intval($item['quantity']);
                 $orderItem->expected_delivery = !empty($item['expected_delivery']) ? Carbon::parse($item['expected_delivery']) : null;
                 $orderItem->save();
+                $updatedItemIds->push($orderItem->id);
             } else {
                 $order->items()->create([
                     'article_id' => $item['id'],
@@ -123,6 +126,9 @@ class OrderController extends Controller
                 ]);
             }
         });
+
+        $missingItemIds = $existingItemIds->diff($updatedItemIds);
+        OrderItem::whereIn('id', $missingItemIds)->delete();
 
         flash('Bestellung gespeichert', 'success');
         return redirect()->route('order.show', $order);
