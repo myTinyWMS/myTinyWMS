@@ -186,7 +186,7 @@ class Article extends AuditableModel
         }
 
         if (Arr::has($data, 'new_values.status')) {
-            $data['old_values']['status'] = Article::getStatusTextArray()[$this->getOriginal('status')];
+            $data['old_values']['status'] = (array_key_exists($this->getOriginal('status'), Article::getStatusTextArray())) ? Article::getStatusTextArray()[$this->getOriginal('status')] : null;
             $data['new_values']['status'] = Article::getStatusTextArray()[$this->getAttribute('status')];
         }
 
