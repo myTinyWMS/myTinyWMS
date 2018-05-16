@@ -21,7 +21,7 @@ class OrderMessageController extends Controller {
     public function create(Order $order) {
         $order->load(['items.article' => function ($query) {
             $query->withCurrentSupplierArticle();
-        }]);
+        }, 'items.article.unit']);
 
         $preSetBody = null;
         $preSetReceiver = null;
