@@ -24,6 +24,16 @@
             }
         },
 
+        mounted() {
+            let that = this;
+            if (that.existingArticles.length) {
+                $('#dataTableBuilder').on('init.dt', function () {
+                    let supplierId = parseInt(_.first(that.existingArticles).supplier_id);
+                    window.LaravelDataTables.dataTableBuilder.columns(that.supplierColId).search(supplierId).draw();
+                });
+            }
+        },
+
         created() {
             if (this.existingArticles.length) {
                 this.articles = this.existingArticles;
@@ -33,7 +43,7 @@
 
         watch: {
             supplier: function(newVal, oldVal) {
-                if (parseInt(newVal) > 0) {
+                if (parseInt(newVal) > 0 && typeof window.LaravelDataTables !== 'undefined') {
                     window.LaravelDataTables.dataTableBuilder.columns(this.supplierColId).search(parseInt(newVal)).draw();
                 }
             }

@@ -102,7 +102,6 @@
 
             showArticleList(currentIndex) {
                 this.currentIndex = currentIndex;
-                window.LaravelDataTables.dataTableBuilder.columns(12).search().draw();
             },
 
             formatPrice(value) {

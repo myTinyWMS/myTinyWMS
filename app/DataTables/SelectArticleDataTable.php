@@ -32,6 +32,7 @@ class SelectArticleDataTable extends ArticleDataTable
     protected function getHtmlParameters() {
         $parameters = [
             'paging' => false,
+            'deferLoading' => false,
             'order' => [[self::SUPPLIER_COL_ID, 'asc']],
             'rowGroup' => ['dataSrc' => 'category']
         ];
