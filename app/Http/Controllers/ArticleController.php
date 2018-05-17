@@ -249,14 +249,14 @@ class ArticleController extends Controller
 
     public function deleteQuantityChangelog(Article $article, ArticleQuantityChangelog $changelog) {
         if ($changelog->deliveryItem) {
-            $changelog->deliveryItem->delete();
-
             $delivery = $changelog->deliveryItem->delivery;
             if ($delivery && $delivery->items()->count() == 0) {
                 $order = $delivery->order;
                 $delivery->delete();
                 flash('Lieferung zur Bestellung '.link_to_route('order.show', $order->internal_order_number, $order).' gelöscht, da keine Artikel mehr vorhanden', 'warning');
             }
+
+            $changelog->deliveryItem->delete();
         }
 
         $change = $changelog->change * -1;
