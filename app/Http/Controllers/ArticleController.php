@@ -309,7 +309,7 @@ class ArticleController extends Controller
         $articles = Article::active()->with('category')->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
             return $article->category->name;
         })->ksort();
-        $units = Unit::pluck('name', 'id');
+        $units = Unit::orderedByName()->pluck('name', 'id');
 
         return view('article.fix_inventory', compact('articles', 'units'));
     }
