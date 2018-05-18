@@ -326,7 +326,7 @@ class ArticleController extends Controller
             }
         });
 
-        flash('Inventur Feld gespeichert');
+        flash('Änderungen gespeichert');
 
         return response()->redirectToRoute('article.fix_inventory_form', 'success');
     }
