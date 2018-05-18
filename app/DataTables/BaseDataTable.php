@@ -7,7 +7,7 @@ use Yajra\DataTables\Services\DataTable;
 
 abstract class BaseDataTable extends DataTable
 {
-    protected $pageLength = 25;
+    protected $pageLength = 50;
 
     public function builder() {
         $builder = parent::builder();
@@ -26,8 +26,8 @@ abstract class BaseDataTable extends DataTable
     }
 
     protected function getLengthMenu() {
-        $values = [25, 50, 100, -1];
-        $captions = [25, 50, 100, 'Alle'];
+        $values = [50, 100, -1];
+        $captions = [50, 100, 'Alle'];
 
         if (!in_array($this->pageLength, $values)) {
             $values = array_prepend($values, $this->pageLength);
