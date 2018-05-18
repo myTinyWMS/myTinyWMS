@@ -320,7 +320,7 @@ class ArticleController extends Controller
 
         Article::whereIn('id', array_keys($request->get('unit_id')))->get()->each(function ($article) use ($request) {
             $newUnitId = intval($request->get('unit_id')[$article->id]);
-            if ($article->unit_id !== $newUnitId) {
+            if (!empty($newUnitId) && $article->unit_id !== $newUnitId) {
                 $article->unit_id = $newUnitId;
                 $article->save();
             }
