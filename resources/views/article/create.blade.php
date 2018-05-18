@@ -26,7 +26,7 @@
                 <h5>Lieferant</h5>
             </div>
             <div class="ibox-content">
-                {{ Form::bsSelect('supplier_id', null, \Mss\Models\Supplier::pluck('name', 'id'),  'Lieferant', ['placeholder' => '', 'required' => 'required']) }}
+                {{ Form::bsSelect('supplier_id', null, \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'),  'Lieferant', ['placeholder' => '', 'required' => 'required']) }}
                 {{ Form::bsText('supplier_order_number', null, [], 'Bestellnummer') }}
                 {{ Form::bsText('supplier_price', null, [], 'Preis') }}
                 {{ Form::bsText('supplier_delivery_time', null, [], 'Lieferzeit') }}
