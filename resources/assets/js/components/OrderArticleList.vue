@@ -102,6 +102,14 @@
 
             showArticleList(currentIndex) {
                 this.currentIndex = currentIndex;
+
+                let currentSupplierId = this.supplier;
+                let allArticles = _.map(this.allArticles, function (o) {
+                    if (o.supplier_id == currentSupplierId) return o;
+                });
+                allArticles = _.without(allArticles, undefined);
+                let notExistingIds = _.difference(_.map(allArticles, 'id'), _.map(this.articles, 'id'));
+                window.LaravelDataTables.dataTableBuilder.columns(17).search(notExistingIds).draw();
             },
 
             formatPrice(value) {

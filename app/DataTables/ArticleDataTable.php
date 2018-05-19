@@ -79,6 +79,9 @@ class ArticleDataTable extends BaseDataTable
             ->addColumn('tags', function (Article $article) {
                 return $article->tags->pluck('name')->implode(', ');
             })
+            ->filterColumn('id', function ($query, $keyword) {
+                $query->whereIn('id', explode(',', $keyword));
+            })
             ->filterColumn('category', function ($query, $keyword) {
                 $query->where('category_id', $keyword);
             })
@@ -185,6 +188,7 @@ class ArticleDataTable extends BaseDataTable
             ['data' => 'tags', 'name' => 'tags', 'title' => 'Tags', 'visible' => false],
             ['data' => 'category', 'name' => 'category', 'title' => 'Kategorie', 'visible' => false],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'visible' => false],
+            ['data' => 'id', 'name' => 'id', 'title' => 'ID', 'visible' => false],
         ];
     }
 
