@@ -15,7 +15,7 @@ class ArticleDataTable extends BaseDataTable
     /**
      * @var array
      */
-    protected $rawColumns = ['action', 'price', 'checkbox', 'order_number'];
+    protected $rawColumns = ['action', 'price', 'checkbox', 'order_number', 'supplier_name'];
 
     /**
      * @var bool
@@ -73,6 +73,7 @@ class ArticleDataTable extends BaseDataTable
             ->editColumn('category', function (Article $article) {
                 return optional($article->category)->name;
             })
+            ->editColumn('supplier_name', 'article.list_supplier')
             ->addColumn('unit', function (Article $article) {
                 return optional($article->unit)->name;
             })

@@ -89,6 +89,11 @@
                 $('#print_label_form').submit();
                 return false;
             });
+
+            @if(!empty($preSelectedSupplier))
+                window.LaravelDataTables.dataTableBuilder.columns({{ \Mss\DataTables\ArticleDataTable::SUPPLIER_COL_ID }}).search({{ $preSelectedSupplier }}).draw();
+                $('#filterSupplier option[value="{{ $preSelectedSupplier }}"]').attr('selected', 'selected');
+            @endif
         });
 
         window.LaravelDataTables.dataTableBuilder.on( 'row-reorder', function ( e, diff, edit ) {
