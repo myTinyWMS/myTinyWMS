@@ -41,13 +41,13 @@ class InventoryService {
                     ->transform(function ($article) {
                     /* @var Article $article */
                     return [
+                        'Kategorie' => $article->category->name,
                         'Artikelname' => $article->name,
                         'Artikelnummer' => $article->article_number,
-                        'Kategorie' => $article->category->name,
                         'Bestand' => $article->quantity ?? 0,
                         'Einheit' => optional($article->unit)->name,
-                        'Preis' => round(($article->currentSupplierArticle->price / 100), 2),
-                        'Gesamt' => round((($article->currentSupplierArticle->price * $article->quantity) / 100), 2)
+                        'aktueller Preis' => round(($article->currentSupplierArticle->price / 100), 2),
+                        'Gesamtbetrag' => round((($article->currentSupplierArticle->price * $article->quantity) / 100), 2)
                     ];
                 });
                 $sheet->fromArray($articles->toArray());
