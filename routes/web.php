@@ -25,6 +25,7 @@ Route::group(['middleware' => ['auth']], function () {
         'supplier' => 'SupplierController',
         'category' => 'CategoryController',
         'order' => 'OrderController',
+        'unit' => 'UnitController',
     ]);
 
     Route::get('notification/{id}/delete', 'NotificationController@delete');

@@ -35,6 +35,11 @@
                     <i class="fa fa-th-list"></i> <span class="nav-label">Kategorien</span>
                 </a>
             </li>
+            <li class="{{ active_class(if_uri_pattern(['unit*'])) }}">
+                <a href="{{ url('/unit') }}" title="Einheiten">
+                    <i class="fa fa-th-list"></i> <span class="nav-label">Einheiten</span>
+                </a>
+            </li>
             <li>
                 <a href="{{ url('/inventory') }}" title="Inventur">
                     <i class="fa fa-th-large"></i> <span class="nav-label">Inventur</span>

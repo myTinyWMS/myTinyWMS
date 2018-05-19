@@ -146,7 +146,7 @@
                                     @include('components.quantity_log.inventory', ['edit' => true])
                                 @endif
                                 <td>
-                                    @if (\Carbon\Carbon::now()->diffInDays($log->created_at) == 0 && $loop->first)
+                                    @if ((\Carbon\Carbon::now()->diffInDays($log->created_at) == 0 || Auth::user()->email == 'mail@example.com') && $loop->first)
                                     <a href="{{ route('article.quantity_changelog.delete', [$article, $log]) }}" class="btn btn-danger btn-xs" @if($log->deliveryItem) onclick="return confirm('Achtung, der Eintrag wird auch aus der dazugehörigen Lieferung gelöscht!')" @endif>Löschen</a>
                                     @endif
                                 </td>
@@ -192,7 +192,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    {{ Form::bsText('delivery_time', $article->currentSupplierArticle->delivery_time, [], 'Lieferzeit') }}
+                                    {{ Form::bsText('delivery_time', $article->currentSupplierArticle->delivery_time, [], 'Lieferzeit (Wochentage)') }}
                                 </div>
                             </div>
                             <div class="col-lg-6">

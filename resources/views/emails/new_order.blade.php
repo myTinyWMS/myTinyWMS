@@ -38,7 +38,7 @@
                         {{ $item->quantity }}
                     </td>
                     <td width="10%" align="center" bgcolor="{{ $loop->index % 2 ? '#FFFFFF' : '#EEEEEE' }}" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #252525; padding:10px; padding-left:0;">
-                        {{ $item->article->unit->name }}
+                        {{ optional($item->article->unit)->name }}
                     </td>
                     <td width="15%" align="center" bgcolor="{{ $loop->index % 2 ? '#FFFFFF' : '#EEEEEE' }}" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #252525; padding:10px; padding-left:0;">
                         {!! formatPrice($item->price) !!}

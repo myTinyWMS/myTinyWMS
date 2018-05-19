@@ -249,14 +249,14 @@ class ArticleController extends Controller
 
     public function deleteQuantityChangelog(Article $article, ArticleQuantityChangelog $changelog) {
         if ($changelog->deliveryItem) {
-            $changelog->deliveryItem->delete();
-
             $delivery = $changelog->deliveryItem->delivery;
             if ($delivery && $delivery->items()->count() == 0) {
                 $order = $delivery->order;
                 $delivery->delete();
                 flash('Lieferung zur Bestellung '.link_to_route('order.show', $order->internal_order_number, $order).' gelöscht, da keine Artikel mehr vorhanden', 'warning');
             }
+
+            $changelog->deliveryItem->delete();
         }
 
         $change = $changelog->change * -1;
@@ -309,7 +309,7 @@ class ArticleController extends Controller
         $articles = Article::active()->with('category')->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
             return $article->category->name;
         })->ksort();
-        $units = Unit::pluck('name', 'id');
+        $units = Unit::orderedByName()->pluck('name', 'id');
 
         return view('article.fix_inventory', compact('articles', 'units'));
     }
@@ -320,13 +320,13 @@ class ArticleController extends Controller
 
         Article::whereIn('id', array_keys($request->get('unit_id')))->get()->each(function ($article) use ($request) {
             $newUnitId = intval($request->get('unit_id')[$article->id]);
-            if ($article->unit_id !== $newUnitId) {
+            if (!empty($newUnitId) && $article->unit_id !== $newUnitId) {
                 $article->unit_id = $newUnitId;
                 $article->save();
             }
         });
 
-        flash('Inventur Feld gespeichert');
+        flash('Änderungen gespeichert');
 
         return response()->redirectToRoute('article.fix_inventory_form', 'success');
     }
