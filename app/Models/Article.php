@@ -204,8 +204,7 @@ class Article extends AuditableModel
         return $this->quantityChangelogs()->where('type', ArticleQuantityChangelog::TYPE_INCOMING)->latest()->first();
     }
 
-    public function scopeWithAverageUsage($query)
-    {
+    public function scopeWithAverageUsage($query) {
         $query->addSubSelect('average_usage', ArticleQuantityChangelog::select(DB::raw('AVG(`change`)'))
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
             ->whereIn('type', [ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_CORRECTION])
@@ -215,12 +214,28 @@ class Article extends AuditableModel
         );
     }
 
-    public function scopeWithLastReceipt($query)
-    {
+    public function scopeWithLastReceipt($query) {
         $query->addSubSelect('last_receipt', ArticleQuantityChangelog::select('created_at')
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
             ->where('type', ArticleQuantityChangelog::TYPE_INCOMING)
             ->latest()
+        );
+    }
+
+    public function scopeWithQuantityAtDate($query, $date, $fieldname) {
+        $query->addSubSelect($fieldname, ArticleQuantityChangelog::select('new_quantity')
+            ->whereRaw('articles.id = article_quantity_changelogs.article_id')
+            ->whereDate('created_at', '<', $date)
+            ->latest()
+        );
+    }
+
+    public function scopeWithChangelogSumInDateRange($query, Carbon $start, Carbon $end, $type, $fieldname) {
+        $type = (!is_array($type)) ? [$type] : $type;
+        $query->addSubSelect($fieldname, ArticleQuantityChangelog::select(DB::raw('SUM(`change`)'))
+            ->whereRaw('articles.id = article_quantity_changelogs.article_id')
+            ->whereBetween('created_at', [$start, $end->addDay()])
+            ->whereIn('type', $type)
         );
     }
 }
