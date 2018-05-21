@@ -28,7 +28,8 @@ class Article extends AuditableModel
     protected $fillable = ['name', 'article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes'];
 
     protected $casts = [
-        'inventory' => 'boolean'
+        'inventory' => 'boolean',
+        'files' => 'array'
     ];
 
     protected $dates = ['deleted_at'];
@@ -47,6 +48,7 @@ class Article extends AuditableModel
         'sort_id' => 'Sortierung',
         'inventory' => 'Inventur',
         'inventory_text' => 'Inventur',
+        'files' => 'Dateien',
     ];
 
     public function quantityChangelogs() {

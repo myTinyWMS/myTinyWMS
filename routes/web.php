@@ -18,6 +18,8 @@ Route::get('/', 'DashboardController@index');
 Route::group(['middleware' => ['auth']], function () {
     Route::get('article/fix-inventory', 'ArticleController@fixInventoryForm')->name('article.fix_inventory_form');
     Route::post('article/fix-inventory', 'ArticleController@fixInventorySave')->name('article.fix_inventory_save');
+    Route::post('article/{article}/file_upload', 'ArticleController@fileUpload')->name('article.file_upload');
+    Route::get('article/{article}/file-download/{file}', 'ArticleController@fileDownload')->name('article.file_download');
 
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::resources([
