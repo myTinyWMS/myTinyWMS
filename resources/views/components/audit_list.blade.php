@@ -11,7 +11,7 @@
     <tbody>
         @foreach($audits as $audit)
             @foreach($audit['modified'] as $data)
-                @if(!is_array($data['old']) && !is_array($data['new']))
+                @if(!is_array($data['new']) && (!array_key_exists('old', $data) || !is_array($data['old'])))
                 <tr>
                     @if($loop->first)
                     <td rowspan="{{ count($audit['modified']) }}">{{ $audit['timestamp']->format('d.m.Y H:i') }}</td>
