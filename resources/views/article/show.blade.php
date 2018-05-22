@@ -68,6 +68,22 @@
 
         <div class="ibox">
             <div class="ibox-title">
+                <h5>Dateien</h5>
+            </div>
+            <div class="ibox-content">
+                <ul class="m-b-md">
+                @if(is_array($article->files) && count($article->files))
+                    @foreach($article->files as $key => $file)
+                        <li><a href="{{ route('article.file_download', [$article, $key]) }}">{{ $file['orgName'] }}</a></li>
+                    @endforeach
+                    @endif
+                </ul>
+                {{ Form::dropzone('attachments', 'Anhänge', route('article.file_upload', $article)) }}
+            </div>
+        </div>
+
+        <div class="ibox">
+            <div class="ibox-title">
                 <h5>Notizen</h5>
                 <a href="#" class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#newNoteModal">Neue Notiz</a>
             </div>

@@ -15,7 +15,7 @@ class ArticleDataTable extends BaseDataTable
     /**
      * @var array
      */
-    protected $rawColumns = ['action', 'price', 'checkbox', 'order_number'];
+    protected $rawColumns = ['action', 'price', 'checkbox', 'order_number', 'supplier_name'];
 
     /**
      * @var bool
@@ -73,11 +73,15 @@ class ArticleDataTable extends BaseDataTable
             ->editColumn('category', function (Article $article) {
                 return optional($article->category)->name;
             })
+            ->editColumn('supplier_name', 'article.list_supplier')
             ->addColumn('unit', function (Article $article) {
                 return optional($article->unit)->name;
             })
             ->addColumn('tags', function (Article $article) {
                 return $article->tags->pluck('name')->implode(', ');
+            })
+            ->filterColumn('id', function ($query, $keyword) {
+                $query->whereIn('id', explode(',', $keyword));
             })
             ->filterColumn('category', function ($query, $keyword) {
                 $query->where('category_id', $keyword);
@@ -185,6 +189,7 @@ class ArticleDataTable extends BaseDataTable
             ['data' => 'tags', 'name' => 'tags', 'title' => 'Tags', 'visible' => false],
             ['data' => 'category', 'name' => 'category', 'title' => 'Kategorie', 'visible' => false],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'visible' => false],
+            ['data' => 'id', 'name' => 'id', 'title' => 'ID', 'visible' => false],
         ];
     }
 

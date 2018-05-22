@@ -41,8 +41,8 @@
                 </a>
             </li>
             <li>
-                <a href="{{ url('/inventory') }}" title="Inventur">
-                    <i class="fa fa-th-large"></i> <span class="nav-label">Inventur</span>
+                <a href="{{ url('/reports') }}" title="Reports">
+                    <i class="fa fa-table"></i> <span class="nav-label">Reports</span>
                 </a>
             </li>
         </ul>
