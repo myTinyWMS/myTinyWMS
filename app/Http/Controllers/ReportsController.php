@@ -19,8 +19,6 @@ class ReportsController extends Controller
     }
 
     public function generateInventoryReport(Request $request) {
-        return response()->streamDownload(function () use ($request) {
-            echo InventoryService::generateReport($request->get('month'));
-        }, 'InventurReport.xlsx', ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']);
+        return InventoryService::generateReport($request->get('month'));
     }
 }
