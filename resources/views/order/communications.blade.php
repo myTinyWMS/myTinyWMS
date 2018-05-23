@@ -64,7 +64,7 @@
                                 <h1>{{ $message->subject }}</h1>
 
                                 @if (!empty($message->htmlBody))
-                                    <iframe seamless frameborder="0" class="full-width" srcdoc='{!! addcslashes($message->htmlBody, "'")  !!}'></iframe>
+                                    <iframe seamless frameborder="0" class="full-width" srcdoc='{!! htmlspecialchars($message->htmlBody)  !!}'></iframe>
                                 @else
                                     {!! nl2br($message->textBody) !!}
                                 @endif
