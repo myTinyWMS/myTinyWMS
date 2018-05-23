@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class InventoryReport implements FromCollection, WithColumnFormatting, WithEvents {
+class InventoryReport implements FromCollection, WithColumnFormatting, WithEvents, WithStrictNullComparison {
     /**
      * @var string
      */
