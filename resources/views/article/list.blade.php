@@ -16,6 +16,7 @@
                 <div class="ibox-content">
                     {!! Form::open(['route' => ['article.print_label'], 'method' => 'POST', 'id' => 'print_label_form']) !!}
                     {!! $dataTable->table() !!}
+                    <input type="hidden" id="label_quantity" name="label_quantity" />
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -80,12 +81,14 @@
 
             $('#print_small_label').click(function () {
                 $('#label_size').val('small');
+                $('#label_quantity').val(window.prompt('Wieviele Label sollen gedruckt werden?', '1'));
                 $('#print_label_form').submit();
                 return false;
             });
 
             $('#print_large_label').click(function () {
                 $('#label_size').val('large');
+                $('#label_quantity').val(window.prompt('Wieviele Label sollen gedruckt werden?', '1'));
                 $('#print_label_form').submit();
                 return false;
             });

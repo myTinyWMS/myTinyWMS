@@ -297,12 +297,13 @@ class ArticleController extends Controller
         $articles = Article::whereIn('id', $request->get('article'))->orderedByArticleNumber()->get();
         $size = $request->get('label_size', 'small');
         $labelService = new PrintLabelService();
+        $quantity = $request->get('label_quantity', 1);
 
-        if ($labelService->printArticleLabels($articles, $size)) {
-            flash('Label werden gedruckt', 'success');
-        } else {
-            flash('Label wurden nicht gedruckt', 'danger');
+        for($i=1; $i<=$quantity; $i++) {
+            $labelService->printArticleLabels($articles, $size);
         }
+
+        flash('Label werden gedruckt', 'success');
 
         return redirect()->route('article.index');
     }
