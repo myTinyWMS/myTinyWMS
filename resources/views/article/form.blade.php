@@ -129,16 +129,31 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="changelogCurrentQuantity" class="control-label">aktueller Bestand</label>
-                                    <div class="form-control-static" id="changelogCurrentQuantity" data-quantity="{{ $article->quantity }}">{{ $article->quantity }}</div>
+                                    <div class="form-control-static">
+                                        <span  id="changelogCurrentQuantity" data-quantity="{{ $article->quantity }}">{{ $article->quantity }}</span>
+                                        {{ optional($article->unit)->name }}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="changelogNewQuantity" class="control-label">neuer Bestand</label>
-                                    <div class="form-control-static" id="changelogNewQuantity"></div>
+                                    <div class="form-control-static">
+                                        <span id="changelogNewQuantity"></span>
+                                        {{ optional($article->unit)->name }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="changelogNewQuantity" class="control-label">Entnahmemenge</label>
+                                    <div class="form-control-static">
+                                        {{ $article->usage_quantity }}
+                                        {{ optional($article->unit)->name }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

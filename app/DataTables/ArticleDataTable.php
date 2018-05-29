@@ -110,7 +110,7 @@ class ArticleDataTable extends BaseDataTable
                 }
             })
             ->filter(function ($query) {
-                if (!isset(request('columns')[15]['search'])) {
+                if (!isset(request('columns')[15]['search']) && !isset(request('columns')[17]['search'])) {
                     $query->where('status', Article::STATUS_ACTIVE);
                 }
             })
