@@ -151,7 +151,7 @@
                                 <div class="form-group">
                                     <label for="changelogNewQuantity" class="control-label">Entnahmemenge</label>
                                     <div class="form-control-static">
-                                        {{ $article->usage_quantity }}
+                                        {{ $article->issue_quantity }}
                                         {{ optional($article->unit)->name }}
                                     </div>
                                 </div>
