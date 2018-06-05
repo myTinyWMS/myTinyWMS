@@ -37,6 +37,17 @@ class OrderItem extends AuditableModel
         return $this->belongsTo(Order::class);
     }
 
+    public function deliveryItems() {
+        return $this->hasManyThrough(
+            DeliveryItem::class,
+            Delivery::class,
+            'order_id',
+            'delivery_id',
+            'order_id',
+            'id'
+        )->where('article_id', $this->article_id);
+    }
+
     public function getPriceAttribute($value) {
         return !empty($value) ? $value / 100 : 0;
     }
