@@ -4,6 +4,7 @@ namespace Mss\Services;
 
 use Carbon\Carbon;
 use Mss\Exports\InventoryReport;
+use Mss\Exports\MonthlyInventoryList;
 use Mss\Models\Article;
 use Barryvdh\Snappy\PdfWrapper;
 use Illuminate\Support\Facades\App;
@@ -13,10 +14,9 @@ use Mss\Models\ArticleQuantityChangelog;
 class InventoryService {
 
     /**
-     * @param Carbon $date
      * @return PdfWrapper
      */
-    public static function generatePdf(Carbon $date) {
+    public static function generatePdf() {
         $articles = Article::where('inventory', true)->active()->orderedByArticleNumber()->with(['unit', 'category'])->get();
         $groupedArticles = $articles->groupBy(function ($article) {
             return $article->category->name;
@@ -31,31 +31,10 @@ class InventoryService {
      * @return string
      */
     public static function generateExcel(Carbon $date) {
-        return Excel::create('inventory_'.$date->format('Y-m-d'), function($excel) {
-            /* @var LaravelExcelWriter $excel */
-            $excel->sheet('sheet1', function($sheet) {
-                /* @var LaravelExcelWorksheet $sheet */
-                $articles = Article::where('inventory', true)->withCurrentSupplierArticle()->active()->orderedByArticleNumber()->with(['unit', 'category'])->get();
-                $articles
-                    ->filter(function ($article) {
-                        return (!empty($article->quantity));
-                    })
-                    ->transform(function ($article) {
-                    /* @var Article $article */
-                    return [
-                        'Kategorie' => $article->category->name,
-                        'Artikelname' => $article->name,
-                        'Artikelnummer' => $article->article_number,
-                        'Bestand' => $article->quantity ?? 0,
-                        'Einheit' => optional($article->unit)->name,
-                        'aktueller Preis' => round(($article->currentSupplierArticle->price / 100), 2),
-                        'Gesamtbetrag' => round((($article->currentSupplierArticle->price * $article->quantity) / 100), 2)
-                    ];
-                });
-                $sheet->fromArray($articles->toArray());
-            });
+        $filename = 'inventory_'.$date->format('Y-m-d').'.xlsx';
+        Excel::store(new MonthlyInventoryList($date), $filename, 'local');
 
-        })->string('xlsx');
+        return storage_path('app/'.$filename);
     }
 
     public static function generateReport($month) {
