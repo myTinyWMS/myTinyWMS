@@ -206,6 +206,17 @@ class Article extends AuditableModel
         return $this->quantityChangelogs()->where('type', ArticleQuantityChangelog::TYPE_INCOMING)->latest()->first();
     }
 
+    public function getQuantityAtDate($date, $fieldInSubquery = null) {
+        if (empty($fieldInSubquery)) {
+            $fieldInSubquery = 'current_quantity';
+            $article = Article::where('id', $this->id)->withQuantityAtDate($date, $fieldInSubquery)->first();
+        } else {
+            $article = $this;
+        }
+
+        return (!is_null($article->{$fieldInSubquery})) ? $article->{$fieldInSubquery} : $article->quantity;
+    }
+
     public function scopeWithAverageUsage($query) {
         $query->addSubSelect('average_usage', ArticleQuantityChangelog::select(DB::raw('AVG(`change`)'))
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')

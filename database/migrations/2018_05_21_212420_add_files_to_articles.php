@@ -14,7 +14,7 @@ class AddFilesToArticles extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->text('files');
+            $table->text('files')->nullable();
         });
     }
 

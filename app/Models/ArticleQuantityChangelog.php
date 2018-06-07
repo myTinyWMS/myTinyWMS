@@ -11,7 +11,7 @@ class ArticleQuantityChangelog extends AuditableModel
     const TYPE_COMMENT = 6;
     const TYPE_INVENTORY = 7;
 
-    protected $fillable = ['created_at', 'updated_at', 'user_id', 'type', 'change', 'new_quantity', 'note', 'delivery_item_id', 'unit_id'];
+    protected $fillable = ['created_at', 'updated_at', 'user_id', 'type', 'change', 'new_quantity', 'note', 'delivery_item_id', 'unit_id', 'article_id'];
 
     public function article() {
         return $this->belongsTo(Article::class);
