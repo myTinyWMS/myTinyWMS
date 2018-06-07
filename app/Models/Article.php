@@ -235,11 +235,16 @@ class Article extends AuditableModel
         );
     }
 
+    /**
+     * @param $query
+     * @param Carbon $date
+     * @param $fieldname
+     */
     public function scopeWithQuantityAtDate($query, $date, $fieldname) {
         $query->addSubSelect($fieldname, ArticleQuantityChangelog::select('new_quantity')
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
             ->whereIn('type', [ArticleQuantityChangelog::TYPE_START, ArticleQuantityChangelog::TYPE_CORRECTION, ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_INVENTORY, ArticleQuantityChangelog::TYPE_OUTGOING])
-            ->whereDate('created_at', '<', $date)
+            ->where('created_at', '<', $date->setTime(0, 0, 0)->format('Y-m-d H:i:s'))
             ->latest()
         );
     }

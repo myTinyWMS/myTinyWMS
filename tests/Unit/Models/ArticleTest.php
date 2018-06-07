@@ -45,7 +45,7 @@ class ArticleTest extends TestCase
         $date1 = Carbon::now()->subDay(1);
         $date2 = Carbon::now()->subDay(2);
         $date3 = Carbon::now()->subDay(3);
-        $date4 = Carbon::now()->subDay(3);
+        $date4 = Carbon::now()->subDay(4);
         /* @var $article Article */
         $article = factory(Article::class)->create([
             'quantity' => 5
