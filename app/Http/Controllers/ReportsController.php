@@ -16,8 +16,7 @@ class ReportsController extends Controller
     }
 
     public function generateInventoryPdf() {
-        $date = Carbon::now();
-        return InventoryService::generatePdf($date)->download('inventur_'.$date->format('Y-m-d').'.pdf');
+        return InventoryService::generatePdf()->download('inventur_'.Carbon::now()->format('Y-m-d').'.pdf');
     }
 
     public function generateInventoryReport(Request $request) {

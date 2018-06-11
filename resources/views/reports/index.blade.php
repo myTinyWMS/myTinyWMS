@@ -26,7 +26,7 @@
             <div class="contact-box center-version">
 
                 <a href="{{ route('reports.inventory_pdf') }}">
-                    <h3 class="m-b-xs"><strong>Monats-Inventur</strong></h3>
+                    <h3 class="m-b-xs"><strong>Aktuelle Inventur-Liste</strong></h3>
                     <div class="font-bold">&nbsp;</div>
                 </a>
                 <div class="contact-box-footer">
