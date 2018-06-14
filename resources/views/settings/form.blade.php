@@ -2,6 +2,10 @@
 
 @section('title', 'Einstellungen')
 
+@section('summernote_custom_config')
+    ,height: 500
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-lg-6">
@@ -34,6 +38,10 @@
                                         <option value="{{ $category->id }}" @if(in_array($category->id, Auth::user()->settings()->get(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES))) selected @endif>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+
+                            <div class="m-b-lg">
+                                {{ Form::summernote('signature', $signature, [], 'E-Mail Signatur') }}
                             </div>
 
                             {{ csrf_field() }}
