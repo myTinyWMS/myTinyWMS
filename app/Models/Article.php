@@ -63,6 +63,10 @@ class Article extends AuditableModel
         return $this->belongsTo(Unit::class);
     }
 
+    public function supplierArticles() {
+        return $this->hasMany(ArticleSupplier::class);
+    }
+
     public function suppliers() {
         return $this->belongsToMany(Supplier::class)->withTimestamps()->withPivot('order_number', 'price', 'delivery_time', 'order_quantity')->using(ArticleSupplier::class);
     }
@@ -256,5 +260,14 @@ class Article extends AuditableModel
             ->whereBetween('created_at', [$start, $end->addDay()])
             ->whereIn('type', $type)
         );
+    }
+
+    public function getAllAudits() {
+        $articleSupplierAudits = $this->supplierArticles->transform(function ($item) {
+            return $item->getAudits();
+        })->flatten(1);
+
+        $audits = $this->getAudits();
+        return collect($audits->toArray())->merge($articleSupplierAudits)->sortBy('timestamp');
     }
 }

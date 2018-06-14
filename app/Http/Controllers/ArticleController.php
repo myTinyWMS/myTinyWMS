@@ -95,7 +95,7 @@ class ArticleController extends Controller
 
         $context = [
             "article" => $article,
-            "audits" => $article->getAudits()
+            "audits" => $article->getAllAudits()
         ];
 
         return view('article.show', $context);

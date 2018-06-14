@@ -2,14 +2,48 @@
 
 namespace Mss\Models;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Mss\Models\Traits\GetAudits;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ArticleSupplier extends Pivot implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
+    use GetAudits;
 
     protected $guarded = [];
+    protected $auditsToDisplay = 20;
+
+    protected $fieldNames = [
+        'price' => 'Preis',
+        'delivery_time' => 'Lieferzeit',
+        'order_quantity' => 'Bestellmenge',
+        'article_id' => 'Artikel ID',
+        'supplier_id' => 'Lieferant',
+        'order_number' => 'Bestellnummer',
+    ];
+
+    protected $ignoredAuditFields = [
+        'id', 'article_id'
+    ];
+
+    /**
+     * @return array
+     */
+    protected function getAuditFormatters() {
+        return [
+            'price' => function ($value) {
+                return formatPrice($value/100);
+            },
+            'supplier_id' => function ($value) {
+                return optional(Supplier::find($value))->name;
+            }
+        ];
+    }
+
+    public function article() {
+        return $this->belongsTo(Article::class);
+    }
 
     /**
      * @return string
