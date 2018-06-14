@@ -46,7 +46,7 @@ class DeliverySavedListener
         UserSettings::getUsersWhereHas(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES)->each(function ($user) use ($articles, $event) {
             $watchedArticles = $articles->whereIn('category_id', $user->settings()->get(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES));
             if ($watchedArticles->count()) {
-                Notification::send(UserSettings::getUsersWhereHas(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES), new NewDeliverySavedForWatchedCategories($watchedArticles, $event->delivery));
+                Notification::send($user, new NewDeliverySavedForWatchedCategories($watchedArticles, $event->delivery));
             }
         });
     }
