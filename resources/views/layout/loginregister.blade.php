@@ -18,7 +18,7 @@
 <div class="middle-box text-center loginscreen   animated fadeInDown">
     <div>
         <div>
-            <img src="{{ secure_asset('img/logo.jpg') }}" alt="MSS" width="280" />
+            <img src="{{ config('app.logo') }}" alt="MSS" width="280" />
         </div>
         <br/>
 
