@@ -10,6 +10,7 @@ use Mss\Models\OrderItem;
 use Mss\Models\UserSettings;
 use Mss\Notifications\NewDeliverySavedAndInvoiceExists;
 use Mss\Notifications\NewDeliverySavedForWatchedCategories;
+use Mss\Notifications\NewDeliveryWithVaryingDeliveryQuantity;
 
 class DeliverySavedListener
 {
@@ -33,6 +34,7 @@ class DeliverySavedListener
     {
         $this->notifyIfInvoiceHasBeenReceived($event);
         $this->notifyIfCategoriesHaveBeenWatched($event);
+        $this->notifyIfDeliveryQuantityDifferesFromOrderQuantity($event);
     }
 
     /**
@@ -55,6 +57,17 @@ class DeliverySavedListener
         $invoiceReceivedForAtLeastOneItem = ($event->delivery->order->items->whereIn('invoice_received', [OrderItem::INVOICE_STATUS_RECEIVED, OrderItem::INVOICE_STATUS_CHECK])->count() > 0);
         if ($invoiceReceivedForAtLeastOneItem) {
             Notification::send(UserSettings::getUsersWhereTrue(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IF_INVOICE_RECEIVED), new NewDeliverySavedAndInvoiceExists($event->delivery));
+        }
+    }
+
+    protected function notifyIfDeliveryQuantityDifferesFromOrderQuantity(DeliverySaved $event) {
+        $itemsWithVaryingQuantities = $event->delivery->items->filter(function ($deliveryItem) {
+            $orderItem = $deliveryItem->delivery->order->items->where('article_id', $deliveryItem->article_id)->first();
+            return $orderItem->quantity != $deliveryItem->quantity;
+        });
+
+        if ($itemsWithVaryingQuantities->count()) {
+            Notification::send(UserSettings::getUsersWhereTrue(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IF_DELIVERY_QUANTITY_DIFFERS_FROM_ORDER_QUANTITY), new NewDeliveryWithVaryingDeliveryQuantity($event->delivery));
         }
     }
 }
