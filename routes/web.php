@@ -76,4 +76,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('article/{article}/quantity-changelog/{changelog}/delete', 'ArticleController@deleteQuantityChangelog')->name('article.quantity_changelog.delete');
     Route::post('article/{article}/change-quantity', 'ArticleController@changeQuantity')->name('article.change_quantity');
     Route::post('article/{article}/change-supplier', 'ArticleController@changeSupplier')->name('article.change_supplier');
+
 });
+
+Route::get('hs', 'HandscannerController@index')->name('handscanner.index');
+Route::get('hs/{articlenumber}', 'HandscannerController@showArticle')->name('handscanner.show');
