@@ -19,7 +19,9 @@ class SettingsController extends Controller
     }
 
     public function save(Request $request) {
-        Auth::user()->settings()->merge($request->get('setting'));
+        if (is_array($request->get('setting'))) {
+            Auth::user()->settings()->merge($request->get('setting'));
+        }
 
         $user = Auth::user();
         $user->signature = htmlentities($request->get('signature'));
