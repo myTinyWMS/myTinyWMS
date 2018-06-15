@@ -52,6 +52,21 @@
             </div>
         </div>
 
+        <div class="col-lg-2">
+            <div class="contact-box center-version">
+
+                <a href="{{ route('reports.invoices_without_delivery') }}">
+                    <h3 class="m-b-xs"><strong>Rechnungen ohne Wareneingang</strong></h3>
+                    <div class="font-bold">&nbsp;</div>
+                </a>
+                <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                        <a class="btn btn-white" href="{{ route('reports.invoices_without_delivery') }}"><i class="fa fa-arrow-right"></i> Liste anzeigen </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{--<div class="col-lg-3">
             <div class="contact-box center-version">
 

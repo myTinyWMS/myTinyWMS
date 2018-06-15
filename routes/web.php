@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('reports', 'ReportsController@index')->name('reports.index');
     Route::get('reports/deliveries-without-invoice', 'ReportsController@deliveriesWithoutInvoice')->name('reports.deliveries_without_invoice');
+    Route::get('reports/invoices-without-delivery', 'ReportsController@invoicesWithoutDelivery')->name('reports.invoices_without_delivery');
     Route::get('reports/inventory-pdf', 'ReportsController@generateInventoryPdf')->name('reports.inventory_pdf');
     Route::post('reports/inventory-report', 'ReportsController@generateInventoryReport')->name('reports.inventory_report');
 
