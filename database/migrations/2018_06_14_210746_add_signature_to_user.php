@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSettingsToUser extends Migration
+class AddSignatureToUser extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddSettingsToUser extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->json('settings')->nullable();
+            $table->text('signature')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddSettingsToUser extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('settings');
+            $table->dropColumn('signature');
         });
     }
 }

@@ -63,6 +63,10 @@ class Article extends AuditableModel
         return $this->belongsTo(Unit::class);
     }
 
+    public function supplierArticles() {
+        return $this->hasMany(ArticleSupplier::class);
+    }
+
     public function suppliers() {
         return $this->belongsToMany(Supplier::class)->withTimestamps()->withPivot('order_number', 'price', 'delivery_time', 'order_quantity')->using(ArticleSupplier::class);
     }
@@ -96,6 +100,10 @@ class Article extends AuditableModel
             ->whereRaw('article_id = articles.id')
             ->latest()
         )->with('currentSupplierArticle');
+    }
+
+    public function getCurrentSupplierArticle() {
+        return Article::where('id', $this->id)->withCurrentSupplierArticle()->first()->currentSupplierArticle;
     }
 
     public function category() {
@@ -206,6 +214,17 @@ class Article extends AuditableModel
         return $this->quantityChangelogs()->where('type', ArticleQuantityChangelog::TYPE_INCOMING)->latest()->first();
     }
 
+    public function getQuantityAtDate($date, $fieldInSubquery = null) {
+        if (empty($fieldInSubquery)) {
+            $fieldInSubquery = 'current_quantity';
+            $article = Article::where('id', $this->id)->withQuantityAtDate($date, $fieldInSubquery)->first();
+        } else {
+            $article = $this;
+        }
+
+        return (!is_null($article->{$fieldInSubquery})) ? $article->{$fieldInSubquery} : $article->quantity;
+    }
+
     public function scopeWithAverageUsage($query) {
         $query->addSubSelect('average_usage', ArticleQuantityChangelog::select(DB::raw('AVG(`change`)'))
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
@@ -224,11 +243,16 @@ class Article extends AuditableModel
         );
     }
 
+    /**
+     * @param $query
+     * @param Carbon $date
+     * @param $fieldname
+     */
     public function scopeWithQuantityAtDate($query, $date, $fieldname) {
         $query->addSubSelect($fieldname, ArticleQuantityChangelog::select('new_quantity')
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
             ->whereIn('type', [ArticleQuantityChangelog::TYPE_START, ArticleQuantityChangelog::TYPE_CORRECTION, ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_INVENTORY, ArticleQuantityChangelog::TYPE_OUTGOING])
-            ->whereDate('created_at', '<', $date)
+            ->where('created_at', '<', $date->setTime(0, 0, 0)->format('Y-m-d H:i:s'))
             ->latest()
         );
     }
@@ -240,5 +264,14 @@ class Article extends AuditableModel
             ->whereBetween('created_at', [$start, $end->addDay()])
             ->whereIn('type', $type)
         );
+    }
+
+    public function getAllAudits() {
+        $articleSupplierAudits = $this->supplierArticles->transform(function ($item) {
+            return $item->getAudits();
+        })->flatten(1);
+
+        $audits = $this->getAudits();
+        return collect($audits->toArray())->merge($articleSupplierAudits)->sortBy('timestamp');
     }
 }

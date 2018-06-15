@@ -30,11 +30,11 @@ var SignatureButton = function (context) {
 
     // create button
     var button = ui.button({
-    contents: '<i class="fa fa-plus"/> Signatur',
-    tooltip: 'Signatur einfügen',
-    click: function () {
-        context.invoke('editor.pasteHTML', `@include('components.signature')`);
-    }
+        contents: '<i class="fa fa-plus"/> Signatur',
+        tooltip: 'Signatur einfügen',
+        click: function () {
+            context.invoke('editor.pasteHTML', `{!! html_entity_decode(Auth::user()->signature) !!}`);
+        }
     });
 
     return button.render();   // return button as jquery object

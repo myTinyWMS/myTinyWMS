@@ -29,7 +29,11 @@ class AddMoreDetailsToOrderItem extends Migration
     {
         Schema::table('order_items', function (Blueprint $table) {
             $table->dropColumn('expected_delivery');
+        });
+        Schema::table('order_items', function (Blueprint $table) {
             $table->dropColumn('confirmation_received');
+        });
+        Schema::table('order_items', function (Blueprint $table) {
             $table->dropColumn('invoice_received');
         });
     }

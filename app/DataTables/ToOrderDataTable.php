@@ -3,6 +3,7 @@
 namespace Mss\DataTables;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use Mss\Models\Article;
 use Mss\Models\Order;
@@ -29,6 +30,10 @@ class ToOrderDataTable extends ArticleDataTable
         })
         ->setRowAttr([
             'data-supplier' => function ($article) {
+                if (!$article->currentSupplier) {
+                    Log::error('Article without supplier!', ['article' => $article->id]);
+                    return null;
+                }
                 return $article->currentSupplier->id;
             }
         ])

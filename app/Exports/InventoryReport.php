@@ -88,7 +88,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             ->with(['unit', 'category'])
             ->get();
         $articles
-            ->transform(function ($article, $key) {
+            ->transform(function ($article, $key) use ($start, $end) {
                 $i = $key + 2;
                 /* @var Article $article */
                 return [
@@ -99,12 +99,12 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'Bestellnummer' => $article->currentSupplierArticle->order_number,
                     'Kategorie' => $article->category->name,
                     'Einheit' => optional($article->unit)->name,
-                    'Anfangsbestand' => $article->quantity_start ?? 0,
+                    'Anfangsbestand' => $article->getQuantityAtDate($start, 'quantity_start'),
                     'Warenausgang' => $article->total_outgoing ?? 0,
                     'Wareneingang' => $article->total_incoming ?? 0,
                     'Korrektur' => $article->total_correction ?? 0,
                     'Inventur' => $article->total_inventory ?? 0,
-                    'Endestand' => $article->quantity_end ?? 0,
+                    'Endestand' => $article->getQuantityAtDate($start, 'quantity_end'),
                     'Monat' => $this->month,
                     'AB Eur' => "=H$i*\$D$i",
                     'WA Eur' => "=I$i*\$D$i",

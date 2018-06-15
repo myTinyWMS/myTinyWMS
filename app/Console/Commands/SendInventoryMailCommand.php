@@ -15,7 +15,7 @@ class SendInventoryMailCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'send:inventory';
+    protected $signature = 'send:inventory {date?}';
 
     /**
      * The console command description.
@@ -40,9 +40,18 @@ class SendInventoryMailCommand extends Command
      * @return mixed
      */
     public function handle() {
-        $date = Carbon::now();
-        $excel = InventoryService::generateExcel($date);
+        if (!empty($this->argument('date'))) {
+            $date = Carbon::parse($this->argument('date'));
+            $to = 'mail@example.com';
+            $cc = [];
+        } else {
+            $date = Carbon::now();
+            $to = 'mail@example.com';
+            $cc = ['mail@example.com', 'mail@example.com'];
+        }
 
-        Mail::to('mail@example.com')->cc(['mail@example.com', 'mail@example.com'])->send(new InventoryMail($date, $excel, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'inventory.xlsx'));
+        $excelFilePath = InventoryService::generateExcel($date);
+
+        Mail::to($to)->cc($cc)->send(new InventoryMail($date, file_get_contents($excelFilePath), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', basename($excelFilePath)));
     }
 }

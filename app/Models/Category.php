@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/*
+ * @method static \Illuminate\Database\Query\Builder orderedByName()
+ */
 class Category extends AuditableModel
 {
     use SoftDeletes;

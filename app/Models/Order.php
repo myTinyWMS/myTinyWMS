@@ -123,6 +123,11 @@ class Order extends AuditableModel
             $data['new_values']['supplier_id'] = Supplier::find($this->getAttribute('supplier_id'))->name;
         }
 
+        if (Arr::has($data, 'new_values.status')) {
+            $data['old_values']['status'] = (array_key_exists($this->getOriginal('status'), Order::STATUS_TEXTS)) ? Order::STATUS_TEXTS[$this->getOriginal('status')] : null;
+            $data['new_values']['status'] = Order::STATUS_TEXTS[$this->getAttribute('status')];
+        }
+
         return $data;
     }
 }

@@ -26,6 +26,11 @@
                 </ul>
             </li>
             <li>
+                <a href="{{ route('settings.show') }}" title="Einstellungen">
+                    <i class="fa fa-cogs"></i>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fa fa-sign-out"></i> Logout
                 </a>

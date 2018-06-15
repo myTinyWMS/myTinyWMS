@@ -19,8 +19,8 @@
                     @endif
 
                     <td>{{ $data['name'] }}</td>
-                    <td>{{ (array_key_exists('old', $data) && !empty($data['old'])) ? str_limit($data['old'], 50, ' (...)') : '' }}</td>
-                    <td>{{ !empty($data['new']) ? str_limit($data['new'], 50, ' (...)') : '' }}</td>
+                    <td>{!! (array_key_exists('old', $data) && !empty($data['old'])) ? str_limit($data['old'], 50, ' (...)') : '' !!}</td>
+                    <td>{!! !empty($data['new']) ? str_limit($data['new'], 50, ' (...)') : '' !!}</td>
                 </tr>
                 @endif
             @endforeach
