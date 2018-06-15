@@ -150,6 +150,8 @@
                                     <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
                                     <br/>
                                     <small class="p-t-8"># {{ $item->article->article_number }}</small>
+                                    <br>
+                                    <small class="p-t-12">aktueller Preis: {!! formatPrice($item->article->getCurrentSupplierArticle()->price / 100) !!} / {{ optional($item->article->unit)->name }}</small>
                                 </h3>
                             </div>
                             <div class="col-lg-7">

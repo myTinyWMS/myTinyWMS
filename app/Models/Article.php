@@ -102,6 +102,10 @@ class Article extends AuditableModel
         )->with('currentSupplierArticle');
     }
 
+    public function getCurrentSupplierArticle() {
+        return Article::where('id', $this->id)->withCurrentSupplierArticle()->first()->currentSupplierArticle;
+    }
+
     public function category() {
         return $this->belongsTo(Category::class);
     }
