@@ -80,7 +80,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             ->active()
             ->orderedByArticleNumber()
             ->withQuantityAtDate($start, 'quantity_start')
-            ->withQuantityAtDate($end, 'quantity_end')
+            ->withQuantityAtDate($end->copy()->addDay(), 'quantity_end')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INCOMING, 'total_incoming')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_OUTGOING, 'total_outgoing')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_CORRECTION, 'total_correction')
