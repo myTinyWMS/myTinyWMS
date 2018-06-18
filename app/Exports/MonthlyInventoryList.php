@@ -66,9 +66,6 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
 
         /* @var $articles Collection */
         $articles
-            ->filter(function ($article) {
-                return $article->getQuantityAtDate($this->date, 'current_quantity') > 0;
-            })
             ->transform(function ($article, $key) {
                 $quantity = $article->getQuantityAtDate($this->date, 'current_quantity');
                 $i = $key + 2;
@@ -82,6 +79,9 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
                     'aktueller Preis' => round(($article->currentSupplierArticle->price / 100), 2),
                     'Gesamtbetrag' => "=D$i*F$i"
                 ];
+            })
+            ->filter(function ($item) {
+                return ($item['Bestand'] > 0);
             });
 
         $articles->prepend(array_keys($articles->first()));
