@@ -72,10 +72,20 @@ class ArticleTest extends TestCase
         ]);
 
         ArticleQuantityChangelog::create([
+            'created_at' => $date3,
+            'updated_at' => $date3,
+            'article_id' => $article->id,
+            'new_quantity' => 10,
+            'user_id' => 1,
+            'type' => ArticleQuantityChangelog::TYPE_INCOMING,
+            'change' => 5
+        ]);
+
+        ArticleQuantityChangelog::create([
             'created_at' => $date4,
             'updated_at' => $date4,
             'article_id' => $article->id,
-            'new_quantity' => 10,
+            'new_quantity' => 5,
             'user_id' => 1,
             'type' => ArticleQuantityChangelog::TYPE_INCOMING,
             'change' => 5

@@ -104,7 +104,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'Wareneingang' => $article->total_incoming ?? 0,
                     'Korrektur' => $article->total_correction ?? 0,
                     'Inventur' => $article->total_inventory ?? 0,
-                    'Endestand' => $article->getQuantityAtDate($start, 'quantity_end'),
+                    'Endbestand' => $article->getQuantityAtDate($start, 'quantity_end'),
                     'Monat' => $this->month,
                     'AB Eur' => "=H$i*\$D$i",
                     'WA Eur' => "=I$i*\$D$i",
