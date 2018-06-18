@@ -56,6 +56,7 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
     }
 
     public function collection() {
+        /* @var $articles Collection */
         $articles = Article::where('inventory', true)
             ->withCurrentSupplierArticle()
             ->active()
@@ -64,12 +65,14 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
             ->with(['unit', 'category'])
             ->get();
 
-        /* @var $articles Collection */
-        $articles = $articles
-            ->filter(function ($article) {
-                return ($article->getQuantityAtDate($this->date, 'current_quantity') > 0);
-            })
-            ->transform(function ($article, $key) {
+        // filter empty items
+        $articles = $articles->filter(function ($article) {
+            return ($article->getQuantityAtDate($this->date, 'current_quantity') > 0);
+        });
+
+        // reset keys
+        $articles = collect($articles->values());
+        $articles->transform(function ($article, $key) {
                 $quantity = $article->getQuantityAtDate($this->date, 'current_quantity');
                 $i = $key + 2;
                 /* @var Article $article */
