@@ -66,8 +66,9 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
             ->get();
 
         /* @var $articles Collection */
-        $articles->transform(function ($article) {
+        $articles->transform(function ($article, $key) {
             $quantity = $article->getQuantityAtDate($this->date, 'current_quantity');
+            $i = $key + 2;
             /* @var Article $article */
             return [
                 'Kategorie' => $article->category->name,
@@ -76,7 +77,7 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
                 'Bestand' => $quantity,
                 'Einheit' => optional($article->unit)->name,
                 'aktueller Preis' => round(($article->currentSupplierArticle->price / 100), 2),
-                'Gesamtbetrag' => round((($article->currentSupplierArticle->price * $quantity) / 100), 2)
+                'Gesamtbetrag' => "=D$i*F$i"
             ];
         });
 
