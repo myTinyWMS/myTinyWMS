@@ -40,15 +40,16 @@ class Order extends AuditableModel
 
     const PAYMENT_STATUS_TEXT = [
         self::PAYMENT_STATUS_UNPAID => 'unbezahlt',
-        self::PAYMENT_STATUS_PAID_WITH_PAYPAL => 'bezahlt - Paypal',
-        self::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD => 'bezahlt - Kreditkarte',
-        self::PAYMENT_STATUS_PAID_WITH_INVOICE => 'bezahlt - Rechnung',
+        self::PAYMENT_STATUS_PAID_WITH_PAYPAL => 'Paypal',
+        self::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD => 'Kreditkarte',
+        self::PAYMENT_STATUS_PAID_WITH_INVOICE => 'Rechnung',
     ];
 
     protected $dates = ['order_date', 'expected_delivery'];
 
     protected $fieldNames = [
         'status' => 'Status',
+        'payment_status' => 'Bezahlmethode',
         'total_cost' => 'Gesamtkosten',
         'shipping_cost' => 'Versandkosten',
         'order_date' => 'Bestelldatum',
@@ -126,6 +127,11 @@ class Order extends AuditableModel
         if (Arr::has($data, 'new_values.status')) {
             $data['old_values']['status'] = (array_key_exists($this->getOriginal('status'), Order::STATUS_TEXTS)) ? Order::STATUS_TEXTS[$this->getOriginal('status')] : null;
             $data['new_values']['status'] = Order::STATUS_TEXTS[$this->getAttribute('status')];
+        }
+
+        if (Arr::has($data, 'new_values.payment_status')) {
+            $data['old_values']['payment_status'] = (array_key_exists($this->getOriginal('payment_status'), Order::PAYMENT_STATUS_TEXT)) ? Order::PAYMENT_STATUS_TEXT[$this->getOriginal('payment_status')] : null;
+            $data['new_values']['payment_status'] = Order::PAYMENT_STATUS_TEXT[$this->getAttribute('payment_status')];
         }
 
         return $data;

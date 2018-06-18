@@ -93,6 +93,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($request->get('order_id'));
 
         $order->status = $request->get('status');
+        $order->payment_status = $request->get('payment_status');
         $order->supplier_id = $request->get('supplier_id');
         $order->external_order_number = $request->get('external_order_number');
         $order->total_cost = parsePrice($request->get('total_cost'));
