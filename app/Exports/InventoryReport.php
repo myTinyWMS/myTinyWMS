@@ -65,7 +65,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             'R' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'S' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'T' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-            'U' => NumberFormat::FORMAT_GENERAL
+            'U' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
         ];
     }
 
