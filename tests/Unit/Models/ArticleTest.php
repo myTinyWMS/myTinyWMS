@@ -96,4 +96,68 @@ class ArticleTest extends TestCase
         $this->assertEquals($article->getQuantityAtDate($date3, 'current_quantity'), 10);
     }
 
+
+    public function test_changelog_sum_in_date_range() {
+        /* @var $article Article */
+        $article = factory(Article::class)->create([
+            'quantity' => 25
+        ]);
+
+        ArticleQuantityChangelog::create([
+            'created_at' => Carbon::parse('2018-04-30 12:10:00'),
+            'updated_at' => Carbon::parse('2018-04-30 12:10:00'),
+            'article_id' => $article->id,
+            'new_quantity' => 5,
+            'user_id' => 1,
+            'type' => ArticleQuantityChangelog::TYPE_INCOMING,
+            'change' => 5
+        ]);
+
+        ArticleQuantityChangelog::create([
+            'created_at' => Carbon::parse('2018-05-01 10:00:00'),
+            'updated_at' => Carbon::parse('2018-05-01 10:00:00'),
+            'article_id' => $article->id,
+            'new_quantity' => 10,
+            'user_id' => 1,
+            'type' => ArticleQuantityChangelog::TYPE_INCOMING,
+            'change' => 5
+        ]);
+
+        ArticleQuantityChangelog::create([
+            'created_at' => Carbon::parse('2018-05-10 10:00:00'),
+            'updated_at' => Carbon::parse('2018-05-10 10:00:00'),
+            'article_id' => $article->id,
+            'new_quantity' => 15,
+            'user_id' => 1,
+            'type' => ArticleQuantityChangelog::TYPE_INCOMING,
+            'change' => 5
+        ]);
+
+        ArticleQuantityChangelog::create([
+            'created_at' => Carbon::parse('2018-05-31 10:00:00'),
+            'updated_at' => Carbon::parse('2018-05-31 10:00:00'),
+            'article_id' => $article->id,
+            'new_quantity' => 20,
+            'user_id' => 1,
+            'type' => ArticleQuantityChangelog::TYPE_INCOMING,
+            'change' => 5
+        ]);
+
+        ArticleQuantityChangelog::create([
+            'created_at' => Carbon::parse('2018-06-01 10:00:00'),
+            'updated_at' => Carbon::parse('2018-06-01 10:00:00'),
+            'article_id' => $article->id,
+            'new_quantity' => 25,
+            'user_id' => 1,
+            'type' => ArticleQuantityChangelog::TYPE_INCOMING,
+            'change' => 5
+        ]);
+
+        $start = Carbon::parse('2018-05-01');
+        $end = $start->copy()->lastOfMonth();
+
+        $article = Article::where('id', $article->id)->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INCOMING, 'total_incoming')->first();
+        $this->assertEquals(15, $article->total_incoming);
+    }
+
 }

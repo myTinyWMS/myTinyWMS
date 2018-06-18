@@ -71,7 +71,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
 
     public function collection() {
         $start = Carbon::parse($this->month.'-01');
-        $end = $start->copy()->lastOfMonth();
+        $end = $start->copy()->endOfMonth();
 
         /* @var $articles Collection */
         $articles = Article::where('inventory', true)
