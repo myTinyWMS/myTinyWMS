@@ -42,8 +42,11 @@
                         <hr class="hr-line-solid">
 
                         <div class="row">
-                            <div class="col-lg-12" id="supplier_select">
+                            <div class="col-lg-6" id="supplier_select">
                                 {{ Form::bsSelect('supplier', $order->supplier_id, \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'),  'Lieferant', ['placeholder' => '', 'v-model' => 'supplier', 'v-bind:disabled' => 'hasArticles']) }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ Form::bsSelect('payment_status', $order->payment_status, \Mss\Models\Order::PAYMENT_STATUS_TEXT,  'Bezahlmethode') }}
                             </div>
                         </div>
 

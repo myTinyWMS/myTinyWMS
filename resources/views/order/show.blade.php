@@ -72,7 +72,7 @@
                     </div>
 
                     <div class="col-xs-3">
-                        <small class="stats-label">Bezahlstatus</small>
+                        <small class="stats-label">Bezahlmethode</small>
                         <h2>
                             @if($order->payment_status > 0)
                                 <span class="text-success">{{ \Mss\Models\Order::PAYMENT_STATUS_TEXT[$order->payment_status] }}</span>
