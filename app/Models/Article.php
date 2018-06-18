@@ -261,7 +261,7 @@ class Article extends AuditableModel
         $type = (!is_array($type)) ? [$type] : $type;
         $query->addSubSelect($fieldname, ArticleQuantityChangelog::select(DB::raw('SUM(`change`)'))
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
-            ->whereBetween('created_at', [$start, $end->addDay()])
+            ->whereBetween('created_at', [$start, $end])
             ->whereIn('type', $type)
         );
     }
