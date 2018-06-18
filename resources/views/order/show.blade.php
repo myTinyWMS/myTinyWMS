@@ -39,7 +39,10 @@
 
                     <div class="col-xs-6">
                         <small class="stats-label">Lieferant</small>
-                        <h2><a href="{{ route('supplier.show', $order->supplier) }}" target="_blank">{{ optional($order->supplier)->name }}</a></h2>
+                        <h2>
+                            <a href="{{ route('supplier.show', $order->supplier) }}" target="_blank" title="Lieferant aufrufen">{{ optional($order->supplier)->name }}</a>
+                            <a href="{{ route('article.index', ['supplier' => $order->supplier->id]) }}" title="Artikel des Lieferanten aufrufen"><i class="fa fa-filter"></i></a>
+                        </h2>
                     </div>
                 </div>
             </div>
