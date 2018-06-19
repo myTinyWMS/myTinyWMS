@@ -77,7 +77,6 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
         $articles = Article::where('inventory', true)
             ->withCurrentSupplier()
             ->withCurrentSupplierArticle()
-            ->active()
             ->orderedByArticleNumber()
             ->withQuantityAtDate($start, 'quantity_start')
             ->withQuantityAtDate($end->copy()->addDay(), 'quantity_end')
