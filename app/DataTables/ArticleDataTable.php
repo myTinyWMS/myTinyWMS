@@ -149,12 +149,12 @@ class ArticleDataTable extends BaseDataTable
 
     protected function getHtmlParameters() {
         $parameters = [
-            'order' => [[1, 'asc']]
+            'order' => [[2, 'asc']]
         ];
 
         if ($this->sortingEnabled) {
             $parameters['rowReorder'] = [
-                'selector' => 'tr>td:nth-child(2)', // I allow all columns for dragdrop except the last
+                'selector' => 'tr>td:nth-child(2)',
                 'dataSrc' => 'sort_id',
                 'update' => false // this is key to prevent DT auto update
             ];
@@ -172,8 +172,8 @@ class ArticleDataTable extends BaseDataTable
     {
         return [
             ['data' => 'checkbox', 'name' => 'checkbox', 'title' => '<input type="checkbox" value="" id="select_all" />', 'width' => '10px', 'orderable' => false, 'class' => 'text-center'],
+            ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sort.', 'width' => '40px', 'visible' => false],
             ['data' => 'article_number', 'name' => 'article_number', 'title' => '#'],
-            ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sortierung', 'visible' => false],
             ['data' => 'name', 'name' => 'name', 'title' => 'Artikelbezeichnung'],
             ['data' => 'order_number', 'name' => 'order_number', 'title' => 'Bestellnummer'],
             ['data' => 'quantity', 'name' => 'quantity', 'title' => 'Bestand', 'class' => 'text-center', 'width' => '40px'],

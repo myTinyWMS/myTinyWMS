@@ -2,6 +2,8 @@
 
 namespace Mss\DataTables;
 
+use Mss\Models\Article;
+
 class SelectArticleDataTable extends ArticleDataTable
 {
     const STATUS_COL_ID = 16;
@@ -24,7 +26,14 @@ class SelectArticleDataTable extends ArticleDataTable
     {
         $datatable = parent::dataTable($query);
 
-        $datatable->editColumn('action', 'article.select_list_action');
+        $datatable
+            ->editColumn('action', 'article.select_list_action')
+            ->editColumn('name', function (Article $article) {
+                return '<a href="#" onclick="selectArticle('.$article->id.')" data-dismiss="modal">'.$article->name.'</a>';
+            });
+
+        $this->rawColumns[] = 'name';
+        $datatable->rawColumns($this->rawColumns);
 
         return $datatable;
     }
