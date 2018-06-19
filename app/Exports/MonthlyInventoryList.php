@@ -51,7 +51,8 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
             'D' => NumberFormat::FORMAT_NUMBER,
             'E' => NumberFormat::FORMAT_TEXT,
             'F' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-            'G' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
+            'G' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'H' => NumberFormat::FORMAT_TEXT,
         ];
     }
 
@@ -59,7 +60,6 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
         /* @var $articles Collection */
         $articles = Article::where('inventory', true)
             ->withCurrentSupplierArticle()
-            ->active()
             ->orderedByArticleNumber()
             ->withQuantityAtDate($this->date, 'current_quantity')
             ->with(['unit', 'category'])
@@ -83,7 +83,8 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
                     'Bestand' => $quantity,
                     'Einheit' => optional($article->unit)->name,
                     'aktueller Preis' => round(($article->currentSupplierArticle->price / 100), 2),
-                    'Gesamtbetrag' => "=D$i*F$i"
+                    'Gesamtbetrag' => "=D$i*F$i",
+                    'Status' => Article::getStatusTextArray()[$article->status]
                 ];
             });
 
