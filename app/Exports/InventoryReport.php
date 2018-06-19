@@ -93,7 +93,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                 return [
                     'Artikelnummer' => $article->article_number,
                     'Artikelname' => $article->name,
-                    'Lieferant' => $article->currentSupplier->name,
+                    'Lieferant' => optional($article->currentSupplier)->name,
                     'Preis' => round(($article->currentSupplierArticle->price / 100), 2),
                     'Bestellnummer' => $article->currentSupplierArticle->order_number,
                     'Kategorie' => $article->category->name,
