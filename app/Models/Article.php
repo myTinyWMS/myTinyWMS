@@ -272,6 +272,6 @@ class Article extends AuditableModel
         })->flatten(1);
 
         $audits = $this->getAudits();
-        return collect($audits->toArray())->merge($articleSupplierAudits)->sortBy('timestamp');
+        return collect($audits->toArray())->merge($articleSupplierAudits)->sortByDesc('timestamp');
     }
 }
