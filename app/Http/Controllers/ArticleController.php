@@ -73,7 +73,7 @@ class ArticleController extends Controller
         ArticleSupplier::create([
             'article_id' => $article->id,
             'supplier_id' => $request->get('supplier_id'),
-            'order_number' => $request->get('supplier_order_number'),
+            'order_number' => $request->get('supplier_order_number') ?? 0,
             'delivery_time' => $request->get('supplier_delivery_time'),
             'order_quantity' => $request->get('supplier_order_quantity'),
             'price' => round(floatval(str_replace(',', '.', $request->get('supplier_price'))) * 100, 0)
