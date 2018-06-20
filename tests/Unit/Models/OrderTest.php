@@ -56,10 +56,10 @@ class ArticleTest extends TestCase
         Order::create([
             'internal_order_number' => '1806019'
         ]);
-        $order = Order::create([
+        Order::create([
             'internal_order_number' => '18060110'
         ]);
-        $order = Order::create([
+        Order::create([
             'internal_order_number' => '18060111'
         ]);
         $order = Order::create([
