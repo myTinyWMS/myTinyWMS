@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        posix_seteuid(33);
+//        posix_seteuid(33);
         $schedule->command('emptyorders:clear')->everyTenMinutes();
         $schedule->command('import:mails')->everyFiveMinutes();
         $schedule->command('send:inventory')->dailyAt('07:00')->when(function () {
