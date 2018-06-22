@@ -48,6 +48,4 @@ $status = $kernel->handle(
 
 $kernel->terminate($input, $status);
 
-exec('chown -R 1000:1000 .');
-
 exit($status);
