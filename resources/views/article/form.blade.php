@@ -210,6 +210,12 @@
     var changelogMath = 'sub';
 
     $(document).ready(function () {
+        @if (!($isNewArticle ?? true))
+        $('#unit_id').change(function () {
+            alert('Achtung. Änderung der Einheit nur in Absprache mit der Buchhaltung bzw. Geschäftsleitung!')
+        });
+        @endif
+
         $('#changelogChange').keyup(function () {
             updateNewChangelogQuantity();
         });
