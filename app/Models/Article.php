@@ -123,6 +123,10 @@ class Article extends AuditableModel
     }
 
     public function setNewArticleNumber() {
+        if (!$this->category) {
+            return false;
+        }
+
         $this->article_number = null;
         $this->save();
 
