@@ -50,7 +50,7 @@ class ArticleDataTable extends BaseDataTable
             ->addColumn('order_number', function (Article $article) {
                 $orderNumber = optional($article->currentSupplierArticle)->order_number;
 
-                if ($article->openOrders->count()) {
+                if ($article->openOrders()->count()) {
                     $orderNumber .= '<i class="fa fa-shopping-cart pull-right" title="offene Bestellung"></i>';
                 }
 
@@ -130,7 +130,7 @@ class ArticleDataTable extends BaseDataTable
     {
         return $model->newQuery()
             ->withCurrentSupplierArticle()->withCurrentSupplier()->withCurrentSupplierName()->withAverageUsage()->withLastReceipt()
-            ->with(['category', 'suppliers', 'unit', 'tags', 'openOrders']);
+            ->with(['category', 'suppliers', 'unit', 'tags', 'openOrderItems']);
     }
 
     /**

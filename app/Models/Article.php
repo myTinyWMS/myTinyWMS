@@ -181,8 +181,17 @@ class Article extends AuditableModel
         return $this->quantityChangelogs()->with(['user', 'deliveryItem.delivery.order', 'unit'])->latest()->take(30)->get();
     }
 
+    public function openOrderItems() {
+        return $this->belongsToMany(Order::class, 'order_items', 'article_id', 'order_id')->with('items.order.deliveries')->statusOpen();
+    }
+
     public function openOrders() {
-        return $this->belongsToMany(Order::class, 'order_items', 'article_id', 'order_id')->with('items')->statusOpen();
+        return $this->openOrderItems->filter(function ($order) {
+            return $order->items->where('article_id', $this->id)->filter(function ($item) {
+                /* @var $item OrderItem */
+                return ($item->quantity != $item->getQuantityDelivered());
+            })->count() > 0;
+        });
     }
 
     /**

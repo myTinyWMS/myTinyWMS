@@ -31,11 +31,11 @@
                             @endif
                         </div>
                         <div class="col-lg-8 text-right">
-                            @if($article->openOrders->count())
+                            @if($article->openOrders()->count())
                             <div class="form-group">
                                 <label class="control-label">Offene Bestellungen</label>
                                 <div class="form-control-static">
-                                    @foreach($article->openOrders as $openOrder)
+                                    @foreach($article->openOrders() as $openOrder)
                                         <a href="{{ route('order.show', $openOrder) }}" target="_blank">{{ $openOrder->internal_order_number }}</a> ({{ $openOrder->items->where('article_id', $article->id)->first()->quantity }}{{ !empty($article->unit) ? ' '.$article->unit->name : '' }})
                                         <br>
                                     @endforeach
