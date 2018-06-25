@@ -77,12 +77,12 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
                 $i = $key + 2;
                 /* @var Article $article */
                 return [
-                    'Kategorie' => $article->category->name,
+                    'Kategorie' => optional($article->category)->name,
                     'Artikelname' => $article->name,
                     'Artikelnummer' => $article->article_number,
                     'Bestand' => $quantity,
                     'Einheit' => optional($article->unit)->name,
-                    'aktueller Preis' => round(($article->currentSupplierArticle->price / 100), 2),
+                    'aktueller Preis' => $article->currentSupplierArticle ? round(($article->currentSupplierArticle->price / 100), 2) : 0,
                     'Gesamtbetrag' => "=D$i*F$i",
                     'Status' => Article::getStatusTextArray()[$article->status]
                 ];
