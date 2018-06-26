@@ -26,8 +26,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>Artikel</th>
-                                <th width="20%">Lieferant</th>
-                                <th width="30%">Notizen</th>
+                                <th width="15%">Lieferant</th>
+                                <th width="25%">Notizen</th>
+                                <th width="5%">Sortierung</th>
                                 <th width="10%">Einheit</th>
                                 <th width="10%">Inventurtyp</th>
                             </tr>
@@ -40,10 +41,13 @@
                                 <td>{{ $article->supplier_name }}</td>
                                 <td>{{ $article->notes }}</td>
                                 <td>
+                                    {{ Form::bsText('sort_id['.$article->id.']', $article->sort_id ?? 0, [], '') }}
+                                </td>
+                                <td>
                                     {{ Form::bsSelect('unit_id['.$article->id.']', $article->unit_id, $units,  '', ['placeholder' => '']) }}
                                 </td>
                                 <td>
-                                    {{ Form::bsSelect('inventory', $article->inventory, \Mss\Models\Article::getInventoryTextArray(),  '', ['name' => 'inventory['.$article->id.']']) }}
+                                    {{ Form::bsSelect('inventory['.$article->id.']', $article->inventory, \Mss\Models\Article::getInventoryTextArray(), '') }}
                                 </td>
                             </tr>
                             @endforeach

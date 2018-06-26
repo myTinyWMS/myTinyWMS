@@ -310,7 +310,7 @@ class ArticleController extends Controller
 
     public function massUpdateForm() {
         $articles = Article::active()->with('category')->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
-            return $article->category->name;
+            return optional($article->category)->name;
         })->ksort();
         $units = Unit::orderedByName()->pluck('name', 'id');
 
@@ -318,17 +318,16 @@ class ArticleController extends Controller
     }
 
     public function massUpdateSave(Request $request) {
-        Article::whereIn('id', array_keys($request->get('inventory')))->get()->each(function ($article) use ($request) {
+        Article::whereIn('id', array_keys($request->get('sort_id')))->get()->each(function ($article) use ($request) {
+            $article->sort_id = $request->get('sort_id')[$article->id];
             $article->inventory = $request->get('inventory')[$article->id];
-            $article->save();
-        });
 
-        Article::whereIn('id', array_keys($request->get('unit_id')))->get()->each(function ($article) use ($request) {
             $newUnitId = intval($request->get('unit_id')[$article->id]);
             if (!empty($newUnitId) && $article->unit_id !== $newUnitId) {
                 $article->unit_id = $newUnitId;
-                $article->save();
             }
+
+            $article->save();
         });
 
         flash('Änderungen gespeichert');
