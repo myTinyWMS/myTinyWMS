@@ -225,8 +225,8 @@ class Article extends AuditableModel
         if (Arr::has($data, 'new_values.inventory')) {
             unset($data['old_values']['inventory']);
             unset($data['new_values']['inventory']);
-            $data['old_values']['inventory_text'] = Article::getInventoryTextArray()[$this->getOriginal('inventory')];
-            $data['new_values']['inventory_text'] = Article::getInventoryTextArray()[$this->getAttribute('inventory')];
+            $data['old_values']['inventory_text'] = array_key_exists($this->getOriginal('inventory'), Article::getInventoryTextArray()) ? Article::getInventoryTextArray()[$this->getOriginal('inventory')] : null;
+            $data['new_values']['inventory_text'] = array_key_exists($this->getAttribute('inventory'), Article::getInventoryTextArray()) ? Article::getInventoryTextArray()[$this->getAttribute('inventory')] : null;
         }
 
         return $data;
