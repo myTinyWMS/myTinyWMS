@@ -7,6 +7,6 @@
         <li><a href="#">Bearbeiten</a></li>
     </ul>
 </div>--}}
-<a href="{{ route('article.show', $id) }}" class="btn btn-primary btn-xs">
+<a href="{{ route('article.show', $id) }}" class="btn btn-primary btn-xs" target="_blank">
     Details
 </a>
