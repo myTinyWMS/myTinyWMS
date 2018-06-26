@@ -12,14 +12,14 @@
                     <h5>{{ $category }}</h5>
                 </div>
                 <div class="ibox-content">
-                    <table class="table table-striped">
+                    <table class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>Artikel</th>
                                 <th width="20%">Lieferant</th>
                                 <th width="30%">Notizen</th>
                                 <th width="10%">Einheit</th>
-                                <th width="10%" class="text-center">Inventur</th>
+                                <th width="10%">Inventurtyp</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,8 +31,8 @@
                                 <td>
                                     {{ Form::bsSelect('unit_id['.$article->id.']', $article->unit_id, $units,  '', ['placeholder' => '']) }}
                                 </td>
-                                <td class="text-center">
-                                    <div class="i-checks"><label> <input type="checkbox" name="inventory[{{ $article->id }}]" @if($article->inventory) checked @endif value="1"></label></div>
+                                <td>
+                                    {{ Form::bsSelect('inventory', $article->inventory, \Mss\Models\Article::getInventoryTextArray(),  '', ['name' => 'inventory['.$article->id.']']) }}
                                 </td>
                             </tr>
                             @endforeach

@@ -98,7 +98,12 @@
                         </div>
                     </div>
 
-                    {{ Form::bsCheckbox('inventory', 1, 'Inventur (Artikel wird in Inventurliste angezeigt)', $article->inventory, []) }}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{ Form::bsSelect('inventory', $article->inventory, \Mss\Models\Article::getInventoryTextArray(),  'Inventur Typ') }}
+                        </div>
+                    </div>
+
                     {{ Form::bsTextarea('notes', $article->notes, ['rows' => 4], 'Bemerkungen') }}
                     {{ Form::bsTextarea('order_notes', $article->order_notes, ['rows' => 2], 'Bestell Hinweise') }}
 

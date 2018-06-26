@@ -318,8 +318,10 @@ class ArticleController extends Controller
     }
 
     public function fixInventorySave(Request $request) {
-        Article::active()->update(['inventory' => 0]);
-        Article::whereIn('id', array_keys($request->get('inventory')))->update(['inventory' => 1]);
+        Article::whereIn('id', array_keys($request->get('inventory')))->get()->each(function ($article) use ($request) {
+            $article->inventory = $request->get('inventory')[$article->id];
+            $article->save();
+        });
 
         Article::whereIn('id', array_keys($request->get('unit_id')))->get()->each(function ($article) use ($request) {
             $newUnitId = intval($request->get('unit_id')[$article->id]);

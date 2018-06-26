@@ -47,8 +47,8 @@ class Article extends AuditableModel
         'order_notes' => 'Bestellhinweise',
         'category_id' => 'Kategorie',
         'sort_id' => 'Sortierung',
-        'inventory' => 'Inventur',
-        'inventory_text' => 'Inventur',
+        'inventory' => 'Inventurtyp',
+        'inventory_text' => 'Inventurtyp',
         'files' => 'Dateien',
     ];
 
@@ -179,6 +179,13 @@ class Article extends AuditableModel
         ];
     }
 
+    public static function getInventoryTextArray() {
+        return [
+            0 => 'Ersatzteile',
+            1 => 'Verbrauchsartikel'
+        ];
+    }
+
     public function getShortChangelog() {
         return $this->quantityChangelogs()->with(['user', 'deliveryItem.delivery.order', 'unit'])->latest()->take(30)->get();
     }
@@ -218,8 +225,8 @@ class Article extends AuditableModel
         if (Arr::has($data, 'new_values.inventory')) {
             unset($data['old_values']['inventory']);
             unset($data['new_values']['inventory']);
-            $data['old_values']['inventory_text'] = $this->getOriginal('inventory') ? 'Ja' : 'Nein';
-            $data['new_values']['inventory_text'] = $this->getAttribute('inventory') ? 'Ja' : 'Nein';
+            $data['old_values']['inventory_text'] = Article::getInventoryTextArray()[$this->getOriginal('inventory')];
+            $data['new_values']['inventory_text'] = Article::getInventoryTextArray()[$this->getAttribute('inventory')];
         }
 
         return $data;
