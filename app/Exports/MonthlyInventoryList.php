@@ -60,6 +60,7 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
         /* @var $articles Collection */
         $articles = Article::where('inventory', true)
             ->withCurrentSupplierArticle()
+            ->active()
             ->orderedByArticleNumber()
             ->withQuantityAtDate($this->date, 'current_quantity')
             ->with(['unit', 'category'])
