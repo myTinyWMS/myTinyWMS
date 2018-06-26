@@ -38,8 +38,8 @@ class InventoryService {
         return storage_path('app/'.$filename);
     }
 
-    public static function generateReport($month) {
-        return Excel::download(new InventoryReport($month), 'inventory_report_'.$month.'.xlsx');
+    public static function generateReport($month, $inventoryType) {
+        return Excel::download(new InventoryReport($month, $inventoryType), 'inventory_report_'.$month.'.xlsx');
     }
 
     public static function generateDeliveriesWithoutInvoiceReport($date) {

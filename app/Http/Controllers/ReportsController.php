@@ -20,7 +20,7 @@ class ReportsController extends Controller
     }
 
     public function generateInventoryReport(Request $request) {
-        return InventoryService::generateReport($request->get('month'));
+        return InventoryService::generateReport($request->get('month'), $request->get('inventorytype'));
     }
 
     public function deliveriesWithoutInvoice() {

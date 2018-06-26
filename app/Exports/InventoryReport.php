@@ -19,12 +19,15 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
      */
     protected $month;
 
+    protected $inventoryType;
+
     /**
      * InventoryReport constructor.
      * @param $month
      */
-    public function __construct($month) {
+    public function __construct($month, $inventoryType) {
         $this->month = $month;
+        $this->inventoryType = $inventoryType;
     }
 
     /**
@@ -74,10 +77,11 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
         $end = $start->copy()->endOfMonth();
 
         /* @var $articles Collection */
-        $articles = Article::where('inventory', true)
-            ->withCurrentSupplier()
+
+        $articles = !is_null($this->inventoryType) ? Article::where('inventory', $this->inventoryType) : Article::query();
+
+        $articles = $articles->withCurrentSupplier()
             ->withCurrentSupplierArticle()
-            ->orderedByArticleNumber()
             ->withQuantityAtDate($start, 'quantity_start')
             ->withQuantityAtDate($end->copy()->addDay(), 'quantity_end')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INCOMING, 'total_incoming')
@@ -85,7 +89,9 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_CORRECTION, 'total_correction')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INVENTORY, 'total_inventory')
             ->with(['unit', 'category'])
+            ->orderedByArticleNumber()
             ->get();
+
         $articles
             ->transform(function ($article, $key) use ($start, $end) {
                 $i = $key + 2;
@@ -94,10 +100,11 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'Artikelnummer' => $article->article_number,
                     'Artikelname' => $article->name,
                     'Lieferant' => optional($article->currentSupplier)->name,
-                    'Preis' => round(($article->currentSupplierArticle->price / 100), 2),
-                    'Bestellnummer' => $article->currentSupplierArticle->order_number,
-                    'Kategorie' => $article->category->name,
+                    'Preis' => $article->currentSupplierArticle ? round(($article->currentSupplierArticle->price / 100), 2) : 0,
+                    'Bestellnummer' => optional($article->currentSupplierArticle)->order_number,
+                    'Kategorie' => optional($article->category)->name,
                     'Einheit' => optional($article->unit)->name,
+                    'Status' => Article::getStatusTextArray()[$article->status],
                     'Anfangsbestand' => $article->getQuantityAtDate($start, 'quantity_start'),
                     'Warenausgang' => $article->total_outgoing ?? 0,
                     'Wareneingang' => $article->total_incoming ?? 0,
