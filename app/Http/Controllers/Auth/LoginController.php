@@ -52,4 +52,12 @@ class LoginController extends Controller
 
         return redirect('/login');
     }
+
+    public function username()
+    {
+        $login = request()->input('login');
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        request()->merge([$field => $login]);
+        return $field;
+    }
 }
