@@ -24,6 +24,8 @@ class SupplierMail extends Mailable
      */
     protected $body;
 
+    protected $username;
+
     /**
      * Create a new message instance.
      *
@@ -34,6 +36,7 @@ class SupplierMail extends Mailable
 
         $this->body = $body;
         $this->attachmentsList = $attachments ?? collect([]);
+        $this->username = Auth::user()->name;
     }
 
     /**
@@ -49,6 +52,6 @@ class SupplierMail extends Mailable
             ]);
         });
 
-        return $this->from('mail@example.com', Auth::user()->name)->view('emails.blank', ['content' => $this->body]);
+        return $this->from('mail@example.com', $this->username)->view('emails.blank', ['content' => $this->body]);
     }
 }

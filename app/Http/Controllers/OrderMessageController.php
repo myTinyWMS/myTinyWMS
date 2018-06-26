@@ -67,11 +67,11 @@ class OrderMessageController extends Controller {
         });
 
         if (count($receivers) > 1) {
-            Mail::to($receivers->first())->cc($receivers->slice(1))->send(new SupplierMail (
+            Mail::to($receivers->first())->cc($receivers->slice(1))->queue(new SupplierMail (
                 $request->get('subject'), $request->get('body'), $attachments
             ));
         } else {
-            Mail::to($receivers)->send(new SupplierMail (
+            Mail::to($receivers)->queue(new SupplierMail (
                 $request->get('subject'), $request->get('body'), $attachments
             ));
         }
