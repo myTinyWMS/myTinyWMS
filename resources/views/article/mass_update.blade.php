@@ -1,9 +1,18 @@
 @extends('layout.app')
 
-@section('title', 'Inventur Update')
+@section('title', 'Artikel-Massenupdate')
+
+@section('breadcrumb')
+    <li>
+        <a href="{{ route('article.index') }}">Übersicht</a>
+    </li>
+    <li class="active">
+        <strong>Artikel-Massenupdate</strong>
+    </li>
+@endsection
 
 @section('content')
-    <form method="post" action="{{ route('article.fix_inventory_save') }}">
+    <form method="post" action="{{ route('article.mass_update_save') }}">
         <div class="row">
         <div class="col-lg-12">
             @foreach($articles as $category => $items)
@@ -15,6 +24,7 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Artikel</th>
                                 <th width="20%">Lieferant</th>
                                 <th width="30%">Notizen</th>
@@ -25,6 +35,7 @@
                         <tbody>
                             @foreach($items as $article)
                             <tr>
+                                <td>{{ $article->article_number }}</td>
                                 <td><a href="{{ route('article.show', $article) }}">{{ $article->name }}</a></td>
                                 <td>{{ $article->supplier_name }}</td>
                                 <td>{{ $article->notes }}</td>

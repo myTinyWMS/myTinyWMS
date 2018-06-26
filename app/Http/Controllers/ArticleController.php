@@ -308,16 +308,16 @@ class ArticleController extends Controller
         return redirect()->route('article.index');
     }
 
-    public function fixInventoryForm() {
+    public function massUpdateForm() {
         $articles = Article::active()->with('category')->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
             return $article->category->name;
         })->ksort();
         $units = Unit::orderedByName()->pluck('name', 'id');
 
-        return view('article.fix_inventory', compact('articles', 'units'));
+        return view('article.mass_update', compact('articles', 'units'));
     }
 
-    public function fixInventorySave(Request $request) {
+    public function massUpdateSave(Request $request) {
         Article::whereIn('id', array_keys($request->get('inventory')))->get()->each(function ($article) use ($request) {
             $article->inventory = $request->get('inventory')[$article->id];
             $article->save();
@@ -333,7 +333,7 @@ class ArticleController extends Controller
 
         flash('Änderungen gespeichert');
 
-        return response()->redirectToRoute('article.fix_inventory_form', 'success');
+        return response()->redirectToRoute('article.mass_update_form', 'success');
     }
 
     public function changeChangelogNote(Request $request) {
