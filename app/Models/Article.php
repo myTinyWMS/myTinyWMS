@@ -24,6 +24,7 @@ class Article extends AuditableModel
 
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
+    const STATUS_NO_ORDERS = 2;
 
     protected $fillable = ['name', 'article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes'];
 
@@ -159,7 +160,7 @@ class Article extends AuditableModel
     }
 
     public function scopeActive($query) {
-        $query->where('status', self::STATUS_ACTIVE);
+        $query->whereIn('status', [self::STATUS_ACTIVE, self::STATUS_NO_ORDERS]);
     }
 
     public function scopeOrderedByName($query) {
@@ -173,7 +174,8 @@ class Article extends AuditableModel
     public static function getStatusTextArray() {
         return [
             self::STATUS_ACTIVE => 'aktiv',
-            self::STATUS_INACTIVE => 'deaktiviert'
+            self::STATUS_INACTIVE => 'deaktiviert',
+            self::STATUS_NO_ORDERS => 'Bestellstopp'
         ];
     }
 
