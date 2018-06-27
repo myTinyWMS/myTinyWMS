@@ -15,10 +15,24 @@ class ArticleTest extends TestCase
     public function test_quantity_at_date_matches_article_quantity_as_it_doesnt_has_a_changelog_entry() {
         $date = Carbon::now()->subDay();
         /* @var $article Article */
-        $article = factory(Article::class)->create();
+        $article = factory(Article::class)->create([
+            'created_at' => $date,
+            'quantity' => 5
+        ]);
+        $article = Article::where('id', $article->id)->withQuantityAtDate(Carbon::now(), 'current_quantity')->first();
+
+        $this->assertEquals($article->getQuantityAtDate($date, 'current_quantity'), 5);
+    }
+
+    public function test_quantity_at_date_bus_article_has_been_created_after_requested_date() {
+        $date = Carbon::now()->subDay();
+        /* @var $article Article */
+        $article = factory(Article::class)->create([
+            'created_at' => Carbon::now()
+        ]);
         $article = Article::where('id', $article->id)->withQuantityAtDate($date, 'current_quantity')->first();
 
-        $this->assertEquals($article->getQuantityAtDate($date, 'current_quantity'), $article->quantity);
+        $this->assertEquals($article->getQuantityAtDate($date, 'current_quantity'), 0);
     }
 
     public function test_quantity_at_date_last_changelog_entry() {
@@ -45,6 +59,7 @@ class ArticleTest extends TestCase
         $date1 = Carbon::now()->subDay(1);
         $date2 = Carbon::now()->subDay(2);
         $date3 = Carbon::now()->subDay(3);
+        $date3_1 = $date3->copy()->subMinute(1);
         $date4 = Carbon::now()->subDay(4);
         /* @var $article Article */
         $article = factory(Article::class)->create([
@@ -91,9 +106,9 @@ class ArticleTest extends TestCase
             'change' => 5
         ]);
 
-        $article = Article::where('id', $article->id)->withQuantityAtDate($date3, 'current_quantity')->first();
+        $article = Article::where('id', $article->id)->withQuantityAtDate($date3_1, 'current_quantity')->first();
 
-        $this->assertEquals($article->getQuantityAtDate($date3, 'current_quantity'), 10);
+        $this->assertEquals($article->getQuantityAtDate($date3, 'current_quantity'), 5);
     }
 
 

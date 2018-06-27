@@ -14,8 +14,10 @@ class ResizeContentColumnsInOrderMessages extends Migration
      */
     public function up()
     {
-        DB::statement("ALTER TABLE order_messages MODIFY htmlBody mediumtext;");
-        DB::statement("ALTER TABLE order_messages MODIFY textBody mediumtext;");
+        if (env('DB_CONNECTION') !== 'sqlite_testing') {
+            DB::statement("ALTER TABLE order_messages MODIFY htmlBody mediumtext;");
+            DB::statement("ALTER TABLE order_messages MODIFY textBody mediumtext;");
+        }
     }
 
     /**

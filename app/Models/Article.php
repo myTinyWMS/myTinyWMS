@@ -244,7 +244,15 @@ class Article extends AuditableModel
             $article = $this;
         }
 
-        return (!is_null($article->{$fieldInSubquery})) ? $article->{$fieldInSubquery} : $article->quantity;
+        if (!is_null($article->{$fieldInSubquery})) {
+            return $article->{$fieldInSubquery};
+        }
+
+        if ($article->created_at->gt($date)) {
+            return 0;
+        }
+
+        return $article->quantity;
     }
 
     public function scopeWithAverageUsage($query) {
