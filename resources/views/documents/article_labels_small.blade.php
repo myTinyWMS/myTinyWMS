@@ -11,7 +11,7 @@
     <div style="width: 90px; padding: 0; float: left; text-align: left">
         <img src="data:image/png;base64,{{ $barcodes[$article->id] }}" />
         <br>
-        <span style="font-size: 8px">{{ date("d.m.Y") }}</span>
+        <span style="font-size: 10px">{{ date("d.m.Y") }}</span>
     </div>
     <div style="width: 170px;  float: right; text-align: center">
         <span style="font-size: 43px;">{{ $article->article_number ?? '#'.$article->id }}</span>
