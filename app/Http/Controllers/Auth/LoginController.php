@@ -3,6 +3,7 @@
 namespace Mss\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Mss\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -57,6 +58,8 @@ class LoginController extends Controller
     {
         $login = request()->input('login');
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        Config::set('adldap_auth.usernames.eloquent', $field);
+        Config::set('adldap_auth.ldap.authenticate', 'samaccountname');
         request()->merge([$field => $login]);
         return $field;
     }
