@@ -39,7 +39,6 @@ COPY docker/worker/laravel-worker.conf.tpl /etc/supervisor/conf.d/laravel-worker
 # Copy scripts
 COPY docker/worker/init.sh /usr/local/bin/init.sh
 
-#VOLUME /var/www/app
 COPY . /data/www
 
 RUN set -e -x \

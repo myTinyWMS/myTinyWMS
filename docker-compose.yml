@@ -2,6 +2,7 @@ version: '2'
 services:
   app:
     container_name: mss_app
+    hostname: app
     build:
       context: .
     image: project_mss
@@ -15,6 +16,7 @@ services:
     volumes:
     - .:/data/www
     - ./data/storage:/data/www/storage
+    - ./data/cache:/data/www/bootstrap/cache
     - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
     - ./docker/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
     - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini
@@ -26,16 +28,17 @@ services:
     - TERM=xterm
     tmpfs:
     - /ramdisk:rw,noexec,nosuid,size=50M
-    - /data/www/bootstrap/cache:rw,noexec,nosuid,size=50M
     command: supervisord -c /etc/supervisor/supervisord.conf
 
   worker:
     container_name: mss_worker
+    hostname: worker
     build:
       context: .
       dockerfile: Dockerfile-Worker
     volumes:
       - .:/data/www
+      - ./data/cache:/data/www/bootstrap/cache
     environment:
       - QUEUE_NAME=default
       - QUEUE_CONNECTION=database
