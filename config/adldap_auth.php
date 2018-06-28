@@ -256,11 +256,9 @@ return [
     */
 
     'sync_attributes' => [
-
         'email' => 'userprincipalname',
-
+        'username' => 'samaccountname',
         'name' => 'cn',
-
     ],
 
     /*
