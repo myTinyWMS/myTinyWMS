@@ -50,7 +50,7 @@ var SignatureButton = function (context) {
                 <h5>Neue Nachricht an {{ $order->supplier->name }}</h5>
             </div>
             <div class="ibox-content">
-                {{ Form::bsText('receiver', $preSetReceiver ?: $order->supplier->email, [], 'Empfänger (mehrere mit Komma getrennt)') }}
+                {{ Form::bsText('receiver', $preSetReceiver ?: str_replace(';', ',', $order->supplier->email), [], 'Empfänger (mehrere mit Komma getrennt)') }}
                 {{ Form::bsText('subject', $preSetSubject, [], 'Betreff') }}
                 {{ Form::summernote('body', $preSetBody, [], 'Nachricht') }}
 
