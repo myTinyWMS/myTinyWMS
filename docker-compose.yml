@@ -30,19 +30,6 @@ services:
     - /ramdisk:rw,noexec,nosuid,size=50M
     command: supervisord -c /etc/supervisor/supervisord.conf
 
-  worker:
-    container_name: mss_worker
-    hostname: worker
-    build:
-      context: .
-      dockerfile: Dockerfile-Worker
-    volumes:
-      - .:/data/www
-      - ./data/cache:/data/www/bootstrap/cache
-    environment:
-      - QUEUE_NAME=default
-      - QUEUE_CONNECTION=database
-
   db:
     container_name: mss_db
     build:
