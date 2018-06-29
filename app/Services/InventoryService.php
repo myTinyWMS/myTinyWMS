@@ -42,6 +42,11 @@ class InventoryService {
         return Excel::download(new InventoryReport($month, $inventoryType), 'inventory_report_'.$month.'.xlsx');
     }
 
+    public static function generateReportAsFile($month, $inventoryType) {
+        Excel::store(new InventoryReport($month, $inventoryType), 'inventory_report_'.$month.'.xlsx');
+        return storage_path('app/inventory_report_'.$month.'.xlsx');
+    }
+
     public static function generateDeliveriesWithoutInvoiceReport($date) {
         $openItems = OrderItem::with(['order', 'article'])->whereHas('order.deliveries')->where('invoice_received', 0)->get()->filter(function ($orderItem) {
             return $orderItem->deliveryItems->sum('quantity');
