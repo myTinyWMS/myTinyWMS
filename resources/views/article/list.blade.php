@@ -11,7 +11,14 @@
                     <h5>Artikelübersicht</h5>
                     <div class="pull-right">
                         <a href="{{ route('article.create') }}" class="btn btn-primary btn-xs">Neuer Artikel</a>
-                        <a href="{{ route('article.mass_update_form') }}" class="btn btn-default btn-xs">Massenupdate</a>
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle" aria-expanded="true">weitere Aktionen <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('article.mass_update_form') }}">Massenupdate</a></li>
+                                <li><a href="{{ route('article.inventory_update_form') }}">Inventurupdate</a></li>
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
                 <div class="ibox-content">

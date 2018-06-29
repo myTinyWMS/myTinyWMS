@@ -366,4 +366,26 @@ class ArticleController extends Controller
         $attachment = $article->files[$file];
         return response()->download(storage_path('app/article_files/'.$attachment['storageName']), $attachment['orgName'], ['Content-Type' => $attachment['mimeType']]);
     }
+
+    public function inventoryUpdateForm() {
+        $articles = Article::active()->with(['category', 'unit'])->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
+            return optional($article->category)->name;
+        })->ksort();
+
+        return view('article.inventory_update', compact('articles'));
+    }
+
+    public function inventoryUpdateSave(Request $request) {
+        Article::whereIn('id', array_keys($request->get('quantity')))->get()->each(function ($article) use ($request) {
+            /* @var Article $article */
+            $newQuantity = $request->get('quantity')[$article->id];
+            if ($newQuantity != $article->quantity) {
+                $article->changeQuantity(($newQuantity - $article->quantity), ArticleQuantityChangelog::TYPE_INVENTORY, 'Inventurupdate '.date("d.m.Y"));
+            }
+        });
+
+        flash('Änderungen gespeichert');
+
+        return response()->redirectToRoute('article.inventory_update_form', 'success');
+    }
 }
