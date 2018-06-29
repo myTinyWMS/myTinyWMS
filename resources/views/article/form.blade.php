@@ -68,7 +68,11 @@
 
                     <div class="row">
                         <div class="col-lg-6">
+                            @if (!empty($article->unit_id))
+                            {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => '', 'disabled' => 'disabled', 'title' => 'Nicht änderbar!']) }}
+                            @else
                             {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => '']) }}
+                            @endif
                         </div>
                         <div class="col-lg-6">
                             {{ Form::bsText('sort_id', $article->sort_id ?? 0, [], 'Sortierung') }}
