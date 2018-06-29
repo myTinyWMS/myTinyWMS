@@ -138,7 +138,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="changelogCurrentQuantity" class="control-label">aktueller Bestand</label>
                                     <div class="form-control-static">
@@ -147,16 +147,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label for="changelogNewQuantity" class="control-label">neuer Bestand</label>
-                                    <div class="form-control-static">
-                                        <span id="changelogNewQuantity"></span>
-                                        {{ optional($article->unit)->name }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 col-lg-offset-2">
                                 <div class="form-group">
                                     <label for="changelogNewQuantity" class="control-label">Entnahmemenge</label>
                                     <div class="form-control-static">
@@ -224,6 +215,19 @@
             alert('Achtung. Änderung der Einheit nur in Absprache mit der Buchhaltung bzw. Geschäftsleitung!')
         });
         @endif
+
+        $('#changelogSubmit').click(function () {
+            if (changelogMath === 'sub' && parseInt($('#changelogCurrentQuantity').attr('data-quantity')) < parseInt($('#changelogChange').val())) {
+                alert('Es ist nicht möglich mehr auszubuchen');
+                return false;
+            }
+            var message = 'Du willst den Bestand um ';
+            message += (changelogMath === 'sub') ? 'MINUS ' : 'PLUS ';
+            message += $('#changelogChange').val() + ' ändern - als ';
+            message += '"' + $('#changelogType option:selected').text() + '". SICHER?';
+
+            return confirm(message);
+        });
 
         $('#changelogChange').keyup(function () {
             updateNewChangelogQuantity();
