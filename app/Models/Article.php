@@ -159,18 +159,33 @@ class Article extends AuditableModel
         $this->save();
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeActive($query) {
-        $query->whereIn('status', [self::STATUS_ACTIVE, self::STATUS_NO_ORDERS]);
+        return $query->whereIn('status', [self::STATUS_ACTIVE, self::STATUS_NO_ORDERS]);
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeOrderedByName($query) {
-        $query->orderBy('name');
+        return $query->orderBy('name');
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeOrderedByArticleNumber($query) {
-        $query->orderBy('article_number');
+        return $query->orderBy('article_number');
     }
 
+    /**
+     * @return array
+     */
     public static function getStatusTextArray() {
         return [
             self::STATUS_ACTIVE => 'aktiv',
@@ -179,6 +194,9 @@ class Article extends AuditableModel
         ];
     }
 
+    /**
+     * @return array
+     */
     public static function getInventoryTextArray() {
         return [
             0 => 'Ersatzteile',
@@ -186,10 +204,16 @@ class Article extends AuditableModel
         ];
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
+     */
     public function getShortChangelog() {
         return $this->quantityChangelogs()->with(['user', 'deliveryItem.delivery.order', 'unit'])->latest()->take(30)->get();
     }
 
+    /**
+     * @return mixed
+     */
     public function openOrderItems() {
         return $this->belongsToMany(Order::class, 'order_items', 'article_id', 'order_id')->with('items.order.deliveries')->statusOpen();
     }
@@ -232,27 +256,17 @@ class Article extends AuditableModel
         return $data;
     }
 
-    public function getLatestReceipt() {
-        return $this->quantityChangelogs()->where('type', ArticleQuantityChangelog::TYPE_INCOMING)->latest()->first();
+    protected function getAuditMappings() {
+        return [
+            'status' => [
+                0 => [0, '0', 'deaktiviert'],
+                1 => [1, '1', 'aktiv']
+            ]
+        ];
     }
 
-    public function getQuantityAtDate($date, $fieldInSubquery = null) {
-        if (empty($fieldInSubquery)) {
-            $fieldInSubquery = 'current_quantity';
-            $article = Article::where('id', $this->id)->withQuantityAtDate($date, $fieldInSubquery)->first();
-        } else {
-            $article = $this;
-        }
-
-        if (!is_null($article->{$fieldInSubquery})) {
-            return $article->{$fieldInSubquery};
-        }
-
-        if ($article->created_at->gt($date)) {
-            return 0;
-        }
-
-        return $article->quantity;
+    public function getLatestReceipt() {
+        return $this->quantityChangelogs()->where('type', ArticleQuantityChangelog::TYPE_INCOMING)->latest()->first();
     }
 
     public function scopeWithAverageUsage($query) {
@@ -269,20 +283,6 @@ class Article extends AuditableModel
         $query->addSubSelect('last_receipt', ArticleQuantityChangelog::select('created_at')
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
             ->where('type', ArticleQuantityChangelog::TYPE_INCOMING)
-            ->latest()
-        );
-    }
-
-    /**
-     * @param $query
-     * @param Carbon $date
-     * @param $fieldname
-     */
-    public function scopeWithQuantityAtDate($query, $date, $fieldname) {
-        $query->addSubSelect($fieldname, ArticleQuantityChangelog::select('new_quantity')
-            ->whereRaw('articles.id = article_quantity_changelogs.article_id')
-            ->whereIn('type', [ArticleQuantityChangelog::TYPE_START, ArticleQuantityChangelog::TYPE_CORRECTION, ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_INVENTORY, ArticleQuantityChangelog::TYPE_OUTGOING])
-            ->where('created_at', '<=', $date->copy()->startOfDay()->format('Y-m-d H:i:s'))
             ->latest()
         );
     }

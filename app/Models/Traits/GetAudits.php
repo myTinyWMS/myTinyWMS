@@ -34,7 +34,7 @@ trait GetAudits {
 
             return [
                 'timestamp' => Carbon::parse($metaData['audit_created_at']),
-                'user' => $audit->user->name,
+                'user' => optional($audit->user)->name,
                 'modified' => $modified
             ];
         });
