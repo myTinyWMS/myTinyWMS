@@ -5,10 +5,6 @@
         page-break-inside: avoid;
         padding-top: 15px;
     }
-
-    div.page:not(:last-child) {
-        page-break-after: always;
-    }
 </style>
 
 @foreach($articles as $article)
