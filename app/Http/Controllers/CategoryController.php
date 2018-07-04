@@ -104,6 +104,8 @@ class CategoryController extends Controller
         $categories = Category::withActiveArticles()->orderedByName()->find($categories);
 
         $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->setOption('margin-top', 30);
+
         return $pdf->loadView('documents.category_article_list', compact('categories'))->download('lagerliste.pdf');
     }
 }

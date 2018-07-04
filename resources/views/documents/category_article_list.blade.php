@@ -16,7 +16,7 @@
             }
 
             h1 {
-                font-size: 24px;
+                font-size: 30px;
                 page-break-after: avoid !important;
                 page-break-inside: avoid !important;
             }
