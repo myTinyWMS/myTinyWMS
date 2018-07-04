@@ -1,11 +1,13 @@
 <style type="text/css">
     @import 'https://fonts.googleapis.com/css?family=Roboto+Mono';
 
-    div.page
-    {
-        page-break-after: always;
+    div.page {
         page-break-inside: avoid;
         padding-top: 15px;
+    }
+
+    div.page:not(:last-child) {
+        page-break-after: always;
     }
 </style>
 
