@@ -97,13 +97,10 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                 /* @var Article $article */
                 $currentSupplierArticle = $article->getSupplierArticleAtDate($start);
                 $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $start) : 0;
+                $status = $article->getAttributeAtDate('status', $start);
 
-                if (!$currentSupplierArticle) {
+                if (!$status) {
                     dd($article);
-                }
-
-                if (!$currentSupplierArticle->supplier) {
-                    dd($article, $currentSupplierArticle);
                 }
 
                 return [
@@ -114,7 +111,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'Bestellnummer' => optional($currentSupplierArticle)->order_number,
                     'Kategorie' => optional($article->category)->name,
                     'Einheit' => optional($article->unit)->name,
-                    'Status' => Article::getStatusTextArray()[$article->getAttributeAtDate('status', $start)],
+                    'Status' => $status ? Article::getStatusTextArray()[$status] : '',
                     'Anfangsbestand' => $article->getAttributeAtDate('quantity', $start),
                     'Warenausgang' => $article->total_outgoing ?? 0,
                     'Wareneingang' => $article->total_incoming ?? 0,
