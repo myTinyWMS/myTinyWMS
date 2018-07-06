@@ -129,7 +129,6 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'Kontrolle' => "=-(P$i+Q$i+R$i-U$i)",
                 ];
             });
-        dd($articles);
 
         $articles->prepend(array_keys($articles->first()));
         return $articles;
