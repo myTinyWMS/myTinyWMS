@@ -4,6 +4,7 @@ namespace Mss\Models\Traits;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Mss\Models\Article;
 
 trait GetAudits {
 
@@ -63,7 +64,8 @@ trait GetAudits {
         })->sortBy('created_at');
 
         // model didn't exists before requested date
-        if ($date->lt($this->created_at)) {
+        $ignoreArticleCreatedDate = (!empty(env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT')) && $this->id <= env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT') && $this instanceof Article);
+        if (!$ignoreArticleCreatedDate && $date->lt($this->created_at)) {
             return null;
         }
 
