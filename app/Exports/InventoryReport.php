@@ -90,7 +90,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             ->get();
 
         /* @var $articles Collection */
-        $articles
+        $articles = $articles
             ->filter(function ($article) use ($end) {
                 $ignoreArticleCreatedDate = (!empty(env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT')) && $article->id <= env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT'));
                 return ($ignoreArticleCreatedDate || $article->created_at->lt($end));
