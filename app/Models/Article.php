@@ -318,6 +318,7 @@ class Article extends AuditableModel
         // article didn't exists before requested date
         $ignoreArticleCreatedDate = (!empty(env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT')) && $this->id <= env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT'));
         if (!$ignoreArticleCreatedDate && $date->lt($this->created_at)) {
+            dump(env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT'));
             dd($this);
             return null;
         }
