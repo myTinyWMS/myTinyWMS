@@ -98,6 +98,14 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                 $currentSupplierArticle = $article->getSupplierArticleAtDate($start);
                 $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $start) : 0;
 
+                if (!$currentSupplierArticle) {
+                    dd($article);
+                }
+
+                if (!$currentSupplierArticle->supplier) {
+                    dd($article, $currentSupplierArticle);
+                }
+
                 return [
                     'Artikelnummer' => $article->article_number,
                     'Artikelname' => $article->getAttributeAtDate('name', $start),
