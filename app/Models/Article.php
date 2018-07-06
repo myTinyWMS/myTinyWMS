@@ -316,7 +316,8 @@ class Article extends AuditableModel
         $supplierArticles = $this->supplierArticles->sortByDesc('created_at');
 
         // article didn't exists before requested date
-        if ($date->lt($this->created_at)) {
+        $ignoreArticleCreatedDate = (!empty(env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT')) && $this->id <= env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT'));
+        if (!$ignoreArticleCreatedDate && $date->lt($this->created_at)) {
             return null;
         }
 
