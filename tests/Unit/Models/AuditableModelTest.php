@@ -57,7 +57,7 @@ class ArticleTest extends TestCase {
             'status' => 0
         ]);
 
-        $this->createAudit($article, ['status' => 'aktiv'], ['status' => 'deaktiviert'], Carbon::now()->subWeeks(1));
+        $this->createArticleAudit($article, ['status' => 'aktiv'], ['status' => 'deaktiviert'], Carbon::now()->subWeeks(1));
 
         $this->assertEquals(null, $article->getAttributeAtDate('status', Carbon::now()->subWeeks(3)));
     }
@@ -70,7 +70,7 @@ class ArticleTest extends TestCase {
             'status' => 0
         ]);
 
-        $this->createAudit($article, ['status' => 'aktiv'], ['status' => 'deaktiviert'], Carbon::now()->subWeeks(1));
+        $this->createArticleAudit($article, ['status' => 'aktiv'], ['status' => 'deaktiviert'], Carbon::now()->subWeeks(1));
 
         $this->assertEquals(1, $article->getAttributeAtDate('status', Carbon::now()->subWeeks(2)));
     }
@@ -83,9 +83,9 @@ class ArticleTest extends TestCase {
             'status' => 0
         ]);
 
-        $this->createAudit($article, ['status' => 'aktiv'], ['status' => 'deaktiviert'], Carbon::now()->subWeeks(4));
-        $this->createAudit($article, ['status' => 'deaktiviert'], ['status' => 'aktiv'], Carbon::now()->subWeeks(3));
-        $this->createAudit($article, ['status' => 'aktiv'], ['status' => 'deaktiviert'], Carbon::now()->subWeeks(1));
+        $this->createArticleAudit($article, ['status' => 'aktiv'], ['status' => 'deaktiviert'], Carbon::now()->subWeeks(4));
+        $this->createArticleAudit($article, ['status' => 'deaktiviert'], ['status' => 'aktiv'], Carbon::now()->subWeeks(3));
+        $this->createArticleAudit($article, ['status' => 'aktiv'], ['status' => 'deaktiviert'], Carbon::now()->subWeeks(1));
 
         $this->assertEquals(1, $article->getAttributeAtDate('status', Carbon::now()->subWeeks(2)));
     }
@@ -98,7 +98,7 @@ class ArticleTest extends TestCase {
             'status' => 0
         ]);
 
-        $this->createAudit($article, ['status' => 'aktiv'], ['status' => 'deaktiviert'], Carbon::now()->subWeeks(1));
+        $this->createArticleAudit($article, ['status' => 'aktiv'], ['status' => 'deaktiviert'], Carbon::now()->subWeeks(1));
 
         $this->assertEquals(0, $article->getAttributeAtDate('status', Carbon::now()));
     }

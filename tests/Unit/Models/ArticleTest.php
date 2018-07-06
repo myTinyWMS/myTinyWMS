@@ -3,6 +3,9 @@
 namespace Tests\Unit\Services;
 
 use Carbon\Carbon;
+use Mss\Models\ArticleSupplier;
+use Mss\Models\Supplier;
+use OwenIt\Auditing\Models\Audit;
 use Tests\TestCase;
 use Mss\Models\Article;
 use Tests\Unit\Models\HelperTrait;
@@ -48,5 +51,107 @@ class ArticleTest extends TestCase
 
         $article = Article::where('id', $article->id)->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INCOMING, 'total_incoming')->first();
         $this->assertEquals(15, $article->total_incoming);
+    }
+
+    public function test_getSupplierArticleAtDate_returns_null_as_requested_date_is_before_created_at() {
+        $supplier = factory(Supplier::class)->create(['created_at' => now()->subWeeks(1)]);
+        /* @var $article Article */
+        $article = factory(Article::class)->create(['created_at' => now()->subWeeks(1)]);
+        $supplierArticle = ArticleSupplier::create([
+            'created_at' => now()->subWeeks(1),
+            'article_id' => $article->id,
+            'supplier_id' => $supplier->id,
+            'order_number' => '1',
+            'price' => 1
+        ]);
+
+        $article = Article::where('id', $article->id)->withCurrentSupplierArticle()->first();
+        $article->load('supplierArticles');
+        $this->assertEquals(null, $article->getSupplierArticleAtDate(now()->subWeeks(2)));
+    }
+
+    public function test_getSupplierArticleAtDate_returns_current_value_as_requested_date_is_after_created_at() {
+        $supplier = factory(Supplier::class)->create(['created_at' => now()->subWeeks(1)]);
+        /* @var $article Article */
+        $article = factory(Article::class)->create(['created_at' => now()->subWeeks(1)]);
+        $supplierArticle = ArticleSupplier::create([
+            'created_at' => now()->subWeeks(1),
+            'article_id' => $article->id,
+            'supplier_id' => $supplier->id,
+            'order_number' => '1',
+            'price' => 1
+        ]);
+        $article = Article::where('id', $article->id)->withCurrentSupplierArticle()->first();
+        $article->load('supplierArticles');
+
+        $this->assertTrue($supplierArticle->is($article->getSupplierArticleAtDate(now())));
+    }
+
+    public function test_getSupplierArticleAtDate_returns_previous_value_as_requested_date_is_before_last_item() {
+        $supplier1 = factory(Supplier::class)->create(['created_at' => now()->subWeeks(4)]);
+        $supplier2 = factory(Supplier::class)->create(['created_at' => now()->subWeeks(4)]);
+        /* @var $article Article */
+        $article = factory(Article::class)->create(['created_at' => now()->subWeeks(4)]);
+
+        $supplierArticle1 = ArticleSupplier::create([
+            'created_at' => now()->subWeeks(3),
+            'article_id' => $article->id,
+            'supplier_id' => $supplier1->id,
+            'order_number' => '1',
+            'price' => 1
+        ]);
+
+        $supplierArticle2 = ArticleSupplier::create([
+            'created_at' => now()->subWeeks(1),
+            'article_id' => $article->id,
+            'supplier_id' => $supplier2->id,
+            'order_number' => '1',
+            'price' => 1
+        ]);
+
+        $article = Article::where('id', $article->id)->withCurrentSupplierArticle()->first();
+        $article->load('supplierArticles');
+
+        $this->assertTrue($supplierArticle1->is($article->getSupplierArticleAtDate(now()->subWeeks(2))));
+    }
+
+    public function test_old_price_of_supplier_article_returned_after_changing_price_and_supplier_article() {
+        $supplier1 = factory(Supplier::class)->create(['created_at' => now()->subWeeks(4)]);
+        $supplier2 = factory(Supplier::class)->create(['created_at' => now()->subWeeks(4)]);
+        /* @var $article Article */
+        $article = factory(Article::class)->create(['created_at' => now()->subWeeks(4)]);
+
+        $supplierArticle1 = ArticleSupplier::create([
+            'created_at' => now()->subWeeks(4),
+            'article_id' => $article->id,
+            'supplier_id' => $supplier1->id,
+            'order_number' => '1',
+            'price' => 1
+        ]);
+
+        $supplierArticle2 = ArticleSupplier::create([
+            'created_at' => now()->subWeeks(1),
+            'article_id' => $article->id,
+            'supplier_id' => $supplier2->id,
+            'order_number' => '1',
+            'price' => 3
+        ]);
+
+        Audit::create([
+            'user_id' => 1,
+            'event' => 'updated',
+            'auditable_type' => 'Mss\Models\ArticleSupplier',
+            'auditable_id' => $supplierArticle1->id,
+            'old_values' => ['price' => 2],
+            'new_values' => ['price' => 1],
+            'created_at' => now()->subWeeks(2),
+        ]);
+
+        $article = Article::where('id', $article->id)->withCurrentSupplierArticle()->first();
+        $article->load('supplierArticles');
+
+        $this->assertEquals(2, $article->getSupplierArticleAtDate(now()->subWeeks(3))->getAttributeAtDate('price', now()->subWeeks(3)));
+        $this->assertEquals(1, $article->getSupplierArticleAtDate(now()->subWeeks(1)->subDay())->getAttributeAtDate('price', now()->subWeeks(1)->subDay()));
+        $this->assertEquals(3, $article->getSupplierArticleAtDate(now()->subDays(3))->getAttributeAtDate('price', now()->subDays(3)));
     }
 }

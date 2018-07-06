@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Mss\Models\Traits\Taggable;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -303,5 +304,34 @@ class Article extends AuditableModel
 
         $audits = $this->getAudits();
         return collect($audits->toArray())->merge($articleSupplierAudits)->sortByDesc('timestamp');
+    }
+
+    /**
+     * @param $date
+     * @return ArticleSupplier|null
+     */
+    public function getSupplierArticleAtDate($date) {
+        $date = ($date instanceof Carbon) ? $date : Carbon::parse($date);
+
+        $supplierArticles = $this->supplierArticles->sortByDesc('created_at');
+
+        // article didn't exists before requested date
+        if ($date->lt($this->created_at)) {
+            return null;
+        }
+
+        // no changes to after requested date, use current value
+        if ($supplierArticles->count() === 1) {
+            return $supplierArticles->first();
+        }
+
+        // search for first change after requested date, use old value
+        $firstSupplierArticleAfterDate = $supplierArticles->firstWhere('created_at', '<', $date);
+        if ($firstSupplierArticleAfterDate) {
+            return $firstSupplierArticleAfterDate;
+        }
+
+        Log::error('No SupplierArticle found', compact('supplierArticles'));
+        return null;
     }
 }

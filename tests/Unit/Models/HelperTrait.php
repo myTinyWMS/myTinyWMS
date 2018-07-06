@@ -24,7 +24,7 @@ trait HelperTrait {
             'change' => $change
         ]);
 
-        $this->createAudit($article, ['quantity' => $article->quantity], ['quantity' => $newQuantity], $createdAt);
+        $this->createArticleAudit($article, ['quantity' => $article->quantity], ['quantity' => $newQuantity], $createdAt);
         $article->quantity = $newQuantity;
     }
 
@@ -34,7 +34,7 @@ trait HelperTrait {
      * @param $newValues
      * @param $createdAt
      */
-    protected function createAudit($article, $oldValues, $newValues, $createdAt) {
+    protected function createArticleAudit($article, $oldValues, $newValues, $createdAt) {
         Audit::create([
             'user_id' => 1,
             'event' => 'updated',

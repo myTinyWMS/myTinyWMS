@@ -85,7 +85,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_OUTGOING, 'total_outgoing')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_CORRECTION, 'total_correction')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INVENTORY, 'total_inventory')
-            ->with(['unit', 'category', 'audits'])
+            ->with(['unit', 'category', 'supplierArticles.audits', 'audits'])
             ->orderedByArticleNumber()
             ->get();
 
@@ -93,13 +93,17 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
         $articles
             ->transform(function ($article, $key) use ($start, $end) {
                 $i = $key + 2;
+
                 /* @var Article $article */
+                $currentSupplierArticle = $article->getSupplierArticleAtDate($start);
+                $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $start) : 0;
+
                 return [
                     'Artikelnummer' => $article->article_number,
-                    'Artikelname' => $article->name,
-                    'Lieferant' => optional($article->currentSupplier)->name,
-                    'Preis' => $article->currentSupplierArticle ? round(($article->currentSupplierArticle->price / 100), 2) : 0,
-                    'Bestellnummer' => optional($article->currentSupplierArticle)->order_number,
+                    'Artikelname' => $article->getAttributeAtDate('name', $start),
+                    'Lieferant' => optional($currentSupplierArticle->supplier)->name,
+                    'Preis' => $currentPrice ? round(($currentPrice / 100), 2) : 0,
+                    'Bestellnummer' => optional($currentSupplierArticle)->order_number,
                     'Kategorie' => optional($article->category)->name,
                     'Einheit' => optional($article->unit)->name,
                     'Status' => Article::getStatusTextArray()[$article->getAttributeAtDate('status', $start)],
