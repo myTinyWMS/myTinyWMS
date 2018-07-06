@@ -318,6 +318,7 @@ class Article extends AuditableModel
         // article didn't exists before requested date
         $ignoreArticleCreatedDate = (!empty(env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT')) && $this->id <= env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT'));
         if (!$ignoreArticleCreatedDate && $date->lt($this->created_at)) {
+            dd($this);
             return null;
         }
 
@@ -332,6 +333,7 @@ class Article extends AuditableModel
             return $firstSupplierArticleAfterDate;
         }
 
+        dd(compact('supplierArticles'));
         Log::error('No SupplierArticle found', compact('supplierArticles'));
         return null;
     }
