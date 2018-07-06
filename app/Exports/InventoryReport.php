@@ -87,11 +87,12 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INVENTORY, 'total_inventory')
             ->with(['unit', 'category', 'supplierArticles.audits', 'supplierArticles.supplier', 'audits'])
             ->orderedByArticleNumber()
-            ->get()
-            ->filter(function ($article) use ($end) {
-                $ignoreArticleCreatedDate = (!empty(env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT')) && $article->id <= env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT'));
-                return ($ignoreArticleCreatedDate || $article->created_at->lt($end));
-            });
+            ->get();
+
+        $articles = $articles->filter(function ($article) use ($end) {
+            $ignoreArticleCreatedDate = (!empty(env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT')) && $article->id <= env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT'));
+            return ($ignoreArticleCreatedDate || $article->created_at->lt($end));
+        });
 
         /* @var $articles Collection */
         $articles
