@@ -103,6 +103,10 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     dd($article);
                 }
 
+                if (!$currentSupplierArticle->supplier) {
+                    dd($article, $currentSupplierArticle);
+                }
+
                 return [
                     'Artikelnummer' => $article->article_number,
                     'Artikelname' => $article->getAttributeAtDate('name', $start),
