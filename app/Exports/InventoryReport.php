@@ -76,41 +76,43 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
         $start = Carbon::parse($this->month.'-01');
         $end = $start->copy()->endOfMonth();
 
-        /* @var $articles Collection */
-
         $articles = !is_null($this->inventoryType) ? Article::where('inventory', $this->inventoryType) : Article::query();
 
-        $articles = $articles->withCurrentSupplier()
+        $articles = $articles
+            ->withCurrentSupplier()
             ->withCurrentSupplierArticle()
-            ->withQuantityAtDate($start, 'quantity_start')
-            ->withQuantityAtDate($end->copy()->addDay(), 'quantity_end')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INCOMING, 'total_incoming')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_OUTGOING, 'total_outgoing')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_CORRECTION, 'total_correction')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INVENTORY, 'total_inventory')
-            ->with(['unit', 'category'])
+            ->with(['unit', 'category', 'supplierArticles.audits', 'audits'])
             ->orderedByArticleNumber()
             ->get();
 
+        /* @var $articles Collection */
         $articles
             ->transform(function ($article, $key) use ($start, $end) {
                 $i = $key + 2;
+
                 /* @var Article $article */
+                $currentSupplierArticle = $article->getSupplierArticleAtDate($start);
+                $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $start) : 0;
+
                 return [
                     'Artikelnummer' => $article->article_number,
-                    'Artikelname' => $article->name,
-                    'Lieferant' => optional($article->currentSupplier)->name,
-                    'Preis' => $article->currentSupplierArticle ? round(($article->currentSupplierArticle->price / 100), 2) : 0,
-                    'Bestellnummer' => optional($article->currentSupplierArticle)->order_number,
+                    'Artikelname' => $article->getAttributeAtDate('name', $start),
+                    'Lieferant' => optional($currentSupplierArticle->supplier)->name,
+                    'Preis' => $currentPrice ? round(($currentPrice / 100), 2) : 0,
+                    'Bestellnummer' => optional($currentSupplierArticle)->order_number,
                     'Kategorie' => optional($article->category)->name,
                     'Einheit' => optional($article->unit)->name,
-                    'Status' => Article::getStatusTextArray()[$article->status],
-                    'Anfangsbestand' => $article->getQuantityAtDate($start, 'quantity_start'),
+                    'Status' => Article::getStatusTextArray()[$article->getAttributeAtDate('status', $start)],
+                    'Anfangsbestand' => $article->getAttributeAtDate('quantity', $start),
                     'Warenausgang' => $article->total_outgoing ?? 0,
                     'Wareneingang' => $article->total_incoming ?? 0,
                     'Korrektur' => $article->total_correction ?? 0,
                     'Inventur' => $article->total_inventory ?? 0,
-                    'Endbestand' => $article->getQuantityAtDate($start, 'quantity_end'),
+                    'Endbestand' => $article->getAttributeAtDate('quantity', $end),
                     'Monat' => $this->month,
                     'AB Eur' => "=I$i*\$D$i",
                     'WA Eur' => "=J$i*\$D$i",

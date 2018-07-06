@@ -62,21 +62,21 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
             ->withCurrentSupplierArticle()
             ->active()
             ->orderedByArticleNumber()
-            ->withQuantityAtDate($this->date, 'current_quantity')
             ->with(['unit', 'category'])
             ->get();
 
         // filter empty items
         $articles = $articles->filter(function ($article) {
-            return ($article->getQuantityAtDate($this->date, 'current_quantity') > 0);
+            /* @var Article $article */
+            return ($article->getAttributeAtDate('quantity', $this->date) > 0);
         });
 
         // reset keys
         $articles = collect($articles->values());
         $articles->transform(function ($article, $key) {
-                $quantity = $article->getQuantityAtDate($this->date, 'current_quantity');
-                $i = $key + 2;
                 /* @var Article $article */
+                $quantity = $article->getAttributeAtDate('quantity', $this->date);
+                $i = $key + 2;
                 return [
                     'Kategorie' => optional($article->category)->name,
                     'Artikelname' => $article->name,
