@@ -45,6 +45,10 @@ class ArticleSupplier extends Pivot implements Auditable
         return $this->belongsTo(Article::class);
     }
 
+    public function supplier() {
+        return $this->belongsTo(Supplier::class);
+    }
+
     /**
      * @return string
      */
