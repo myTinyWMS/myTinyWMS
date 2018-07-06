@@ -112,7 +112,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'Bestellnummer' => optional($currentSupplierArticle)->order_number,
                     'Kategorie' => optional($article->category)->name,
                     'Einheit' => optional($article->unit)->name,
-                    'Status' => $status ? Article::getStatusTextArray()[$status] : '',
+                    'Status' => in_array($status, array_keys(Article::getStatusTextArray())) ? Article::getStatusTextArray()[$status] : '',
                     'Anfangsbestand' => $article->getAttributeAtDate('quantity', $start),
                     'Warenausgang' => $article->total_outgoing ?? 0,
                     'Wareneingang' => $article->total_incoming ?? 0,
