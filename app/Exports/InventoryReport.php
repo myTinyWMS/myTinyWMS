@@ -91,17 +91,17 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
 
         /* @var $articles Collection */
         $articles
-            ->filter(function ($article) use ($start) {
+            ->filter(function ($article) use ($end) {
                 $ignoreArticleCreatedDate = (!empty(env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT')) && $article->id <= env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT'));
-                return ($ignoreArticleCreatedDate || $article->created_at->gt($start));
+                return ($ignoreArticleCreatedDate || $article->created_at->lt($end));
             })
             ->transform(function ($article, $key) use ($start, $end) {
                 $i = $key + 2;
 
                 /* @var Article $article */
-                $currentSupplierArticle = $article->getSupplierArticleAtDate($start);
-                $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $start) : 0;
-                $status = $article->getAttributeAtDate('status', $start);
+                $currentSupplierArticle = $article->getSupplierArticleAtDate($end);
+                $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $end) : 0;
+                $status = $article->getAttributeAtDate('status', $end);
 
                 if (!in_array($status, [0,1])) {
                     dd($article);
@@ -113,7 +113,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
 
                 return [
                     'Artikelnummer' => $article->article_number,
-                    'Artikelname' => $article->getAttributeAtDate('name', $start),
+                    'Artikelname' => $article->getAttributeAtDate('name', $end),
                     'Lieferant' => $currentSupplierArticle->supplier ? $currentSupplierArticle->supplier->name : '',
                     'Preis' => $currentPrice ? round(($currentPrice / 100), 2) : 0,
                     'Bestellnummer' => optional($currentSupplierArticle)->order_number,
