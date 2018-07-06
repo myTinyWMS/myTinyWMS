@@ -103,14 +103,6 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                 $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $end) : 0;
                 $status = $article->getAttributeAtDate('status', $end);
 
-                if (!in_array($status, [0,1])) {
-                    dd($article);
-                }
-
-                if (!$currentSupplierArticle) {
-                    dd($article);
-                }
-
                 return [
                     'Artikelnummer' => $article->article_number,
                     'Artikelname' => $article->getAttributeAtDate('name', $end),
@@ -136,6 +128,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'Kontrolle' => "=-(P$i+Q$i+R$i-U$i)",
                 ];
             });
+        dd($articles);
 
         $articles->prepend(array_keys($articles->first()));
         return $articles;
