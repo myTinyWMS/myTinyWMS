@@ -99,7 +99,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                 $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $start) : 0;
                 $status = $article->getAttributeAtDate('status', $start);
 
-                if (!$status) {
+                if (!in_array($status, [0,1])) {
                     dd($article);
                 }
 
