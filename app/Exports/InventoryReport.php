@@ -113,12 +113,12 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'Kategorie' => optional($article->category)->name,
                     'Einheit' => optional($article->unit)->name,
                     'Status' => in_array($status, array_keys(Article::getStatusTextArray())) ? Article::getStatusTextArray()[$status] : '',
-                    'Anfangsbestand' => $article->getAttributeAtDate('quantity', $start),
+                    'Anfangsbestand' => $article->getAttributeAtDate('quantity', $start->copy()->subDay()),   // getQuantityAtDate uses end of the day
                     'Warenausgang' => $article->total_outgoing ?? 0,
                     'Wareneingang' => $article->total_incoming ?? 0,
                     'Korrektur' => $article->total_correction ?? 0,
                     'Inventur' => $article->total_inventory ?? 0,
-                    'Endbestand' => $article->getAttributeAtDate('quantity', $end->copy()->addDay()),   // getQuantityAtDate uses beginning of the day
+                    'Endbestand' => $article->getAttributeAtDate('quantity', $end),
                     'Monat' => $this->month,
                     'AB Eur' => "=I$i*\$D$i",
                     'WA Eur' => "=J$i*\$D$i",

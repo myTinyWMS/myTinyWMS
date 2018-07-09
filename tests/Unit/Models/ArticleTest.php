@@ -20,10 +20,10 @@ class ArticleTest extends TestCase
         /* @var $article Article */
         $article = factory(Article::class)->create([
             'quantity' => 20,
-            'created_at' => Carbon::now()->subDays(6)
+            'created_at' => Carbon::now()->subDays(5)
         ]);
 
-        $this->createArticleChangelog(Carbon::now()->subDays(5), $article, 5, ArticleQuantityChangelog::TYPE_INCOMING, 5);
+        $this->createArticleChangelog(Carbon::now()->subDays(4), $article, 5, ArticleQuantityChangelog::TYPE_INCOMING, 5);
         $this->createArticleChangelog(Carbon::now()->subDays(3), $article, 10, ArticleQuantityChangelog::TYPE_INCOMING, 5);
         $this->createArticleChangelog(Carbon::now()->subDays(2), $article, 15, ArticleQuantityChangelog::TYPE_INCOMING, 5);
         $this->createArticleChangelog(Carbon::now()->subDays(1), $article, 20, ArticleQuantityChangelog::TYPE_INCOMING, 5);

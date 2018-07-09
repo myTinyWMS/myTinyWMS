@@ -358,7 +358,7 @@ class Article extends AuditableModel
         $query->addSubSelect($fieldname, ArticleQuantityChangelog::select('new_quantity')
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
             ->whereIn('type', [ArticleQuantityChangelog::TYPE_START, ArticleQuantityChangelog::TYPE_CORRECTION, ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_INVENTORY, ArticleQuantityChangelog::TYPE_OUTGOING])
-            ->where('created_at', '<=', $date->copy()->startOfDay()->format('Y-m-d H:i:s'))
+            ->where('created_at', '<=', $date->copy()->endOfDay()->format('Y-m-d H:i:s'))
             ->latest()
         );
     }
