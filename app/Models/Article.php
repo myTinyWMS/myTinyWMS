@@ -27,6 +27,9 @@ class Article extends AuditableModel
     const STATUS_ACTIVE = 1;
     const STATUS_NO_ORDERS = 2;
 
+    const INVENTORY_TYPE_SPARE_PARTS = 0;
+    const INVENTORY_TYPE_CONSUMABLES = 1;
+
     protected $fillable = ['name', 'article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes'];
 
     protected $casts = [
@@ -200,8 +203,8 @@ class Article extends AuditableModel
      */
     public static function getInventoryTextArray() {
         return [
-            0 => 'Ersatzteile',
-            1 => 'Verbrauchsartikel'
+            self::INVENTORY_TYPE_SPARE_PARTS => 'Ersatzteile',
+            self::INVENTORY_TYPE_CONSUMABLES => 'Verbrauchsartikel'
         ];
     }
 

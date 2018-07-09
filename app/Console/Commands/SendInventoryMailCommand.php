@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use Mss\Mail\InventoryMail;
+use Mss\Models\Article;
 use Mss\Services\InventoryService;
 
 class SendInventoryMailCommand extends Command
@@ -51,7 +52,7 @@ class SendInventoryMailCommand extends Command
         }
 
         $excelFilePath = InventoryService::generateExcel($date);
-        $inventoryReportPath = InventoryService::generateReportAsFile($date->copy()->subDay()->format('Y-m'), null);
+        $inventoryReportPath = InventoryService::generateReportAsFile($date->copy()->subDay()->format('Y-m'), Article::INVENTORY_TYPE_CONSUMABLES);
         $invoicesWithoutDeliveryPath = InventoryService::generateInvoicesWithoutDeliveryReport($date);
         $deliveriesWithoutInvoicesPath = InventoryService::generateDeliveriesWithoutInvoiceReport($date);
 
