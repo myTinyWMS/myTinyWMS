@@ -94,6 +94,9 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             return ($ignoreArticleCreatedDate || $article->created_at->lt($end));
         });
 
+        // reset keys
+        $articles = collect($articles->values());
+
         /* @var $articles Collection */
         $articles
             ->transform(function ($article, $key) use ($start, $end) {
