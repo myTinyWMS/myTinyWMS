@@ -104,10 +104,6 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                 $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $end) : 0;
                 $status = $article->getAttributeAtDate('status', $end);
 
-                if (!in_array($status, array_keys(Article::getStatusTextArray()))) {
-                    dd($status);
-                }
-
                 return [
                     'Artikelnummer' => $article->article_number,
                     'Artikelname' => $article->getAttributeAtDate('name', $end),
@@ -122,7 +118,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'Wareneingang' => $article->total_incoming ?? 0,
                     'Korrektur' => $article->total_correction ?? 0,
                     'Inventur' => $article->total_inventory ?? 0,
-                    'Endbestand' => $article->getAttributeAtDate('quantity', $end),
+                    'Endbestand' => $article->getAttributeAtDate('quantity', $end->copy()->addDay()),   // getQuantityAtDate uses beginning of the day
                     'Monat' => $this->month,
                     'AB Eur' => "=I$i*\$D$i",
                     'WA Eur' => "=J$i*\$D$i",
