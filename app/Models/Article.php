@@ -335,4 +335,54 @@ class Article extends AuditableModel
         Log::error('No SupplierArticle found', compact('supplierArticles'));
         return null;
     }
+
+    /**
+     * @param string $attribute
+     * @param Carbon|string $date
+     * @return mixed|null
+     */
+    public function getAttributeAtDate($attribute, $date) {
+        if ($attribute === 'quantity') {
+            return $this->getQuantityAtDate($date);
+        } else {
+            return parent::getAttributeAtDate($attribute, $date);
+        }
+    }
+
+    /**
+     * @param $query
+     * @param Carbon $date
+     * @param $fieldname
+     */
+    public function scopeWithQuantityAtDate($query, $date, $fieldname) {
+        $query->addSubSelect($fieldname, ArticleQuantityChangelog::select('new_quantity')
+            ->whereRaw('articles.id = article_quantity_changelogs.article_id')
+            ->whereIn('type', [ArticleQuantityChangelog::TYPE_START, ArticleQuantityChangelog::TYPE_CORRECTION, ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_INVENTORY, ArticleQuantityChangelog::TYPE_OUTGOING])
+            ->where('created_at', '<=', $date->copy()->startOfDay()->format('Y-m-d H:i:s'))
+            ->latest()
+        );
+    }
+
+    /**
+     * @param $date
+     * @return int|mixed
+     */
+    public function getQuantityAtDate($date) {
+        if (empty($fieldInSubquery)) {
+            $fieldInSubquery = 'current_quantity';
+            $article = Article::where('id', $this->id)->withQuantityAtDate($date, $fieldInSubquery)->first();
+        } else {
+            $article = $this;
+        }
+
+        if (!is_null($article->{$fieldInSubquery})) {
+            return $article->{$fieldInSubquery};
+        }
+
+        if ($article->created_at->gt($date)) {
+            return 0;
+        }
+
+        return $article->quantity;
+    }
 }
