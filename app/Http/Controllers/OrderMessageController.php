@@ -6,6 +6,7 @@ namespace Mss\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Mss\DataTables\AssignOrderDataTable;
@@ -53,7 +54,7 @@ class OrderMessageController extends Controller {
         $attachments = collect(json_decode($request->get('attachments'), true));
         $attachments->transform(function ($attachment) {
             $fileName = Uuid::generate(4)->string;
-            if (Storage::move($attachment['tempFile'], 'attachments/'.$fileName)) {
+            if (rename(storage_path('app/'.$attachment['tempFile']), storage_path('attachments/'.$fileName))) {
                 return [
                     'fileName' => $fileName,
                     'contentType' => $attachment['type'],
@@ -67,14 +68,14 @@ class OrderMessageController extends Controller {
         });
 
         if (count($receivers) > 1) {
-            Mail::to($receivers->first())->cc($receivers->slice(1))->queue(new SupplierMail (
-                $request->get('subject'), $request->get('body'), $attachments
-            ));
+            $mail = Mail::to($receivers->first())->cc($receivers->slice(1));
         } else {
-            Mail::to($receivers)->queue(new SupplierMail (
-                $request->get('subject'), $request->get('body'), $attachments
-            ));
+            $mail = Mail::to($receivers);
         }
+
+        $mail->queue(new SupplierMail (
+            $request->get('subject'), $request->get('body'), $attachments
+        ));
 
         $order->messages()->create([
             'user_id' => Auth::id(),
@@ -138,14 +139,22 @@ class OrderMessageController extends Controller {
     }
 
     public function unassignedMessages(AssignOrderDataTable $assignOrderDataTable) {
-        $unassignedMessages = OrderMessage::unassigned()->get();
+        $unassignedMessages = OrderMessage::unassigned()->unread()->get();
 
         return $assignOrderDataTable->render('order_messages.unsassigned_messages', compact('unassignedMessages'));
     }
 
     public function messageAttachmentDownload(OrderMessage $message, $attachment) {
         $attachment = $message->attachments->where('fileName', $attachment)->first();
-        return response()->download(storage_path('attachments/'.$attachment['fileName']), $attachment['orgFileName'], ['Content-Type' => $attachment['contentType']]);
+        $filePath = storage_path('attachments/'.$attachment['fileName']);
+        if (!file_exists($filePath)) {
+            $filePath = storage_path('app/attachments/'.$attachment['fileName']);
+            if (!file_exists($filePath)) {
+                return response("Datei nicht gefunden", 404);
+            }
+        }
+
+        return response()->download($filePath, $attachment['orgFileName'], ['Content-Type' => $attachment['contentType']]);
     }
 
     public function assignToOrder(Request $request) {
@@ -160,5 +169,34 @@ class OrderMessageController extends Controller {
 
         flash('Nachricht nicht verschoben')->error();
         return redirect()->route('order.messages_unassigned');
+    }
+
+    public function forwardForm(OrderMessage $message) {
+        $preSetBody = $message->htmlBody;
+        $preSetReceiver = null;
+        $preSetSubject = 'FW: '.$message->subject;
+
+        return view('order_messages.forward', compact('preSetBody', 'preSetReceiver', 'preSetSubject', 'message'));
+    }
+
+    public function forward(OrderMessage $message, Request $request) {
+        $receivers = collect(explode(',', $request->get('receiver')))->transform(function ($receiver) {
+            return trim($receiver);
+        });
+
+        if (count($receivers) > 1) {
+            $mail = Mail::to($receivers->first())->cc($receivers->slice(1));
+        } else {
+            $mail = Mail::to($receivers);
+        }
+
+        $body = (!empty($message->htmlBody)) ? $message->htmlBody : $message->textBody;
+        $mail->queue(new SupplierMail (
+            'FW '.$message->subject, $body, $message->attachments
+        ));
+
+        flash('Nachricht weitergeleitet')->success();
+
+        return redirect()->back();
     }
 }

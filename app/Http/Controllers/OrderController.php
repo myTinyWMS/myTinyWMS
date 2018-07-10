@@ -38,7 +38,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(OrderDataTable $orderDataTable) {
-        $unassignedMessages = OrderMessage::unassigned()->count();
+        $unassignedMessages = OrderMessage::unassigned()->unread()->count();
         $supplier = Supplier::orderedByName()->get();
 
         return $orderDataTable->render('order.list', compact('unassignedMessages', 'supplier'));
@@ -195,7 +195,7 @@ class OrderController extends Controller
     public function show($id, AssignOrderDataTable $assignOrderDataTable) {
         $order = Order::with('items.order.items')->findOrFail($id);
         $audits = $order->getAudits();
-        $messages = $order->messages()->latest('received')->get();
+        $messages = $order->messages()->with('user')->latest('received')->get();
 
         return $assignOrderDataTable->render('order.show', compact('order', 'audits', 'messages'));
     }

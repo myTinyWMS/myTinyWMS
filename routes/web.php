@@ -64,12 +64,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('order/message/{message}/attachment-download/{attachment}', 'OrderMessageController@messageAttachmentDownload')->name('order.message_attachment_download');
     Route::get('order/{order}/message/new', 'OrderMessageController@create')->name('order.message_new');
     Route::post('order/{order}/message/new', 'OrderMessageController@store')->name('order.message_create');
-    Route::post('order/message/{message}/delete/{order?}', 'OrderMessageController@delete')->name('order.message_delete');
+    Route::get('order/message/{message}/delete/{order?}', 'OrderMessageController@delete')->name('order.message_delete');
     Route::get('order/{order}/message/{message}/read', 'OrderMessageController@markRead')->name('order.message_read');
     Route::get('order/{order}/message/{message}/unread', 'OrderMessageController@markUnread')->name('order.message_unread');
     Route::get('order/message/unassigned', 'OrderMessageController@unassignedMessages')->name('order.messages_unassigned');
     Route::post('order/{order}/message/upload', 'OrderMessageController@uploadNewAttachments')->name('order.message_upload');
     Route::post('order/message/assign', 'OrderMessageController@assignToOrder')->name('order.message_assign');
+    Route::get('order/message/{message}/forward', 'OrderMessageController@forwardForm')->name('order.message_forward_form');
+    Route::post('order/message/{message}/forward', 'OrderMessageController@forward')->name('order.message_forward');
 
     Route::post('article/reorder', 'ArticleController@reorder')->name('article.reorder');
     Route::post('article/print-label', 'ArticleController@printLabel')->name('article.print_label');
