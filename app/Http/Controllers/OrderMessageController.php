@@ -180,6 +180,7 @@ class OrderMessageController extends Controller {
     }
 
     public function forward(OrderMessage $message, Request $request) {
+        $message->load('order');
         $receivers = collect(explode(',', $request->get('receiver')))->transform(function ($receiver) {
             return trim($receiver);
         });
@@ -197,6 +198,10 @@ class OrderMessageController extends Controller {
 
         flash('Nachricht weitergeleitet')->success();
 
-        return redirect()->back();
+        if ($message->order) {
+            return response()->redirectToRoute('order.show', $message->order);
+        } else {
+            return response()->redirectToRoute('order.messages_unassigned');
+        }
     }
 }
