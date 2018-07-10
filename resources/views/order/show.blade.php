@@ -155,7 +155,7 @@
                                     <small class="p-t-8"># {{ $item->article->article_number }}</small>
                                     <br>
                                     <br>
-                                    @if ($item->article->getCurrentSupplierArticle()->price != $item->price)
+                                    @if (($item->article->getCurrentSupplierArticle()->price / 100) != $item->price)
                                     <span class="text-danger font-bold font-14">Achtung, aktueller Artikelpreis weicht von Preis aus dieser Bestellung ab!</span>
                                     @endif
                                 </h3>
