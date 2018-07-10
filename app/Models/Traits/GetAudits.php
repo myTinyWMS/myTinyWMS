@@ -65,7 +65,8 @@ trait GetAudits {
 
         // model didn't exists before requested date
         $ignoreArticleCreatedDate = (!empty(env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT')) && $this->id <= env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT') && $this instanceof Article);
-        if (!$ignoreArticleCreatedDate && $date->lt($this->created_at)) {
+        $ignoreRelatedArticleCreatedAt = ($this->article && $this->article instanceof Article && !empty(env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT')) && $this->article->id <= env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT'));
+        if (!$ignoreArticleCreatedDate && !$ignoreRelatedArticleCreatedAt && $date->lt($this->created_at)) {
             return null;
         }
 

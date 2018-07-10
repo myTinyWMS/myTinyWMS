@@ -7,7 +7,7 @@ use Tests\TestCase;
 use Mss\Models\Order;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ArticleTest extends TestCase
+class OrderTest extends TestCase
 {
     use DatabaseMigrations;
 

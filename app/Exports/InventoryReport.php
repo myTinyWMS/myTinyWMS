@@ -85,7 +85,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_OUTGOING, 'total_outgoing')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_CORRECTION, 'total_correction')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INVENTORY, 'total_inventory')
-            ->with(['unit', 'category', 'supplierArticles.audits', 'supplierArticles.supplier', 'audits'])
+            ->with(['unit', 'category', 'supplierArticles.audits', 'supplierArticles.supplier', 'supplierArticles.article', 'audits'])
             ->orderedByArticleNumber()
             ->get();
 
@@ -106,10 +106,6 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                 $currentSupplierArticle = $article->getSupplierArticleAtDate($end);
                 $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $end) : 0;
                 $status = $article->getAttributeAtDate('status', $end);
-
-                if (!$currentSupplierArticle) {
-                    dd($article);
-                }
 
                 return [
                     'Artikelnummer' => $article->article_number,
