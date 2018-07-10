@@ -337,6 +337,11 @@ class Article extends AuditableModel
             return $firstSupplierArticleAfterDate;
         }
 
+        // we have a imported article, return oldest supplierArticle Item
+        if ($ignoreArticleCreatedDate && $this->created_at->lt($supplierArticles->first()->created_at)) {
+            return $supplierArticles->last();
+        }
+
         Log::error('No SupplierArticle found', compact('supplierArticles'));
         return null;
     }
