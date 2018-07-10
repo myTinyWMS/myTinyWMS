@@ -154,7 +154,10 @@
                                     <br/>
                                     <small class="p-t-8"># {{ $item->article->article_number }}</small>
                                     <br>
-                                    <small class="p-t-12">aktueller Preis: {!! formatPrice($item->article->getCurrentSupplierArticle()->price / 100) !!} / {{ optional($item->article->unit)->name }}</small>
+                                    <br>
+                                    @if ($item->article->getCurrentSupplierArticle()->price != $item->price)
+                                    <span class="text-danger font-bold font-14">Achtung, aktueller Artikelpreis weicht von Preis aus dieser Bestellung ab!</span>
+                                    @endif
                                 </h3>
                             </div>
                             <div class="col-lg-7">
