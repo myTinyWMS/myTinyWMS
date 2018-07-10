@@ -73,9 +73,14 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
 
         // reset keys
         $articles = collect($articles->values());
+
         $articles->transform(function ($article, $key) {
                 /* @var Article $article */
+                $currentSupplierArticle = $article->getSupplierArticleAtDate($this->date);
+                $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $this->date) : 0;
+                $status = $article->getAttributeAtDate('status', $this->date);
                 $quantity = $article->getAttributeAtDate('quantity', $this->date);
+
                 $i = $key + 2;
                 return [
                     'Kategorie' => optional($article->category)->name,
@@ -83,9 +88,9 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
                     'Artikelnummer' => $article->article_number,
                     'Bestand' => $quantity,
                     'Einheit' => optional($article->unit)->name,
-                    'aktueller Preis' => $article->currentSupplierArticle ? round(($article->currentSupplierArticle->price / 100), 2) : 0,
+                    'aktueller Preis' => $currentPrice ? round(($currentPrice / 100), 2) : 0,
                     'Gesamtbetrag' => "=D$i*F$i",
-                    'Status' => Article::getStatusTextArray()[$article->status]
+                    'Status' => in_array($status, array_keys(Article::getStatusTextArray())) ? Article::getStatusTextArray()[$status] : ''
                 ];
             });
 
