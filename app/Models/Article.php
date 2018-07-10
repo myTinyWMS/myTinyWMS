@@ -27,6 +27,8 @@ class Article extends AuditableModel
     const STATUS_ACTIVE = 1;
     const STATUS_NO_ORDERS = 2;
 
+    protected $auditsToDisplay = 50;
+
     const INVENTORY_TYPE_SPARE_PARTS = 0;
     const INVENTORY_TYPE_CONSUMABLES = 1;
 
