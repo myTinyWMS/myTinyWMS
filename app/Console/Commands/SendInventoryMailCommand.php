@@ -51,7 +51,7 @@ class SendInventoryMailCommand extends Command
             $cc = ['mail@example.com', 'mail@example.com'];
         }
 
-        $excelFilePath = InventoryService::generateExcel($date);
+        $excelFilePath = InventoryService::generateExcel($date->copy()->subDay());
         $inventoryReportPath = InventoryService::generateReportAsFile($date->copy()->subDay()->format('Y-m'), Article::INVENTORY_TYPE_CONSUMABLES);
         $invoicesWithoutDeliveryPath = InventoryService::generateInvoicesWithoutDeliveryReport($date);
         $deliveriesWithoutInvoicesPath = InventoryService::generateDeliveriesWithoutInvoiceReport($date);

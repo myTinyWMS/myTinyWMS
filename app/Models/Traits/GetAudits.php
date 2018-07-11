@@ -56,7 +56,7 @@ trait GetAudits {
      * @return mixed|null
      */
     public function getAttributeAtDate($attribute, $date) {
-        $date = ($date instanceof Carbon) ? $date : Carbon::parse($date);
+        $date = ($date instanceof Carbon) ? $date->endOfDay() : Carbon::parse($date)->endOfDay();
 
         /* @var $audits \Illuminate\Support\Collection */
         $audits = $this->audits->filter(function ($audit) use ($attribute) {

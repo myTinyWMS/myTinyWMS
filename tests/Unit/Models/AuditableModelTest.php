@@ -49,6 +49,39 @@ class ArticleTest extends TestCase {
         $this->assertEquals(12, $article->getAttributeAtDate('quantity', $date));
     }
 
+    public function test_quantity_at_date_requested_day_does_not_count() {
+        /* @var $article Article */
+        $article = factory(Article::class)->create([
+            'quantity' => 12,
+            'created_at' => Carbon::parse('2018-05-10 10:00:00')
+        ]);
+
+        $this->createArticleChangelog(Carbon::parse('2018-05-23 10:00:00'), $article, 10, ArticleQuantityChangelog::TYPE_OUTGOING, 1);
+        $this->createArticleChangelog(Carbon::parse('2018-05-28 10:00:00'), $article, 9, ArticleQuantityChangelog::TYPE_OUTGOING, 1);
+        $this->createArticleChangelog(Carbon::parse('2018-05-31 10:00:00'), $article, 8, ArticleQuantityChangelog::TYPE_OUTGOING, 1);
+        $this->createArticleChangelog(Carbon::parse('2018-05-31 16:00:00'), $article, 7, ArticleQuantityChangelog::TYPE_OUTGOING, 1);
+        $this->createArticleChangelog(Carbon::parse('2018-06-01 10:00:00'), $article, 6, ArticleQuantityChangelog::TYPE_OUTGOING, 1);
+
+        $this->assertEquals(7, $article->getAttributeAtDate('quantity', Carbon::parse('2018-05-31')));
+    }
+
+    public function test_getAttributeAtDate_returns_correct_value_of_end_of_previous_day() {
+        /* @var $article Article */
+        $article = factory(Article::class)->create([
+            'created_at' => Carbon::parse('2018-05-10 10:00:00'),
+            'quantity' => 25,
+            'status' => 0
+        ]);
+
+        $this->createArticleAudit($article, ['status' => 'aktiv'], ['status' => 'deaktiviert'], Carbon::parse('2018-05-23 10:00:00'));
+        $this->createArticleAudit($article, ['status' => 'deaktiviert'], ['status' => 'aktiv'], Carbon::parse('2018-05-28 10:00:00'));
+        $this->createArticleAudit($article, ['status' => 'aktiv'], ['status' => 'deaktiviert'], Carbon::parse('2018-05-31 10:00:00'));
+        $this->createArticleAudit($article, ['status' => 'deaktiviert'], ['status' => 'aktiv'], Carbon::parse('2018-05-31 16:00:00'));
+        $this->createArticleAudit($article, ['status' => 'aktiv'], ['status' => 'deaktiviert'], Carbon::parse('2018-06-01 10:00:00'));
+
+        $this->assertEquals(1, $article->getAttributeAtDate('status', Carbon::parse('2018-05-31')));
+    }
+
     public function test_getAttributeAtDate_returns_null_as_request_date_is_before_creation_date() {
         /* @var $article Article */
         $article = factory(Article::class)->create([

@@ -316,7 +316,7 @@ class Article extends AuditableModel
      * @return ArticleSupplier|null
      */
     public function getSupplierArticleAtDate($date) {
-        $date = ($date instanceof Carbon) ? $date : Carbon::parse($date);
+        $date = ($date instanceof Carbon) ? $date->endOfDay() : Carbon::parse($date)->endOfDay();
 
         $supplierArticles = $this->supplierArticles->sortByDesc('created_at');
 
@@ -374,10 +374,12 @@ class Article extends AuditableModel
     }
 
     /**
-     * @param $date
+     * @param Carbon $date
      * @return int|mixed
      */
     public function getQuantityAtDate($date) {
+        $date = $date->endOfDay();
+
         if (empty($fieldInSubquery)) {
             $fieldInSubquery = 'current_quantity';
             $article = Article::where('id', $this->id)->withQuantityAtDate($date, $fieldInSubquery)->first();
