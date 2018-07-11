@@ -17,8 +17,13 @@ class InventoryService {
     /**
      * @return PdfWrapper
      */
-    public static function generatePdf() {
-        $articles = Article::where('inventory', true)->active()->orderedByArticleNumber()->with(['unit', 'category'])->get();
+    public static function generatePdf($inventoryType = null) {
+        $articles = Article::active()->orderedByArticleNumber()->with(['unit', 'category']);
+        if (!is_null($inventoryType)) {
+            $articles->where('inventory', $inventoryType);
+        }
+        $articles = $articles->get();
+
         $groupedArticles = $articles->groupBy(function ($article) {
             return $article->category->name;
         })->ksort();
