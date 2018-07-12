@@ -25,7 +25,7 @@ RUN set -e -x \
             --with-freetype-dir=/usr/include/freetype2 \
             --with-png-dir=/usr/include \
             --with-jpeg-dir=/usr/include \
-    && docker-php-ext-install gd \
+    && docker-php-ext-install gd pcntl \
     && docker-php-ext-install mbstring \
     && docker-php-ext-enable opcache gd \
     && pecl install redis-3.1.2 xdebug \
