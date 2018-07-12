@@ -22,6 +22,7 @@
         "laravelcollective/html": "^5.4.0",
         "maatwebsite/excel": "^3.0",
         "owen-it/laravel-auditing": "^6.0",
+        "predis/predis": "^1.1",
         "sentry/sentry-laravel": "^0.8.0",
         "webklex/laravel-imap": "1.0.4.1",
         "webpatser/laravel-uuid": "^3.0",
