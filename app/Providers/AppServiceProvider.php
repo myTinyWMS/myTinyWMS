@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Webklex\IMAP\Facades\Client;
 use Laravel\Dusk\DuskServiceProvider;
+use Laravel\Horizon\Horizon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -48,6 +49,10 @@ class AppServiceProvider extends ServiceProvider
             ksort($this->items);
 
             return $this;
+        });
+
+        Horizon::auth(function ($request) {
+            return true;
         });
     }
 
