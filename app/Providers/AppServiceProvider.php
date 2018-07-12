@@ -51,6 +51,9 @@ class AppServiceProvider extends ServiceProvider
             return $this;
         });
 
+        if (!empty(env('HORIZON_NOTIFICATION_RECEIVER'))) {
+            Horizon::routeMailNotificationsTo(env('HORIZON_NOTIFICATION_RECEIVER'));
+        }
         Horizon::auth(function ($request) {
             return true;
         });
