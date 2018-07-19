@@ -53,11 +53,14 @@
                                                 <div id="tab-{{ $loop->iteration }}" class="tab-pane @if($loop->first) active @endif">
                                                     <div class="pull-right">
                                                         <div class="tooltip-demo">
-                                                            <a href="#" class="btn btn-white btn-xs" title="In Bestellung verschieben" data-message-id="{{ $message->id }}" data-toggle="modal" data-target="#assignMessageModal"><i class="fa fa-share"></i> Verschieben</a>
-                                                            <form action="{{ route('order.message_delete', [$message]) }}" class="list-form" method="POST">
-                                                                {{ csrf_field() }}
-                                                                <button class="btn btn-white btn-xs" onclick="return confirm('Wirklich löschen?')" title="Nachricht löschen"><i class="fa fa-trash-o"></i> Löschen</button>
-                                                            </form>
+                                                            <div class="btn-group">
+                                                                <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle" aria-expanded="true">Aktionen <span class="caret"></span></button>
+                                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                                    <li><a href="{{ route('order.message_forward_form', [$message]) }}" title="Weiterleiten"><i class="fa fa-forward"></i> Weiterleiten</a></li>
+                                                                    <li><a href="#" title="In Bestellung verschieben" data-message-id="{{ $message->id }}" data-toggle="modal" data-target="#assignMessageModal"><i class="fa fa-share"></i> Verschieben</a></li>
+                                                                    <li><a href="{{ route('order.message_delete', ['message' => $message]) }}" onclick="return confirm('Wirklich löschen?')" title="Nachricht löschen"><i class="fa fa-trash-o"></i> Löschen</a></li>
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="small text-muted">
@@ -72,7 +75,7 @@
                                                     <h1>{{ $message->subject }}</h1>
 
                                                     @if (!empty($message->htmlBody))
-                                                        <iframe seamless frameborder="0" class="full-width" srcdoc='{!! htmlspecialchars($message->htmlBody)  !!}'></iframe>
+                                                        <iframe seamless frameborder="0" class="full-width" height="600" srcdoc="{!! htmlspecialchars($message->htmlBody) !!}"></iframe>
                                                     @else
                                                         {!! nl2br($message->textBody) !!}
                                                     @endif

@@ -42,7 +42,7 @@ class ArticleDataTable extends BaseDataTable
                 return $article->min_quantity;
             })
             ->editColumn('name', function (Article $article) {
-                return link_to_route('article.show', $article->name, ['article' => $article]);
+                return link_to_route('article.show', $article->name, ['article' => $article], ['target' => '_blank']);
             })
             ->addColumn('price', function (Article $article) {
                 return formatPrice(optional($article->currentSupplierArticle)->price / 100);
@@ -50,7 +50,7 @@ class ArticleDataTable extends BaseDataTable
             ->addColumn('order_number', function (Article $article) {
                 $orderNumber = optional($article->currentSupplierArticle)->order_number;
 
-                if ($article->openOrders->count()) {
+                if ($article->openOrders()->count()) {
                     $orderNumber .= '<i class="fa fa-shopping-cart pull-right" title="offene Bestellung"></i>';
                 }
 
@@ -130,7 +130,7 @@ class ArticleDataTable extends BaseDataTable
     {
         return $model->newQuery()
             ->withCurrentSupplierArticle()->withCurrentSupplier()->withCurrentSupplierName()->withAverageUsage()->withLastReceipt()
-            ->with(['category', 'suppliers', 'unit', 'tags', 'openOrders']);
+            ->with(['category', 'suppliers', 'unit', 'tags', 'openOrderItems']);
     }
 
     /**
@@ -149,12 +149,12 @@ class ArticleDataTable extends BaseDataTable
 
     protected function getHtmlParameters() {
         $parameters = [
-            'order' => [[1, 'asc']]
+            'order' => [[2, 'asc']]
         ];
 
         if ($this->sortingEnabled) {
             $parameters['rowReorder'] = [
-                'selector' => 'tr>td:nth-child(2)', // I allow all columns for dragdrop except the last
+                'selector' => 'tr>td:nth-child(2)',
                 'dataSrc' => 'sort_id',
                 'update' => false // this is key to prevent DT auto update
             ];
@@ -172,8 +172,8 @@ class ArticleDataTable extends BaseDataTable
     {
         return [
             ['data' => 'checkbox', 'name' => 'checkbox', 'title' => '<input type="checkbox" value="" id="select_all" />', 'width' => '10px', 'orderable' => false, 'class' => 'text-center'],
+            ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sort.', 'width' => '40px', 'visible' => false],
             ['data' => 'article_number', 'name' => 'article_number', 'title' => '#'],
-            ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sortierung', 'visible' => false],
             ['data' => 'name', 'name' => 'name', 'title' => 'Artikelbezeichnung'],
             ['data' => 'order_number', 'name' => 'order_number', 'title' => 'Bestellnummer'],
             ['data' => 'quantity', 'name' => 'quantity', 'title' => 'Bestand', 'class' => 'text-center', 'width' => '40px'],

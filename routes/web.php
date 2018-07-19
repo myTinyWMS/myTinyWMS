@@ -16,8 +16,10 @@ Auth::routes();
 Route::get('/', 'DashboardController@index');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('article/fix-inventory', 'ArticleController@fixInventoryForm')->name('article.fix_inventory_form');
-    Route::post('article/fix-inventory', 'ArticleController@fixInventorySave')->name('article.fix_inventory_save');
+    Route::get('article/mass-update', 'ArticleController@massUpdateForm')->name('article.mass_update_form');
+    Route::post('article/mass-update', 'ArticleController@massUpdateSave')->name('article.mass_update_save');
+    Route::get('article/inventory-update', 'ArticleController@inventoryUpdateForm')->name('article.inventory_update_form');
+    Route::post('article/inventory-update', 'ArticleController@inventoryUpdateSave')->name('article.inventory_update_save');
     Route::post('article/{article}/file_upload', 'ArticleController@fileUpload')->name('article.file_upload');
     Route::get('article/{article}/file-download/{file}', 'ArticleController@fileDownload')->name('article.file_download');
 
@@ -34,6 +36,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('reports/deliveries-without-invoice', 'ReportsController@deliveriesWithoutInvoice')->name('reports.deliveries_without_invoice');
     Route::get('reports/invoices-without-delivery', 'ReportsController@invoicesWithoutDelivery')->name('reports.invoices_without_delivery');
     Route::get('reports/inventory-pdf', 'ReportsController@generateInventoryPdf')->name('reports.inventory_pdf');
+    Route::get('reports/yearly-inventory-pdf', 'ReportsController@generateYearlyInventoryPdf')->name('reports.yearly_inventory_pdf');
     Route::post('reports/inventory-report', 'ReportsController@generateInventoryReport')->name('reports.inventory_report');
 
     Route::get('notification/{id}/delete', 'NotificationController@delete');
@@ -62,12 +65,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('order/message/{message}/attachment-download/{attachment}', 'OrderMessageController@messageAttachmentDownload')->name('order.message_attachment_download');
     Route::get('order/{order}/message/new', 'OrderMessageController@create')->name('order.message_new');
     Route::post('order/{order}/message/new', 'OrderMessageController@store')->name('order.message_create');
-    Route::post('order/message/{message}/delete/{order?}', 'OrderMessageController@delete')->name('order.message_delete');
+    Route::get('order/message/{message}/delete/{order?}', 'OrderMessageController@delete')->name('order.message_delete');
     Route::get('order/{order}/message/{message}/read', 'OrderMessageController@markRead')->name('order.message_read');
     Route::get('order/{order}/message/{message}/unread', 'OrderMessageController@markUnread')->name('order.message_unread');
     Route::get('order/message/unassigned', 'OrderMessageController@unassignedMessages')->name('order.messages_unassigned');
     Route::post('order/{order}/message/upload', 'OrderMessageController@uploadNewAttachments')->name('order.message_upload');
     Route::post('order/message/assign', 'OrderMessageController@assignToOrder')->name('order.message_assign');
+    Route::get('order/message/{message}/forward', 'OrderMessageController@forwardForm')->name('order.message_forward_form');
+    Route::post('order/message/{message}/forward', 'OrderMessageController@forward')->name('order.message_forward');
 
     Route::post('article/reorder', 'ArticleController@reorder')->name('article.reorder');
     Route::post('article/print-label', 'ArticleController@printLabel')->name('article.print_label');

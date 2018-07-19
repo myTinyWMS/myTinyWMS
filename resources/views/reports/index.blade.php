@@ -8,11 +8,12 @@
             <div class="contact-box center-version">
                 <a href="#">
                     <h3 class="m-b-xs"><strong>Inventurauswertung</strong></h3>
-                    <div class="font-bold">Monat auswählen um Report zu erstellen:</div>
+                    <div class="font-bold">Monat und Inventurtyp auswählen um Report zu erstellen:</div>
                 </a>
                 <div class="contact-box-footer">
                     <form method="post" action="{{ route('reports.inventory_report') }}" id="inventory-report">
                         {{ csrf_field() }}
+                        {{ Form::bsSelect('inventorytype', null, \Mss\Models\Article::getInventoryTextArray(),  'Inventur Typ', ['placeholder' => 'egal']) }}
                         <div class="m-t-xs btn-group">
                             <div id="monthpicker"></div>
                         </div>
@@ -26,8 +27,8 @@
             <div class="contact-box center-version">
 
                 <a href="{{ route('reports.inventory_pdf') }}">
-                    <h3 class="m-b-xs"><strong>Aktuelle Inventur-Liste</strong></h3>
-                    <div class="font-bold">&nbsp;</div>
+                    <h3 class="m-b-xs"><strong>Monats-Inventur-Liste</strong></h3>
+                    <div class="font-bold">aktive Verbrauchsmaterialien</div>
                 </a>
                 <div class="contact-box-footer">
                     <div class="m-t-xs btn-group">
@@ -35,11 +36,22 @@
                     </div>
                 </div>
             </div>
+            <div class="contact-box center-version">
+
+                <a href="{{ route('reports.inventory_pdf') }}">
+                    <h3 class="m-b-xs"><strong>Jahres-Inventur-Liste</strong></h3>
+                    <div class="font-bold">alle aktiven Artikel</div>
+                </a>
+                <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                        <a class="btn btn-white" href="{{ route('reports.yearly_inventory_pdf') }}"><i class="fa fa-download"></i> PDF herunterladen </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-lg-2">
             <div class="contact-box center-version">
-
                 <a href="{{ route('reports.deliveries_without_invoice') }}">
                     <h3 class="m-b-xs"><strong>Wareneingänge ohne Rechnung</strong></h3>
                     <div class="font-bold">&nbsp;</div>
@@ -50,11 +62,8 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-lg-2">
             <div class="contact-box center-version">
-
                 <a href="{{ route('reports.invoices_without_delivery') }}">
                     <h3 class="m-b-xs"><strong>Rechnungen ohne Wareneingang</strong></h3>
                     <div class="font-bold">&nbsp;</div>

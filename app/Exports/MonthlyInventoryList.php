@@ -51,33 +51,48 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
             'D' => NumberFormat::FORMAT_NUMBER,
             'E' => NumberFormat::FORMAT_TEXT,
             'F' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-            'G' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
+            'G' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'H' => NumberFormat::FORMAT_TEXT,
         ];
     }
 
     public function collection() {
+        /* @var $articles Collection */
         $articles = Article::where('inventory', true)
             ->withCurrentSupplierArticle()
             ->active()
             ->orderedByArticleNumber()
-            ->withQuantityAtDate($this->date, 'current_quantity')
             ->with(['unit', 'category'])
-            ->where('quantity', '>', 0)
             ->get();
 
-        /* @var $articles Collection */
-        $articles->transform(function ($article) {
+        // filter empty items
+        $articles = $articles->filter(function ($article) {
             /* @var Article $article */
-            return [
-                'Kategorie' => $article->category->name,
-                'Artikelname' => $article->name,
-                'Artikelnummer' => $article->article_number,
-                'Bestand' => $article->getQuantityAtDate($this->date, 'current_quantity'),
-                'Einheit' => optional($article->unit)->name,
-                'aktueller Preis' => round(($article->currentSupplierArticle->price / 100), 2),
-                'Gesamtbetrag' => round((($article->currentSupplierArticle->price * $article->quantity) / 100), 2)
-            ];
+            return ($article->getAttributeAtDate('quantity', $this->date) > 0);
         });
+
+        // reset keys
+        $articles = collect($articles->values());
+
+        $articles->transform(function ($article, $key) {
+                /* @var Article $article */
+                $currentSupplierArticle = $article->getSupplierArticleAtDate($this->date);
+                $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $this->date) : 0;
+                $status = $article->getAttributeAtDate('status', $this->date);
+                $quantity = $article->getAttributeAtDate('quantity', $this->date);
+
+                $i = $key + 2;
+                return [
+                    'Kategorie' => optional($article->category)->name,
+                    'Artikelname' => $article->name,
+                    'Artikelnummer' => $article->article_number,
+                    'Bestand' => $quantity,
+                    'Einheit' => optional($article->unit)->name,
+                    'aktueller Preis' => $currentPrice ? round(($currentPrice / 100), 2) : 0,
+                    'Gesamtbetrag' => "=D$i*F$i",
+                    'Status' => in_array($status, array_keys(Article::getStatusTextArray())) ? Article::getStatusTextArray()[$status] : ''
+                ];
+            });
 
         $articles->prepend(array_keys($articles->first()));
         return $articles;

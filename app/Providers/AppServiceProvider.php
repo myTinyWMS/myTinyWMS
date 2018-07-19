@@ -9,6 +9,8 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Webklex\IMAP\Facades\Client;
+use Laravel\Dusk\DuskServiceProvider;
+use Laravel\Horizon\Horizon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if ($this->app->environment('local', 'testing')) {
+            $this->app->register(DuskServiceProvider::class);
+        }
+
         Paginator::useBootstrapThree();
 
         setlocale(LC_TIME, 'de_DE.utf8');
@@ -43,6 +49,13 @@ class AppServiceProvider extends ServiceProvider
             ksort($this->items);
 
             return $this;
+        });
+
+        if (!empty(env('HORIZON_NOTIFICATION_RECEIVER'))) {
+            Horizon::routeMailNotificationsTo(env('HORIZON_NOTIFICATION_RECEIVER'));
+        }
+        Horizon::auth(function ($request) {
+            return true;
         });
     }
 

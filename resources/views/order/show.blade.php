@@ -39,7 +39,10 @@
 
                     <div class="col-xs-6">
                         <small class="stats-label">Lieferant</small>
-                        <h2><a href="{{ route('supplier.show', $order->supplier) }}" target="_blank">{{ optional($order->supplier)->name }}</a></h2>
+                        <h2>
+                            <a href="{{ route('supplier.show', $order->supplier) }}" target="_blank" title="Lieferant aufrufen">{{ optional($order->supplier)->name }}</a>
+                            <a href="{{ route('article.index', ['supplier' => $order->supplier->id]) }}" title="Artikel des Lieferanten aufrufen"><i class="fa fa-filter"></i></a>
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -151,7 +154,10 @@
                                     <br/>
                                     <small class="p-t-8"># {{ $item->article->article_number }}</small>
                                     <br>
-                                    <small class="p-t-12">aktueller Preis: {!! formatPrice($item->article->getCurrentSupplierArticle()->price / 100) !!} / {{ optional($item->article->unit)->name }}</small>
+                                    <br>
+                                    @if (($item->article->getCurrentSupplierArticle()->price / 100) != $item->price)
+                                    <span class="text-danger font-bold font-14">Achtung, aktueller Artikelpreis weicht von Preis aus dieser Bestellung ab!</span>
+                                    @endif
                                 </h3>
                             </div>
                             <div class="col-lg-7">

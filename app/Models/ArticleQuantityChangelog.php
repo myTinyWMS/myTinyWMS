@@ -13,6 +13,17 @@ class ArticleQuantityChangelog extends AuditableModel
 
     protected $fillable = ['created_at', 'updated_at', 'user_id', 'type', 'change', 'new_quantity', 'note', 'delivery_item_id', 'unit_id', 'article_id'];
 
+    public static function getAvailableTypes() {
+        return [
+            self::TYPE_START,
+            self::TYPE_INCOMING,
+            self::TYPE_OUTGOING,
+            self::TYPE_CORRECTION,
+            self::TYPE_COMMENT,
+            self::TYPE_INVENTORY
+        ];
+    }
+
     public function article() {
         return $this->belongsTo(Article::class);
     }

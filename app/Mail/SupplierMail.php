@@ -24,6 +24,8 @@ class SupplierMail extends Mailable
      */
     protected $body;
 
+    protected $username;
+
     /**
      * Create a new message instance.
      *
@@ -34,6 +36,7 @@ class SupplierMail extends Mailable
 
         $this->body = $body;
         $this->attachmentsList = $attachments ?? collect([]);
+        $this->username = Auth::user()->name;
     }
 
     /**
@@ -43,12 +46,16 @@ class SupplierMail extends Mailable
      */
     public function build() {
         $this->attachmentsList->each(function ($attachment) {
-            $this->attach(storage_path('app/attachments/'.$attachment['fileName']), [
-                'as' => $attachment['orgFileName'],
-                'mime' => $attachment['contentType']
-            ]);
+            if (file_exists(storage_path('attachments/'.$attachment['fileName'])) && is_readable(storage_path('attachments/'.$attachment['fileName']))) {
+                $this->attach(storage_path('attachments/'.$attachment['fileName']), [
+                    'as' => $attachment['orgFileName'],
+                    'mime' => $attachment['contentType']
+                ]);
+            } else {
+                Log::error('Unable to attach file to Mail', ['attachment' => $attachment, 'mail' => $this]);
+            }
         });
 
-        return $this->from('mail@example.com', Auth::user()->name)->view('emails.blank', ['content' => $this->body]);
+        return $this->from('mail@example.com', $this->username)->view('emails.blank', ['content' => $this->body]);
     }
 }

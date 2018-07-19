@@ -12,37 +12,23 @@ class InventoryMail extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @var string
-     */
-    protected $mimeType;
-
-    /**
-     * @var string
-     */
-    protected $fileContent;
-
-    /**
-     * @var string
-     */
-    protected $fileName;
-
-    /**
      * @var Carbon
      */
     protected $date;
 
     /**
+     * @var array
+     */
+    protected $files;
+
+    /**
      * InventoryMail constructor.
      * @param Carbon $date
-     * @param string $fileContent
-     * @param string $mimeType
-     * @param string $fileName
+     * @param array $files
      */
-    public function __construct(Carbon $date, $fileContent, $mimeType, $fileName)
+    public function __construct(Carbon $date, $files = [])
     {
-        $this->fileContent = $fileContent;
-        $this->mimeType = $mimeType;
-        $this->fileName = $fileName;
+        $this->files = $files;
         $this->date = $date;
     }
 
@@ -53,8 +39,13 @@ class InventoryMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.blank', ['content' => 'siehe Anhang'])
-            ->subject('Inventur '.$this->date->format('Y-m-d'))
-            ->attachData($this->fileContent, $this->fileName, ['mime' => $this->mimeType]);
+        $mail = $this->view('emails.blank', ['content' => 'siehe Anhang'])
+            ->subject('Inventur '.$this->date->format('Y-m-d'));
+
+        foreach($this->files as $attachment) {
+            $mail->attachData($attachment[0], $attachment[2], ['mime' => $attachment[1]]);
+        }
+
+        return $mail;
     }
 }

@@ -73,7 +73,7 @@ class ArticleController extends Controller
         ArticleSupplier::create([
             'article_id' => $article->id,
             'supplier_id' => $request->get('supplier_id'),
-            'order_number' => $request->get('supplier_order_number'),
+            'order_number' => $request->get('supplier_order_number') ?? 0,
             'delivery_time' => $request->get('supplier_delivery_time'),
             'order_quantity' => $request->get('supplier_order_quantity'),
             'price' => round(floatval(str_replace(',', '.', $request->get('supplier_price'))) * 100, 0)
@@ -308,30 +308,31 @@ class ArticleController extends Controller
         return redirect()->route('article.index');
     }
 
-    public function fixInventoryForm() {
+    public function massUpdateForm() {
         $articles = Article::active()->with('category')->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
-            return $article->category->name;
+            return optional($article->category)->name;
         })->ksort();
         $units = Unit::orderedByName()->pluck('name', 'id');
 
-        return view('article.fix_inventory', compact('articles', 'units'));
+        return view('article.mass_update', compact('articles', 'units'));
     }
 
-    public function fixInventorySave(Request $request) {
-        Article::active()->update(['inventory' => 0]);
-        Article::whereIn('id', array_keys($request->get('inventory')))->update(['inventory' => 1]);
+    public function massUpdateSave(Request $request) {
+        Article::whereIn('id', array_keys($request->get('sort_id')))->get()->each(function ($article) use ($request) {
+            $article->sort_id = $request->get('sort_id')[$article->id];
+            $article->inventory = $request->get('inventory')[$article->id];
 
-        Article::whereIn('id', array_keys($request->get('unit_id')))->get()->each(function ($article) use ($request) {
             $newUnitId = intval($request->get('unit_id')[$article->id]);
             if (!empty($newUnitId) && $article->unit_id !== $newUnitId) {
                 $article->unit_id = $newUnitId;
-                $article->save();
             }
+
+            $article->save();
         });
 
         flash('Änderungen gespeichert');
 
-        return response()->redirectToRoute('article.fix_inventory_form', 'success');
+        return response()->redirectToRoute('article.mass_update_form', 'success');
     }
 
     public function changeChangelogNote(Request $request) {
@@ -364,5 +365,27 @@ class ArticleController extends Controller
     public function fileDownload(Article $article, $file) {
         $attachment = $article->files[$file];
         return response()->download(storage_path('app/article_files/'.$attachment['storageName']), $attachment['orgName'], ['Content-Type' => $attachment['mimeType']]);
+    }
+
+    public function inventoryUpdateForm() {
+        $articles = Article::active()->with(['category', 'unit'])->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
+            return optional($article->category)->name;
+        })->ksort();
+
+        return view('article.inventory_update', compact('articles'));
+    }
+
+    public function inventoryUpdateSave(Request $request) {
+        Article::whereIn('id', array_keys($request->get('quantity')))->get()->each(function ($article) use ($request) {
+            /* @var Article $article */
+            $newQuantity = $request->get('quantity')[$article->id];
+            if ($newQuantity != $article->quantity) {
+                $article->changeQuantity(($newQuantity - $article->quantity), ArticleQuantityChangelog::TYPE_INVENTORY, 'Inventurupdate '.date("d.m.Y"));
+            }
+        });
+
+        flash('Änderungen gespeichert');
+
+        return response()->redirectToRoute('article.inventory_update_form', 'success');
     }
 }

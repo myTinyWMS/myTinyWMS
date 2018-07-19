@@ -11,6 +11,14 @@
                     <h5>Artikelübersicht</h5>
                     <div class="pull-right">
                         <a href="{{ route('article.create') }}" class="btn btn-primary btn-xs">Neuer Artikel</a>
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle" aria-expanded="true">weitere Aktionen <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('article.mass_update_form') }}">Massenupdate</a></li>
+                                <li><a href="{{ route('article.inventory_update_form') }}">Inventurupdate</a></li>
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
                 <div class="ibox-content">
@@ -76,7 +84,27 @@
 @push('scripts')
     {!! $dataTable->scripts() !!}
     <script>
+        let dndEnabled = false;
+
         $(document).ready(function () {
+            $("body").on('dt.init', function () {
+                window.setTimeout(function () {
+                    window.LaravelDataTables.dataTableBuilder.rowReorder.disable();
+                }, 500);
+            });
+
+            $("body").on('dt.filter.filterCategory', function () {
+                if (parseInt($('#filterCategory').val()) > 0) {
+                    window.LaravelDataTables.dataTableBuilder.columns(1).visible(true);
+                    dndEnabled = true;
+                    window.LaravelDataTables.dataTableBuilder.rowReorder.enable();
+                } else {
+                    window.LaravelDataTables.dataTableBuilder.columns(1).visible(false);
+                    dndEnabled = false;
+                    window.LaravelDataTables.dataTableBuilder.rowReorder.disable();
+                }
+            });
+
             $('.toolbar').html($('.toolbar_content').html());
 
             $('#print_small_label').click(function () {
@@ -100,19 +128,22 @@
         });
 
         window.LaravelDataTables.dataTableBuilder.on( 'row-reorder', function ( e, diff, edit ) {
-            var myArray = [];
-            for ( var i=0, ien=diff.length ; i<ien ; i++ ) {
-                var rowData = window.LaravelDataTables.dataTableBuilder.row( diff[i].node ).data();
-                myArray.push({
-                    id: rowData.id,			// record id from datatable
-                    position: diff[i].newPosition		// new position
+            if (!dndEnabled) {
+                return false;
+            }
+
+            let items = [];
+            for (let i = 1; i < e.target.rows.length; i++) {
+                items.push({
+                    id: $(e.target.rows[i]).attr('id'),
+                    position: i
                 });
             }
-            var jsonString = JSON.stringify(myArray);
+
             $.ajax({
                 url     : '{{ URL::to('article/reorder') }}',
                 type    : 'POST',
-                data    : jsonString,
+                data    : JSON.stringify(items),
                 dataType: 'json',
                 success : function ( json )
                 {

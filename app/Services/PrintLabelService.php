@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Log;
 class PrintLabelService {
 
     const PDF_OPTIONS_SMALL = [
-        'page-width' => 62,
-        'page-height' => 29,
-        'margin-bottom' => 1,
-        'margin-left' => 1,
-        'margin-right' => 1,
-        'margin-top' => 4,
+        'page-width' => 61,
+        'page-height' => 28,
+        'margin-bottom' => 0,
+        'margin-left' => 0,
+        'margin-right' => 0,
+        'margin-top' => 0,
         'encoding' => 'utf-8'
     ];
 
@@ -39,7 +39,7 @@ class PrintLabelService {
     public function printArticleLabels(Collection $articles, $labelSize = 'small') {
         $barcodes = [];
         $articles->each(function ($article) use (&$barcodes, $labelSize) {
-            $barcodes[$article->id] = ($labelSize == 'large') ? $this->generateQrLarge($article->article_number) : $this->generateQrSmall($article->article_number);
+            $barcodes[$article->id] = ($labelSize == 'large') ? $this->generateQrLarge($article->article_number ?? '#'.$article->id) : $this->generateQrSmall($article->article_number ?? '#'.$article->id);
         });
 
         /**

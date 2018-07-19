@@ -5,8 +5,8 @@
 
     <form class="m-t" role="form" method="post" action="{{ route('login') }}">
         {{ csrf_field() }}
-        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-            <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="E-Mail" required autofocus>
+        <div class="form-group{{ $errors->has('login') ? ' has-error' : '' }}">
+            <input id="login" type="text" class="form-control" name="login" value="{{ old('login') }}" placeholder="E-Mail oder Username" required autofocus>
 
             @if ($errors->has('email'))
                 <span class="help-block">

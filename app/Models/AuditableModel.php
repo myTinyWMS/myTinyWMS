@@ -2,9 +2,8 @@
 
 namespace Mss\Models;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Mss\Models\Traits\GetAudits;
+use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class AuditableModel extends Model implements Auditable {

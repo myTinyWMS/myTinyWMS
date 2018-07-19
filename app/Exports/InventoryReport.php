@@ -19,12 +19,15 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
      */
     protected $month;
 
+    protected $inventoryType;
+
     /**
      * InventoryReport constructor.
      * @param $month
      */
-    public function __construct($month) {
+    public function __construct($month, $inventoryType) {
         $this->month = $month;
+        $this->inventoryType = $inventoryType;
     }
 
     /**
@@ -65,54 +68,68 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             'R' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'S' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'T' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-            'U' => NumberFormat::FORMAT_GENERAL
+            'U' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
         ];
     }
 
     public function collection() {
         $start = Carbon::parse($this->month.'-01');
-        $end = $start->copy()->lastOfMonth();
+        $end = $start->copy()->endOfMonth();
 
-        /* @var $articles Collection */
-        $articles = Article::where('inventory', true)
+        $articles = !is_null($this->inventoryType) ? Article::where('inventory', $this->inventoryType) : Article::query();
+
+        $articles = $articles
             ->withCurrentSupplier()
             ->withCurrentSupplierArticle()
-            ->active()
-            ->orderedByArticleNumber()
-            ->withQuantityAtDate($start, 'quantity_start')
-            ->withQuantityAtDate($end, 'quantity_end')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INCOMING, 'total_incoming')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_OUTGOING, 'total_outgoing')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_CORRECTION, 'total_correction')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INVENTORY, 'total_inventory')
-            ->with(['unit', 'category'])
+            ->with(['unit', 'category', 'supplierArticles.audits', 'supplierArticles.supplier', 'supplierArticles.article', 'audits'])
+            ->orderedByArticleNumber()
             ->get();
+
+        $articles = $articles->filter(function ($article) use ($end) {
+            $ignoreArticleCreatedDate = (!empty(env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT')) && $article->id <= env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT'));
+            return ($ignoreArticleCreatedDate || $article->created_at->lt($end));
+        });
+
+        // reset keys
+        $articles = collect($articles->values());
+
+        /* @var $articles Collection */
         $articles
             ->transform(function ($article, $key) use ($start, $end) {
                 $i = $key + 2;
+
                 /* @var Article $article */
+                $currentSupplierArticle = $article->getSupplierArticleAtDate($end);
+                $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $end) : 0;
+                $status = $article->getAttributeAtDate('status', $end);
+
                 return [
                     'Artikelnummer' => $article->article_number,
-                    'Artikelname' => $article->name,
-                    'Lieferant' => $article->currentSupplier->name,
-                    'Preis' => round(($article->currentSupplierArticle->price / 100), 2),
-                    'Bestellnummer' => $article->currentSupplierArticle->order_number,
-                    'Kategorie' => $article->category->name,
+                    'Artikelname' => $article->getAttributeAtDate('name', $end),
+                    'Lieferant' => $currentSupplierArticle->supplier ? $currentSupplierArticle->supplier->name : '',
+                    'Preis' => $currentPrice ? round(($currentPrice / 100), 2) : 0,
+                    'Bestellnummer' => optional($currentSupplierArticle)->order_number,
+                    'Kategorie' => optional($article->category)->name,
                     'Einheit' => optional($article->unit)->name,
-                    'Anfangsbestand' => $article->getQuantityAtDate($start, 'quantity_start'),
+                    'Status' => in_array($status, array_keys(Article::getStatusTextArray())) ? Article::getStatusTextArray()[$status] : '',
+                    'Anfangsbestand' => $article->getAttributeAtDate('quantity', $start->copy()->subDay()),   // getQuantityAtDate uses end of the day
                     'Warenausgang' => $article->total_outgoing ?? 0,
                     'Wareneingang' => $article->total_incoming ?? 0,
                     'Korrektur' => $article->total_correction ?? 0,
                     'Inventur' => $article->total_inventory ?? 0,
-                    'Endestand' => $article->getQuantityAtDate($start, 'quantity_end'),
+                    'Endbestand' => $article->getAttributeAtDate('quantity', $end),
                     'Monat' => $this->month,
-                    'AB Eur' => "=H$i*\$D$i",
-                    'WA Eur' => "=I$i*\$D$i",
-                    'WE Eur' => "=J$i*\$D$i",
-                    'KO Eur' => "=K$i*\$D$i",
-                    'INV Eur' => "=L$i*\$D$i",
-                    'EB Eur' => "=M$i*\$D$i",
-                    'Kontrolle' => "=O$i+P$i+Q$i-T$i",
+                    'AB Eur' => "=I$i*\$D$i",
+                    'WA Eur' => "=J$i*\$D$i",
+                    'WE Eur' => "=K$i*\$D$i",
+                    'KO Eur' => "=L$i*\$D$i",
+                    'INV Eur' => "=M$i*\$D$i",
+                    'EB Eur' => "=N$i*\$D$i",
+                    'Kontrolle' => "=-(P$i+Q$i+R$i-U$i)",
                 ];
             });
 

@@ -19,7 +19,7 @@ Route::middleware(['auth.basic.stateless'])->namespace('Api')->group(function ()
         return $request->user();
     });*/
 
-    Route::resource('material', 'ApiMaterialController', ['only' => [
-        'show', 'update'
-    ]]);
+    Route::get('/article/{article}', 'ArticleController@show');
+    Route::post('/article/getQuantities', 'ArticleController@getQuantities');
+    Route::post('/article/{article}/changeQuantity', 'ArticleController@changeQuantity');
 });

@@ -85,6 +85,7 @@
                     $('.datatableFilter-select').each(function () {
                         $(this).change(function () {
                             window.LaravelDataTables.dataTableBuilder.columns($(this).attr('data-target-col')).search($(this).val()).draw();
+                            $("body").trigger('dt.filter.' + $(this).attr('id'));
                             // saveFilterState($(this).attr('id'), $(this).attr('data-target-col'), $(this).val());
                         });
 
@@ -92,6 +93,8 @@
                             $(this).val($(this).attr('data-pre-select'));
                         }
                     });
+
+                    $("body").trigger('dt.init');
 
                     //loadFilterState();
                 }
@@ -124,6 +127,8 @@
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green'
             });
+
+            $("body").trigger('dt.draw');
         });
 
         $.ajaxSetup({

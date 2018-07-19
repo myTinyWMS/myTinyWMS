@@ -2,6 +2,7 @@
 
 namespace Mss\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 
@@ -79,14 +80,17 @@ class Order extends AuditableModel
      * @return string
      */
     public function getNextInternalOrderNumber() {
-        $lastOrder = Order::where('internal_order_number', 'like', date("ymd").'%')->orderBy('internal_order_number', 'desc')->first();
+        /**
+         * adding "+0" to the order by field forces mysql to sort natural
+         */
+        $lastOrder = Order::where('internal_order_number', 'like', Carbon::now()->format('ymd').'%')->orderByRaw('internal_order_number+0 DESC')->first();
         if ($lastOrder) {
             $latestNumber = intval(substr($lastOrder->internal_order_number, 6));
         } else {
             $latestNumber = 0;
         }
 
-        return date("ymd").($latestNumber+1);
+        return Carbon::now()->format('ymd').($latestNumber+1);
     }
 
     public function getTotalCostAttribute($value) {

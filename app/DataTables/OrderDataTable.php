@@ -166,7 +166,6 @@ class OrderDataTable extends BaseDataTable
             ['data' => 'status', 'name' => 'status', 'title' => 'Bestellstatus', 'width' => '50px', 'class' => 'text-center'],
             ['data' => 'confirmation_status', 'name' => 'confirmation_status', 'title' => 'AB', 'width' => '50px', 'class' => 'text-center', 'orderable' => false],
             ['data' => 'invoice_status', 'name' => 'invoice_status', 'title' => 'Rechnung', 'width' => '50px', 'class' => 'text-center', 'orderable' => false],
-            ['data' => 'article', 'name' => 'article', 'title' => 'Artikel', 'width' => '50px', 'class' => 'text-center'],
             ['data' => 'order_date', 'name' => 'order_date', 'title' => 'Bestelldatum', 'class' => 'text-right', 'searchable' => false, 'width' => '90px'],
             ['data' => 'expected_delivery', 'name' => 'expected_delivery', 'title' => 'Lieferdatum', 'class' => 'text-right', 'searchable' => false, 'width' => '90px'],
         ];

@@ -31,11 +31,11 @@
                             @endif
                         </div>
                         <div class="col-lg-8 text-right">
-                            @if($article->openOrders->count())
+                            @if($article->openOrders()->count())
                             <div class="form-group">
                                 <label class="control-label">Offene Bestellungen</label>
                                 <div class="form-control-static">
-                                    @foreach($article->openOrders as $openOrder)
+                                    @foreach($article->openOrders() as $openOrder)
                                         <a href="{{ route('order.show', $openOrder) }}" target="_blank">{{ $openOrder->internal_order_number }}</a> ({{ $openOrder->items->where('article_id', $article->id)->first()->quantity }}{{ !empty($article->unit) ? ' '.$article->unit->name : '' }})
                                         <br>
                                     @endforeach
@@ -68,7 +68,11 @@
 
                     <div class="row">
                         <div class="col-lg-6">
+                            @if (!empty($article->unit_id))
+                            {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => '', 'disabled' => 'disabled', 'title' => 'Nicht änderbar!']) }}
+                            @else
                             {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => '']) }}
+                            @endif
                         </div>
                         <div class="col-lg-6">
                             {{ Form::bsText('sort_id', $article->sort_id ?? 0, [], 'Sortierung') }}
@@ -98,7 +102,12 @@
                         </div>
                     </div>
 
-                    {{ Form::bsCheckbox('inventory', 1, 'Inventur (Artikel wird in Inventurliste angezeigt)', $article->inventory, []) }}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{ Form::bsSelect('inventory', $article->inventory, \Mss\Models\Article::getInventoryTextArray(),  'Inventur Typ') }}
+                        </div>
+                    </div>
+
                     {{ Form::bsTextarea('notes', $article->notes, ['rows' => 4], 'Bemerkungen') }}
                     {{ Form::bsTextarea('order_notes', $article->order_notes, ['rows' => 2], 'Bestell Hinweise') }}
 
@@ -129,7 +138,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="changelogCurrentQuantity" class="control-label">aktueller Bestand</label>
                                     <div class="form-control-static">
@@ -138,16 +147,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label for="changelogNewQuantity" class="control-label">neuer Bestand</label>
-                                    <div class="form-control-static">
-                                        <span id="changelogNewQuantity"></span>
-                                        {{ optional($article->unit)->name }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 col-lg-offset-2">
                                 <div class="form-group">
                                     <label for="changelogNewQuantity" class="control-label">Entnahmemenge</label>
                                     <div class="form-control-static">
@@ -210,6 +210,25 @@
     var changelogMath = 'sub';
 
     $(document).ready(function () {
+        @if (!($isNewArticle ?? true))
+        $('#unit_id').change(function () {
+            alert('Achtung. Änderung der Einheit nur in Absprache mit der Buchhaltung bzw. Geschäftsleitung!')
+        });
+        @endif
+
+        $('#changelogSubmit').click(function () {
+            if (changelogMath === 'sub' && parseInt($('#changelogCurrentQuantity').attr('data-quantity')) < parseInt($('#changelogChange').val())) {
+                alert('Es ist nicht möglich mehr auszubuchen');
+                return false;
+            }
+            var message = 'Du willst den Bestand um ';
+            message += (changelogMath === 'sub') ? 'MINUS ' : 'PLUS ';
+            message += $('#changelogChange').val() + ' ändern - als ';
+            message += '"' + $('#changelogType option:selected').text() + '". SICHER?';
+
+            return confirm(message);
+        });
+
         $('#changelogChange').keyup(function () {
             updateNewChangelogQuantity();
         });

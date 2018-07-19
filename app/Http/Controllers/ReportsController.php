@@ -5,6 +5,7 @@ namespace Mss\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Mss\Models\Article;
 use Mss\Models\Order;
 use Mss\Models\OrderItem;
 use Mss\Services\InventoryService;
@@ -16,11 +17,15 @@ class ReportsController extends Controller
     }
 
     public function generateInventoryPdf() {
-        return InventoryService::generatePdf()->download('inventur_'.Carbon::now()->format('Y-m-d').'.pdf');
+        return InventoryService::generatePdf(Article::INVENTORY_TYPE_CONSUMABLES)->download('inventur_'.Carbon::now()->format('Y-m-d').'.pdf');
+    }
+
+    public function generateYearlyInventoryPdf() {
+        return InventoryService::generatePdf()->download('jahres_inventur_'.Carbon::now()->format('Y-m-d').'.pdf');
     }
 
     public function generateInventoryReport(Request $request) {
-        return InventoryService::generateReport($request->get('month'));
+        return InventoryService::generateReport($request->get('month'), $request->get('inventorytype'));
     }
 
     public function deliveriesWithoutInvoice() {
