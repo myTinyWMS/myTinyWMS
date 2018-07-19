@@ -86,5 +86,4 @@ Route::group(['middleware' => ['auth']], function () {
 
 });
 
-Route::get('hs', 'HandscannerController@index')->name('handscanner.index');
-Route::get('hs/{articlenumber}', 'HandscannerController@showArticle')->name('handscanner.show');
+

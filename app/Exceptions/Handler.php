@@ -64,6 +64,10 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
+        if($request->route()->getPrefix() == 'hs') {
+            return redirect()->guest(route('handscanner.login'));
+        }
+
         return redirect()->guest(route('login'));
     }
 }

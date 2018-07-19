@@ -19,6 +19,8 @@
     <div id="wrapper">
         <div class="middle-box text-center loginscreen">
             <div id="page-wrapper">
+                @include('flash::message')
+
                 @yield('content')
             </div>
         </div>

@@ -16,6 +16,7 @@ class UserSettings {
     const SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES = 'notify_after_new_delivery_in_those_categories';
     const SETTING_NOTIFY_AFTER_NEW_DELIVERY_IF_DELIVERY_QUANTITY_DIFFERS_FROM_ORDER_QUANTITY = 'notify_after_new_delivery_if_delivery_quantity_differs_from_order_quantity';
     const SETTING_NOTIFY_ON_INVOICE_CHECKS = 'notify_on_invoice_checks';
+    const SETTINGS_HANDSCANNER_PIN_CODE = 'handscanner_pin_code';
 
     /**
      * array
@@ -36,6 +37,10 @@ class UserSettings {
         self::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES => [
             'default' => [],
             'type' => 'array'
+        ],
+        self::SETTINGS_HANDSCANNER_PIN_CODE => [
+            'default' => null,
+            'type' => 'string'
         ]
     ];
 

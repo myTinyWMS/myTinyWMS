@@ -50,6 +50,11 @@
                             </div>
 
                             <div class="m-b-lg">
+                                <label for="select1">PIN Code für Handscanner</label>
+                                <input type="text" class="form-control" name="setting[{{ UserSettings::SETTINGS_HANDSCANNER_PIN_CODE }}]" value="{{ Auth::user()->settings()->get(UserSettings::SETTINGS_HANDSCANNER_PIN_CODE) }}">
+                            </div>
+
+                            <div class="m-b-lg">
                                 {{ Form::summernote('signature', $signature, [], 'E-Mail Signatur') }}
                             </div>
 
