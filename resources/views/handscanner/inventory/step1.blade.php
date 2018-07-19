@@ -1,9 +1,12 @@
 @extends('layout.handscanner')
 
 @section('content')
-    <h2>Schritt 1:</h2>
+    <h4 class="text-center">Schritt 1:</h4>
     <br/>
     <br/>
-    <div class="well text-center white-bg font-bold">Bitte einen Artikel scannen</div>
+    <div class="jumbotron text-center">Bitte einen Artikel scannen</div>
 @endsection
 
+@section('subheader')
+    <div class="subheader">Inventur</div>
+@endsection

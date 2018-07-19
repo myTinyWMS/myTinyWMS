@@ -24,4 +24,12 @@ class LoginController extends Controller
         flash('Login ungültig', 'danger');
         return redirect()->back();
     }
+
+    public function processLogout(Request $request) {
+        Auth::guard()->logout();
+
+        $request->session()->invalidate();
+
+        return redirect()->route('handscanner.login');
+    }
 }

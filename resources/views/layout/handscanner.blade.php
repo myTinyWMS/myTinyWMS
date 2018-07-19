@@ -10,20 +10,28 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="stylesheet" href="{!! asset('css/vendor.css') !!}"/>
-    <link rel="stylesheet" href="{!! asset('css/app.css') !!}"/>
+    <link rel="stylesheet" href="{!! asset('css/handscanner.css') !!}"/>
     @yield('css_extra')
 </head>
 
-<body class="gray-bg">
-    <div id="wrapper">
-        <div class="middle-box text-center loginscreen">
-            <div id="page-wrapper">
-                @include('flash::message')
+<body>
+    <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+        <div class="container">
+            <a href="#" onclick="window.history.back();" class="btn btn-secondary pull-left @if(\Illuminate\Support\Facades\Route::current()->getName() == 'handscanner.login') invisible @endif"><i class="fa fa-arrow-left"></i></a>
 
-                @yield('content')
-            </div>
+            <a href="../" class="navbar-brand">MSS</a>
+
+            <a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-secondary pull-right @if (\Illuminate\Support\Facades\Auth::guest()) invisible @endif">
+                <i class="fa fa-sign-out"></i>
+            </a>
+
+            <form id="logout-form" action="{{ route('handscanner.logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
         </div>
+    </div>
+
+    <div class="container" style="padding-top: 65px">
+        @include('flash::message')
+        @yield('content')
     </div>
 
     <script src="{!! asset('js/vendor.js') !!}" type="text/javascript"></script>

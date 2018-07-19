@@ -3,6 +3,7 @@
 Route::namespace('Handscanner')->group(function () {
     Route::get('/login', 'LoginController@login')->name('handscanner.login');
     Route::post('/login', 'LoginController@processLogin')->name('handscanner.processlogin');
+    Route::post('/logout', 'LoginController@processLogout')->name('handscanner.logout');
 
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/', 'HomeController@index')->name('handscanner.index');

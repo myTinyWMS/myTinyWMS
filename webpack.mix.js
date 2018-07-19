@@ -26,6 +26,14 @@ mix
     .copy('resources/assets/vendor/iCheck/green.png', 'public/img')
     .copy('resources/assets/vendor/iCheck/green@2x.png', 'public/img')
     .combine([
+        'resources/assets/vendor/bootswatch/cyborg.css',
+        'resources/assets/vendor/font-awesome/css/font-awesome.css',
+        'resources/assets/vendor/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
+        'resources/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css',
+        'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.css',
+        'resources/assets/vendor/iCheck/custom.css'
+    ], 'public/css/handscanner.css')
+    .combine([
         'resources/assets/vendor/bootstrap/css/bootstrap.css',
         'resources/assets/vendor/bootstrap/css/bootstrap-xlgrid.min.css',
         'resources/assets/vendor/animate/animate.css',
