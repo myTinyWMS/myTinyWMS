@@ -53,4 +53,15 @@ class ArticleController extends Controller {
 
         return Response::create(Json::encode(['result' => 'success']));
     }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function getQuantities(Request $request) {
+        $ids = $request->get('ids');
+        $articles = Article::find($ids);
+
+        return Response::create(Json::encode($articles->pluck('quantity', 'id')));
+    }
 }
