@@ -78,5 +78,18 @@ mix
         'resources/assets/vendor/iCheck/icheck.min.js',
         'resources/assets/vendor/js-cookie/js.cookie.js'
     ], 'public/js/vendor.js')
+    .combine([
+        'resources/assets/vendor/jquery/jquery-3.1.1.min.js',
+        'resources/assets/vendor/bootstrap/js/bootstrap.js',
+        'resources/assets/vendor/select2/select2.min.js',
+        'resources/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+        'resources/assets/vendor/bootstrap-datepicker/locales/bootstrap-datepicker.de.min.js',
+        'resources/assets/vendor/bootstrap-typeahead/bootstrap3-typeahead.min.js',
+        'resources/assets/vendor/momenjs/moment.min.js',
+        'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.js',
+        'resources/assets/vendor/iCheck/icheck.min.js',
+        'resources/assets/vendor/js-cookie/js.cookie.js',
+        'resources/assets/vendor/quagga/quagga.min.js'
+    ], 'public/js/handscanner.js')
     .js('resources/assets/js/app.js', 'public/js')
     .version();

@@ -34,8 +34,8 @@
         @yield('content')
     </div>
 
-    <script src="{!! asset('js/vendor.js') !!}" type="text/javascript"></script>
-    <script src="{!! asset('js/app.js') !!}" type="text/javascript"></script>
+    <script src="{!! asset('js/handscanner.js') !!}" type="text/javascript"></script>
+    @stack('scripts')
 </body>
 
 </html>
