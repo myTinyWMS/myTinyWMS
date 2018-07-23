@@ -77,7 +77,7 @@
                                                     @if (!empty($message->htmlBody))
                                                         <iframe seamless frameborder="0" class="full-width" height="600" srcdoc="{!! htmlspecialchars($message->htmlBody) !!}"></iframe>
                                                     @else
-                                                        {!! nl2br($message->textBody) !!}
+                                                        {!! nl2br(strip_tags($message->textBody)) !!}
                                                     @endif
 
                                                     @if($message->attachments->count())
