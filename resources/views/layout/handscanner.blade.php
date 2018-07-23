@@ -17,7 +17,7 @@
 <body>
     <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
         <div class="container">
-            <a href="#" onclick="window.history.back();" class="btn btn-secondary pull-left @if(\Illuminate\Support\Facades\Route::current()->getName() == 'handscanner.login') invisible @endif"><i class="fa fa-arrow-left"></i></a>
+            <a href="#" onclick="window.history.back();" class="btn btn-secondary pull-left @if(in_array(\Illuminate\Support\Facades\Route::current()->getName(), ['handscanner.login', 'handscanner.index'])) invisible @endif"><i class="fa fa-arrow-left"></i></a>
 
             <a href="../" class="navbar-brand">MSS</a>
 
