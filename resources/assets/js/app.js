@@ -9,6 +9,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 Vue.component('order-form', require('./components/OrderForm.vue'));
+Vue.component('qr-reader', require('./components/QrReader.vue'));
 
 window.app = new Vue({
     el: '#wrapper'

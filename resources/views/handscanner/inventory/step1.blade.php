@@ -6,6 +6,8 @@
     <br/>
     <div class="jumbotron text-center">Bitte einen Artikel scannen</div>
     <div id="scannerview"></div>
+
+    <qr-reader style="height: 200px; width: 200px; border: 1px solid yellow;"></qr-reader>
 @endsection
 
 @section('subheader')
@@ -14,7 +16,7 @@
 
 @push('scripts')
     <script>
-        $(function() {
+        /*$(function() {
             // Create the QuaggaJS config object for the live stream
             var liveStreamConfig = {
                 inputStream: {
@@ -34,7 +36,7 @@
                 numOfWorkers: (navigator.hardwareConcurrency ? navigator.hardwareConcurrency : 4),
                 decoder: {
                     "readers":[
-                        {"format":"ean_reader","config":{}}
+                        "qr_code_reader"
                     ]
                 },
                 locate: true
@@ -61,12 +63,13 @@
                         return;
                     }
                     Quagga.start();
+                    alert('start');
                 }
             );
 
             // Make sure, QuaggaJS draws frames an lines around possible
             // barcodes on the live stream
-            Quagga.onProcessed(function(result) {
+            /!*Quagga.onProcessed(function(result) {
                 var drawingCtx = Quagga.canvas.ctx.overlay,
                     drawingCanvas = Quagga.canvas.dom.overlay;
 
@@ -88,26 +91,20 @@
                         Quagga.ImageDebug.drawPath(result.line, {x: 'x', y: 'y'}, drawingCtx, {color: 'red', lineWidth: 3});
                     }
                 }
-            });
+            });*!/
 
             // Once a barcode had been read successfully, stop quagga and
             // close the modal after a second to let the user notice where
             // the barcode had actually been found.
             Quagga.onDetected(function(result) {
+                alert('onDetected');
                 if (result.codeResult.code){
                     //$('#scanner_input').val(result.codeResult.code);
                     alert(result.codeResult.code);
                     Quagga.stop();
                 }
             });
-
-            // Stop quagga in any case, when the modal is closed
-            $('#livestream_scanner').on('hide.bs.modal', function(){
-                if (Quagga){
-                    Quagga.stop();
-                }
-            });
-        });
+        });*/
 
 
         /*console.log('startup');
