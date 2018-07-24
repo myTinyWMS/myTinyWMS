@@ -9,10 +9,31 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 Vue.component('order-form', require('./components/OrderForm.vue'));
+
+Vue.component('scanner', require('./components/Scanner.vue'));
 Vue.component('qr-reader', require('./components/QrReader.vue'));
 
+Vue.component('scan-qr', {
+    // template: '<qr-reader target-url="{{ route('handscanner.inventory.step2', ['articleNumber' => '']) }}/" ref="qrreader" :paused="true" style="width: 200px;" class="m-t-xl"></qr-reader>'
+    template: '<qr-reader target-url="/" ref="qrreader" :paused="true" style="width: 200px;" class="m-t-xl"></qr-reader>'
+});
+
+Vue.component('scan-keyboard', {
+    template: '<div>keyboard</div>'
+});
+
 window.app = new Vue({
-    el: '#wrapper'
+    el: '#wrapper',
+
+    data: {
+        currentScanner: 'qr',
+        tabs: ['keyboard', 'qr']
+    },
+    computed: {
+        currentScannerComponent: function () {
+            return 'scan-' + this.currentScanner
+        }
+    }
 });
 
 $(document).ready(function () {

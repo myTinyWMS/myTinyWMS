@@ -11,6 +11,7 @@ Route::namespace('Handscanner')->group(function () {
         Route::prefix('inventory')->group(function () {
             Route::get('/step1', 'InventoryController@step1')->name('handscanner.inventory.step1');
             Route::get('/step2/{articlenumber}', 'InventoryController@step2')->name('handscanner.inventory.step2');
+            Route::post('/step3', 'InventoryController@step3')->name('handscanner.inventory.step3');
         });
     });
 });

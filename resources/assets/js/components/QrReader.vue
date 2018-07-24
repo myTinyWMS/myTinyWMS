@@ -8,10 +8,15 @@
     export default {
         components: { QrcodeReader },
 
+        props: [
+            'targetUrl'
+        ],
+
         methods: {
             onDecode (decodedString) {
-                alert(decodedString);
+                window.location.href = this.targetUrl + decodedString;
             },
+
             async onInit (promise) {
                 // show loading indicator
 

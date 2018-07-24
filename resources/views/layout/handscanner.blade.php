@@ -18,9 +18,14 @@
     <div id="wrapper">
         <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
             <div class="container">
-                <a href="#" onclick="window.history.back();" class="btn btn-secondary pull-left @if(in_array(\Illuminate\Support\Facades\Route::current()->getName(), ['handscanner.login', 'handscanner.index'])) invisible @endif"><i class="fa fa-arrow-left"></i></a>
+                <a href="@yield('back', route('handscanner.index'))" class="btn btn-secondary pull-left @if(in_array(\Illuminate\Support\Facades\Route::current()->getName(), ['handscanner.login', 'handscanner.index'])) invisible @endif"><i class="fa fa-arrow-left"></i></a>
 
-                <a href="../" class="navbar-brand">MSS</a>
+                <a href="{{ route('handscanner.index') }}" class="navbar-brand text-center @hasSection('subheader') p-t-0 p-b-0 @endif">
+                    MSS
+                    @hasSection('subheader')
+                        <small>@yield('subheader')</small>
+                    @endif
+                </a>
 
                 <a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-secondary pull-right @if (\Illuminate\Support\Facades\Auth::guest()) invisible @endif">
                     <i class="fa fa-sign-out"></i>

@@ -31,7 +31,8 @@ mix
         'resources/assets/vendor/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
         'resources/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css',
         'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.css',
-        'resources/assets/vendor/iCheck/custom.css'
+        'resources/assets/vendor/iCheck/custom.css',
+        'resources/assets/css/handscanner.css'
     ], 'public/css/handscanner.css')
     .combine([
         'resources/assets/vendor/bootstrap/css/bootstrap.css',
