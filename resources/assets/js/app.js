@@ -10,7 +10,6 @@ window.Vue = require('vue');
 
 Vue.component('order-form', require('./components/OrderForm.vue'));
 
-Vue.component('scanner', require('./components/Scanner.vue'));
 Vue.component('qr-reader', require('./components/QrReader.vue'));
 
 Vue.component('scan-qr', {
