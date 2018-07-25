@@ -12,20 +12,48 @@
             'targetUrl'
         ],
 
+        data() {
+            return {
+                scanned: ''
+            }
+        },
+
+        created: function () {
+            console.log('created');
+            this.initKeyboard();
+        },
+
         methods: {
             onDecode (decodedString) {
                 window.location.href = this.targetUrl + decodedString;
             },
 
+            initKeyboard () {
+                console.log('init keyboard');
+                var that = this;
+                window.addEventListener('keypress', function(event) {
+                    $('#output').append(event.code);
+                    console.log(event.code);
+                    if (event.keyCode == 35) {
+                        window.location.href = this.targetUrl + that.scanned;
+                    } else {
+                        that.scanned += String.fromCharCode(event.charCode);
+                    }
+                });
+            },
+
             async onInit (promise) {
                 // show loading indicator
 
+
                 try {
                     await promise
-
+                    console.log('done?');
                     // successfully initialized
                 } catch (error) {
-                    alert(error.name);
+                    console.log('error');
+
+                    console.log(error.name);
                     if (error.name === 'NotAllowedError') {
                         // user denied camera access permisson
                     } else if (error.name === 'NotFoundError') {
@@ -40,6 +68,7 @@
                         // browser is probably lacking features (WebRTC, Canvas)
                     }
                 } finally {
+                    console.log('cam initialized');
                     // hide loading indicator
                 }
             }

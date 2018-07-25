@@ -8,15 +8,8 @@
 
 @section('content')
     <div class="jumbotron text-center">Bitte einen Artikel scannen</div>
+    <div id="output" style="border: 1px solid red"></div>
 
-    <div id="scanner-component">
-        <component v-bind:is="currentScannerComponent"></component>
-    </div>
+    <qr-reader target-url="{{ route('handscanner.inventory.step2', ['articleNumber' => '']) }}/" style="height: 200px; width: 200px;"></qr-reader>
 
 @endsection
-
-@push('scripts')
-    <script>
-
-    </script>
-@endpush
