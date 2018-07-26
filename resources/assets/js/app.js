@@ -22,17 +22,7 @@ Vue.component('scan-keyboard', {
 });
 
 window.app = new Vue({
-    el: '#wrapper',
-
-    data: {
-        currentScanner: 'qr',
-        tabs: ['keyboard', 'qr']
-    },
-    computed: {
-        currentScannerComponent: function () {
-            return 'scan-' + this.currentScanner
-        }
-    }
+    el: '#wrapper'
 });
 
 $(document).ready(function () {
