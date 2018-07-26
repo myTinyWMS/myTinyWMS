@@ -40,11 +40,6 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="changelogNote" class="control-label">Bemerkung</label>
-                    <textarea class="form-control" rows="3" id="changelogNote" name="changelogNote"></textarea>
-                </div>
-
                 <input type="hidden" name="article" value="{{ $article->id }}" />
                 <button type="submit" class="btn btn-lg btn-success" id="changelogSubmit">Speichern</button>
                 <a href="{{ route('handscanner.inventory.step1') }}" class="btn btn-lg btn-secondary pull-right">Abbrechen</a>
