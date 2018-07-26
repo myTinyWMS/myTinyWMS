@@ -1,0 +1,12 @@
+.p-t-0 {
+    padding-top: 0;
+}
+
+.p-b-0 {
+    padding-bottom: 0;
+}
+
+.navbar-brand small {
+    display: block;
+    font-size: 60%;
+}

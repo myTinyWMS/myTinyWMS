@@ -49,7 +49,9 @@ $status = $kernel->handle(
 $kernel->terminate($input, $status);
 
 if (env('APP_ENV') === 'local') {
-    exec('chown -R 1000:1000 .');
+    /*exec('chown -R 1000:1000 app/');
+    exec('chown -R 1000:1000 database/');
+    exec('chown -R 1000:1000 resources/');*/
 }
 
 exit($status);
