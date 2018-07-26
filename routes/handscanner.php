@@ -9,9 +9,15 @@ Route::namespace('Handscanner')->group(function () {
         Route::get('/', 'HomeController@index')->name('handscanner.index');
 
         Route::prefix('inventory')->group(function () {
+            Route::get('/start', 'InventoryController@start')->name('handscanner.inventory.start');
+            Route::post('/continue', 'InventoryController@continue')->name('handscanner.inventory.continue');
+            Route::get('/new', 'InventoryController@new')->name('handscanner.inventory.new');
+            Route::get('/{inventory}/select-category', 'InventoryController@selectCategory')->name('handscanner.inventory.select_category');
+            Route::get('/{inventory}/category/{category}/select-article', 'InventoryController@selectArticle')->name('handscanner.inventory.select_article');
+            Route::get('/{inventory}/article/{article_number}/process', 'InventoryController@process')->name('handscanner.inventory.process');
+            Route::post('/{inventory}/article/{article}/processed', 'InventoryController@processed')->name('handscanner.inventory.processed');
+
             Route::get('/step1', 'InventoryController@step1')->name('handscanner.inventory.step1');
-            Route::get('/step2/{articlenumber}', 'InventoryController@step2')->name('handscanner.inventory.step2');
-            Route::post('/step3', 'InventoryController@step3')->name('handscanner.inventory.step3');
         });
     });
 });
