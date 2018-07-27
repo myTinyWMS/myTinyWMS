@@ -63,15 +63,16 @@ class InventoryController extends Controller
         return view('handscanner.inventory.select_article', compact('items', 'category', 'inventory'));
     }
 
-    public function process(Inventory $inventory, $article_number) {
+    public function process(Inventory $inventory, Category $category, $article_number) {
         $article = Article::where('article_number', $article_number)->firstOrFail();
+        $item = $inventory->items->where('article_id', $article->id)->first();
 
-        return view('handscanner.inventory.process', compact('article', 'inventory'));
+        return view('handscanner.inventory.process', compact('article', 'inventory', 'category', 'item'));
     }
 
     public function processed(Inventory $inventory, Article $article, Request $request) {
         /* @var $article Article */
-//        $article->changeQuantity(($request->get('quantity') - $article->quantity), ArticleQuantityChangelog::TYPE_INVENTORY, 'Inventurupdate '.date("d.m.Y"));
+        $article->changeQuantity(($request->get('quantity') - $article->quantity), ArticleQuantityChangelog::TYPE_INVENTORY, 'Inventurupdate '.date("d.m.Y"));
         flash('Änderung gespeichert')->success();
 
         $item = $inventory->items->where('article', $article)->first();

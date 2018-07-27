@@ -7,6 +7,14 @@
 @section('back', route('handscanner.inventory.select_article', [$inventory, $article->category]))
 
 @section('content')
+    @if (!$article->category->is($category))
+        <div class="alert alert-secondary">Achtung, Artikel ist aus anderer Kategorie!</div>
+    @endif
+
+    @if(!is_null($item->processed_at))
+        <div class="alert alert-warning">Achtung, Artikel wurde bereits bearbeitet!</div>
+    @endif
+
     <form method="post" action="{{ route('handscanner.inventory.processed', [$inventory, $article]) }}" id="saveinventory">
         @csrf
 

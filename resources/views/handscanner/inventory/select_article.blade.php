@@ -15,7 +15,7 @@
 
             @if($items->count())
                 @foreach($items as $item)
-                    <a href="{{ route('handscanner.inventory.process', [$inventory, $item->article->article_number]) }}" class="btn btn-md btn-block btn-primary m-b-lg" style="white-space: normal">{{ $item->article->name }}</a>
+                    <a href="{{ route('handscanner.inventory.process', [$inventory, $category, $item->article->article_number]) }}" class="btn btn-md btn-block btn-primary m-b-lg" style="white-space: normal">{{ $item->article->name }}</a>
                 @endforeach
             @else
                 <div class="jumbotron text-success text-center">Keine Artikel mehr übrig</div>
@@ -30,7 +30,7 @@
         $(document).ready(function () {
             window.addEventListener('keypress', function(event) {
                 if (event.keyCode == 13) {
-                    window.location.href = '{{ route('handscanner.inventory.process', [$inventory, '']) }}/' + scanned;
+                    window.location.href = '{{ route('handscanner.inventory.process', [$inventory, $category, '']) }}/' + scanned;
                 } else {
                     scanned += String.fromCharCode(event.charCode);
                 }
