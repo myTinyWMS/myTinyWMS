@@ -15,7 +15,15 @@
 
             @if($items->count())
                 @foreach($items as $item)
-                    <a href="{{ route('handscanner.inventory.process', [$inventory, $category, $item->article->article_number]) }}" class="btn btn-md btn-block btn-primary m-b-lg" style="white-space: normal">{{ $item->article->name }}</a>
+                    <a href="{{ route('handscanner.inventory.process', [$inventory, $category, $item->article->article_number]) }}" class="btn btn-md btn-block btn-primary m-b-lg" style="white-space: normal">
+                        <table>
+                            <tr>
+                                <td class="text-left" width="60">{{ $item->article->article_number }}</td>
+                                <td class="text-left">{{ $item->article->name }}</td>
+                            </tr>
+                        </table>
+
+                    </a>
                 @endforeach
             @else
                 <div class="jumbotron text-success text-center">Keine Artikel mehr übrig</div>
