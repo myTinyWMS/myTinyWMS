@@ -11,7 +11,7 @@
         <div class="col-lg-12">
             <h6 class="text-center mb-4 mt-2">Bitte einen Artikel scannen oder auswählen</h6>
 
-            <qr-reader target-url="{{ route('handscanner.inventory.process', [$inventory, '']) }}/" {{--style="height: 200px; width: 200px;"--}}></qr-reader>
+            {{--<qr-reader target-url="{{ route('handscanner.inventory.process', [$inventory, '']) }}/" --}}{{--style="height: 200px; width: 200px;"--}}{{--></qr-reader>--}}
 
             @if($items->count())
                 @foreach($items as $item)
@@ -23,3 +23,18 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        var scanned = '';
+        $(document).ready(function () {
+            window.addEventListener('keypress', function(event) {
+                if (event.keyCode == 13) {
+                    window.location.href = '{{ route('handscanner.inventory.process', [$inventory, '']) }}/' + scanned;
+                } else {
+                    scanned += String.fromCharCode(event.charCode);
+                }
+            });
+        });
+    </script>
+@endpush

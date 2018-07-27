@@ -14,7 +14,7 @@ Route::namespace('Handscanner')->group(function () {
             Route::get('/new', 'InventoryController@new')->name('handscanner.inventory.new');
             Route::get('/{inventory}/select-category', 'InventoryController@selectCategory')->name('handscanner.inventory.select_category');
             Route::get('/{inventory}/category/{category}/select-article', 'InventoryController@selectArticle')->name('handscanner.inventory.select_article');
-            Route::get('/{inventory}/article/{article_number}/process', 'InventoryController@process')->name('handscanner.inventory.process');
+            Route::get('/{inventory}/article/process/{article_number}', 'InventoryController@process')->name('handscanner.inventory.process');
             Route::post('/{inventory}/article/{article}/processed', 'InventoryController@processed')->name('handscanner.inventory.processed');
 
             Route::get('/step1', 'InventoryController@step1')->name('handscanner.inventory.step1');
