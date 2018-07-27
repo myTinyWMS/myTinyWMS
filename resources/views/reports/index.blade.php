@@ -23,6 +23,24 @@
             </div>
         </div>
 
+         <div class="col-lg-3">
+            <div class="contact-box center-version">
+                <a href="#">
+                    <h3 class="m-b-xs"><strong>WA Vergleich</strong></h3>
+                    <div class="font-bold">Monat auswählen um Report zu erstellen:</div>
+                </a>
+                <div class="contact-box-footer">
+                    <form method="post" action="{{ route('reports.article_usage_report') }}" id="article-usage-report">
+                        {{ csrf_field() }}
+                        <div class="m-t-xs btn-group">
+                            <div id="monthpicker2"></div>
+                        </div>
+                        <input type="hidden" value="" name="month" id="month2" />
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="col-lg-2">
             <div class="contact-box center-version">
 
@@ -118,6 +136,15 @@
             }).on('changeDate', function(selected){
                 $('#month').val(moment(selected.date).format('YYYY-MM'));
                 $('#inventory-report').submit();
+            });
+
+            $('#monthpicker2').datepicker({
+                autoclose: true,
+                minViewMode: 1,
+                format: 'yyyy-mm'
+            }).on('changeDate', function(selected){
+                $('#month2').val(moment(selected.date).format('YYYY-MM'));
+                $('#article-usage-report').submit();
             });
         });
     </script>

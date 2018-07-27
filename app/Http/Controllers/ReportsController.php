@@ -5,10 +5,12 @@ namespace Mss\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Mss\Exports\ArticleUsageReport;
 use Mss\Models\Article;
 use Mss\Models\Order;
 use Mss\Models\OrderItem;
 use Mss\Services\InventoryService;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportsController extends Controller
 {
@@ -40,5 +42,9 @@ class ReportsController extends Controller
         $openItems = OrderItem::with(['order', 'article'])->where('invoice_received', 1)->whereDoesntHave('order.deliveries')->get();
 
         return view('reports.invoices_without_delivery', compact('openItems'));
+    }
+
+    public function generateArticleUsageReport(Request $request) {
+        return Excel::download(new ArticleUsageReport($request->get('month')), 'article_usage_report_'.$request->get('month').'.xlsx');
     }
 }
