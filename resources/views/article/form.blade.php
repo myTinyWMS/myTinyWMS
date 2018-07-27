@@ -106,6 +106,9 @@
                         <div class="col-lg-6">
                             {{ Form::bsSelect('inventory', $article->inventory, \Mss\Models\Article::getInventoryTextArray(),  'Inventur Typ') }}
                         </div>
+                        <div class="col-lg-6">
+                            {{ Form::bsText('free_lines_in_printed_list', $article->free_lines_in_printed_list ?? 1, [], 'Leere Zeilen in Lagerliste') }}
+                        </div>
                     </div>
 
                     {{ Form::bsTextarea('notes', $article->notes, ['rows' => 4], 'Bemerkungen') }}

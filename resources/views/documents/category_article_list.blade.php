@@ -56,10 +56,14 @@
             <tbody>
                 @foreach($category->articles as $article)
                 <tr>
-                    <td>{{ $article->article_number }}</td>
-                    <td>{{ $article->name }}</td>
-                    <td>{{ $article->issue_quantity }} {{ optional($article->unit)->name }}</td>
-                    <td></td>
+                    <td style="vertical-align: top">{{ $article->article_number }}</td>
+                    <td style="vertical-align: top">{{ $article->name }}</td>
+                    <td style="vertical-align: top">{{ $article->issue_quantity }} {{ optional($article->unit)->name }}</td>
+                    <td>
+                        @for($i = 0; $i<($article->free_lines_in_printed_list ?? 1); $i++)
+                            <br>
+                        @endfor
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
