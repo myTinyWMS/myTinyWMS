@@ -4,6 +4,7 @@ namespace Mss\Exports;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -98,6 +99,11 @@ class ArticleUsageReport implements FromCollection, WithColumnFormatting, WithEv
                 $currentSupplierArticle = $article->getSupplierArticleAtDate($end1);
                 $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $end1) : 0;
                 $status = $article->getAttributeAtDate('status', $end1);
+
+                if (!$currentSupplierArticle) {
+                    Log::error('Missing $currentSupplierArticle', [$article]);
+                    return false;
+                }
 
                 return [
                     'Artikelnummer' => $article->article_number,
