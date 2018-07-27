@@ -1,13 +1,21 @@
 @extends('layout.handscanner')
 
 @section('subheader')
-    Inventur Schritt 2
+    Inventur - Eingabe
 @endsection
 
-@section('back', route('handscanner.inventory.step1'))
+@section('back', route('handscanner.inventory.select_article', [$inventory, $article->category]))
 
 @section('content')
-    <form method="post" action="{{ route('handscanner.inventory.step3') }}" id="saveinventory">
+    @if (!$article->category->is($category))
+        <div class="alert alert-secondary">Achtung, Artikel ist aus anderer Kategorie!</div>
+    @endif
+
+    @if(!is_null($item->processed_at))
+        <div class="alert alert-warning">Achtung, Artikel wurde bereits bearbeitet!</div>
+    @endif
+
+    <form method="post" action="{{ route('handscanner.inventory.processed', [$inventory, $article]) }}" id="saveinventory">
         @csrf
 
         <div class="row">
@@ -40,9 +48,8 @@
                     </div>
                 </div>
 
-                <input type="hidden" name="article" value="{{ $article->id }}" />
                 <button type="submit" class="btn btn-lg btn-success" id="changelogSubmit">Speichern</button>
-                <a href="{{ route('handscanner.inventory.step1') }}" class="btn btn-lg btn-secondary pull-right">Abbrechen</a>
+                <a href="{{ route('handscanner.inventory.select_article', [$inventory, $article->category]) }}" class="btn btn-lg btn-secondary pull-right">Abbrechen</a>
             </div>
 
         </div>
