@@ -74,8 +74,7 @@ class InventoryController extends Controller
         /* @var $article Article */
         $article->changeQuantity(($request->get('quantity') - $article->quantity), ArticleQuantityChangelog::TYPE_INVENTORY, 'Inventurupdate '.date("d.m.Y"));
 
-        $item = $inventory->items->where('article', $article)->first();
-
+        $item = $inventory->items->where('article_id', $article->id)->first();
 
         if ($item) {
             $item->processed_at = now();
