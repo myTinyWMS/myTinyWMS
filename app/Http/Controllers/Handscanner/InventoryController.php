@@ -73,12 +73,21 @@ class InventoryController extends Controller
     public function processed(Inventory $inventory, Article $article, Request $request) {
         /* @var $article Article */
         $article->changeQuantity(($request->get('quantity') - $article->quantity), ArticleQuantityChangelog::TYPE_INVENTORY, 'Inventurupdate '.date("d.m.Y"));
-        flash('Änderung gespeichert')->success();
 
         $item = $inventory->items->where('article', $article)->first();
-        $item->processed_at = now();
-        $item->processed_by = Auth::id();
-        $item->save();
+
+
+        if ($item) {
+            $item->processed_at = now();
+            $item->processed_by = Auth::id();
+            $item->save();
+
+            flash('Änderung gespeichert')->success();
+
+            return response()->redirectToRoute('handscanner.inventory.select_article', [$inventory, $article->category]);
+        }
+
+        flash('Fehler beim Speichern')->error();
 
         return response()->redirectToRoute('handscanner.inventory.select_article', [$inventory, $article->category]);
     }
