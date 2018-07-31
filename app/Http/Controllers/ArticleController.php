@@ -308,6 +308,24 @@ class ArticleController extends Controller
         return redirect()->route('article.index');
     }
 
+    public function sortUpdateForm() {
+        $articles = Article::active()->with('category')->withCurrentSupplier()->withCurrentSupplierName()->orderBy('sort_id')->get()->groupBy(function ($article) {
+            return optional($article->category)->name;
+        })->ksort();
+        $units = Unit::orderedByName()->pluck('name', 'id');
+
+        return view('article.sort_update', compact('articles', 'units'));
+    }
+
+    public function sortUpdateFormPost(Request $request) {
+        Article::find(array_keys($request->get('list')))->each(function ($article) use ($request) {
+            $article->sort_id = intval($request->get('list')[$article->id]);
+            $article->save();
+        });
+
+        return response()->json(['status' => 'ok']);
+    }
+
     public function massUpdateForm() {
         $articles = Article::active()->with('category')->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
             return optional($article->category)->name;
@@ -318,8 +336,7 @@ class ArticleController extends Controller
     }
 
     public function massUpdateSave(Request $request) {
-        Article::whereIn('id', array_keys($request->get('sort_id')))->get()->each(function ($article) use ($request) {
-            $article->sort_id = $request->get('sort_id')[$article->id];
+        Article::whereIn('id', array_keys($request->get('unit_id')))->get()->each(function ($article) use ($request) {
             $article->inventory = $request->get('inventory')[$article->id];
 
             $newUnitId = intval($request->get('unit_id')[$article->id]);

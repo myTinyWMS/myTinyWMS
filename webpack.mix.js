@@ -77,7 +77,8 @@ mix
         'resources/assets/vendor/summernote/summernote-de-DE.js',
         'resources/assets/vendor/dropzone/dropzone.js',
         'resources/assets/vendor/iCheck/icheck.min.js',
-        'resources/assets/vendor/js-cookie/js.cookie.js'
+        'resources/assets/vendor/js-cookie/js.cookie.js',
+        'resources/assets/vendor/html5sortable/html5sortable.min.js'
     ], 'public/js/vendor.js')
     .combine([
         'resources/assets/vendor/jquery/jquery-3.1.1.min.js',

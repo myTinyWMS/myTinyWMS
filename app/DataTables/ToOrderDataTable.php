@@ -12,11 +12,6 @@ use Mss\Models\OrderItem;
 class ToOrderDataTable extends ArticleDataTable
 {
     /**
-     * @var bool
-     */
-    protected $sortingEnabled = false;
-
-    /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.

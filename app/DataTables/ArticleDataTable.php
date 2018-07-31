@@ -18,11 +18,6 @@ class ArticleDataTable extends BaseDataTable
     protected $rawColumns = ['action', 'price', 'checkbox', 'order_number', 'supplier_name'];
 
     /**
-     * @var bool
-     */
-    protected $sortingEnabled = true;
-
-    /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
@@ -151,14 +146,6 @@ class ArticleDataTable extends BaseDataTable
         $parameters = [
             'order' => [[2, 'asc']]
         ];
-
-        if ($this->sortingEnabled) {
-            $parameters['rowReorder'] = [
-                'selector' => 'tr>td:nth-child(2)',
-                'dataSrc' => 'sort_id',
-                'update' => false // this is key to prevent DT auto update
-            ];
-        }
 
         return $parameters;
     }

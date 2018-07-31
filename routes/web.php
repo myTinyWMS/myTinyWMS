@@ -16,6 +16,8 @@ Auth::routes();
 Route::get('/', 'DashboardController@index');
 
 Route::group(['middleware' => ['auth']], function () {
+    Route::get('article/sort-update', 'ArticleController@sortUpdateForm')->name('article.sort_update_form');
+    Route::post('article/sort-update', 'ArticleController@sortUpdateFormPost')->name('article.sort_update_form_post');
     Route::get('article/mass-update', 'ArticleController@massUpdateForm')->name('article.mass_update_form');
     Route::post('article/mass-update', 'ArticleController@massUpdateSave')->name('article.mass_update_save');
     Route::get('article/inventory-update', 'ArticleController@inventoryUpdateForm')->name('article.inventory_update_form');

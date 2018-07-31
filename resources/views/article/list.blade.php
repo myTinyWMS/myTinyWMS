@@ -16,6 +16,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="{{ route('article.mass_update_form') }}">Massenupdate</a></li>
                                 <li><a href="{{ route('article.inventory_update_form') }}">Inventurupdate</a></li>
+                                <li><a href="{{ route('article.sort_update_form') }}">Sortierung</a></li>
                             </ul>
                         </div>
 
@@ -84,24 +85,12 @@
 @push('scripts')
     {!! $dataTable->scripts() !!}
     <script>
-        let dndEnabled = false;
-
         $(document).ready(function () {
-            $("body").on('dt.init', function () {
-                window.setTimeout(function () {
-                    window.LaravelDataTables.dataTableBuilder.rowReorder.disable();
-                }, 500);
-            });
-
             $("body").on('dt.filter.filterCategory', function () {
                 if (parseInt($('#filterCategory').val()) > 0) {
                     window.LaravelDataTables.dataTableBuilder.columns(1).visible(true);
-                    dndEnabled = true;
-                    window.LaravelDataTables.dataTableBuilder.rowReorder.enable();
                 } else {
                     window.LaravelDataTables.dataTableBuilder.columns(1).visible(false);
-                    dndEnabled = false;
-                    window.LaravelDataTables.dataTableBuilder.rowReorder.disable();
                 }
             });
 
@@ -125,34 +114,6 @@
                 window.LaravelDataTables.dataTableBuilder.columns({{ \Mss\DataTables\ArticleDataTable::SUPPLIER_COL_ID }}).search({{ $preSelectedSupplier }}).draw();
                 $('#filterSupplier option[value="{{ $preSelectedSupplier }}"]').attr('selected', 'selected');
             @endif
-        });
-
-        window.LaravelDataTables.dataTableBuilder.on( 'row-reorder', function ( e, diff, edit ) {
-            if (!dndEnabled) {
-                return false;
-            }
-
-            let items = [];
-            for (let i = 1; i < e.target.rows.length; i++) {
-                items.push({
-                    id: $(e.target.rows[i]).attr('id'),
-                    position: i
-                });
-            }
-
-            $.ajax({
-                url     : '{{ URL::to('article/reorder') }}',
-                type    : 'POST',
-                data    : JSON.stringify(items),
-                dataType: 'json',
-                success : function ( json )
-                {
-                    $('#dataTableBuilder').DataTable().ajax.reload(); // now refresh datatable
-                    $.each(json, function (key, msg) {
-                        // handle json response
-                    });
-                }
-            });
         });
     </script>
 @endpush
