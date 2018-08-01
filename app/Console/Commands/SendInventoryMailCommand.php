@@ -43,12 +43,10 @@ class SendInventoryMailCommand extends Command
     public function handle() {
         if (!empty($this->argument('date'))) {
             $date = Carbon::parse($this->argument('date'));
-            $to = 'mail@example.com';
-            $cc = [];
+            $to = explode(',', env('INVENTORY_MANUAL_RECEIVER'));
         } else {
             $date = Carbon::now();
-            $to = 'mail@example.com';
-            $cc = ['mail@example.com', 'mail@example.com'];
+            $to = explode(',', env('INVENTORY_AUTOMATIC_RECEIVER'));
         }
 
         $excelFilePath = InventoryService::generateExcel($date->copy()->subDay());
@@ -63,6 +61,6 @@ class SendInventoryMailCommand extends Command
             [file_get_contents($deliveriesWithoutInvoicesPath), 'application/pdf', basename($deliveriesWithoutInvoicesPath)]
         ];
 
-        Mail::to($to)->cc($cc)->send(new InventoryMail($date, $attachments));
+        Mail::to($to)->send(new InventoryMail($date, $attachments));
     }
 }
