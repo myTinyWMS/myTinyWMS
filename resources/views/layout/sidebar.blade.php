@@ -37,12 +37,17 @@
             </li>
             <li class="{{ active_class(if_uri_pattern(['unit*'])) }}">
                 <a href="{{ url('/unit') }}" title="Einheiten">
-                    <i class="fa fa-th-list"></i> <span class="nav-label">Einheiten</span>
+                    <i class="fa fa-balance-scale"></i> <span class="nav-label">Einheiten</span>
                 </a>
             </li>
-            <li>
+            <li class="{{ active_class(if_uri_pattern(['report*'])) }}">
                 <a href="{{ url('/reports') }}" title="Reports">
                     <i class="fa fa-table"></i> <span class="nav-label">Reports</span>
+                </a>
+            </li>
+            <li class="{{ active_class(if_uri_pattern(['inventory*'])) }}">
+                <a href="{{ url('/inventory') }}" title="Inventur">
+                    <i class="fa fa-check"></i> <span class="nav-label">Inventur</span>
                 </a>
             </li>
         </ul>

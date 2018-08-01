@@ -12,56 +12,54 @@
 @endsection
 
 @section('content')
-    <form method="post" action="{{ route('article.mass_update_save') }}">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="tabs-container">
-                    <div class="tabs-left">
-                        <ul class="nav nav-tabs" role="tablist">
-                            @foreach($articles->keys() as $category)
-                                <li class="@if($loop->first) active @endif">
-                                    <a class="nav-link" data-toggle="tab" href="#{{ str_replace(' ', '_', $category) }}">{{ $category }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tabs-container">
+                <div class="tabs-left">
+                    <ul class="nav nav-tabs" role="tablist">
+                        @foreach($articles->keys() as $category)
+                            <li class="@if($loop->first) active @endif">
+                                <a class="nav-link" data-toggle="tab" href="#{{ md5($category) }}">{{ $category }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
 
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            @foreach($articles as $category => $items)
-                                <div role="tabpanel" class="tab-pane @if($loop->first) active @endif" id="{{ str_replace(' ', '_', $category) }}">
-                                    <div class="panel-body">
-                                        <table class="table table-striped table-hover table-condensed">
-                                            <thead>
-                                                <tr>
-                                                    <th width="5%">Sortierung</th>
-                                                    <th>Artikel</th>
-                                                    <th width="15%">Lieferant</th>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        @foreach($articles as $category => $items)
+                            <div role="tabpanel" class="tab-pane @if($loop->first) active @endif" id="{{ md5($category) }}">
+                                <div class="panel-body">
+                                    <table class="table table-striped table-hover table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%">Sortierung</th>
+                                                <th>Artikel</th>
+                                                <th width="15%">Lieferant</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="js-sortable-table" aria-dropeffect="move">
+                                            @foreach($items as $article)
+                                                <tr class="js-sortable-tr" draggable="true" role="option" aria-grabbed="false">
+                                                    <td class="sort_id">
+                                                        <span class="sort_id_output">{{ $article->sort_id }}</span>
+                                                        <input type="hidden" data-id="{{  $article->id }}" name="sort_id[{{ $article->id }}]" value="{{ $article->sort_id }}" />
+                                                    </td>
+                                                    <td><a href="{{ route('article.show', $article) }}">{{ $article->name }}</a></td>
+                                                    <td>{{ $article->supplier_name }}</td>
                                                 </tr>
-                                            </thead>
-                                            <tbody class="js-sortable-table" aria-dropeffect="move">
-                                                @foreach($items as $article)
-                                                    <tr class="js-sortable-tr" draggable="true" role="option" aria-grabbed="false">
-                                                        <td class="sort_id">
-                                                            <span class="sort_id_output">{{ $article->sort_id }}</span>
-                                                            <input type="hidden" data-id="{{  $article->id }}" name="sort_id[{{ $article->id }}]" value="{{ $article->sort_id }}" />
-                                                        </td>
-                                                        <td><a href="{{ route('article.show', $article) }}">{{ $article->name }}</a></td>
-                                                        <td>{{ $article->supplier_name }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                        <button type="button" class="btn btn-primary save-sort m-r-md">Speichern</button>
-                                        <span class="text-success hidden">Sortierung gespeichert</span>
-                                    </div>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <button type="button" class="btn btn-primary save-sort m-r-md">Speichern</button>
+                                    <span class="text-success hidden">Sortierung gespeichert</span>
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 @endsection
 
 @push('scripts')

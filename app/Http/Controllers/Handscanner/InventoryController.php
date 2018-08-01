@@ -9,6 +9,7 @@ use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\Category;
 use Mss\Models\Inventory;
+use Mss\Services\InventoryService;
 
 class InventoryController extends Controller
 {
@@ -19,16 +20,7 @@ class InventoryController extends Controller
     }
 
     public function new() {
-        $inventory = Inventory::create([
-            'started_by' => Auth::id()
-        ]);
-
-        $articles = Article::active()->where('inventory', Article::INVENTORY_TYPE_CONSUMABLES)->get();
-        $articles->each(function ($article) use ($inventory) {
-            $inventory->items()->create([
-                'article_id' => $article->id
-            ]);
-        });
+        $inventory = InventoryService::createNewInventory();
 
         return response()->redirectToRoute('handscanner.inventory.select_category', $inventory);
     }
@@ -40,25 +32,13 @@ class InventoryController extends Controller
     }
 
     public function selectCategory(Inventory $inventory) {
-        $inventory->load(['items' => function ($query) {
-            $query->unprocessed()->with('article.category');
-        }]);
-
-        $categories = $inventory->items->map(function ($item) {
-            return $item->article->category;
-        })->unique()->sortBy('name');
+        $categories = InventoryService::getOpenCategories($inventory);
 
         return view('handscanner.inventory.select_category', compact('categories', 'inventory'));
     }
 
     public function selectArticle(Inventory $inventory, Category $category) {
-        $inventory->load(['items' => function ($query) {
-            $query->unprocessed()->with('article.category');
-        }]);
-
-        $items = $inventory->items->filter(function ($item) use ($category) {
-            return ($item->article->category->is($category));
-        });
+        $items = InventoryService::getOpenArticles($inventory, $category);
 
         return view('handscanner.inventory.select_article', compact('items', 'category', 'inventory'));
     }
@@ -99,15 +79,7 @@ class InventoryController extends Controller
         $inventory->load(['items' => function ($query) {
             $query->unprocessed()->with('article.category');
         }]);
-
-        $inventory->items->filter(function ($item) use ($category) {
-            return ($item->article->category->is($category));
-        })->each(function ($item) {
-            $item->processed_at = now();
-            $item->processed_by = Auth::id();
-            $item->save();
-        });
-
+        InventoryService::markCategoryAsDone($inventory, $category);
         flash('Kategorie abgeschlossen')->success();
 
         return response()->redirectToRoute('handscanner.inventory.select_category', [$inventory]);

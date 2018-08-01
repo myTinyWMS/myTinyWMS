@@ -25,6 +25,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('article/{article}/file_upload', 'ArticleController@fileUpload')->name('article.file_upload');
     Route::get('article/{article}/file-download/{file}', 'ArticleController@fileDownload')->name('article.file_download');
 
+    Route::post('inventory/{inventory}/article/{article}/processed', 'InventoryController@processed')->name('inventory.processed');
+    Route::get('inventory/{inventory}/article/{article}/correct', 'InventoryController@correct')->name('inventory.correct');
+    Route::get('inventory/{inventory}/category/{category}/done', 'InventoryController@categoryDone')->name('inventory.category.done');
+    Route::get('inventory/{inventory}/finish', 'InventoryController@finish')->name('inventory.finish');
+
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::resources([
         'article' => 'ArticleController',
@@ -32,6 +37,7 @@ Route::group(['middleware' => ['auth']], function () {
         'category' => 'CategoryController',
         'order' => 'OrderController',
         'unit' => 'UnitController',
+        'inventory' => 'InventoryController',
     ]);
 
     Route::get('reports', 'ReportsController@index')->name('reports.index');

@@ -116,13 +116,17 @@ body {
 }
 
 .p-t-8 {
-  padding-top: 8px;
+  padding-top: 8px!important;
   display: inline-block;
 }
 
 .p-t-12 {
-  padding-top: 12px;
+  padding-top: 12px!important;
   display: inline-block;
+}
+
+.p-t-15 {
+  padding-top: 15px!important;
 }
 
 .table-striped tr.bg-danger {
