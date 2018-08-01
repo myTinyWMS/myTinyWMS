@@ -14,12 +14,10 @@
     @if(!is_null($item->processed_at))
         <div class="alert alert-warning">Achtung, Artikel wurde bereits bearbeitet!</div>
     @endif
-
-    <form method="post" action="{{ route('handscanner.inventory.processed', [$inventory, $article]) }}" id="saveinventory">
-        @csrf
-
-        <div class="row">
-            <div class="col">
+    <div class="row">
+        <div class="col">
+            <form method="post" action="{{ route('handscanner.inventory.processed', [$inventory, $article]) }}" id="saveinventory">
+                @csrf
                 <div class="row text-left">
                     <div class="col">
                         <div class="label">Name:</div>
@@ -50,10 +48,20 @@
 
                 <button type="submit" class="btn btn-lg btn-success" id="changelogSubmit">Speichern</button>
                 <a href="{{ route('handscanner.inventory.select_article', [$inventory, $article->category]) }}" class="btn btn-lg btn-secondary pull-right">Abbrechen</a>
-            </div>
-
+            </form>
         </div>
-    </form>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <form method="post" action="{{ route('handscanner.inventory.processed', [$inventory, $article]) }}">
+                @csrf
+                <br>
+                <br>
+                <input type="hidden" name="quantity" value="{{ $article->quantity }}">
+                <button type="submit" class="btn btn-lg btn-primary">Bestand stimmt</button>
+            </form>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')

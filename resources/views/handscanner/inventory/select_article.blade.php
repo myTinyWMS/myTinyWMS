@@ -30,6 +30,16 @@
             @endif
         </div>
     </div>
+    <div class="row">
+        <div class="col text-center">
+            <form method="post" action="{{ route('handscanner.inventory.category_processed', [$inventory, $category]) }}">
+                @csrf
+                <br>
+                <br>
+                <button type="submit" class="btn btn-lg btn-danger">Kategorie abschließen</button>
+            </form>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')

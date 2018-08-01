@@ -72,7 +72,11 @@ class InventoryController extends Controller
 
     public function processed(Inventory $inventory, Article $article, Request $request) {
         /* @var $article Article */
-        $article->changeQuantity(($request->get('quantity') - $article->quantity), ArticleQuantityChangelog::TYPE_INVENTORY, 'Inventurupdate '.date("d.m.Y"));
+
+        $diff = ($request->get('quantity') - $article->quantity);
+        if ($diff !== 0) {
+            $article->changeQuantity($diff, ArticleQuantityChangelog::TYPE_INVENTORY, 'Inventurupdate '.date("d.m.Y"));
+        }
 
         $item = $inventory->items->where('article_id', $article->id)->first();
 
@@ -89,5 +93,23 @@ class InventoryController extends Controller
         flash('Fehler beim Speichern')->error();
 
         return response()->redirectToRoute('handscanner.inventory.select_article', [$inventory, $article->category]);
+    }
+
+    public function categoryProcessed(Inventory $inventory, Category $category) {
+        $inventory->load(['items' => function ($query) {
+            $query->unprocessed()->with('article.category');
+        }]);
+
+        $inventory->items->filter(function ($item) use ($category) {
+            return ($item->article->category->is($category));
+        })->each(function ($item) {
+            $item->processed_at = now();
+            $item->processed_by = Auth::id();
+            $item->save();
+        });
+
+        flash('Kategorie abgeschlossen')->success();
+
+        return response()->redirectToRoute('handscanner.inventory.select_category', [$inventory]);
     }
 }
