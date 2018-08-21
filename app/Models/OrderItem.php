@@ -54,6 +54,9 @@ class OrderItem extends AuditableModel
      */
     protected function getAuditFormatters() {
         return [
+            'invoice_received' => function ($value) {
+                return is_numeric($value) ? self::INVOICE_RECEIVED_TEXT[$value] : $value;
+            },
             'confirmation_received' => function ($value) {
                 return $value ? self::CONFIRMATION_RECEIVED_TEXT[1] : self::CONFIRMATION_RECEIVED_TEXT[0];
             },
