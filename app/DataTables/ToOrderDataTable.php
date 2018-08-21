@@ -52,7 +52,7 @@ class ToOrderDataTable extends ArticleDataTable
             ->where('min_quantity', '>', -1)
             ->where('status', Article::STATUS_ACTIVE)
             ->whereDoesntHave('orderItems', function ($query) {
-                $query->whereHas('order', function ($query) {
+                $query->notFullyDelivered()->whereHas('order', function ($query) {
                     $query->statusOpen();
                 });
             });

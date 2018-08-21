@@ -58,4 +58,8 @@ class OrderItem extends AuditableModel
             return $deliveryItem ? $deliveryItem->quantity : 0;
         })->sum();
     }
+
+    public function scopeNotFullyDelivered($query) {
+        $query->whereRaw('COALESCE((SELECT SUM(quantity) FROM delivery_items INNER JOIN deliveries ON deliveries.id = delivery_items.delivery_id WHERE deliveries.order_id = order_items.order_id and delivery_items.article_id = order_items.article_id),0) < order_items.quantity');
+    }
 }
