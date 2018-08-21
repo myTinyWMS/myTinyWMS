@@ -29,6 +29,8 @@ class OrderItem extends AuditableModel
         1 => 'erhalten'
     ];
 
+    protected $ignoredAuditFields = ['order_id'];
+
     protected $fillable = ['article_id', 'price', 'quantity', 'expected_delivery'];
 
     protected $casts = [
@@ -39,7 +41,12 @@ class OrderItem extends AuditableModel
 
     protected $fieldNames = [
         'invoice_received' => 'Rechnung',
-        'confirmation_received' => 'Auftragsbestätigung'
+        'confirmation_received' => 'Auftragsbestätigung',
+        'price' => 'Preis',
+        'quantity' => 'bestellte Menge',
+        'expected_delivery' => 'Liefertermin',
+        'order_id' => 'Bestellung',
+        'article_id' => 'Artikel'
     ];
 
     /**
@@ -49,6 +56,9 @@ class OrderItem extends AuditableModel
         return [
             'confirmation_received' => function ($value) {
                 return $value ? self::CONFIRMATION_RECEIVED_TEXT[1] : self::CONFIRMATION_RECEIVED_TEXT[0];
+            },
+            'article_id' => function ($value) {
+                return $value ? Article::find($value)->name : null;
             }
         ];
     }

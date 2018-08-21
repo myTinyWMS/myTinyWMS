@@ -50,6 +50,8 @@ class Order extends AuditableModel
 
     protected $dates = ['order_date', 'expected_delivery'];
 
+    protected $ignoredAuditFields = ['supplier_id'];
+
     protected $fieldNames = [
         'status' => 'Status',
         'payment_status' => 'Bezahlmethode',
