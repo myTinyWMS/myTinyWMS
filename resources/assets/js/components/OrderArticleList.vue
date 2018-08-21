@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <button class="btn btn-primary btn-sm" @click.prevent="addArticle()">Artikel hinzufügen</button>
+        <button class="btn btn-primary btn-sm" @click.prevent="addArticle(true)">Artikel hinzufügen</button>
     </div>
 </template>
 
@@ -55,7 +55,7 @@
 
         created() {
             if (!this.articles.length) {
-                this.addArticle();
+                this.addArticle(false);
             }
         },
 
@@ -84,7 +84,7 @@
                 );
             },
 
-            addArticle() {
+            addArticle(showArticleList) {
                 this.articles.push({
                     id: null,
                     order_item_id: null,
@@ -94,6 +94,11 @@
                     price: '',
                     expected_delivery: ''
                 });
+
+                if (showArticleList) {
+                    $('#articleSelectModal').modal('show');
+                    this.showArticleList(this.articles.length - 1);
+                }
             },
 
             removeArticle(index) {

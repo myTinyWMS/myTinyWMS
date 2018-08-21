@@ -144,6 +144,7 @@
             <option value="all">alle</option>
             <option value="1">aktiv</option>
             <option value="0">deaktiviert</option>
+            <option value="2">Bestellstopp</option>
         </select>
     </label>
 @endsection

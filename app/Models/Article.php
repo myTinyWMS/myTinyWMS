@@ -267,7 +267,8 @@ class Article extends AuditableModel
         return [
             'status' => [
                 0 => [0, '0', 'deaktiviert'],
-                1 => [1, '1', 'aktiv']
+                1 => [1, '1', 'aktiv'],
+                2 => [2, '2', 'Bestellstopp']
             ]
         ];
     }
