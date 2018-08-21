@@ -194,7 +194,7 @@ class OrderController extends Controller
      */
     public function show($id, AssignOrderDataTable $assignOrderDataTable) {
         $order = Order::with('items.order.items')->findOrFail($id);
-        $audits = $order->getAudits();
+        $audits = $order->getAllAudits();
         $messages = $order->messages()->with('user')->latest('received')->get();
 
         return $assignOrderDataTable->render('order.show', compact('order', 'audits', 'messages'));

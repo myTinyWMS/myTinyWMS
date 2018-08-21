@@ -305,7 +305,7 @@ class Article extends AuditableModel
     }
 
     public function getAllAudits() {
-        $articleSupplierAudits = $this->supplierArticles->transform(function ($item) {
+        $articleSupplierAudits = $this->supplierArticles->map(function ($item) {
             return $item->getAudits();
         })->flatten(1);
 

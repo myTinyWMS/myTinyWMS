@@ -142,4 +142,19 @@ class Order extends AuditableModel
 
         return $data;
     }
+
+    public function getAllAudits() {
+        $orderItemAudits = $this->items->map(function ($item) {
+            return $item->getAudits()->transform(function ($audit) use ($item) {
+                $audit['modified']->transform(function ($modified) use ($item) {
+                    $modified['name'] .= ' (#'.$item->article->article_number.')';
+                    return $modified;
+                });
+                return $audit;
+            });
+        })->flatten(1);
+
+        $audits = $this->getAudits();
+        return collect($audits->toArray())->merge($orderItemAudits)->sortByDesc('timestamp');
+    }
 }

@@ -210,9 +210,9 @@
                                             <i class="fa fa-check"></i>
                                         </button>
                                         <ul class="dropdown-menu invoice-status-dropdown" aria-labelledby="dLabel">
-                                            <li><a href="#" data-value="{{ \Mss\Models\OrderItem::INVOICE_STATUS_RECEIVED }}">erhalten</a></li>
-                                            <li><a href="#" data-value="{{ \Mss\Models\OrderItem::INVOICE_STATUS_CHECK }}">in Prüfung</a></li>
-                                            <li><a href="#" data-value="{{ \Mss\Models\OrderItem::INVOICE_STATUS_OPEN }}">nicht erhalten</a></li>
+                                            <li><a href="#" data-value="{{ \Mss\Models\OrderItem::INVOICE_STATUS_RECEIVED }}">{{ \Mss\Models\OrderItem::INVOICE_RECEIVED_TEXT[\Mss\Models\OrderItem::INVOICE_STATUS_RECEIVED] }}</a></li>
+                                            <li><a href="#" data-value="{{ \Mss\Models\OrderItem::INVOICE_STATUS_CHECK }}">{{ \Mss\Models\OrderItem::INVOICE_RECEIVED_TEXT[\Mss\Models\OrderItem::INVOICE_STATUS_CHECK] }}</a></li>
+                                            <li><a href="#" data-value="{{ \Mss\Models\OrderItem::INVOICE_STATUS_OPEN }}">{{ \Mss\Models\OrderItem::INVOICE_RECEIVED_TEXT[\Mss\Models\OrderItem::INVOICE_STATUS_OPEN] }}</a></li>
                                         </ul>
                                         <input type="hidden" name="invoice_status" value="" />
                                         <input type="hidden" name="mail_note" value="" />
