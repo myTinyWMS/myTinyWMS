@@ -56,6 +56,6 @@ class SupplierMail extends Mailable
             }
         });
 
-        return $this->from('mail@example.com', $this->username)->view('emails.blank', ['content' => $this->body]);
+        return $this->from(config('mail.from.address'), $this->username)->view('emails.blank', ['content' => $this->body]);
     }
 }
