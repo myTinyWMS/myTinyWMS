@@ -25,7 +25,7 @@
         </div>
         <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
 
-        <a href="{{ route('password.request') }}"><small>Forgot password?</small></a>
+        <a href="{{ route('password.request') }}"><small>Passwort vergessen?</small></a>
     </form>
     <p class="m-t"> <small>Mail &copy; {{ date("Y") }}</small> </p>
 @endsection
