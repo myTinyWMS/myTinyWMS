@@ -25,7 +25,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Bestand</label>
                                     <div class="form-control-static">
-                                        {{ $article->quantity }} <button type="button" class="btn btn-danger btn-xs edit-quantity m-l-md" data-toggle="modal" data-target="#changeQuantityModal">ändern</button>
+                                        {{ $article->quantity }} <button type="button" class="btn btn-danger btn-xs edit-quantity m-l-md" data-toggle="modal" data-target="#changeQuantityModal" data-type="change">ändern</button>
                                     </div>
                                 </div>
                             @endif
@@ -69,7 +69,10 @@
                     <div class="row">
                         <div class="col-lg-6">
                             @if (!empty($article->unit_id))
-                            {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => '', 'disabled' => 'disabled', 'title' => 'Nicht änderbar!']) }}
+                                <div class="form-group">
+                                    <label class="control-label">Einheit</label>
+                                    <div class="form-control-static">{{ $article->unit->name }}</div>
+                                </div>
                             @else
                             {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => '']) }}
                             @endif
@@ -185,7 +188,7 @@
                                         <option value=""></option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING }}" data-type="add">Wareneingang</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING }}" data-type="sub">Warenausgang</option>
-                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_CORRECTION }}" data-type="both">Korrektur</option>
+                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_CORRECTION }}" data-type="fix">Korrektur</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_INVENTORY }}" data-type="both">Inventur</option>
                                     </select>
                                 </div>
@@ -298,12 +301,27 @@
         });
     });
 
-    function updateChangelogType() {
-        $('#changelogType option').show();
-        if (changelogMath === 'add') {
-            $('#changelogType option[data-type="sub"]').hide();
+    $('#changeQuantityModal').on('show.bs.modal', function (event) {
+        if($(event.relatedTarget).attr('data-type') === 'fix') {
+            changelogMath = 'fix';
         } else {
-            $('#changelogType option[data-type="add"]').hide();
+            changelogMath = 'sub';
+        }
+        updateChangelogType();
+    });
+
+    function updateChangelogType() {
+        $('#changelogType option').hide();
+        if (changelogMath === 'add') {
+            $('#changelogType option[data-type="add"]').show();
+            $('#changelogType option[data-type="both"]').show();
+        }
+        if (changelogMath === 'sub') {
+            $('#changelogType option[data-type="sub"]').show();
+            $('#changelogType option[data-type="both"]').show();
+        }
+        if (changelogMath === 'fix') {
+            $('#changelogType option[data-type="fix"]').show();
         }
         $('#changelogType').val(null);
 

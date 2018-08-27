@@ -162,8 +162,12 @@
                                     @include('components.quantity_log.inventory', ['edit' => true])
                                 @endif
                                 <td>
-                                    @if (/*(\Carbon\Carbon::now()->diffInDays($log->created_at) == 0 || Auth::user()->email == 'mail@example.com') && */$loop->first)
+                                    @if (\Carbon\Carbon::now()->month == $log->created_at->month && \Carbon\Carbon::now()->year == $log->created_at->year && $loop->first)
                                     <a href="{{ route('article.quantity_changelog.delete', [$article, $log]) }}" class="btn btn-danger btn-xs" @if($log->deliveryItem) onclick="return confirm('Achtung, der Eintrag wird auch aus der dazugehörigen Lieferung gelöscht!')" @endif>Löschen</a>
+                                    @endif
+
+                                    @if ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING || $log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING)
+                                        <a href="#" class="btn btn-default btn-xs" title="korrigieren" data-toggle="modal" data-target="#changeQuantityModal" data-type="fix"><i class="fa fa-undo"></i></a>
                                     @endif
                                 </td>
                             </tr>
