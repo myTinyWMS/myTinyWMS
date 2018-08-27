@@ -5,6 +5,7 @@ namespace Mss\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
+use Mss\Notifications\ResetPassword;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Contracts\UserResolver;
 
@@ -54,5 +55,9 @@ class User extends Authenticatable implements Auditable, UserResolver
      */
     public function settings() {
         return new UserSettings($this);
+    }
+
+    public function sendPasswordResetNotification($token) {
+        $this->notify(new ResetPassword($token));
     }
 }
