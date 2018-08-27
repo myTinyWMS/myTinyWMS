@@ -4,7 +4,9 @@ namespace Mss\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Mss\Events\DeliverySaved;
+use Mss\Http\Requests\ChangePasswordRequest;
 use Mss\Models\Delivery;
 use Mss\Models\User;
 use Mss\Models\UserSettings;
@@ -30,5 +32,23 @@ class SettingsController extends Controller
         flash('Einstellung gespeichert', 'success');
 
         return response()->redirectToRoute('settings.show');
+    }
+
+    public function changePwForm() {
+        return view('settings.change_pw_form');
+    }
+
+    public function changePw(ChangePasswordRequest $request) {
+        if (!Hash::check($request->get('old_pw'), Auth::user()->password)) {
+            flash('Das alte Passwort ist falsch', 'danger');
+            return response()->redirectToRoute('settings.change_pw');
+        }
+
+        $user = Auth::user();
+        $user->password = Hash::make($request->get('new_pw'));
+        $user->save();
+
+        flash('Passwort geändert', 'success');
+        return response()->redirectToRoute('settings.change_pw');
     }
 }

@@ -52,6 +52,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('settings', 'SettingsController@show')->name('settings.show');
     Route::post('settings', 'SettingsController@save')->name('settings.save');
+    Route::get('change_pw', 'SettingsController@changePwForm')->name('settings.change_pw');
+    Route::post('change_pw', 'SettingsController@changePw')->name('settings.change_pw_post');
 
     Route::post('category/print-list', 'CategoryController@printList')->name('category.print_list');
 

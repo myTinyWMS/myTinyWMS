@@ -25,10 +25,12 @@
                     @endif
                 </ul>
             </li>
-            <li>
-                <a href="{{ route('settings.show') }}" title="Einstellungen">
-                    <i class="fa fa-cogs"></i>
-                </a>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs"></i> <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ route('settings.show') }}">Einstellungen</a></li>
+                    <li><a href="{{ route('settings.change_pw') }}">Passwort ändern</a></li>
+                </ul>
             </li>
             <li>
                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
