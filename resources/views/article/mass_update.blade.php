@@ -40,7 +40,11 @@
                                 <td>{{ $article->supplier_name }}</td>
                                 <td>{{ $article->notes }}</td>
                                 <td>
-                                    {{ Form::bsSelect('unit_id['.$article->id.']', $article->unit_id, $units,  '', ['placeholder' => '']) }}
+                                    @if(empty($article->unit_id))
+                                        {{ Form::bsSelect('unit_id['.$article->id.']', $article->unit_id, $units,  '', ['placeholder' => '']) }}
+                                    @else
+                                        {{ $article->unit->name }}
+                                    @endif
                                 </td>
                                 <td>
                                     {{ Form::bsSelect('inventory['.$article->id.']', $article->inventory, \Mss\Models\Article::getInventoryTextArray(), '') }}

@@ -336,10 +336,10 @@ class ArticleController extends Controller
     }
 
     public function massUpdateSave(Request $request) {
-        Article::whereIn('id', array_keys($request->get('unit_id')))->get()->each(function ($article) use ($request) {
+        Article::whereIn('id', array_keys($request->get('inventory')))->get()->each(function ($article) use ($request) {
             $article->inventory = $request->get('inventory')[$article->id];
 
-            $newUnitId = intval($request->get('unit_id')[$article->id]);
+            $newUnitId = array_key_exists($article->id, $request->get('unit_id')) ? intval($request->get('unit_id')[$article->id]) : null;
             if (!empty($newUnitId) && $article->unit_id !== $newUnitId) {
                 $article->unit_id = $newUnitId;
             }
