@@ -34,7 +34,7 @@ class ArticleUsageReport implements FromCollection, WithColumnFormatting, WithEv
     public function registerEvents(): array {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-                foreach(range('A', 'L') as $col) {
+                foreach(range('A', 'O') as $col) {
                     $event->getSheet()->getDelegate()->getColumnDimension($col)->setAutoSize(true);
                 }
             },
@@ -54,10 +54,13 @@ class ArticleUsageReport implements FromCollection, WithColumnFormatting, WithEv
             'F' => NumberFormat::FORMAT_TEXT,
             'G' => NumberFormat::FORMAT_TEXT,
             'H' => NumberFormat::FORMAT_TEXT,
-            'I' => NumberFormat::FORMAT_NUMBER,
+            'I' => NumberFormat::FORMAT_TEXT,
             'J' => NumberFormat::FORMAT_NUMBER,
-            'K' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-            'L' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
+            'K' => NumberFormat::FORMAT_NUMBER,
+            'L' => NumberFormat::FORMAT_NUMBER,
+            'M' => NumberFormat::FORMAT_NUMBER,
+            'N' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'O' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
         ];
     }
 
@@ -78,6 +81,8 @@ class ArticleUsageReport implements FromCollection, WithColumnFormatting, WithEv
             ->withCurrentSupplierArticle()
             ->withChangelogSumInDateRange($start1, $end1, ArticleQuantityChangelog::TYPE_OUTGOING, 'total_outgoing_month1')
             ->withChangelogSumInDateRange($start2, $end2, ArticleQuantityChangelog::TYPE_OUTGOING, 'total_outgoing_month2')
+            ->withChangelogSumInDateRange($start1, $end1, ArticleQuantityChangelog::TYPE_INVENTORY, 'total_inventory_month1')
+            ->withChangelogSumInDateRange($start2, $end2, ArticleQuantityChangelog::TYPE_INVENTORY, 'total_inventory_month2')
             ->with(['unit', 'category', 'supplierArticles.audits', 'supplierArticles.supplier', 'supplierArticles.article', 'audits'])
             ->orderedByArticleNumber()
             ->get();
@@ -114,6 +119,9 @@ class ArticleUsageReport implements FromCollection, WithColumnFormatting, WithEv
                     'Kategorie' => optional($article->category)->name,
                     'Einheit' => optional($article->unit)->name,
                     'Status' => in_array($status, array_keys(Article::getStatusTextArray())) ? Article::getStatusTextArray()[$status] : '',
+                    'Inventurtyp' => Article::getInventoryTextArray()[$article->inventory],
+                    'Inventur '.$month1 => $article->total_inventory_month1 ?? 0,
+                    'Inventur '.$month2 => $article->total_inventory_month2 ?? 0,
                     'Warenausgang '.$month1 => $article->total_outgoing_month1 ?? 0,
                     'Warenausgang '.$month2 => $article->total_outgoing_month2 ?? 0,
                     'WA Eur '.$month1 => "=I$i*\$D$i",
