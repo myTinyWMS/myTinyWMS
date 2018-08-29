@@ -50,33 +50,35 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request, SelectArticleDataTable $selectArticleDataTable) {
-        $articles = $this->getArticleList();
-        $categories = Category::orderedByName()->get();
-        $tags = Tag::orderedByName()->get();
+        if (!$request->has('draw')) {
+            $articles = $this->getArticleList();
+            $categories = Category::orderedByName()->get();
+            $tags = Tag::orderedByName()->get();
 
-        $order = new Order();
-        $order->internal_order_number = $order->getNextInternalOrderNumber();
-        $order->order_date = Carbon::now();
-        $order->save();
+            $order = new Order();
+            $order->internal_order_number = $order->getNextInternalOrderNumber();
+            $order->order_date = Carbon::now();
+            $order->save();
 
-        $preSetArticles = collect();
-        if ($request->has('article')) {
-            $preSetArticles = Article::withCurrentSupplierArticle()->find($request->get('article'));
-            $preSetArticles->transform(function ($article) {
-                $deliveryTime = intval($article->currentSupplierArticle->delivery_time);
-                $deliveryDate = Carbon::now()->addWeekdays($deliveryTime);
+            $preSetArticles = collect();
+            if ($request->has('article')) {
+                $preSetArticles = Article::withCurrentSupplierArticle()->find($request->get('article'));
+                $preSetArticles->transform(function ($article) {
+                    $deliveryTime = intval($article->currentSupplierArticle->delivery_time);
+                    $deliveryDate = Carbon::now()->addWeekdays($deliveryTime);
 
-                return [
-                    'id' => $article->id,
-                    'order_item_id' => null,
-                    'name' => $article->name,
-                    'supplier_id' => $article->currentSupplierArticle->supplier_id,
-                    'order_notes' => $article->order_notes ?? '',
-                    'price' => $article->currentSupplierArticle->price ? formatPriceValue($article->currentSupplierArticle->price / 100) : '',
-                    'quantity' => $article->currentSupplierArticle->order_quantity ?? '',
-                    'expected_delivery' => $deliveryDate->format('Y-m-d')
-                ];
-            });
+                    return [
+                        'id' => $article->id,
+                        'order_item_id' => null,
+                        'name' => $article->name,
+                        'supplier_id' => $article->currentSupplierArticle->supplier_id,
+                        'order_notes' => $article->order_notes ?? '',
+                        'price' => $article->currentSupplierArticle->price ? formatPriceValue($article->currentSupplierArticle->price / 100) : '',
+                        'quantity' => $article->currentSupplierArticle->order_quantity ?? '',
+                        'expected_delivery' => $deliveryDate->format('Y-m-d')
+                    ];
+                });
+            }
         }
 
         return $selectArticleDataTable->render('order.create', compact('order', 'articles', 'tags', 'categories', 'preSetArticles'));
