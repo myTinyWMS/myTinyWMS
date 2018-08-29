@@ -23,7 +23,7 @@
                         <b>Einheit</b>
                     </td>
                     <td width="15%" align="center" bgcolor="#252525" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
-                        <b>Einzel-Preis</b>
+                        <b>Einzel-Preis netto</b>
                     </td>
                 </tr>
                 @foreach($order->items as $item)

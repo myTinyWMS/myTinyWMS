@@ -44,7 +44,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="control-label">Preis</label>
+                            <label class="control-label">Preis <span class="text-danger">netto</span></label>
                             <div class="form-control-static">{!! formatPrice($article->currentSupplierArticle->price / 100) !!}</div>
                         </div>
                     </div>
@@ -200,7 +200,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    {{ Form::bsText('price', str_replace('.', ',', $article->currentSupplierArticle->price / 100), [], 'Preis') }}
+                                    {{ Form::bsText('price', str_replace('.', ',', $article->currentSupplierArticle->price / 100), [], 'Preis netto') }}
                                 </div>
                             </div>
 

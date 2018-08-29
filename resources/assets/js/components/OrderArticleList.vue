@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-lg-2 text-right">
                     <div class="form-group">
-                        <label for="price[]" class="control-label">Preis je Einheit</label>
+                        <label for="price[]" class="control-label">Preis netto je Einheit</label>
                         <input class="form-control text-right price-select" required="required" name="price[]" id="price[]" type="text" v-model="article.price">
                     </div>
                 </div>

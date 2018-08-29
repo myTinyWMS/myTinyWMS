@@ -163,7 +163,7 @@
                             </div>
                             <div class="col-lg-7">
                                 <div class="col-lg-4">
-                                    <small class="stats-label">Preis je Einheit</small>
+                                    <small class="stats-label">Preis netto je Einheit</small>
                                     <h3>{!! formatPrice($item->price)  !!}</h3>
                                 </div>
 
