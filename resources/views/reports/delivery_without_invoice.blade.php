@@ -22,7 +22,9 @@
                                 <tr>
                                     <th>Artikel</th>
                                     <th>Bestellung</th>
+                                    <th>Lieferant</th>
                                     <th>Lieferzeitpunkt</th>
+                                    <th>Bestellwert</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -34,6 +36,7 @@
                                     <td>
                                         <a href="{{ route('order.show', $item->order) }}" target="_blank">{{ $item->order->internal_order_number }}</a>
                                     </td>
+                                    <td>{{ $item->order->supplier->name }}</td>
                                     <td>
                                         @if($item->deliveryItems->count() > 1)
                                             {{ $item->deliveryItems->first()->created_at->format('d.m.Y') }}
@@ -46,6 +49,7 @@
                                             @endforeach
                                         @endif
                                     </td>
+                                    <td>{!! formatPrice($item->price * $item->quantity) !!}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

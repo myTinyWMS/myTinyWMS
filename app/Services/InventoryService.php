@@ -58,8 +58,8 @@ class InventoryService {
     }
 
     public static function generateDeliveriesWithoutInvoiceReport($date) {
-        $openItems = OrderItem::with(['order', 'article'])->whereHas('order.deliveries')->where('invoice_received', 0)->get()->filter(function ($orderItem) {
-            return $orderItem->deliveryItems->sum('quantity');
+        $openItems = OrderItem::with(['order.supplier', 'article'])->whereHas('order.deliveries')->where('invoice_received', 0)->get()->filter(function ($orderItem) {
+            return ($orderItem->deliveryItems->sum('quantity') && $orderItem->article->inventory == Article::INVENTORY_TYPE_CONSUMABLES);
         });
 
         $filename = 'deliveries_without_invoice_'.$date->format('Y-m-d').'.pdf';
