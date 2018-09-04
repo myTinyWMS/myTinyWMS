@@ -16,6 +16,23 @@ class ArticleTest extends TestCase
 {
     use DatabaseMigrations, HelperTrait;
 
+    public function test_quantity_at_date_before_first_change() {
+        /* @var $article Article */
+        $article = factory(Article::class)->create([
+            'quantity' => 24,
+            'created_at' => Carbon::parse('2018-07-23 10:58:00')
+        ]);
+
+        $this->createArticleChangelog(Carbon::parse('2018-08-07 15:51:00'), $article, 32, ArticleQuantityChangelog::TYPE_INCOMING, 32);
+        $this->createArticleChangelog(Carbon::parse('2018-08-24 08:59:00'), $article, 24, ArticleQuantityChangelog::TYPE_OUTGOING, -8);
+
+        $article->load('audits');
+
+        $start = Carbon::parse('2018-08-01');
+        $this->assertEquals(0, $article->getAttributeAtDate('quantity', $start->copy()->subDay()));
+    }
+
+
     public function test_quantity_at_date_specific_changelog_entry() {
         /* @var $article Article */
         $article = factory(Article::class)->create([
@@ -32,7 +49,6 @@ class ArticleTest extends TestCase
 
         $this->assertEquals(5, $article->getAttributeAtDate('quantity', Carbon::now()->subDays(4)));
     }
-
 
     public function test_changelog_sum_in_date_range() {
         /* @var $article Article */
