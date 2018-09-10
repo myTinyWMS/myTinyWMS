@@ -20,6 +20,8 @@
     "vue": "^2.5.16"
   },
   "dependencies": {
+    "uiv": "^0.26.2",
+    "vue-moment": "^4.0.0",
     "vue-qrcode-reader": "^0.8.5",
     "vue-strap": "^1.1.40"
   }

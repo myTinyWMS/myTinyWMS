@@ -151,7 +151,7 @@ class Article extends AuditableModel
         $this->save();
     }
 
-    public function changeQuantity($change, $type, $note = '', $deliveryItem = null) {
+    public function changeQuantity($change, $type, $note = '', $deliveryItem = null, $relatedId = null) {
         $this->quantityChangelogs()->create([
             'user_id' => Auth::id(),
             'type' => $type,
@@ -159,7 +159,8 @@ class Article extends AuditableModel
             'new_quantity' => ($this->quantity + $change),
             'note' => $note,
             'delivery_item_id' => optional($deliveryItem)->id,
-            'unit_id' => $this->unit_id
+            'unit_id' => $this->unit_id,
+            'related_id' => $relatedId
         ]);
 
         $this->quantity = ($this->quantity + $change);

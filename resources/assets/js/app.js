@@ -8,9 +8,20 @@
 require('./bootstrap');
 window.Vue = require('vue');
 
-Vue.component('order-form', require('./components/OrderForm.vue'));
+Vue.use(require('vue-moment'));
 
+import * as uiv from 'uiv'
+Vue.use(uiv)
+
+Vue.mixin({
+    methods: {
+        route: route
+    }
+});
+
+Vue.component('order-form', require('./components/OrderForm.vue'));
 Vue.component('qr-reader', require('./components/QrReader.vue'));
+Vue.component('article-quantity-changelog', require('./components/ArticelQuantityChangelog.vue'));
 
 Vue.component('scan-qr', {
     // template: '<qr-reader target-url="{{ route('handscanner.inventory.step2', ['articleNumber' => '']) }}/" ref="qrreader" :paused="true" style="width: 200px;" class="m-t-xl"></qr-reader>'

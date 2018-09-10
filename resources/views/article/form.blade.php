@@ -25,7 +25,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Bestand</label>
                                     <div class="form-control-static">
-                                        {{ $article->quantity }} <button type="button" class="btn btn-danger btn-xs edit-quantity m-l-md" data-toggle="modal" data-target="#changeQuantityModal" data-type="change">ändern</button>
+                                        {{ $article->quantity }} <button type="button" class="btn btn-danger btn-xs edit-quantity m-l-md" data-toggle="modal" data-target="#changeQuantityModal">ändern</button>
                                     </div>
                                 </div>
                             @endif
@@ -188,7 +188,6 @@
                                         <option value=""></option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING }}" data-type="add">Wareneingang</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING }}" data-type="sub">Warenausgang</option>
-                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_CORRECTION }}" data-type="fix">Korrektur</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_INVENTORY }}" data-type="both">Inventur</option>
                                     </select>
                                 </div>
@@ -302,11 +301,7 @@
     });
 
     $('#changeQuantityModal').on('show.bs.modal', function (event) {
-        if($(event.relatedTarget).attr('data-type') === 'fix') {
-            changelogMath = 'fix';
-        } else {
-            changelogMath = 'sub';
-        }
+        changelogMath = 'sub';
         updateChangelogType();
     });
 
@@ -319,9 +314,6 @@
         if (changelogMath === 'sub') {
             $('#changelogType option[data-type="sub"]').show();
             $('#changelogType option[data-type="both"]').show();
-        }
-        if (changelogMath === 'fix') {
-            $('#changelogType option[data-type="fix"]').show();
         }
         $('#changelogType').val(null);
 

@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 use Mss\Models\ArticleQuantityChangelog;
 use Route;
 
-class ChangeArticleQuantityRequest extends FormRequest
+class FixArticleQuantityChangeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,9 +32,10 @@ class ChangeArticleQuantityRequest extends FormRequest
                 'changelogtype'
             ],
             'changelogChange' => 'required|integer|min:1',
+            'changelogRelatedId' => 'required|integer|min:1',
             'changelogType' => [
                 'required',
-                Rule::in([ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_OUTGOING, ArticleQuantityChangelog::TYPE_INVENTORY])
+                Rule::in([ArticleQuantityChangelog::TYPE_CORRECTION])
             ],
         ];
     }
