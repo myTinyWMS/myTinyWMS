@@ -15,6 +15,7 @@ use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\Category;
 use Mss\Models\Inventory;
 use Mss\Models\InventoryItem;
+use Mss\Models\Order;
 use Mss\Models\OrderItem;
 
 class InventoryService {
@@ -70,7 +71,9 @@ class InventoryService {
     }
 
     public static function generateInvoicesWithoutDeliveryReport($date) {
-        $openItems = OrderItem::with(['order', 'article'])->where('invoice_received', 1)->whereDoesntHave('order.deliveries')->get();
+        $openItems = OrderItem::with(['order', 'article'])->where('invoice_received', 1)->whereDoesntHave('order.deliveries')->get()->filter(function ($orderItem) {
+            return ($orderItem->order->status !== Order::STATUS_CANCELLED);
+        });
 
         $filename = 'invoices_without_delivery_'.$date->format('Y-m-d').'.pdf';
         $pdf = App::make('snappy.pdf.wrapper');

@@ -39,7 +39,9 @@ class ReportsController extends Controller
     }
 
     public function invoicesWithoutDelivery() {
-        $openItems = OrderItem::with(['order', 'article'])->where('invoice_received', 1)->whereDoesntHave('order.deliveries')->get();
+        $openItems = OrderItem::with(['order', 'article'])->where('invoice_received', 1)->whereDoesntHave('order.deliveries')->get()->filter(function ($orderItem) {
+            return ($orderItem->order->status !== Order::STATUS_CANCELLED);
+        });
 
         return view('reports.invoices_without_delivery', compact('openItems'));
     }
