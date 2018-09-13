@@ -339,9 +339,11 @@ class ArticleController extends Controller
         Article::whereIn('id', array_keys($request->get('inventory')))->get()->each(function ($article) use ($request) {
             $article->inventory = $request->get('inventory')[$article->id];
 
-            $newUnitId = array_key_exists($article->id, $request->get('unit_id')) ? intval($request->get('unit_id')[$article->id]) : null;
-            if (!empty($newUnitId) && $article->unit_id !== $newUnitId) {
-                $article->unit_id = $newUnitId;
+            if ($request->has('unit_id')) {
+                $newUnitId = array_key_exists($article->id, $request->get('unit_id')) ? intval($request->get('unit_id')[$article->id]) : null;
+                if (!empty($newUnitId) && $article->unit_id !== $newUnitId) {
+                    $article->unit_id = $newUnitId;
+                }
             }
 
             $article->save();
