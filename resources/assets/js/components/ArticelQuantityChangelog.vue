@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item, index) in items">
+                <tr v-for="(item, index) in items" v-bind:class="{ 'border-thick': (item.id === highlightedRowId) }">
                     <template v-if="item.type === CHANGELOG_TYPE_INCOMING">
                         <td class="bg-success text-center">WE</td>
                         <td class="text-success text-center">+{{ item.change }}</td>
@@ -29,7 +29,7 @@
 
                     <template v-if="item.type === CHANGELOG_TYPE_CORRECTION">
                         <td class="bg-info text-center">
-                            <span data-toggle="tooltip" data-placement="left" v-bind:title="getTooltip(item)">KOR</span>
+                            <span v-on:mouseover="highlightedRowId = item.related.id" v-on:mouseout="highlightedRowId = null" data-toggle="tooltip" data-placement="left" v-bind:title="getCorrectionTooltip(item)">KOR</span>
                         </td>
                         <td class="text-info text-center">{{ item.change >= 0 ? '+'+item.change : item.change }}</td>
                         <td class="text-center">{{ item.new_quantity }}</td>
@@ -177,7 +177,7 @@
                     that.changeNoteDialogIsOpen = false;
                 });
             },
-            getTooltip(item) {
+            getCorrectionTooltip(item) {
                 if (item.related) {
                     var tooltip = 'Korrektur für ';
                     tooltip += (item.related.type === this.CHANGELOG_TYPE_INCOMING) ? 'WE' : 'WA';
@@ -203,6 +203,8 @@
                 CHANGELOG_TYPE_CORRECTION: 3,
                 CHANGELOG_TYPE_COMMENT: 6,
                 CHANGELOG_TYPE_INVENTORY: 7,
+
+                highlightedRowId: null
             }
         },
 
