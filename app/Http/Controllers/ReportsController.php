@@ -31,15 +31,17 @@ class ReportsController extends Controller
     }
 
     public function deliveriesWithoutInvoice() {
-        $openItems = OrderItem::with(['order', 'article'])->whereHas('order.deliveries')->where('invoice_received', 0)->get()->filter(function ($orderItem) {
-            return $orderItem->deliveryItems->sum('quantity');
+        $openItems = OrderItem::with(['order.supplier', 'article'])->whereHas('order.deliveries')->where('invoice_received', 0)->get()->filter(function ($orderItem) {
+            return ($orderItem->deliveryItems->sum('quantity') && $orderItem->article->inventory == Article::INVENTORY_TYPE_CONSUMABLES);
         });
 
         return view('reports.delivery_without_invoice', compact('openItems'));
     }
 
     public function invoicesWithoutDelivery() {
-        $openItems = OrderItem::with(['order', 'article'])->where('invoice_received', 1)->whereDoesntHave('order.deliveries')->get();
+        $openItems = OrderItem::with(['order', 'article'])->where('invoice_received', 1)->whereDoesntHave('order.deliveries')->get()->filter(function ($orderItem) {
+            return ($orderItem->order->status !== Order::STATUS_CANCELLED);
+        });
 
         return view('reports.invoices_without_delivery', compact('openItems'));
     }

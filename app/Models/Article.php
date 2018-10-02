@@ -398,6 +398,11 @@ class Article extends AuditableModel
             return 0;
         }
 
+        $oldestChangelogEntry = $article->quantityChangelogs()->oldest()->first();
+        if ($oldestChangelogEntry) {
+            return ($oldestChangelogEntry->new_quantity + (-1 * $oldestChangelogEntry->change));
+        }
+
         return $article->quantity;
     }
 }

@@ -90,6 +90,7 @@
             $("body").on('dt.filter.filterCategory', function () {
                 if (parseInt($('#filterCategory').val()) > 0) {
                     window.LaravelDataTables.dataTableBuilder.columns(1).visible(true);
+                    $('#dataTableBuilder thead th:eq(1)').click();
                 } else {
                     window.LaravelDataTables.dataTableBuilder.columns(1).visible(false);
                 }
