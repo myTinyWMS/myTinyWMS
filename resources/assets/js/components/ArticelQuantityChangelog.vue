@@ -28,7 +28,9 @@
                     </template>
 
                     <template v-if="item.type === CHANGELOG_TYPE_CORRECTION">
-                        <td class="bg-info text-center">KOR</td>
+                        <td class="bg-info text-center">
+                            <span data-toggle="tooltip" data-placement="left" v-bind:title="getTooltip(item)">KOR</span>
+                        </td>
                         <td class="text-info text-center">{{ item.change >= 0 ? '+'+item.change : item.change }}</td>
                         <td class="text-center">{{ item.new_quantity }}</td>
                     </template>
@@ -174,6 +176,14 @@
                 $.post(route('article.change_changelog_note', that.article.id), {content: that.changeNoteDialogItem.note, id: that.changeNoteDialogItem.id}).done(function (data) {
                     that.changeNoteDialogIsOpen = false;
                 });
+            },
+            getTooltip(item) {
+                if (item.related) {
+                    var tooltip = 'Korrektur für ';
+                    tooltip += (item.related.type === this.CHANGELOG_TYPE_INCOMING) ? 'WE' : 'WA';
+                    tooltip += ' vom ' + moment(item.related.created_at).format('DD.MM.YYYY HH:mm') + ' Uhr';
+                    return tooltip;
+                }
             }
         },
 

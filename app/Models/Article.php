@@ -216,7 +216,7 @@ class Article extends AuditableModel
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
      */
     public function getShortChangelog() {
-        return $this->quantityChangelogs()->with(['user', 'deliveryItem.delivery.order', 'unit'])->latest()->take(30)->get();
+        return $this->quantityChangelogs()->with(['user', 'deliveryItem.delivery.order', 'unit', 'related'])->latest()->take(30)->get();
     }
 
     /**

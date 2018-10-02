@@ -39,4 +39,8 @@ class ArticleQuantityChangelog extends AuditableModel
     public function deliveryItem() {
         return $this->belongsTo(DeliveryItem::class);
     }
+
+    public function related() {
+        return $this->belongsTo(ArticleQuantityChangelog::class, 'related_id', 'id');
+    }
 }
