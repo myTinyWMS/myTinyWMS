@@ -14,7 +14,7 @@ class ArticleQuantityChangelog extends AuditableModel
     const TYPE_OUTSOURCING = 9;
     const TYPE_SALE_TO_THIRD_PARTIES = 10;
 
-    protected $fillable = ['created_at', 'updated_at', 'user_id', 'type', 'change', 'new_quantity', 'note', 'delivery_item_id', 'unit_id', 'article_id'];
+    protected $fillable = ['created_at', 'updated_at', 'user_id', 'type', 'change', 'new_quantity', 'note', 'delivery_item_id', 'unit_id', 'article_id', 'related_id'];
 
     public static function getAvailableTypes() {
         return [
