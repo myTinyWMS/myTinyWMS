@@ -10,7 +10,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Mss\Models\Traits\Taggable;
+use Mss\Notifications\NewCorrectionForChangeFromDifferentMonth;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
@@ -174,6 +176,13 @@ class Article extends AuditableModel
                 $newQuantity = ($this->quantity + $change);
                 $this->quantity = ($this->quantity + $change);
                 break;
+        }
+
+        if ($type == ArticleQuantityChangelog::TYPE_CORRECTION && !empty($relatedId)) {
+            $relatedItem = ArticleQuantityChangelog::find($relatedId);
+            if ($relatedItem && $relatedItem->created_at->format('Y-m') !== Carbon::now()->format('Y-m')) {
+                Notification::send(UserSettings::getUsersWhereTrue(UserSettings::SETTING_NOTIFY_ABOUT_CORRECTION_ON_CHANGE_OF_OTHER_MONTH), new NewCorrectionForChangeFromDifferentMonth($this));
+            }
         }
 
         $this->quantityChangelogs()->create([

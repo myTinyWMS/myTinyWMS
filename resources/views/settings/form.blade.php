@@ -41,6 +41,15 @@
                             </div>
 
                             <div class="m-b-lg">
+                                <div class="i-checks">
+                                    <label>
+                                        <input type="checkbox" name="setting[{{ UserSettings::SETTING_NOTIFY_ABOUT_CORRECTION_ON_CHANGE_OF_OTHER_MONTH }}]" @if(Auth::user()->settings()->get(UserSettings::SETTING_NOTIFY_ABOUT_CORRECTION_ON_CHANGE_OF_OTHER_MONTH)) checked @endif value="1">
+                                        Benachrichtigung bei Korrekturbuchungen zu Änderungen aus einem anderen Monat
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="m-b-lg">
                                 <label for="select1">Benachrichtigung wenn eine Lieferung zu einem Artikel der gewählten Kategorie eingeht.</label>
                                 <select class=" col-lg-6 select2" id="select1" name="setting[{{ UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES }}][]" multiple="multiple">
                                     @foreach(\Mss\Models\Category::all() as $category)
