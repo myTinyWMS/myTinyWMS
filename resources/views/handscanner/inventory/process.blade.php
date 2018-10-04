@@ -38,6 +38,22 @@
                 </div>
 
                 <div class="row text-left">
+                    @if ($article->outsourcing_quantity !== 0)
+                        <div class="col">
+                            <div class="label text-danger">Außenlagerbestand:</div>
+                            <h5 class="text-danger">{{ $article->outsourcing_quantity }}</h5>
+                        </div>
+                    @endif
+
+                    @if ($article->replacement_delivery_quantity !== 0)
+                        <div class="col">
+                            <div class="label text-danger">Ersatzlieferung:</div>
+                            <h5 class="text-danger">{{ $article->replacement_delivery_quantity }}</h5>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="row text-left">
                     <div class="col">
                         <div class="form-group">
                             <label for="quantity">neuer Bestand:</label>

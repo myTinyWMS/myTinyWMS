@@ -148,7 +148,6 @@
 
                 @if ($article->replacement_delivery_quantity !== 0)
                     <div class="col-lg-3">
-
                         <div class="form-group">
                             <label class="control-label">Ersatzlieferung</label>
                             <div class="form-control-static text-danger bold">
