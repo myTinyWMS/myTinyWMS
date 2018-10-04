@@ -42,7 +42,25 @@
                     </template>
 
                     <template v-if="item.type === CHANGELOG_TYPE_INVENTORY">
-                        <td class="bg-primary text-center">INV</td>
+                        <td class="bg-primary text-center" title="Inventur">INV</td>
+                        <td class="text-center" v-bind:class="{ 'text-success': (item.change >= 0), 'text-danger': (item.change < 0) }">{{ item.change >= 0 ? '+'+item.change : item.change }}</td>
+                        <td class="text-center">{{ item.new_quantity }}</td>
+                    </template>
+
+                    <template v-if="item.type === CHANGELOG_TYPE_REPLACEMENT_DELIVERY">
+                        <td class="bg-default text-center" title="Ersatzlieferung">EL</td>
+                        <td class="text-center" v-bind:class="{ 'text-success': (item.change >= 0), 'text-danger': (item.change < 0) }"><i>{{ item.change >= 0 ? '+'+item.change : item.change }}</i></td>
+                        <td class="text-center">{{ item.new_quantity }}</td>
+                    </template>
+
+                    <template v-if="item.type === CHANGELOG_TYPE_OUTSOURCING">
+                        <td class="bg-default text-center" title="Außenlager">AL</td>
+                        <td class="text-center" v-bind:class="{ 'text-success': (item.change >= 0), 'text-danger': (item.change < 0) }"><i>{{ item.change >= 0 ? '+'+item.change : item.change }}</i></td>
+                        <td class="text-center">{{ item.new_quantity }}</td>
+                    </template>
+
+                    <template v-if="item.type === CHANGELOG_TYPE_SALE_TO_THIRD_PARTIES">
+                        <td class="bg-danger text-center" title="Verkauf an Fremdfirmen">VaF</td>
                         <td class="text-center" v-bind:class="{ 'text-success': (item.change >= 0), 'text-danger': (item.change < 0) }">{{ item.change >= 0 ? '+'+item.change : item.change }}</td>
                         <td class="text-center">{{ item.new_quantity }}</td>
                     </template>
@@ -57,7 +75,7 @@
 
                         <button v-if="editEnabled" type="button" class="btn btn-xs btn-default pull-right" @click="showChangeNoteDialog(item)"><i class="fa fa-edit"></i></button>
                     </td>
-                    <td class="text-nowrap">{{ item.user.name }}</td>
+                    <td>{{ item.user.name }}</td>
                     <td>
                         <a v-if="itemIsFromCurrentMonth(item, index)" v-bind:href="route('article.quantity_changelog.delete', [article.id, item.id])" v-bind:onclick="getDeleteOnClick(item)" class="btn btn-danger btn-xs" title="Löschen">
                             <i class="fa fa-trash"></i>
@@ -203,6 +221,9 @@
                 CHANGELOG_TYPE_CORRECTION: 3,
                 CHANGELOG_TYPE_COMMENT: 6,
                 CHANGELOG_TYPE_INVENTORY: 7,
+                CHANGELOG_TYPE_REPLACEMENT_DELIVERY: 8,
+                CHANGELOG_TYPE_OUTSOURCING: 9,
+                CHANGELOG_TYPE_SALE_TO_THIRD_PARTIES: 10,
 
                 highlightedRowId: null
             }

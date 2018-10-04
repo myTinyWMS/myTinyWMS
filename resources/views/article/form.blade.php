@@ -148,7 +148,7 @@
                                 <div class="form-group">
                                     <label for="changelogCurrentQuantity" class="control-label">aktueller Bestand</label>
                                     <div class="form-control-static">
-                                        <span  id="changelogCurrentQuantity" data-quantity="{{ $article->quantity }}">{{ $article->quantity }}</span>
+                                        <span id="changelogCurrentQuantity" data-quantity="{{ $article->quantity }}">{{ $article->quantity }}</span>
                                         {{ optional($article->unit)->name }}
                                     </div>
                                 </div>
@@ -189,6 +189,9 @@
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING }}" data-type="add">Wareneingang</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING }}" data-type="sub">Warenausgang</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_INVENTORY }}" data-type="both">Inventur</option>
+                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY }}" data-type="both">Ersatzlieferung</option>
+                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_OUTSOURCING }}" data-type="both">Auslagerung / Außenlager</option>
+                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES }}" data-type="sub">Verkauf an Fremdfirmen</option>
                                     </select>
                                 </div>
                             </div>
@@ -222,30 +225,21 @@
         @endif
 
         $('#changelogSubmit').click(function () {
-            if (changelogMath === 'sub' && parseInt($('#changelogCurrentQuantity').attr('data-quantity')) < parseInt($('#changelogChange').val())) {
-                alert('Es ist nicht möglich mehr auszubuchen');
+            if (changelogMath === 'sub' && parseInt($('#changelogCurrentQuantity').attr('data-quantity')) < parseInt($('#changeQuantityModal #changelogChange').val())) {
+                alert('Es ist nicht möglich mehr auszubuchen als Bestand vorhanden ist!');
                 return false;
             }
             var message = 'Du willst den Bestand um ';
             message += (changelogMath === 'sub') ? 'MINUS ' : 'PLUS ';
-            message += $('#changelogChange').val() + ' ändern - als ';
+            message += $('#changeQuantityModal #changelogChange').val() + ' ändern - als ';
             message += '"' + $('#changelogType option:selected').text() + '". SICHER?';
 
             return confirm(message);
         });
 
-        $('#changelogChange').keyup(function () {
-            updateNewChangelogQuantity();
-        });
-
-        $('#changelogChange').change(function () {
-            updateNewChangelogQuantity();
-        });
-
         $('.changelog-set-add').click(function () {
             $('.changelog-current-math').text('+');
             changelogMath = 'add';
-            updateNewChangelogQuantity();
             updateChangelogType();
             $('#changelogChangeDropdown').dropdown('toggle');
             return false;
@@ -254,16 +248,9 @@
         $('.changelog-set-sub').click(function () {
             $('.changelog-current-math').text('-');
             changelogMath = 'sub';
-            updateNewChangelogQuantity();
             updateChangelogType();
             $('#changelogChangeDropdown').dropdown('toggle');
             return false;
-        });
-
-        $('#changeQuantityModal').on('show.bs.modal', function (e) {
-            $('#changelogChange').val('');
-            updateNewChangelogQuantity();
-            updateChangelogType();
         });
 
         $('#enableChangeCategory').click(function () {
@@ -302,6 +289,7 @@
 
     $('#changeQuantityModal').on('show.bs.modal', function (event) {
         changelogMath = 'sub';
+        $('#changeQuantityModal #changelogChange').val('');
         updateChangelogType();
     });
 
@@ -318,22 +306,6 @@
         $('#changelogType').val(null);
 
         $('input[name=changelogChangeType]').val(changelogMath);
-    }
-
-    function updateNewChangelogQuantity() {
-        var currentQuantity = parseInt($('#changelogCurrentQuantity').attr('data-quantity'));
-        var change = parseInt($('#changelogChange').val());
-
-        var newQuantity = currentQuantity;
-        if (!isNaN(change) && change !== 0) {
-            if (changelogMath === 'add') {
-                newQuantity += change;
-            } else {
-                newQuantity -= change;
-            }
-        }
-
-        $('#changelogNewQuantity').text(newQuantity);
     }
 </script>
 @endpush

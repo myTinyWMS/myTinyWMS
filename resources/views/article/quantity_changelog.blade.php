@@ -62,6 +62,12 @@
                                         @include('components.quantity_log.comment')
                                     @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_INVENTORY)
                                         @include('components.quantity_log.inventory')
+                                    @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY)
+                                        @include('components.quantity_log.replacement_delivery')
+                                    @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_OUTSOURCING)
+                                        @include('components.quantity_log.outsourcing')
+                                    @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES)
+                                        @include('components.quantity_log.sale_to_third_parties')
                                     @endif
                                 </tr>
                             @endforeach

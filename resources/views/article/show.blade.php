@@ -134,6 +134,30 @@
                 </div>
             </div>
             <div class="ibox-content">
+
+                @if ($article->outsourcing_quantity !== 0)
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label class="control-label">Außenlagerbestand</label>
+                            <div class="form-control-static text-danger bold">
+                                {{ $article->outsourcing_quantity }}
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                @if ($article->replacement_delivery_quantity !== 0)
+                    <div class="col-lg-3">
+
+                        <div class="form-group">
+                            <label class="control-label">Ersatzlieferung</label>
+                            <div class="form-control-static text-danger bold">
+                                {{ $article->replacement_delivery_quantity }}
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
                 <article-quantity-changelog :items="{{ json_encode($article->getShortChangelog()) }}" :article="{{ json_encode($article) }}" :edit-enabled="true"></article-quantity-changelog>
             </div>
         </div>

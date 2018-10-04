@@ -275,9 +275,11 @@ class ArticleController extends Controller
             $changelog->deliveryItem->delete();
         }
 
-        $change = $changelog->change * -1;
-        $article->quantity += $change;
-        $article->save();
+        if (!in_array($changelog->type, [ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY, ArticleQuantityChangelog::TYPE_OUTSOURCING])) {
+            $change = $changelog->change * -1;
+            $article->quantity += $change;
+            $article->save();
+        }
 
         $changelog->delete();
 
