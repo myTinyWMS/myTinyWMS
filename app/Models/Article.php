@@ -162,12 +162,12 @@ class Article extends AuditableModel
         switch ($type) {
             case ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY:
                 $newQuantity = $this->quantity;
-                $this->replacement_delivery_quantity = ($this->replacement_delivery_quantity + $change);
+                $this->replacement_delivery_quantity = ($this->replacement_delivery_quantity - $change);
                 break;
 
             case ArticleQuantityChangelog::TYPE_OUTSOURCING:
                 $newQuantity = $this->quantity;
-                $this->outsourcing_quantity = ($this->outsourcing_quantity + $change);
+                $this->outsourcing_quantity = ($this->outsourcing_quantity - $change);
                 break;
 
             default:

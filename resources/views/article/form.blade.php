@@ -45,6 +45,32 @@
                         </div>
                     </div>
 
+                    @if (!($isNewArticle ?? true) && ($article->outsourcing_quantity !== 0 || $article->replacement_delivery_quantity !== 0))
+                        <div class="row">
+                            @if ($article->outsourcing_quantity !== 0)
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Außenlagerbestand</label>
+                                        <div class="form-control-static">
+                                            {{ $article->outsourcing_quantity }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if ($article->replacement_delivery_quantity !== 0)
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Ersatzlieferung</label>
+                                        <div class="form-control-static">
+                                            {{ $article->replacement_delivery_quantity }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+
                     {{ Form::bsTextarea('name', $article->name, ['rows' => 2] , 'Name') }}
                     {{ Form::bsSelect('status', $article->status, \Mss\Models\Article::getStatusTextArray(),  'Status') }}
                     {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderedByName()->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
