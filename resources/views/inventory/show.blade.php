@@ -40,7 +40,7 @@
                                                 <th width="15%">Lieferant</th>
                                                 <th width="25%">Notizen</th>
                                                 <th width="5%" class="text-nowrap">Einheit</th>
-                                                <th width="5%" class="text-nowrap">Bestand alt</th>
+                                                <th width="5%" class="text-nowrap text-center">Bestand alt</th>
                                                 <th width="10%" class="text-nowrap">Bestand neu</th>
                                             </tr>
                                         </thead>
@@ -48,11 +48,27 @@
                                             @foreach($articles as $item)
                                                 <tr>
                                                     <td>{{ $item->article->article_number }}</td>
-                                                    <td><a href="{{ route('article.show', $item->article) }}">{{ $item->article->name }}</a></td>
+                                                    <td>
+                                                        <a href="{{ route('article.show', $item->article) }}">{{ $item->article->name }}</a>
+                                                    </td>
                                                     <td>{{ $item->article->supplier_name }}</td>
                                                     <td>{{ $item->article->notes }}</td>
                                                     <td class="text-nowrap">{{ optional($item->article->unit)->name }}</td>
-                                                    <td class="text-center p-t-15">{{ $item->article->quantity }}</td>
+                                                    <td class="text-center p-t-15 text-nowrap">
+                                                        {{ $item->article->quantity }}
+
+                                                        @if ($item->article->outsourcing_quantity !== 0)
+                                                            <div class="m-t-sm">
+                                                                <b class="text-danger">Außenlager:</b> {{ $item->article->outsourcing_quantity }}
+                                                            </div>
+                                                        @endif
+
+                                                        @if ($item->article->replacement_delivery_quantity !== 0)
+                                                            <div class="m-t-sm">
+                                                                <b class="text-danger">Ersatzlieferung:</b> {{ $item->article->replacement_delivery_quantity }}
+                                                            </div>
+                                                        @endif
+                                                    </td>
                                                     <td class="text-center text-nowrap" data-org-quantity="{{ $item->article->quantity }}">
                                                         <form method="post" action="{{ route('inventory.processed', [$inventory, $item->article]) }}">
                                                             @csrf
