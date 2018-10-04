@@ -30,7 +30,10 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="control-label">Lieferant</label>
+                            <label class="control-label">
+                                Lieferant
+                                <a href="{{ route('article.index', ['supplier' => $article->currentSupplier]) }}" class="m-l-sm" title="alle Artikel des Lieferanten anzeigen" target="_blank"><i class="fa fa-filter"></i></a>
+                            </label>
                             <div class="form-control-static"><a href="{{ route('supplier.show', $article->currentSupplier) }}" target="_blank">{{ $article->currentSupplier->name }}</a></div>
                         </div>
                     </div>
@@ -72,10 +75,10 @@
             </div>
             <div class="ibox-content">
                 <ul class="m-b-md">
-                @if(is_array($article->files) && count($article->files))
-                    @foreach($article->files as $key => $file)
-                        <li><a href="{{ route('article.file_download', [$article, $key]) }}">{{ $file['orgName'] }}</a></li>
-                    @endforeach
+                    @if(is_array($article->files) && count($article->files))
+                        @foreach($article->files as $key => $file)
+                            <li><a href="{{ route('article.file_download', [$article, $key]) }}">{{ $file['orgName'] }}</a></li>
+                        @endforeach
                     @endif
                 </ul>
                 {{ Form::dropzone('attachments', 'Anhänge', route('article.file_upload', $article)) }}

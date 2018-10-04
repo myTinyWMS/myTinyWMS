@@ -51,6 +51,7 @@
 
                     <div class="form-group">
                         {!! Form::label('category', 'Kategorie', ['class' => 'control-label']) !!}
+                        <a href="{{ route('article.index', ['category' => $article->category]) }}" class="m-l-sm" title="alle Artikel dieser Kategorie anzeigen" target="_blank"><i class="fa fa-filter"></i></a>
 
                         @if ($isNewArticle ?? true)
                             {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), null, ['class' => 'form-control', 'name' => 'category']) !!}

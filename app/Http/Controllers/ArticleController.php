@@ -23,11 +23,13 @@ class ArticleController extends Controller
 {
     public function index(ArticleDataTable $articleDataTable) {
         $preSelectedSupplier = request('supplier', null);
+        $preSelectedCategory = request('category', null);
+
         $categories = Category::orderedByName()->get();
         $supplier = Supplier::orderedByName()->get();
         $tags = Tag::orderedByName()->get();
 
-        return $articleDataTable->render('article.list', compact('categories', 'supplier', 'tags', 'preSelectedSupplier'));
+        return $articleDataTable->render('article.list', compact('categories', 'supplier', 'tags', 'preSelectedSupplier', 'preSelectedCategory'));
     }
 
     /**
