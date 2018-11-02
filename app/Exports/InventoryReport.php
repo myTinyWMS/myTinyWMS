@@ -55,20 +55,21 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             'E' => NumberFormat::FORMAT_TEXT,
             'F' => NumberFormat::FORMAT_TEXT,
             'G' => NumberFormat::FORMAT_TEXT,
-            'H' => NumberFormat::FORMAT_NUMBER,
+            'H' => NumberFormat::FORMAT_TEXT,
             'I' => NumberFormat::FORMAT_NUMBER,
             'J' => NumberFormat::FORMAT_NUMBER,
             'K' => NumberFormat::FORMAT_NUMBER,
             'L' => NumberFormat::FORMAT_NUMBER,
             'M' => NumberFormat::FORMAT_NUMBER,
-            'N' => NumberFormat::FORMAT_TEXT,
-            'O' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'N' => NumberFormat::FORMAT_NUMBER,
+            'O' => NumberFormat::FORMAT_TEXT,
             'P' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'Q' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'R' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'S' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'T' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-            'U' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
+            'U' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'V' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
         ];
     }
 
@@ -113,6 +114,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'Lieferant' => $currentSupplierArticle->supplier ? $currentSupplierArticle->supplier->name : '',
                     'Preis' => $currentPrice ? round(($currentPrice / 100), 2) : 0,
                     'Bestellnummer' => optional($currentSupplierArticle)->order_number,
+                    'Kostenstelle' => optional($currentSupplierArticle)->cost_center,
                     'Kategorie' => optional($article->category)->name,
                     'Einheit' => optional($article->unit)->name,
                     'Status' => in_array($status, array_keys(Article::getStatusTextArray())) ? Article::getStatusTextArray()[$status] : '',
