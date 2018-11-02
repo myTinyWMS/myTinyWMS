@@ -25,12 +25,14 @@ class ArticleRequest extends FormRequest
     public function rules() {
         return [
             'name' => 'required',
+            'cost_center' => 'required'
         ];
     }
 
     public function attributes() {
         return [
             'name' => 'Name',
+            'cost_center' => 'Kostenstelle'
         ];
     }
 }
