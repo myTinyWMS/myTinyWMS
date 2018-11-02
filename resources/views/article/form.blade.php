@@ -112,6 +112,15 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{ Form::bsText('cost_center', $article->cost_center ?? '', [], 'Kostenstelle') }}
+                        </div>
+                        <div class="col-lg-6">
+
+                        </div>
+                    </div>
+
                     {{ Form::bsTextarea('notes', $article->notes, ['rows' => 4], 'Bemerkungen') }}
                     {{ Form::bsTextarea('order_notes', $article->order_notes, ['rows' => 2], 'Bestell Hinweise') }}
 
