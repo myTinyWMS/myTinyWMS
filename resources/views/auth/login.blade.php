@@ -13,6 +13,7 @@
                         <strong>{{ $errors->first('email') }}</strong>
                     </span>
             @endif
+            <span class="help-block">Beim ersten Login bitte mit E-Mail Adresse einloggen</span>
         </div>
         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
             <input id="password" type="password" class="form-control" name="password" placeholder="Password" required>
