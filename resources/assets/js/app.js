@@ -13,7 +13,6 @@ Vue.component('order-form', require('./components/OrderForm.vue'));
 Vue.component('qr-reader', require('./components/QrReader.vue'));
 
 Vue.component('scan-qr', {
-    // template: '<qr-reader target-url="{{ route('handscanner.inventory.step2', ['articleNumber' => '']) }}/" ref="qrreader" :paused="true" style="width: 200px;" class="m-t-xl"></qr-reader>'
     template: '<qr-reader target-url="/" ref="qrreader" :paused="true" style="width: 200px;" class="m-t-xl"></qr-reader>'
 });
 
