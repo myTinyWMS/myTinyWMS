@@ -117,7 +117,7 @@
                             {{ Form::bsText('cost_center', $article->cost_center ?? '', [], 'Kostenstelle') }}
                         </div>
                         <div class="col-lg-6">
-
+                            {{ Form::bsText('weight', $article->weight ?? '', [], 'Gewicht in Gramm pro Einheit') }}
                         </div>
                     </div>
 
