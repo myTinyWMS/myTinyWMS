@@ -28,7 +28,6 @@
                                 <th>Artikel</th>
                                 <th width="15%">Lieferant</th>
                                 <th width="25%">Notizen</th>
-                                <th width="5%">Kostenstelle</th>
                                 <th width="10%">Einheit</th>
                                 <th width="10%">Inventurtyp</th>
                             </tr>
@@ -40,7 +39,6 @@
                                 <td><a href="{{ route('article.show', $article) }}">{{ $article->name }}</a></td>
                                 <td>{{ $article->supplier_name }}</td>
                                 <td>{{ $article->notes }}</td>
-                                <td>{{ Form::bsText('cost_center['.$article->id.']', $article->cost_center, [], '') }}</td>
                                 <td>
                                     @if(empty($article->unit_id))
                                         {{ Form::bsSelect('unit_id['.$article->id.']', $article->unit_id, $units,  '', ['placeholder' => '']) }}
