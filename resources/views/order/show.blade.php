@@ -145,11 +145,11 @@
                 </div>
             </div>
             <div class="ibox-content">
-                @foreach($order->items as $item)
+                @foreach($order->items as $key => $item)
                     <div class="panel panel-primary">
                         <div class="panel-body row">
                             <div class="col-lg-5">
-                                <small class="stats-label">Artikel</small>
+                                <small class="stats-label">Artikel {{ $key+1 }}</small>
                                 <h3>
                                     <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
                                     <br/>
@@ -225,7 +225,12 @@
 
                                 <div class="col-lg-4 m-t-md">
                                     <small class="stats-label">Liefertermin</small>
-                                    <h3>{{ !empty($item->expected_delivery) ? $item->expected_delivery->format('d.m.Y') : '' }}</h3>
+                                    <h3>
+                                        {{ !empty($item->expected_delivery) ? $item->expected_delivery->format('d.m.Y') : '' }}
+                                        @if($order->items()->overdue()->count())
+                                            <span class="label label-danger">überfällig</span>
+                                        @endif
+                                    </h3>
                                 </div>
                             </div>
                         </div>
