@@ -125,13 +125,13 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'Inventur' => $article->total_inventory ?? 0,
                     'Endbestand' => $article->getAttributeAtDate('quantity', $end),
                     'Monat' => $this->month,
-                    'AB Eur' => "=I$i*\$D$i",
-                    'WA Eur' => "=J$i*\$D$i",
-                    'WE Eur' => "=K$i*\$D$i",
-                    'KO Eur' => "=L$i*\$D$i",
-                    'INV Eur' => "=M$i*\$D$i",
-                    'EB Eur' => "=N$i*\$D$i",
-                    'Kontrolle' => "=-(P$i+Q$i+R$i-U$i)",
+                    'AB Eur' => "=J$i*\$D$i",
+                    'WA Eur' => "=K$i*\$D$i",
+                    'WE Eur' => "=L$i*\$D$i",
+                    'KO Eur' => "=M$i*\$D$i",
+                    'INV Eur' => "=N$i*\$D$i",
+                    'EB Eur' => "=O$i*\$D$i",
+                    'Kontrolle' => "=-(Q$i+R$i+S$i-V$i)",
                 ];
             });
 
