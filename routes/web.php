@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('reports/yearly-inventory-pdf', 'ReportsController@generateYearlyInventoryPdf')->name('reports.yearly_inventory_pdf');
     Route::post('reports/inventory-report', 'ReportsController@generateInventoryReport')->name('reports.inventory_report');
     Route::post('reports/article-usage-report', 'ReportsController@generateArticleUsageReport')->name('reports.article_usage_report');
+    Route::post('reports/article-weight-report', 'ReportsController@generateArticleWeightReport')->name('reports.article_weight_report');
 
     Route::get('notification/{id}/delete', 'NotificationController@delete');
 

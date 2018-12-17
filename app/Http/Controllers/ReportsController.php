@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Mss\Exports\ArticleUsageReport;
 use Mss\Models\Article;
+use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\Order;
 use Mss\Models\OrderItem;
 use Mss\Services\InventoryService;
@@ -48,5 +49,21 @@ class ReportsController extends Controller
 
     public function generateArticleUsageReport(Request $request) {
         return Excel::download(new ArticleUsageReport($request->get('month')), 'article_usage_report_'.$request->get('month').'.xlsx');
+    }
+
+    public function generateArticleWeightReport(Request $request) {
+        $dateRange = explode(' - ', $request->get('daterange'));
+        $start = Carbon::parse($dateRange[0]);
+        $end = Carbon::parse($dateRange[1]);
+
+        $articles = Article::withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_OUTGOING, 'usage')
+            ->with(['unit'])
+            ->whereNotNull('packaging_category')
+            ->get()
+            ->groupBy(function ($article) {
+                return $article->packaging_category;
+            });
+
+        return view('reports.article_weight_report', compact('articles', 'dateRange'));
     }
 }
