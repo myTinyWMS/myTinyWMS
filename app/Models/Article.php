@@ -32,7 +32,10 @@ class Article extends AuditableModel
     const INVENTORY_TYPE_SPARE_PARTS = 0;
     const INVENTORY_TYPE_CONSUMABLES = 1;
 
-    protected $fillable = ['name', 'article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes', 'free_lines_in_printed_list', 'cost_center', 'weight'];
+    const PACKAGING_CATEGORY_PAPER = 'paper';
+    const PACKAGING_CATEGORY_PLASTIC = 'plastic';
+
+    protected $fillable = ['name', 'article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes', 'free_lines_in_printed_list', 'cost_center', 'weight', 'packaging_category'];
 
     protected $casts = [
         'inventory' => 'boolean',
@@ -56,6 +59,8 @@ class Article extends AuditableModel
         'inventory' => 'Inventurtyp',
         'inventory_text' => 'Inventurtyp',
         'files' => 'Dateien',
+        'cost_center' => 'Kostenstelle',
+        'packaging_category' => 'Verpackungs-Kategorie',
         'free_lines_in_printed_list' => 'Leere Zeilen in Lagerliste',
     ];
 

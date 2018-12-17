@@ -117,6 +117,15 @@
                             {{ Form::bsText('cost_center', $article->cost_center ?? '', [], 'Kostenstelle') }}
                         </div>
                         <div class="col-lg-6">
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{ Form::bsSelect('packaging_category', $article->packaging_category, [null => '', \Mss\Models\Article::PACKAGING_CATEGORY_PAPER => 'Papier, Pappe, Karton', \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => 'Kunststoffe'],  'Verpackungs-Kategorie') }}
+                        </div>
+                        <div class="col-lg-6">
                             {{ Form::bsText('weight', $article->weight ?? '', [], 'Gewicht in Gramm pro Einheit') }}
                         </div>
                     </div>
