@@ -20,7 +20,7 @@
                         @foreach([\Mss\Models\Article::PACKAGING_CATEGORY_PAPER => 'Papier, Pappe, Karton', \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => 'Kunststoffe'] as $key => $headline)
                             <h2>{{ $headline }}</h2>
 
-                            <table class="table table-striped">
+                            <table class="table table-striped table-hover">
                                 <thead>
                                 <tr>
                                     <th>Artikel</th>
