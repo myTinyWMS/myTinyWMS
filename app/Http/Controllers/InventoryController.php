@@ -44,24 +44,28 @@ class InventoryController extends Controller
     public function processed(Inventory $inventory, Article $article, Request $request) {
         /* @var $article Article */
 
-        $diff = ($request->get('quantity') - $article->quantity);
-        if ($diff !== 0) {
-            $article->changeQuantity($diff, ArticleQuantityChangelog::TYPE_INVENTORY, 'Inventurupdate '.date("d.m.Y"));
-        }
-
         $item = $inventory->items->where('article_id', $article->id)->first();
 
-        if ($item) {
-            $item->processed_at = now();
-            $item->processed_by = Auth::id();
-            $item->save();
-
-            flash('Änderung gespeichert')->success();
+        if (!$item) {
+            flash('Fehler beim Speichern')->error();
 
             return response()->redirectToRoute('inventory.show', [$inventory, 'category_id' => $article->category_id]);
         }
 
-        flash('Fehler beim Speichern')->error();
+        $old = $article->quantity;
+        $new = $request->get('quantity');
+        $diff = ($new - $old);
+        if ($diff !== 0) {
+            $article->changeQuantity($diff, ArticleQuantityChangelog::TYPE_INVENTORY, 'Inventurupdate '.date("d.m.Y"));
+        }
+
+        $item->old_quantity = $old;
+        $item->new_quantity = $new;
+        $item->processed_at = now();
+        $item->processed_by = Auth::id();
+        $item->save();
+
+        flash('Änderung gespeichert')->success();
 
         return response()->redirectToRoute('inventory.show', [$inventory, 'category_id' => $article->category_id]);
     }
