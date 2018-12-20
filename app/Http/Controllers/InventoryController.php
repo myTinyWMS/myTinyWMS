@@ -21,7 +21,9 @@ class InventoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(InventoryDataTable $inventoryDataTable) {
-        return $inventoryDataTable->render('inventory.list');
+        $closedInventories = Inventory::finished()->with('items.article.category')->get();
+
+        return $inventoryDataTable->render('inventory.list', compact('closedInventories'));
     }
 
     /**
@@ -31,10 +33,17 @@ class InventoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Inventory $inventory, Request $request) {
-        $categories = InventoryService::getOpenCategories($inventory);
-        $items = $categories->mapWithKeys(function ($category) use ($inventory) {
-            return [$category->name => InventoryService::getOpenArticles($inventory, $category)];
-        });
+        if ($inventory->isFinished()) {
+            $inventory->load('items.article.category', 'items.article.unit', 'items.processor');
+            $items = $inventory->items->groupBy(function ($item) {
+                return $item->article->category->name;
+            });
+        } else {
+            $categories = InventoryService::getOpenCategories($inventory);
+            $items = $categories->mapWithKeys(function ($category) use ($inventory) {
+                return [$category->name => InventoryService::getOpenArticles($inventory, $category)];
+            });
+        }
 
         $categoryToPreselect = ($request->has('category_id')) ? Category::find($request->get('category_id')) : null;
 
