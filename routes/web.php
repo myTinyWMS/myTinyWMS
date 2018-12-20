@@ -30,6 +30,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('inventory/{inventory}/category/{category}/done', 'InventoryController@categoryDone')->name('inventory.category.done');
     Route::get('inventory/{inventory}/finish', 'InventoryController@finish')->name('inventory.finish');
 
+    Route::get('inventory/create_month', 'InventoryController@createMonth')->name('inventory.create_month');
+    Route::get('inventory/create_year', 'InventoryController@createYear')->name('inventory.create_year');
+
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::resources([
         'article' => 'ArticleController',

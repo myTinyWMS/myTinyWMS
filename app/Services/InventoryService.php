@@ -119,12 +119,27 @@ class InventoryService {
         });
     }
 
-    public static function createNewInventory() {
+    public static function createNewMonthInventory() {
         $inventory = Inventory::create([
             'started_by' => Auth::id()
         ]);
 
         $articles = Article::active()->where('inventory', Article::INVENTORY_TYPE_CONSUMABLES)->get();
+        $articles->each(function ($article) use ($inventory) {
+            $inventory->items()->create([
+                'article_id' => $article->id
+            ]);
+        });
+
+        return $inventory;
+    }
+
+    public static function createNewYearInventory() {
+        $inventory = Inventory::create([
+            'started_by' => Auth::id()
+        ]);
+
+        $articles = Article::active()->get();
         $articles->each(function ($article) use ($inventory) {
             $inventory->items()->create([
                 'article_id' => $article->id

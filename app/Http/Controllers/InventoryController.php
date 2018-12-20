@@ -93,8 +93,19 @@ class InventoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-        $inventory = InventoryService::createNewInventory();
+    public function createMonth() {
+        $inventory = InventoryService::createNewMonthInventory();
+
+        return response()->redirectToRoute('inventory.show', [$inventory]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createYear() {
+        $inventory = InventoryService::createNewYearInventory();
 
         return response()->redirectToRoute('inventory.show', [$inventory]);
     }

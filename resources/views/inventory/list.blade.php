@@ -16,7 +16,8 @@
                     <h5>Übersicht - offene Inventuren</h5>
 
                     <div class="pull-right">
-                        <a href="{{ route('inventory.create') }}" class="btn btn-xs btn-primary">Neue Inventur starten</a>
+                        <a href="{{ route('inventory.create_month') }}" class="btn btn-xs btn-primary">Neue Monats-Inventur starten</a>
+                        <a href="{{ route('inventory.create_year') }}" class="btn btn-xs btn-primary">Neue Jahres-Inventur starten</a>
                     </div>
                 </div>
                 <div class="ibox-content">
