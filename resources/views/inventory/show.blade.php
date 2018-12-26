@@ -37,9 +37,7 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Artikel</th>
-                                                <th width="15%">Lieferant</th>
                                                 <th width="25%">Notizen</th>
-                                                <th width="5%" class="text-nowrap">Einheit</th>
                                                 <th width="5%" class="text-nowrap">Bestand alt</th>
                                                 <th width="10%" class="text-nowrap text-center">Bestand neu</th>
                                             </tr>
@@ -48,10 +46,11 @@
                                             @foreach($articles as $item)
                                                 <tr>
                                                     <td>{{ $item->article->article_number }}</td>
-                                                    <td><a href="{{ route('article.show', $item->article) }}">{{ $item->article->name }}</a></td>
-                                                    <td>{{ $item->article->supplier_name }}</td>
+                                                    <td>
+                                                        <a href="{{ route('article.show', $item->article) }}">{{ $item->article->name }}</a>
+                                                        <small>{{ $item->article->supplier_name }}</small>
+                                                    </td>
                                                     <td>{{ $item->article->notes }}</td>
-                                                    <td class="text-nowrap">{{ optional($item->article->unit)->name }}</td>
 
                                                     @if ($inventory->isFinished())
                                                         <td class="text-center">{{ $item->old_quantity }}</td>
@@ -62,7 +61,11 @@
                                                             @endif
                                                         </td>
                                                     @else
-                                                        <td class="text-center p-t-15">{{ $item->article->quantity }}</td>
+                                                        <td class="text-center p-t-15">
+                                                            {{ $item->article->quantity }}
+                                                            <br>
+                                                            <small>{{ optional($item->article->unit)->name }}</small>
+                                                        </td>
                                                         <td class="text-center text-nowrap" data-org-quantity="{{ $item->article->quantity }}">
                                                             <form method="post" action="{{ route('inventory.processed', [$inventory, $item->article]) }}">
                                                                 @csrf
