@@ -58,6 +58,10 @@ class OrderMessage extends Model
         $query->whereNull('order_id');
     }
 
+    public function scopeAssigned($query) {
+        $query->whereNotNull('order_id');
+    }
+
     /**
      * @return Supplier|null
      */

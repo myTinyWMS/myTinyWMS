@@ -21,6 +21,21 @@
             </div>
             @endif
 
+            @if($assignedMessages->count())
+            <div class="alert alert-success">
+                <strong>Neue Nachrichten zu folgenden Bestellungen:</strong>
+                <br>
+                <br>
+                <ul>
+                @foreach($assignedMessages as $message)
+                    <li>
+                        <a href="{{ route('order.show', $message->order) }}" target="_blank">{{ $message->order->internal_order_number }} bei {{ $message->order->supplier->name }}</a>
+                    </li>
+                @endforeach
+                </ul>
+            </div>
+            @endif
+
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>Übersicht</h5>
