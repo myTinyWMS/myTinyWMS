@@ -8,6 +8,12 @@ Route::namespace('Handscanner')->group(function () {
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/', 'HomeController@index')->name('handscanner.index');
 
+        Route::prefix('outgoing')->group(function () {
+            Route::get('/start', 'OutgoingController@start')->name('handscanner.outgoing.start');
+            Route::get('/process/{article_number}', 'OutgoingController@process')->name('handscanner.outgoing.process');
+            Route::post('/save/{article}', 'OutgoingController@save')->name('handscanner.outgoing.save');
+        });
+
         Route::prefix('inventory')->group(function () {
             Route::get('/start', 'InventoryController@start')->name('handscanner.inventory.start');
             Route::post('/continue', 'InventoryController@continue')->name('handscanner.inventory.continue');
