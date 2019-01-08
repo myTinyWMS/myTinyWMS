@@ -58,11 +58,11 @@
                     <h5>Gelieferte Artikel</h5>
                 </div>
                 <div class="ibox-content">
-                    @foreach($order->items as $item)
+                    @foreach($order->items as $key => $item)
                         <div class="panel panel-primary">
                             <div class="panel-body row">
                                 <div class="col-lg-4">
-                                    <small class="stats-label">Artikel</small>
+                                    <small class="stats-label">Artikel {{ $key+1 }}</small>
                                     <h4>
                                         <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
                                         <br/>

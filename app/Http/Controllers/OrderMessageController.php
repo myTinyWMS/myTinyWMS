@@ -191,7 +191,7 @@ class OrderMessageController extends Controller {
             $mail = Mail::to($receivers);
         }
 
-        $body = (!empty($message->htmlBody)) ? $message->htmlBody : $message->textBody;
+        $body = $request->get('content');
         $mail->queue(new SupplierMail (
             'FW '.$message->subject, $body, $message->attachments
         ));

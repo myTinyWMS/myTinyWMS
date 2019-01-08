@@ -77,6 +77,7 @@
 
                     <div class="form-group">
                         {!! Form::label('category', 'Kategorie', ['class' => 'control-label']) !!}
+                        <a href="{{ route('article.index', ['category' => $article->category]) }}" class="m-l-sm" title="alle Artikel dieser Kategorie anzeigen" target="_blank"><i class="fa fa-filter"></i></a>
 
                         @if ($isNewArticle ?? true)
                             {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), null, ['class' => 'form-control', 'name' => 'category']) !!}
@@ -146,6 +147,15 @@
                         </div>
                         <div class="col-lg-6">
 
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{ Form::bsSelect('packaging_category', $article->packaging_category, [null => '', \Mss\Models\Article::PACKAGING_CATEGORY_PAPER => 'Papier, Pappe, Karton', \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => 'Kunststoffe'],  'Verpackungs-Kategorie') }}
+                        </div>
+                        <div class="col-lg-6">
+                            {{ Form::bsText('weight', $article->weight ?? '', [], 'Gewicht in Gramm pro Einheit') }}
                         </div>
                     </div>
 

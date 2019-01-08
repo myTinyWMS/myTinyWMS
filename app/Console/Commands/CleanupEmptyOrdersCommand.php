@@ -43,6 +43,6 @@ class CleanupEmptyOrdersCommand extends Command
      * @return mixed
      */
     public function handle() {
-        Order::whereNull('supplier_id')->where('created_at', '<', Carbon::now()->subMinutes(10)->format('Y-m-d H:i:s'))->delete();
+        Order::whereNull('supplier_id')->where('created_at', '<', Carbon::now()->subHour()->format('Y-m-d H:i:s'))->delete();
     }
 }

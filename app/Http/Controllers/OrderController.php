@@ -253,7 +253,9 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        Order::findOrFail($id)->delete();
+        $order = Order::findOrFail($id);
+        $order->items()->delete();
+        $order->delete();
 
         flash('Bestellung gelöscht', 'success');
         return redirect()->route('order.index');

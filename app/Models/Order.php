@@ -69,7 +69,7 @@ class Order extends AuditableModel
     }
 
     public function items() {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderItem::class)->orderBy('id');
     }
 
     public function supplier() {

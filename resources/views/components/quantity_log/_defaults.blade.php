@@ -11,4 +11,4 @@
     <button type="button" class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#changeChangelogNoteModal" data-id="{{ $log->id }}" data-note="{{ $log->note }}"><i class="fa fa-edit"></i></button>
     @endif
 </td>
-<td class="text-nowrap">{{ $log->user->name }}</td>
+<td class="text-nowrap">{{ optional($log->user)->name }}</td>

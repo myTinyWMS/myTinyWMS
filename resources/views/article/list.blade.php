@@ -116,6 +116,11 @@
                 window.LaravelDataTables.dataTableBuilder.columns({{ \Mss\DataTables\ArticleDataTable::SUPPLIER_COL_ID }}).search({{ $preSelectedSupplier }}).draw();
                 $('#filterSupplier option[value="{{ $preSelectedSupplier }}"]').attr('selected', 'selected');
             @endif
+
+            @if(!empty($preSelectedCategory))
+                window.LaravelDataTables.dataTableBuilder.columns({{ \Mss\DataTables\ArticleDataTable::CATEGORY_COL_ID }}).search({{ $preSelectedCategory }}).draw();
+                $('#filterCategory option[value="{{ $preSelectedCategory }}"]').attr('selected', 'selected');
+            @endif
         });
     </script>
 @endpush

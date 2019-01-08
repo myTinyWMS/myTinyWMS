@@ -30,6 +30,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('inventory/{inventory}/category/{category}/done', 'InventoryController@categoryDone')->name('inventory.category.done');
     Route::get('inventory/{inventory}/finish', 'InventoryController@finish')->name('inventory.finish');
 
+    Route::get('inventory/create_month', 'InventoryController@createMonth')->name('inventory.create_month');
+    Route::get('inventory/create_year', 'InventoryController@createYear')->name('inventory.create_year');
+
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::resources([
         'article' => 'ArticleController',
@@ -47,6 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('reports/yearly-inventory-pdf', 'ReportsController@generateYearlyInventoryPdf')->name('reports.yearly_inventory_pdf');
     Route::post('reports/inventory-report', 'ReportsController@generateInventoryReport')->name('reports.inventory_report');
     Route::post('reports/article-usage-report', 'ReportsController@generateArticleUsageReport')->name('reports.article_usage_report');
+    Route::post('reports/article-weight-report', 'ReportsController@generateArticleWeightReport')->name('reports.article_weight_report');
 
     Route::get('notification/{id}/delete', 'NotificationController@delete');
 

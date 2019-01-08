@@ -21,7 +21,9 @@ class InventoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(InventoryDataTable $inventoryDataTable) {
-        return $inventoryDataTable->render('inventory.list');
+        $closedInventories = Inventory::finished()->with('items.article.category')->get();
+
+        return $inventoryDataTable->render('inventory.list', compact('closedInventories'));
     }
 
     /**
@@ -31,10 +33,17 @@ class InventoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Inventory $inventory, Request $request) {
-        $categories = InventoryService::getOpenCategories($inventory);
-        $items = $categories->mapWithKeys(function ($category) use ($inventory) {
-            return [$category->name => InventoryService::getOpenArticles($inventory, $category)];
-        });
+        if ($inventory->isFinished()) {
+            $inventory->load('items.article.category', 'items.article.unit', 'items.processor');
+            $items = $inventory->items->groupBy(function ($item) {
+                return $item->article->category->name;
+            });
+        } else {
+            $categories = InventoryService::getOpenCategories($inventory);
+            $items = $categories->mapWithKeys(function ($category) use ($inventory) {
+                return [$category->name => InventoryService::getOpenArticles($inventory, $category)];
+            });
+        }
 
         $categoryToPreselect = ($request->has('category_id')) ? Category::find($request->get('category_id')) : null;
 
@@ -44,24 +53,28 @@ class InventoryController extends Controller
     public function processed(Inventory $inventory, Article $article, Request $request) {
         /* @var $article Article */
 
-        $diff = ($request->get('quantity') - $article->quantity);
-        if ($diff !== 0) {
-            $article->changeQuantity($diff, ArticleQuantityChangelog::TYPE_INVENTORY, 'Inventurupdate '.date("d.m.Y"));
-        }
-
         $item = $inventory->items->where('article_id', $article->id)->first();
 
-        if ($item) {
-            $item->processed_at = now();
-            $item->processed_by = Auth::id();
-            $item->save();
-
-            flash('Änderung gespeichert')->success();
+        if (!$item) {
+            flash('Fehler beim Speichern')->error();
 
             return response()->redirectToRoute('inventory.show', [$inventory, 'category_id' => $article->category_id]);
         }
 
-        flash('Fehler beim Speichern')->error();
+        $old = $article->quantity;
+        $new = $request->get('quantity');
+        $diff = ($new - $old);
+        if ($diff !== 0) {
+            $article->changeQuantity($diff, ArticleQuantityChangelog::TYPE_INVENTORY, 'Inventurupdate '.date("d.m.Y"));
+        }
+
+        $item->old_quantity = $old;
+        $item->new_quantity = $new;
+        $item->processed_at = now();
+        $item->processed_by = Auth::id();
+        $item->save();
+
+        flash('Änderung gespeichert')->success();
 
         return response()->redirectToRoute('inventory.show', [$inventory, 'category_id' => $article->category_id]);
     }
@@ -89,8 +102,19 @@ class InventoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-        $inventory = InventoryService::createNewInventory();
+    public function createMonth() {
+        $inventory = InventoryService::createNewMonthInventory();
+
+        return response()->redirectToRoute('inventory.show', [$inventory]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createYear() {
+        $inventory = InventoryService::createNewYearInventory();
 
         return response()->redirectToRoute('inventory.show', [$inventory]);
     }

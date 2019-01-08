@@ -50,14 +50,11 @@ var SignatureButton = function (context) {
                 {{ Form::bsText('receiver', $preSetReceiver, [], 'Empfänger (mehrere mit Komma getrennt)') }}
                 {{ Form::bsText('subject', $preSetSubject, ['disabled' => 'disabled'], 'Betreff') }}
 
-                <label>Nachricht:</label>
-                <div class="border-top-bottom border-left-right order-messages">
-                    @if (!empty($message->htmlBody))
-                        <iframe seamless frameborder="0" class="full-width" height="" srcdoc='{!! htmlspecialchars($message->htmlBody)  !!}'></iframe>
-                    @else
-                        {!! nl2br($message->textBody) !!}
-                    @endif
-                </div>
+                @if (!empty($message->htmlBody))
+                    {{ Form::summernote('content', $message->htmlBody, [], 'Nachricht') }}
+                @else
+                    {{ Form::summernote('content', nl2br($message->textBody), [], 'Nachricht') }}
+                @endif
 
                 <hr class="hr-line-solid">
                 {!! Form::submit('Abschicken', ['class' => 'btn btn-primary']) !!}
