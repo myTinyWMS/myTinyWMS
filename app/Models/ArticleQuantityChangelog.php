@@ -10,8 +10,11 @@ class ArticleQuantityChangelog extends AuditableModel
     const TYPE_CORRECTION = 3;
     const TYPE_COMMENT = 6;
     const TYPE_INVENTORY = 7;
+    const TYPE_REPLACEMENT_DELIVERY = 8;
+    const TYPE_OUTSOURCING = 9;
+    const TYPE_SALE_TO_THIRD_PARTIES = 10;
 
-    protected $fillable = ['created_at', 'updated_at', 'user_id', 'type', 'change', 'new_quantity', 'note', 'delivery_item_id', 'unit_id', 'article_id'];
+    protected $fillable = ['created_at', 'updated_at', 'user_id', 'type', 'change', 'new_quantity', 'note', 'delivery_item_id', 'unit_id', 'article_id', 'related_id'];
 
     public static function getAvailableTypes() {
         return [
@@ -20,7 +23,10 @@ class ArticleQuantityChangelog extends AuditableModel
             self::TYPE_OUTGOING,
             self::TYPE_CORRECTION,
             self::TYPE_COMMENT,
-            self::TYPE_INVENTORY
+            self::TYPE_INVENTORY,
+            self::TYPE_REPLACEMENT_DELIVERY,    // no quantity change!
+            self::TYPE_OUTSOURCING,             // no quantity change!
+            self::TYPE_SALE_TO_THIRD_PARTIES
         ];
     }
 
@@ -38,5 +44,9 @@ class ArticleQuantityChangelog extends AuditableModel
 
     public function deliveryItem() {
         return $this->belongsTo(DeliveryItem::class);
+    }
+
+    public function related() {
+        return $this->belongsTo(ArticleQuantityChangelog::class, 'related_id', 'id');
     }
 }

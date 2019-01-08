@@ -10,7 +10,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Mss\Models\Traits\Taggable;
+use Mss\Notifications\NewCorrectionForChangeFromDifferentMonth;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
@@ -156,18 +158,49 @@ class Article extends AuditableModel
         $this->save();
     }
 
-    public function changeQuantity($change, $type, $note = '', $deliveryItem = null) {
+    /**
+     * @param integer $change
+     * @param integer $type
+     * @param string $note
+     * @param DeliveryItem|null $deliveryItem
+     * @param integer|null $relatedId
+     */
+    public function changeQuantity($change, $type, $note = '', $deliveryItem = null, $relatedId = null) {
+        switch ($type) {
+            case ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY:
+                $newQuantity = $this->quantity;
+                $this->replacement_delivery_quantity = ($this->replacement_delivery_quantity - $change);
+                break;
+
+            case ArticleQuantityChangelog::TYPE_OUTSOURCING:
+                $newQuantity = $this->quantity;
+                $this->outsourcing_quantity = ($this->outsourcing_quantity - $change);
+                break;
+
+            default:
+                $newQuantity = ($this->quantity + $change);
+                $this->quantity = ($this->quantity + $change);
+                break;
+        }
+
+        if ($type == ArticleQuantityChangelog::TYPE_CORRECTION && !empty($relatedId)) {
+            $relatedItem = ArticleQuantityChangelog::find($relatedId);
+            if ($relatedItem && $relatedItem->created_at->format('Y-m') !== Carbon::now()->format('Y-m')) {
+                Notification::send(UserSettings::getUsersWhereTrue(UserSettings::SETTING_NOTIFY_ABOUT_CORRECTION_ON_CHANGE_OF_OTHER_MONTH), new NewCorrectionForChangeFromDifferentMonth($this));
+            }
+        }
+
         $this->quantityChangelogs()->create([
             'user_id' => Auth::id(),
             'type' => $type,
             'change' => $change,
-            'new_quantity' => ($this->quantity + $change),
+            'new_quantity' => $newQuantity,
             'note' => $note,
             'delivery_item_id' => optional($deliveryItem)->id,
-            'unit_id' => $this->unit_id
+            'unit_id' => $this->unit_id,
+            'related_id' => $relatedId
         ]);
 
-        $this->quantity = ($this->quantity + $change);
         $this->save();
     }
 
@@ -220,7 +253,7 @@ class Article extends AuditableModel
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
      */
     public function getShortChangelog() {
-        return $this->quantityChangelogs()->with(['user', 'deliveryItem.delivery.order', 'unit'])->latest()->take(30)->get();
+        return $this->quantityChangelogs()->with(['user', 'deliveryItem.delivery.order', 'unit', 'related'])->latest()->take(30)->get();
     }
 
     /**
@@ -303,6 +336,7 @@ class Article extends AuditableModel
     public function scopeWithChangelogSumInDateRange($query, Carbon $start, Carbon $end, $type, $fieldname) {
         $type = (!is_array($type)) ? [$type] : $type;
         $query->addSubSelect($fieldname, ArticleQuantityChangelog::select(DB::raw('SUM(`change`)'))
+            ->whereNotIn('type', [ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY, ArticleQuantityChangelog::TYPE_OUTSOURCING])
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
             ->whereBetween('created_at', [$start, $end->copy()->endOfDay()])
             ->whereIn('type', $type)
@@ -374,7 +408,7 @@ class Article extends AuditableModel
     public function scopeWithQuantityAtDate($query, $date, $fieldname) {
         $query->addSubSelect($fieldname, ArticleQuantityChangelog::select('new_quantity')
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
-            ->whereIn('type', [ArticleQuantityChangelog::TYPE_START, ArticleQuantityChangelog::TYPE_CORRECTION, ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_INVENTORY, ArticleQuantityChangelog::TYPE_OUTGOING])
+            ->whereIn('type', [ArticleQuantityChangelog::TYPE_START, ArticleQuantityChangelog::TYPE_CORRECTION, ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_INVENTORY, ArticleQuantityChangelog::TYPE_OUTGOING, ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES])
             ->where('created_at', '<=', $date->copy()->endOfDay()->format('Y-m-d H:i:s'))
             ->latest()
         );

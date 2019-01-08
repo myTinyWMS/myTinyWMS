@@ -4,6 +4,7 @@ namespace Mss\Http\Controllers;
 
 use Carbon\Carbon;
 use Mss\Http\Requests\ChangeArticleQuantityRequest;
+use Mss\Http\Requests\FixArticleQuantityChangeRequest;
 use Mss\Http\Requests\NewArticleRequest;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
@@ -195,6 +196,19 @@ class ArticleController extends Controller
         return $article->articleNotes()->where('id', $request->get('note_id'))->delete();
     }
 
+    public function fixQuantityChange(Article $article, FixArticleQuantityChangeRequest $request) {
+        $quantity = $request->get('changelogChange');
+        if ($request->get('changelogChangeType') === 'sub') {
+            $quantity *= -1;
+        }
+
+        $article->changeQuantity($quantity, $request->get('changelogType'), $request->get('changelogNote'), null, $request->get('changelogRelatedId'));
+
+        flash('Bestand geändert')->success();
+
+        return redirect()->route('article.show', $article);
+    }
+
     public function changeQuantity(Article $article, ChangeArticleQuantityRequest $request) {
         $quantity = $request->get('changelogChange');
         if ($request->get('changelogChangeType') === 'sub') {
@@ -263,9 +277,11 @@ class ArticleController extends Controller
             $changelog->deliveryItem->delete();
         }
 
-        $change = $changelog->change * -1;
-        $article->quantity += $change;
-        $article->save();
+        if (!in_array($changelog->type, [ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY, ArticleQuantityChangelog::TYPE_OUTSOURCING])) {
+            $change = $changelog->change * -1;
+            $article->quantity += $change;
+            $article->save();
+        }
 
         $changelog->delete();
 

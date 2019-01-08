@@ -137,42 +137,7 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <table class="table table-condensed table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Typ</th>
-                            <th class="text-center">Änderung</th>
-                            <th class="text-center">Bestand</th>
-                            <th class="text-center">Einheit</th>
-                            <th>Zeitpunkt</th>
-                            <th>Kommentar</th>
-                            <th>Benutzer</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($article->getShortChangelog() as $log)
-                            <tr>
-                                @if ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING)
-                                    @include('components.quantity_log.incoming', ['edit' => true])
-                                @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING)
-                                    @include('components.quantity_log.outgoing', ['edit' => true])
-                                @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_CORRECTION)
-                                    @include('components.quantity_log.correction', ['edit' => true])
-                                @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_COMMENT)
-                                    @include('components.quantity_log.comment', ['edit' => true])
-                                @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_INVENTORY)
-                                    @include('components.quantity_log.inventory', ['edit' => true])
-                                @endif
-                                <td>
-                                    @if (/*(\Carbon\Carbon::now()->diffInDays($log->created_at) == 0 || Auth::user()->email == 'mail@example.com') && */$loop->first)
-                                    <a href="{{ route('article.quantity_changelog.delete', [$article, $log]) }}" class="btn btn-danger btn-xs" @if($log->deliveryItem) onclick="return confirm('Achtung, der Eintrag wird auch aus der dazugehörigen Lieferung gelöscht!')" @endif>Löschen</a>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <article-quantity-changelog :items="{{ json_encode($article->getShortChangelog()) }}" :article="{{ json_encode($article) }}" :edit-enabled="true"></article-quantity-changelog>
             </div>
         </div>
     </div>
@@ -254,53 +219,12 @@
         </div>
     </div>
 
-    <!-- Change Changelog Note Modal -->
-    <div class="modal fade" id="changeChangelogNoteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Kommentar bearbeiten</h4>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="changelog_note">Kommentar</label>
-                            <input type="text" class="form-control" maxlength="191" name="changelog_note" id="changelog_note" value="">
-                            <input type="hidden" name="changelog_id" id="changelog_id" value="">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-                    <button type="button" class="btn btn-primary" id="save_changelog_note">Speichern</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 @endsection
 
 @push('scripts')
 <script>
     $(document).ready(function () {
-        $('#changeChangelogNoteModal').on('show.bs.modal', function (event) {
-            $('#changelog_note').val($(event.relatedTarget).attr('data-note'));
-            $('#changelog_id').val($(event.relatedTarget).attr('data-id'));
-        });
-
-        $('#save_changelog_note').click(function () {
-            if ($('#changelog_note').val() === '') {
-                alert('Bitte einen Text eingeben!');
-                return false;
-            }
-
-            $.post("{{ route('article.change_changelog_note', $article) }}", {content: $('#changelog_note').val(), id: $('#changelog_id').val()}).done(function (data) {
-                $('button[data-id='+$('#changelog_id').val()+']').parent().html($('#changelog_note').val());
-            });
-
-            $('#changeChangelogNoteModal').modal('hide');
-        });
-
         $('#save_note').click(function () {
             if ($('#new_note').val() === '') {
                 alert('Bitte einen Text eingeben!');

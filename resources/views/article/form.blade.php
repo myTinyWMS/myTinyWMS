@@ -45,6 +45,32 @@
                         </div>
                     </div>
 
+                    @if (!($isNewArticle ?? true) && ($article->outsourcing_quantity !== 0 || $article->replacement_delivery_quantity !== 0))
+                        <div class="row">
+                            @if ($article->outsourcing_quantity !== 0)
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Außenlagerbestand</label>
+                                        <div class="form-control-static">
+                                            {{ $article->outsourcing_quantity }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if ($article->replacement_delivery_quantity !== 0)
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Ersatzlieferung</label>
+                                        <div class="form-control-static">
+                                            {{ $article->replacement_delivery_quantity }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+
                     {{ Form::bsTextarea('name', $article->name, ['rows' => 2] , 'Name') }}
                     {{ Form::bsSelect('status', $article->status, \Mss\Models\Article::getStatusTextArray(),  'Status') }}
                     {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderedByName()->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
@@ -70,7 +96,10 @@
                     <div class="row">
                         <div class="col-lg-6">
                             @if (!empty($article->unit_id))
-                            {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => '', 'disabled' => 'disabled', 'title' => 'Nicht änderbar!']) }}
+                                <div class="form-group">
+                                    <label class="control-label">Einheit</label>
+                                    <div class="form-control-static">{{ $article->unit->name }}</div>
+                                </div>
                             @else
                             {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => '']) }}
                             @endif
@@ -164,7 +193,7 @@
                                 <div class="form-group">
                                     <label for="changelogCurrentQuantity" class="control-label">aktueller Bestand</label>
                                     <div class="form-control-static">
-                                        <span  id="changelogCurrentQuantity" data-quantity="{{ $article->quantity }}">{{ $article->quantity }}</span>
+                                        <span id="changelogCurrentQuantity" data-quantity="{{ $article->quantity }}">{{ $article->quantity }}</span>
                                         {{ optional($article->unit)->name }}
                                     </div>
                                 </div>
@@ -204,8 +233,10 @@
                                         <option value=""></option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING }}" data-type="add">Wareneingang</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING }}" data-type="sub">Warenausgang</option>
-                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_CORRECTION }}" data-type="both">Korrektur</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_INVENTORY }}" data-type="both">Inventur</option>
+                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY }}" data-type="both">Ersatzlieferung</option>
+                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_OUTSOURCING }}" data-type="both">Auslagerung / Außenlager</option>
+                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES }}" data-type="sub">Verkauf an Fremdfirmen</option>
                                     </select>
                                 </div>
                             </div>
@@ -239,30 +270,21 @@
         @endif
 
         $('#changelogSubmit').click(function () {
-            if (changelogMath === 'sub' && parseInt($('#changelogCurrentQuantity').attr('data-quantity')) < parseInt($('#changelogChange').val())) {
-                alert('Es ist nicht möglich mehr auszubuchen');
+            if (changelogMath === 'sub' && parseInt($('#changelogCurrentQuantity').attr('data-quantity')) < parseInt($('#changeQuantityModal #changelogChange').val())) {
+                alert('Es ist nicht möglich mehr auszubuchen als Bestand vorhanden ist!');
                 return false;
             }
             var message = 'Du willst den Bestand um ';
             message += (changelogMath === 'sub') ? 'MINUS ' : 'PLUS ';
-            message += $('#changelogChange').val() + ' ändern - als ';
+            message += $('#changeQuantityModal #changelogChange').val() + ' ändern - als ';
             message += '"' + $('#changelogType option:selected').text() + '". SICHER?';
 
             return confirm(message);
         });
 
-        $('#changelogChange').keyup(function () {
-            updateNewChangelogQuantity();
-        });
-
-        $('#changelogChange').change(function () {
-            updateNewChangelogQuantity();
-        });
-
         $('.changelog-set-add').click(function () {
             $('.changelog-current-math').text('+');
             changelogMath = 'add';
-            updateNewChangelogQuantity();
             updateChangelogType();
             $('#changelogChangeDropdown').dropdown('toggle');
             return false;
@@ -271,16 +293,9 @@
         $('.changelog-set-sub').click(function () {
             $('.changelog-current-math').text('-');
             changelogMath = 'sub';
-            updateNewChangelogQuantity();
             updateChangelogType();
             $('#changelogChangeDropdown').dropdown('toggle');
             return false;
-        });
-
-        $('#changeQuantityModal').on('show.bs.modal', function (e) {
-            $('#changelogChange').val('');
-            updateNewChangelogQuantity();
-            updateChangelogType();
         });
 
         $('#enableChangeCategory').click(function () {
@@ -317,32 +332,25 @@
         });
     });
 
+    $('#changeQuantityModal').on('show.bs.modal', function (event) {
+        changelogMath = 'sub';
+        $('#changeQuantityModal #changelogChange').val('');
+        updateChangelogType();
+    });
+
     function updateChangelogType() {
-        $('#changelogType option').show();
+        $('#changelogType option').hide();
         if (changelogMath === 'add') {
-            $('#changelogType option[data-type="sub"]').hide();
-        } else {
-            $('#changelogType option[data-type="add"]').hide();
+            $('#changelogType option[data-type="add"]').show();
+            $('#changelogType option[data-type="both"]').show();
+        }
+        if (changelogMath === 'sub') {
+            $('#changelogType option[data-type="sub"]').show();
+            $('#changelogType option[data-type="both"]').show();
         }
         $('#changelogType').val(null);
 
         $('input[name=changelogChangeType]').val(changelogMath);
-    }
-
-    function updateNewChangelogQuantity() {
-        var currentQuantity = parseInt($('#changelogCurrentQuantity').attr('data-quantity'));
-        var change = parseInt($('#changelogChange').val());
-
-        var newQuantity = currentQuantity;
-        if (!isNaN(change) && change !== 0) {
-            if (changelogMath === 'add') {
-                newQuantity += change;
-            } else {
-                newQuantity -= change;
-            }
-        }
-
-        $('#changelogNewQuantity').text(newQuantity);
     }
 </script>
 @endpush

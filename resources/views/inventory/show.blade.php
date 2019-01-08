@@ -65,6 +65,18 @@
                                                             {{ $item->article->quantity }}
                                                             <br>
                                                             <small>{{ optional($item->article->unit)->name }}</small>
+
+                                                            @if ($item->article->outsourcing_quantity !== 0)
+                                                                <div class="m-t-sm">
+                                                                    <b class="text-danger">Außenlager:</b> {{ $item->article->outsourcing_quantity }}
+                                                                </div>
+                                                            @endif
+
+                                                            @if ($item->article->replacement_delivery_quantity !== 0)
+                                                                <div class="m-t-sm">
+                                                                    <b class="text-danger">Ersatzlieferung:</b> {{ $item->article->replacement_delivery_quantity }}
+                                                                </div>
+                                                            @endif
                                                         </td>
                                                         <td class="text-center text-nowrap" data-org-quantity="{{ $item->article->quantity }}">
                                                             <form method="post" action="{{ route('inventory.processed', [$inventory, $item->article]) }}">

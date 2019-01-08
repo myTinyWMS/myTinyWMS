@@ -97,5 +97,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('article/{article}/quantity-changelog', 'ArticleController@quantityChangelog')->name('article.quantity_changelog');
     Route::get('article/{article}/quantity-changelog/{changelog}/delete', 'ArticleController@deleteQuantityChangelog')->name('article.quantity_changelog.delete');
     Route::post('article/{article}/change-quantity', 'ArticleController@changeQuantity')->name('article.change_quantity');
+    Route::post('article/{article}/fix-quantity-change', 'ArticleController@fixQuantityChange')->name('article.fix_quantity_change');
     Route::post('article/{article}/change-supplier', 'ArticleController@changeSupplier')->name('article.change_supplier');
 });
