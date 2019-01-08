@@ -94,7 +94,7 @@
                                                             <i class="fa fa-file"></i>
                                                         </div>
                                                         <div class="file-name">
-                                                            {{ $attachment['orgFileName'] }}
+                                                            {{ iconv_mime_decode($attachment['orgFileName']) }}
                                                         </div>
                                                     </a>
                                                 </div>

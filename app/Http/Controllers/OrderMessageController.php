@@ -154,7 +154,7 @@ class OrderMessageController extends Controller {
             }
         }
 
-        return response()->download($filePath, $attachment['orgFileName'], ['Content-Type' => $attachment['contentType']]);
+        return response()->download($filePath, iconv_mime_decode($attachment['orgFileName']), ['Content-Type' => $attachment['contentType']]);
     }
 
     public function assignToOrder(Request $request) {
