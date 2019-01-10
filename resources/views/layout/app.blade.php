@@ -73,8 +73,8 @@
     </div>
 
     @routes
-    <script src="{!! asset('js/vendor.js') !!}" type="text/javascript"></script>
-    <script src="{!! asset('js/app.js') !!}" type="text/javascript"></script>
+    <script src="{!! mix('js/vendor.js') !!}" type="text/javascript"></script>
+    <script src="{!! mix('js/app.js') !!}" type="text/javascript"></script>
 
     @if (!empty($__env->yieldContent('datatableFilters')))
         <script>
