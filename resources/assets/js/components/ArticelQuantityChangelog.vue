@@ -23,7 +23,7 @@
 
                     <template v-if="item.type === CHANGELOG_TYPE_OUTGOING">
                         <td class="bg-danger text-center">WA</td>
-                        <td class="text-danger text-center">+{{ item.change }}</td>
+                        <td class="text-danger text-center">{{ item.change }}</td>
                         <td class="text-center">{{ item.new_quantity }}</td>
                     </template>
 
@@ -110,7 +110,7 @@
                             <label class="control-label">zu korrigierende Änderung</label>
                             <div class="form-control-static">
                                 <span class="label" v-bind:class="{ 'label-success': (fixChangelogDialogItem.type === CHANGELOG_TYPE_INCOMING), 'label-danger': (fixChangelogDialogItem.type === CHANGELOG_TYPE_OUTGOING) }">
-                                    {{ fixChangelogDialogItem.type === CHANGELOG_TYPE_INCOMING ? 'WA' : 'WE' }}
+                                    {{ fixChangelogDialogItem.type == CHANGELOG_TYPE_INCOMING ? 'WA' : 'WE' }}
                                 </span>
                                 &nbsp;
                                 <span class="bold">{{ fixChangelogDialogItem.change }} {{ fixChangelogDialogItem.unit ? fixChangelogDialogItem.unit.name : '' }}</span>
