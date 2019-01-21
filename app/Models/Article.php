@@ -344,11 +344,29 @@ class Article extends AuditableModel
     }
 
     public function getAllAudits() {
-        $articleSupplierAudits = $this->supplierArticles->map(function ($item) {
-            return $item->getAudits();
+        $previousArticleSupplierAudits = null;
+        $articleSupplierAudits = $this->supplierArticles->map(function ($item) use (&$previousArticleSupplierAudits) {
+            /* @var $item ArticleSupplier */
+            $audits = $item->getAudits();
+
+            if ($previousArticleSupplierAudits && $audits->count() && collect($audits->first())->get('modified')->has('supplier_id')) {
+                $audits->transform(function ($audit) use ($previousArticleSupplierAudits) {
+                    $audit['modified']->transform(function ($value, $key) use ($previousArticleSupplierAudits) {
+                        $value['old'] = $previousArticleSupplierAudits->getFormattedForAudit($key);
+
+                        return $value;
+                    });
+
+                    return $audit;
+                });
+            }
+
+            $previousArticleSupplierAudits = $item;
+            return $audits;
         })->flatten(1);
 
         $audits = $this->getAudits();
+
         return collect($audits->toArray())->merge($articleSupplierAudits)->sortByDesc('timestamp');
     }
 

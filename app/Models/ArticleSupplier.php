@@ -59,4 +59,12 @@ class ArticleSupplier extends Pivot implements Auditable
 
         return static::UPDATED_AT;
     }
+
+    public function getFormattedForAudit($key) {
+        if (array_key_exists($key, $this->getAuditFormatters()) && is_callable($this->getAuditFormatters()[$key])) {
+            return $this->getAuditFormatters()[$key]($this->{$key});
+        }
+
+        return $this->{$key};
+    }
 }
