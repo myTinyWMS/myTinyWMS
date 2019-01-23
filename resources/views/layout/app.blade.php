@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{!! mix('css/app.css') !!}" />
 
     @yield('extra_head')
-
+    @routes
 </head>
 
 <body @if ($globalPageService->hasMiniNavbar()) class="mini-navbar" @endif>

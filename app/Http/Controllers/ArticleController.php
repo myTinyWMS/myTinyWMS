@@ -280,8 +280,12 @@ class ArticleController extends Controller
         if (!in_array($changelog->type, [ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY, ArticleQuantityChangelog::TYPE_OUTSOURCING])) {
             $change = $changelog->change * -1;
             $article->quantity += $change;
-            $article->save();
+        } elseif($changelog->type == ArticleQuantityChangelog::TYPE_OUTSOURCING) {
+            $article->outsourcing_quantity += $changelog->change;
+        } elseif($changelog->type == ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY) {
+            $article->replacement_delivery_quantity += $changelog->change;
         }
+        $article->save();
 
         $changelog->delete();
 
