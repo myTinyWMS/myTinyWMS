@@ -70,7 +70,7 @@
         </div>
 
         <div class="ibox">
-            <div class="ibox-title">zu korrigierende
+            <div class="ibox-title">
                 <h5>Dateien</h5>
             </div>
             <div class="ibox-content">
