@@ -35,6 +35,7 @@ class PrintLabelService {
     /**
      * @param Collection $articles
      * @return boolean
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function printArticleLabels(Collection $articles, $labelSize = 'small') {
         $barcodes = [];
@@ -57,6 +58,7 @@ class PrintLabelService {
      * @param PdfWrapper $pdf
      * @param string $labelSize
      * @return bool
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function sendPdfToLocalPrinter(PdfWrapper $pdf, $labelSize = 'small') {
         $client = new Client();

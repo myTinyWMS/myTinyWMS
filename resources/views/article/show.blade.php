@@ -71,6 +71,21 @@
 
         <div class="ibox">
             <div class="ibox-title">
+                <h5>Aktionen</h5>
+            </div>
+            <div class="ibox-content">
+                <p>
+                    <a href="{{ route('order.create', ['article' => $article]) }}" class="btn btn-primary">Neue Bestellung</a>
+                </p>
+                <p>
+                    <a href="{{ route('article.print_single_label', ['article' => $article, 'size' => 'small']) }}" class="btn btn-primary">kleines Label drucken</a>
+                    <a href="{{ route('article.print_single_label', ['article' => $article, 'size' => 'large']) }}" class="btn btn-primary">großes Label drucken</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="ibox">
+            <div class="ibox-title">
                 <h5>Dateien</h5>
             </div>
             <div class="ibox-content">

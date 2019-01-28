@@ -9,10 +9,6 @@
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>Details</h5>
-
-                    @if (!($isNewArticle ?? true))
-                    <a href="{{ route('order.create', ['article' => [$article->id]]) }}" class="btn btn-primary btn-xs pull-right">Neue Bestellung</a>
-                    @endif
                 </div>
                 <div class="ibox-content">
                     @if (!($isNewArticle ?? true))

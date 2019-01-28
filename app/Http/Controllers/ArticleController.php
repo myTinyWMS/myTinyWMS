@@ -3,6 +3,7 @@
 namespace Mss\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Mss\Http\Requests\ChangeArticleQuantityRequest;
 use Mss\Http\Requests\FixArticleQuantityChangeRequest;
 use Mss\Http\Requests\NewArticleRequest;
@@ -425,8 +426,23 @@ class ArticleController extends Controller
             }
         });
 
-        flash('Änderungen gespeichert');
+        flash('Änderungen gespeichert', 'success');
 
-        return response()->redirectToRoute('article.inventory_update_form', 'success');
+        return response()->redirectToRoute('article.inventory_update_form');
+    }
+
+    /**
+     * @param Article $article
+     * @param string $size
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function printSingleLabel(Article $article, $size) {
+        $labelService = new PrintLabelService();
+        $labelService->printArticleLabels(new Collection([$article]), $size);
+
+        flash('Label gedruckt', 'success');
+
+        return redirect()->route('article.show', $article);
     }
 }

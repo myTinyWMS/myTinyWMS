@@ -24,6 +24,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('article/inventory-update', 'ArticleController@inventoryUpdateSave')->name('article.inventory_update_save');
     Route::post('article/{article}/file_upload', 'ArticleController@fileUpload')->name('article.file_upload');
     Route::get('article/{article}/file-download/{file}', 'ArticleController@fileDownload')->name('article.file_download');
+    Route::get('article/{article}/print-label/{size}', 'ArticleController@printSingleLabel')->name('article.print_single_label');
 
     Route::post('inventory/{inventory}/article/{article}/processed', 'InventoryController@processed')->name('inventory.processed');
     Route::get('inventory/{inventory}/article/{article}/correct', 'InventoryController@correct')->name('inventory.correct');
