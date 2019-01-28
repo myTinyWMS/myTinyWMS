@@ -11,6 +11,7 @@ use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\ArticleSupplier;
 use Mss\Models\Category;
+use Mss\Models\Order;
 use Mss\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -269,13 +270,19 @@ class ArticleController extends Controller
     public function deleteQuantityChangelog(Article $article, ArticleQuantityChangelog $changelog) {
         if ($changelog->deliveryItem) {
             $delivery = $changelog->deliveryItem->delivery;
+            $changelog->deliveryItem->delete();
+
             if ($delivery && $delivery->items()->count() == 0) {
                 $order = $delivery->order;
                 $delivery->delete();
+
+                if ($order->status == Order::STATUS_DELIVERED && $order->items()->count() > 1) {
+                    $order->status = Order::STATUS_PARTIALLY_DELIVERED;
+                    $order->save();
+                }
+
                 flash('Lieferung zur Bestellung '.link_to_route('order.show', $order->internal_order_number, $order).' gelöscht, da keine Artikel mehr vorhanden', 'warning');
             }
-
-            $changelog->deliveryItem->delete();
         }
 
         if (!in_array($changelog->type, [ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY, ArticleQuantityChangelog::TYPE_OUTSOURCING])) {
