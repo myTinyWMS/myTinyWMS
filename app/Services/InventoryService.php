@@ -115,7 +115,7 @@ class InventoryService {
         }
 
         return $inventory->items->filter(function ($item) use ($category) {
-            return ($item->article->category->is($category));
+            return ($item->article->category->is($category) && empty($item->processed_at));
         });
     }
 
