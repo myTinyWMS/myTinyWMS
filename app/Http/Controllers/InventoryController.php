@@ -39,6 +39,7 @@ class InventoryController extends Controller
                 return $item->article->category->name;
             });
         } else {
+            $inventory->load('items.article.category', 'items.article.unit');
             $categories = InventoryService::getOpenCategories($inventory);
             $items = $categories->mapWithKeys(function ($category) use ($inventory) {
                 return [$category->name => InventoryService::getOpenArticles($inventory, $category)];
