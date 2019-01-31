@@ -63,7 +63,7 @@ class OrderController extends Controller
 
             $preSetArticles = collect();
             if ($request->has('article')) {
-                $preSetArticles = Article::withCurrentSupplierArticle()->find($request->get('article'));
+                $preSetArticles->push(Article::withCurrentSupplierArticle()->find($request->get('article')));
                 $preSetArticles->transform(function ($article) {
                     $deliveryTime = intval($article->currentSupplierArticle->delivery_time);
                     $deliveryDate = Carbon::now()->addWeekdays($deliveryTime);
