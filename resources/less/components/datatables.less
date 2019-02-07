@@ -1,0 +1,81 @@
+.dataTable {
+	@apply w-full;
+
+  thead {
+	th {
+		@apply bg-grey-lighter font-extrabold text-grey-darkest uppercase border-t border-b-2 border-grey-light p-2 text-xs whitespace-no-wrap;
+	}
+  }
+
+  tbody {
+	tr {
+	  .table-action {
+	  	@apply invisible;
+	  }
+
+	  &:hover .table-action {
+	  	@apply visible;
+	  }
+
+	  td {
+	  	@apply font-light text-grey-darker border-t border-b border-grey-light px-2 whitespace-no-wrap;
+	  }
+	}
+  }
+}
+
+.table-search {
+	@apply h-auto mb-4 w-64 relative;
+    font-size: 0;
+
+  input {
+  	@apply w-64;
+	font-size: 16px;
+  }
+}
+
+.table-filter {
+	@apply text-grey-dark;
+
+	label {
+		@apply flex flex-col mr-4 text-sm;
+
+		select {
+			@apply mt-2;
+		}
+	}
+}
+
+#dataTableBuilder_processing {
+  @apply text-grey-dark;
+}
+
+.table-footer {
+	@apply flex pb-4 px-2 justify-between items-center;
+
+  .dataTables_info {
+  	@apply text-sm text-grey;
+  }
+
+  .dataTables_paginate {
+	.pagination {
+		@apply list-reset flex;
+
+	  li {
+	  	@apply border border-grey-light text-xs p-2;
+
+		&:first-child {
+			@apply rounded-l;
+		}
+
+		&:last-child {
+			@apply rounded-r;
+		}
+	  }
+	}
+  }
+}
+
+.toolbar-top-right {
+	@apply flex mb-4 items-center;
+}

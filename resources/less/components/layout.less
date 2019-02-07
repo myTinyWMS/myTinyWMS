@@ -1,0 +1,62 @@
+
+@responsive {
+    .w-750 {
+        width: 750px;
+    }
+}
+
+.content {
+    min-width: 66.25rem;
+    width: 100%;
+    max-width: calc(100vw - 13.75rem);
+}
+
+.h-header {
+    height: 3.75rem
+}
+
+.w-sidebar {
+    width: 13.75rem
+}
+
+.px-view {
+    padding-left: 3.125rem;
+    padding-right: 3.125rem;
+}
+.py-view {
+    padding-top: 3.125rem;
+    padding-bottom: 3.125rem;
+}
+
+.min-w-site {
+    min-width: 80rem;
+}
+
+.sidebar-icon {
+    margin-right: .75rem;
+    font-size: 1.5rem;
+}
+
+.pt-header {
+    padding-top: 5.75rem;
+}
+
+.footer {
+    @apply mt-8 text-center text-xs text-grey;;
+
+    > a {
+        @apply text-xs text-grey;
+    }
+}
+
+.sidebar-navitem {
+    @apply cursor-pointer flex-1 items-center font-light text-white text-base no-underline;
+
+    > a {
+        @apply text-white flex items-center px-6 h-10 font-normal;
+
+        &.active {
+            @apply border-l-4 border-white font-extrabold pl-5 pr-6;
+        }
+    }
+}

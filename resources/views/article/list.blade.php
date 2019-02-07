@@ -3,44 +3,41 @@
 @section('title', 'Artikelübersicht')
 
 @section('content')
-<div class="row">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox">
-                <div class="ibox-title">
-                    <h5>Artikelübersicht</h5>
-                    <div class="pull-right">
-                        <a href="{{ route('article.create') }}" class="btn btn-primary btn-xs">Neuer Artikel</a>
-                        <div class="btn-group">
-                            <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle" aria-expanded="true">weitere Aktionen <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ route('article.mass_update_form') }}">Massenupdate</a></li>
-                                <li><a href="{{ route('article.inventory_update_form') }}">Inventurupdate</a></li>
-                                <li><a href="{{ route('article.sort_update_form') }}">Sortierung</a></li>
-                            </ul>
-                        </div>
 
-                    </div>
-                </div>
-                <div class="ibox-content">
-                    {!! Form::open(['route' => ['article.print_label'], 'method' => 'POST', 'id' => 'print_label_form']) !!}
-                    {!! $dataTable->table() !!}
-                    <input type="hidden" id="label_quantity" name="label_quantity" />
-                    {!! Form::close() !!}
-                </div>
-            </div>
+
+
+{!! Form::open(['route' => ['article.print_label'], 'method' => 'POST', 'id' => 'print_label_form']) !!}
+{!! $dataTable->table(['class' => 'table']) !!}
+<input type="hidden" id="label_quantity" name="label_quantity" />
+{!! Form::close() !!}
+
+<div class="toolbar-top-right-content hidden">
+    <div class="dropdown-menu group">
+        <div class="dropdown-menu-header">
+            weitere Aktionen
+            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+        </div>
+        <div class="dropdown-menu-list">
+            <a href="{{ route('article.mass_update_form') }}">Massenupdate</a>
+            <a href="{{ route('article.inventory_update_form') }}">Inventurupdate</a>
+            <a href="{{ route('article.sort_update_form') }}">Sortierung</a>
         </div>
     </div>
+    <a href="{{ route('article.create') }}" class="btn btn-primary">Neuer Artikel</a>
 </div>
+
 <div class="toolbar_content hidden">
-    <div class="btn-group">
-        <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">Aktion <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-            <li><a href="#" id="print_small_label">Label erstellen (klein)</a></li>
-            <li><a href="#" id="print_large_label">Label erstellen (groß)</a></li>
-        </ul>
+    <div class="dropdown-menu group">
+        <div class="dropdown-menu-header">
+            Aktion
+            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+        </div>
+        <div class="dropdown-menu-list">
+            <a href="#" id="print_small_label">Label erstellen (klein)</a>
+            <a href="#" id="print_large_label">Label erstellen (groß)</a>
+        </div>
+        <input type="hidden" name="label_size" id="label_size" value="" />
     </div>
-    <input type="hidden" name="label_size" id="label_size" value="" />
 </div>
 @endsection
 
@@ -97,6 +94,7 @@
             });
 
             $('.toolbar').html($('.toolbar_content').html());
+            $('.toolbar-top-right').html($('.toolbar-top-right-content').html());
 
             $('#print_small_label').click(function () {
                 $('#label_size').val('small');

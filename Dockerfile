@@ -48,8 +48,7 @@ WORKDIR /data/www
 # composer
 COPY composer.* /data/www/
 RUN set -ex \
-	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
-	&& composer install --no-progress --no-suggest --no-interaction --no-scripts --no-autoloader
+	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
 # node / npm
 COPY package.json /data/www/

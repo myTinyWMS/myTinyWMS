@@ -3,25 +3,13 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="row">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox">
-                <div class="ibox-title">
-                    <h5>zu Bestellen</h5>
-                </div>
-                <div class="ibox-content">
-                    {!! Form::open(['route' => ['order.create_post'], 'method' => 'POST']) !!}
-                    {!! $dataTable->table() !!}
-                    {!! Form::close() !!}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+{!! Form::open(['route' => ['order.create_post'], 'method' => 'POST']) !!}
+{!! $dataTable->table(['class' => 'table']) !!}
+{!! Form::close() !!}
 
 <div class="toolbar_content hidden">
-    <button class="btn btn-xs btn-primary" type="submit">Bestellung erstellen</button>
+    <button class="btn btn-xs btn-secondary" type="submit">Bestellung erstellen</button>
 </div>
 @endsection
 

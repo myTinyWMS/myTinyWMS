@@ -12,7 +12,7 @@ abstract class BaseDataTable extends DataTable
     public function builder() {
         $builder = parent::builder();
         $builder->parameters([
-            'dom'     => 'frt<"toolbar">ilp',
+            'dom'     => '<"flex justify-between items-top"<"table-search"f><"toolbar-top-right">><"card w-full"<"py-4 px-4 flex justify-between"<"table-filter">l><"overflow-hidden overflow-x-auto relative"t><"table-footer"<"toolbar">ip>>',
             'order'   => [[0, 'asc']],
             'language' => ['url' => asset('js/datatables/German.1.10.13.json')],
             'pageLength' => $this->pageLength,

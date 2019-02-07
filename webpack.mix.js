@@ -11,8 +11,26 @@ let mix = require('laravel-mix');
  |
  */
 
+var tailwindcss = require('tailwindcss');
+
 mix
+    .less('resources/less/app.less', 'public/css')
     .options({
+        postCss: [
+            tailwindcss('/data/www/tailwind.js'),
+        ]
+    })
+
+    .copy('resources/css/material-icons-outline', 'public/css')
+    .copy('resources/assets/vendor/datatables/German.1.10.13.json', 'public/js/datatables')
+    .copy('resources/assets/vendor/datatables/English.1.10.13.json', 'public/js/datatables')
+    .copy('resources/assets/vendor/iCheck/blue.png', 'public/img')
+    .copy('resources/assets/vendor/iCheck/blue@2x.png', 'public/img')
+    .combine([
+        'resources/assets/vendor/iCheck/custom.css'
+    ], 'public/css/vendor.css')
+
+    /*.options({
         processCssUrls: false
     })
 
@@ -52,7 +70,7 @@ mix
         'resources/assets/vendor/summernote/summernote.css',
         'resources/assets/vendor/dropzone/dropzone.css',
         'resources/assets/vendor/iCheck/custom.css'
-    ], 'public/css/vendor.css')
+    ], 'public/css/vendor.css')*/
     .combine([
         'resources/assets/vendor/jquery/jquery-3.1.1.min.js',
         'resources/assets/vendor/bootstrap/js/bootstrap.js',

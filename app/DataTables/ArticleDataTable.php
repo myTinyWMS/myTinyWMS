@@ -139,7 +139,7 @@ class ArticleDataTable extends BaseDataTable
             ->minifiedAjax()
             ->columns($this->getColumns())
             ->parameters($this->getHtmlParameters())
-            ->addAction(['title' => '', 'width' => '80px']);
+            ->addAction(['title' => '', 'width' => '80px', 'class' => 'text-right']);
     }
 
     protected function getHtmlParameters() {
@@ -158,7 +158,7 @@ class ArticleDataTable extends BaseDataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'checkbox', 'name' => 'checkbox', 'title' => '<input type="checkbox" value="" id="select_all" />', 'width' => '10px', 'orderable' => false, 'class' => 'text-center'],
+            ['data' => 'checkbox', 'name' => 'checkbox', 'title' => '<div class="i-checks"><label><input type="checkbox" value="" id="select_all" /></label></div>', 'width' => '10px', 'orderable' => false, 'class' => 'text-center'],
             ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sort.', 'width' => '40px', 'visible' => false],
             ['data' => 'article_number', 'name' => 'article_number', 'title' => '#'],
             ['data' => 'name', 'name' => 'name', 'title' => 'Artikelbezeichnung'],
@@ -170,7 +170,7 @@ class ArticleDataTable extends BaseDataTable
             ['data' => 'unit', 'name' => 'unit', 'title' => 'Einheit'],
             ['data' => 'price', 'name' => 'price', 'title' => 'Preis', 'class' => 'text-right'],
             ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung', 'visible' => false],
-            ['data' => 'delivery_time', 'name' => 'delivery_time', 'title' => 'Lieferzeit', 'class' => 'text-right'],
+            ['data' => 'delivery_time', 'name' => 'delivery_time', 'title' => 'Lieferzeit', 'class' => 'text-center'],
             ['data' => 'supplier_name', 'name' => 'supplier_name', 'title' => 'Lieferant'],
             ['data' => 'last_receipt', 'name' => 'last_receipt', 'title' => 'letzter WE', 'width' => '70px'],
             ['data' => 'tags', 'name' => 'tags', 'title' => 'Tags', 'visible' => false],

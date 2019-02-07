@@ -1,6 +1,6 @@
 @inject('globalPageService', 'Mss\Services\GlobalPageService')
 <!DOCTYPE html>
-<html>
+<html class="h-full font-sans-nunito antialiased">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,23 +9,72 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="stylesheet" href="{!! mix('css/vendor.css') !!}" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,800,800i,900,900i" rel="stylesheet">
+    <link href="/css/material-icons.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+
+    {{--<link rel="stylesheet" href="{!! mix('css/vendor.css') !!}" />--}}
     <link rel="stylesheet" href="{!! mix('css/app.css') !!}" />
 
     @yield('extra_head')
     @routes
 </head>
 
-<body @if ($globalPageService->hasMiniNavbar()) class="mini-navbar" @endif>
-    <!-- Wrapper-->
-    <div id="wrapper">
+<body class="min-w-site bg-grey-lighter text-black min-h-full">
+    <div class="flex min-h-screen">
+        @include('layout.sidebar')
+
+        <div class="content" id="wrapper">
+            <div class="flex items-center relative shadow h-header bg-white z-20 px-6">
+                <div class="relative z-50 w-full max-w-xs">
+                    <div class="relative">
+                        <div class="relative">
+                            <label class="search"><input type="search" placeholder="Suche" class="form-control form-input form-input-bordered w-full"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown relative ml-auto h-9 flex items-center dropdown-right">
+                    <a class="dropdown-trigger h-dropdown-trigger flex items-center cursor-pointer select-none h-9 flex items-center">
+                        <img src="https://secure.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?size=512" class="rounded-full w-8 h-8 mr-3"> <span class="text-90">Diamond Wilkinson</span>
+                        <svg width="10px" height="6px" viewBox="0 0 10 6" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="ml-2"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="04-user" transform="translate(-385.000000, -573.000000)" fill="var(--90)" fill-rule="nonzero"><path d="M393.292893,573.292893 C393.683418,572.902369 394.316582,572.902369 394.707107,573.292893 C395.097631,573.683418 395.097631,574.316582 394.707107,574.707107 L390.707107,578.707107 C390.316582,579.097631 389.683418,579.097631 389.292893,578.707107 L385.292893,574.707107 C384.902369,574.316582 384.902369,573.683418 385.292893,573.292893 C385.683418,572.902369 386.316582,572.902369 386.707107,573.292893 L390,576.585786 L393.292893,573.292893 Z" id="Path-2-Copy"></path></g></g></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="px-view py-view mx-auto">
+                <h1>@yield('title')</h1>
+
+                @yield('content')
+            </div>
+
+            <p class="footer">
+                Icons made by <a href="https://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+                <span class="px-1">·</span>
+                © 2019 Alexander Reichardt
+                <span class="px-1">·</span>
+                v1.1.0
+            </p>
+        </div>
+    </div>
+
+    @if (!empty($__env->yieldContent('datatableFilters')))
+        <div id="datatableFilter" class="hidden">
+            <div class="flex">
+                @yield('datatableFilters')
+            </div>
+        </div>
+    @endif
+
+    {{--@include('layout.topnavbar')--}}
+
+    {{--<div id="wrapper">
         @include('layout.sidebar')
 
         <!-- Page wraper -->
         <div id="page-wrapper" class="gray-bg">
 
             <!-- Page wrapper -->
-            @include('layout.topnavbar')
+
 
             <!-- Main view  -->
             <div class="row wrapper page-heading">
@@ -62,15 +111,8 @@
             </div>
         </div>
 
-        @if (!empty($__env->yieldContent('datatableFilters')))
-            <div id="datatableFilter" class="hidden">
-                <div class="pull-left m-b-md text-left">
-                    <h4 class="text-left">Filter:</h4>
-                    @yield('datatableFilters')
-                </div>
-            </div>
-        @endif
-    </div>
+
+    </div>--}}
 
     @routes
     <script src="{!! mix('js/vendor.js') !!}" type="text/javascript"></script>
@@ -79,8 +121,8 @@
     @if (!empty($__env->yieldContent('datatableFilters')))
         <script>
             $('#dataTableBuilder').on( 'init.dt', function () {
-                if ($('#datatableFilter').html().length) {
-                    $('#dataTableBuilder_filter').append($('#datatableFilter').html());
+                if ($('#datatableFilter').length && $('#datatableFilter').html().length) {
+                    $('.table-filter').append($('#datatableFilter').html());
                     $('#datatableFilter').remove();
 
                     $('.datatableFilter-select').each(function () {
@@ -125,9 +167,10 @@
     <script>
         $('#dataTableBuilder').on( 'draw.dt', function () {
             $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green'
+                checkboxClass: 'icheckbox_minimal-blue',
             });
+
+            $('#dataTableBuilder_filter input[type="search"]').attr('placeholder', 'Suche').parent().addClass('search');
 
             $("body").trigger('dt.draw');
         });
@@ -161,8 +204,7 @@
             }
 
             $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
+                checkboxClass: 'icheckbox_minimal-blue',
             });
         });
     </script>

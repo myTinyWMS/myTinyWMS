@@ -1,0 +1,60 @@
+input {
+	@apply bg-white appearance-none shadow rounded-lg p-2 text-grey-dark;
+}
+
+label.search {
+  &:before {
+  	@apply text-grey text-xl absolute py-2 z-50;
+	font-family: 'FontAwesome';
+	left: 7px;
+	content: "\F002";
+	top: -3px;
+  }
+
+  input {
+  	@apply relative pl-8;
+	&::placeholder {
+		@apply text-grey-dark;
+	}
+  }
+}
+
+select {
+	@apply bg-grey-lighter appearance-none border-2 border-grey-lighter rounded pr-4 pl-2 py-1;
+	background-repeat: no-repeat;
+	background-size: 10px 6px;
+	background-position: center right .75rem;
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6"><path fill="%2335393C" fill-rule="nonzero" d="M8.293.293a1 1 0 0 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4A1 1 0 0 1 1.707.293L5 3.586 8.293.293z"/></svg>');
+}
+
+.form-input {
+	@apply appearance-none block w-full bg-white text-grey-darker rounded py-2 px-2 leading-tight;
+
+  &:focus {
+  	@apply outline-none bg-white border-grey;
+  }
+}
+
+.form-input-bordered {
+	@apply border border-grey;
+}
+
+.form-textarea {
+	@apply appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight;
+
+  &:focus {
+  	@apply outline-none bg-white border-grey;
+  }
+}
+
+.form-select {
+	@apply block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight;
+
+  &:focus {
+  	@apply outline-none bg-white border-grey;
+  }
+}
+
+.form-label {
+	@apply block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2;
+}
