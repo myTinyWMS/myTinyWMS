@@ -4,10 +4,8 @@
 
 @section('content')
 
-
-
 {!! Form::open(['route' => ['article.print_label'], 'method' => 'POST', 'id' => 'print_label_form']) !!}
-{!! $dataTable->table(['class' => 'table']) !!}
+{!! $dataTable->table() !!}
 <input type="hidden" id="label_quantity" name="label_quantity" />
 {!! Form::close() !!}
 
@@ -92,9 +90,6 @@
                     window.LaravelDataTables.dataTableBuilder.columns(1).visible(false);
                 }
             });
-
-            $('.toolbar').html($('.toolbar_content').html());
-            $('.toolbar-top-right').html($('.toolbar-top-right-content').html());
 
             $('#print_small_label').click(function () {
                 $('#label_size').val('small');

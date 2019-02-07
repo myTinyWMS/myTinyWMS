@@ -1,3 +1,22 @@
+small {
+	@apply text-xs;
+}
+
+/**
+ * Buttons
+ */
+.text-danger {
+	@apply text-red;
+}
+
+.text-success {
+	@apply text-green;
+}
+
+.text-muted {
+	@apply text-grey-dark;
+}
+
 
 /**
  * Buttons
@@ -33,6 +52,13 @@
 	@apply bg-green-dark;
 }
 
+.btn-link {
+	@apply text-blue no-underline font-extrabold;
+
+	&:hover {
+		@apply opacity-50;
+	}
+}
 
 /**
  * Badges
@@ -49,6 +75,28 @@
 	@apply bg-green-lightest text-green-darker;
 }
 
+.badge-default {
+	@apply bg-blue-lightest text-blue-darker;
+}
+
+.badge-info {
+	@apply bg-teal-lightest text-teal-darker;
+}
+
+.badge-plain {
+	@apply bg-grey-light text-grey-darker;
+}
+
+/**
+ * Labels
+ */
+.label {
+	@apply rounded text-xs px-1 py-1 bg-grey text-black;
+}
+
+.label-plain {
+
+}
 
 /**
  * Alerts
@@ -82,12 +130,12 @@
 		}
 
 		.dropdown-menu-header {
-		@apply border-grey-light;
+			@apply border border-grey-light;
 		}
 	}
 
 	.dropdown-menu-list {
-		@apply items-center absolute border border-t-0 rounded-b-lg p-1 bg-white p-2 invisible w-auto z-50;
+		@apply items-center absolute border border-t-0 rounded-b-lg p-1 bg-white p-2 invisible w-full z-50;
 
 		a {
 			@apply px-4 py-2 block font-normal whitespace-no-wrap;

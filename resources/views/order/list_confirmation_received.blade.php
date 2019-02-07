@@ -1,10 +1,10 @@
 <?php $received = collect($items)->where('confirmation_received', true)->count(); ?>
 @if($received == 0)
-    <span class="label"> offen </span>
+    <span class="badge badge-plain"> offen </span>
 @else
     @if($received < collect($items)->count())
-        <span class="label label-warning"> {{ $received }} / {{ collect($items)->count() }} </span>
+        <span class="badge badge-warning"> {{ $received }} / {{ collect($items)->count() }} </span>
     @else
-        <span class="label label-success"> erhalten </span>
+        <span class="badge badge-success"> erhalten </span>
     @endif
 @endif

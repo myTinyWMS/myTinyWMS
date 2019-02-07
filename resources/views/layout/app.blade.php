@@ -206,6 +206,14 @@
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_minimal-blue',
             });
+
+            if ($('.toolbar').length && $('.toolbar_content').length) {
+                $('.toolbar').html($('.toolbar_content').html());
+            }
+
+            if ($('.toolbar-top-right').length && $('.toolbar-top-right-content').length) {
+                $('.toolbar-top-right').html($('.toolbar-top-right-content').html());
+            }
         });
     </script>
     @stack('scripts')

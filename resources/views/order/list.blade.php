@@ -8,44 +8,35 @@
     </li>
 @endsection
 
-@section('subnav')
-    <a href="{{ route('order.create') }}" class="btn btn-xs btn-primary">Neue Bestellung</a>
-@endsection
-
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            @if($unassignedMessages)
-            <div class="alert alert-warning">
-                <strong>{{ $unassignedMessages }}</strong> nicht zugeordnete neue {{ trans_choice('plural.message', $unassignedMessages) }} - <a class="alert-link" href="{{ route('order.messages_unassigned') }}">mehr &raquo;</a>
-            </div>
-            @endif
 
-            @if($assignedMessages->count())
-            <div class="alert alert-success">
-                <strong>Neue Nachrichten zu folgenden Bestellungen:</strong>
-                <br>
-                <br>
-                <ul>
-                @foreach($assignedMessages as $message)
-                    <li>
-                        <a href="{{ route('order.show', $message->order) }}" target="_blank">{{ $message->order->internal_order_number }} bei {{ $message->order->supplier->name }}</a>
-                    </li>
-                @endforeach
-                </ul>
-            </div>
-            @endif
-
-            <div class="ibox">
-                <div class="ibox-title">
-                    <h5>Übersicht</h5>
-                </div>
-                <div class="ibox-content">
-                    {!! $dataTable->table() !!}
-                </div>
-            </div>
-        </div>
+    <div class="toolbar-top-right-content hidden">
+        <a href="{{ route('order.create') }}" class="btn btn-primary">Neue Bestellung</a>
     </div>
+
+
+    @if($unassignedMessages)
+    <div class="alert alert-warning mb-6">
+        <strong>{{ $unassignedMessages }}</strong> nicht zugeordnete neue {{ trans_choice('plural.message', $unassignedMessages) }} - <a class="alert-link" href="{{ route('order.messages_unassigned') }}">mehr &raquo;</a>
+    </div>
+    @endif
+
+    @if($assignedMessages->count())
+    <div class="alert alert-success mb-6">
+        <strong>Neue Nachrichten zu folgenden Bestellungen:</strong>
+        <br>
+        <br>
+        <ul class="list-reset">
+        @foreach($assignedMessages as $message)
+            <li>
+                <a href="{{ route('order.show', $message->order) }}" target="_blank">{{ $message->order->internal_order_number }} bei {{ $message->order->supplier->name }}</a>
+            </li>
+        @endforeach
+        </ul>
+    </div>
+    @endif
+
+    {!! $dataTable->table() !!}
 @endsection
 
 @section('datatableFilters')

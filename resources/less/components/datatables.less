@@ -17,6 +17,10 @@
 	  	@apply visible;
 	  }
 
+		&.group td {
+			@apply bg-grey-light font-bold;
+		}
+
 	  td {
 	  	@apply font-light text-grey-darker border-t border-b border-grey-light px-2 whitespace-no-wrap;
 	  }
@@ -38,7 +42,7 @@
 	@apply text-grey-dark;
 
 	label {
-		@apply flex flex-col mr-4 text-sm;
+		@apply flex flex-col mr-4 text-xs;
 
 		select {
 			@apply mt-2;

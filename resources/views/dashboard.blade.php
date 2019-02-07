@@ -5,7 +5,7 @@
 @section('content')
 
 {!! Form::open(['route' => ['order.create_post'], 'method' => 'POST']) !!}
-{!! $dataTable->table(['class' => 'table']) !!}
+{!! $dataTable->table() !!}
 {!! Form::close() !!}
 
 <div class="toolbar_content hidden">

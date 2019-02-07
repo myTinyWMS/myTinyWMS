@@ -50,7 +50,7 @@ class OrderDataTable extends BaseDataTable
                 }
 
                 if ($order->items()->overdue()->count()) {
-                    $output .= '<br><span class="label label-danger">überfällig</span>';
+                    $output .= '<br><span class="badge badge-danger">überfällig</span>';
                 }
 
                 return $output;
