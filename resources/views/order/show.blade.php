@@ -227,7 +227,7 @@
                                     <small class="stats-label">Liefertermin</small>
                                     <h3>
                                         {{ !empty($item->expected_delivery) ? $item->expected_delivery->format('d.m.Y') : '' }}
-                                        @if($order->items()->overdue()->count())
+                                        @if($item->expected_delivery && $item->expected_delivery < today() && $item->getQuantityDelivered() < $item->quantity)
                                             <span class="label label-danger">überfällig</span>
                                         @endif
                                     </h3>
