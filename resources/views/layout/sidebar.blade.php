@@ -21,7 +21,7 @@
         <a href="{{ url('/order') }}" class="{{ active_class(if_uri_pattern(['order*'])) }}">
             Bestellungen
             @if($globalPageService->getUnreadMessageCount())
-                <div class="label label-primary pull-right" title="{{ $globalPageService->getUnreadMessageCount() }} ungelesene {{ trans_choice('plural.message', $globalPageService->getUnreadMessageCount()) }}">{{ $globalPageService->getUnreadMessageCount() }}</div>
+                <div class="label ml-2" title="{{ $globalPageService->getUnreadMessageCount() }} ungelesene {{ trans_choice('plural.message', $globalPageService->getUnreadMessageCount()) }}">{{ $globalPageService->getUnreadMessageCount() }}</div>
             @endif
         </a>
     </h3>

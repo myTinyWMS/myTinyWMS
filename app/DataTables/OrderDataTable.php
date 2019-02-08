@@ -35,19 +35,12 @@ class OrderDataTable extends BaseDataTable
                     return 'heute';
                 }
 
-                return $order->order_date->diffForHumans(Carbon::now()->startOfDay()).'<br><small class="text-muted">('.$order->order_date->format('d.m.Y').')</small>';
+                return $order->order_date->format('d.m.Y');
             })
             ->editColumn('expected_delivery', function (Order $order) {
                 /* @var $expectedDelivery Carbon */
                 $expectedDelivery = $order->items->max('expected_delivery');
-                if (empty($expectedDelivery)) {
-                    $output = '';
-                } else if ($expectedDelivery->diffInDays(Carbon::now()) < 1) {
-                    $output = 'heute';
-                } else {
-                    $output = $expectedDelivery->diffForHumans(Carbon::now()->startOfDay());
-                    $output .=  '<br><small class="text-muted">('.$expectedDelivery->format('d.m.Y').')</small>';
-                }
+                $output = $expectedDelivery ? $expectedDelivery->format('d.m.Y') : '';
 
                 if ($order->items()->overdue()->count()) {
                     $output .= '<br><span class="badge badge-danger">überfällig</span>';

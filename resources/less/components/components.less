@@ -75,6 +75,10 @@ small {
 	@apply bg-green-lightest text-green-darker;
 }
 
+.badge-danger {
+	@apply bg-red-lightest text-red-darker;
+}
+
 .badge-default {
 	@apply bg-blue-lightest text-blue-darker;
 }
@@ -91,11 +95,11 @@ small {
  * Labels
  */
 .label {
-	@apply rounded text-xs px-1 py-1 bg-grey text-black;
+	@apply rounded-lg text-xs px-2 py-1 bg-grey text-black;
 }
 
-.label-plain {
-
+.label-primary {
+	@apply bg-blue text-white;
 }
 
 /**
@@ -111,6 +115,10 @@ small {
 
 .alert-success {
 	@apply bg-green-lightest border-green-light text-green-dark;
+}
+
+.alert-warning {
+	@apply bg-orange-lightest border-orange-light text-orange-dark;
 }
 
 .card {
