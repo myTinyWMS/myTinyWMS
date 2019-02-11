@@ -165,12 +165,36 @@
     @endif
 
     <script>
+        function addFixedTableHeader() {
+            var tableOffset = $("#dataTableBuilder").offset().top;
+            var header = $("#dataTableBuilder > thead").clone();
+            var fixedHeader = $("#header-fixed").append(header);
+
+            $("#dataTableBuilder th").each(function (index) {
+                $("#header-fixed th:eq(" + index + ")").css('width', $(this).css('width'));
+            });
+            $("#header-fixed th:eq(0)").html('');
+
+            $(window).bind("scroll", function() {
+                var offset = $(this).scrollTop();
+
+                if (offset >= tableOffset && fixedHeader.is(":hidden")) {
+                    fixedHeader.show();
+                } else if (offset < tableOffset) {
+                    fixedHeader.hide();
+                }
+            });
+        }
+
         $('#dataTableBuilder').on( 'draw.dt', function () {
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_minimal-blue',
             });
 
             $('#dataTableBuilder_filter input[type="search"]').attr('placeholder', 'Suche').parent().addClass('search');
+
+            $('<table id="header-fixed"></table>').insertAfter('#dataTableBuilder');
+            addFixedTableHeader();
 
             $("body").trigger('dt.draw');
         });

@@ -26,11 +26,11 @@
             }
 
             &:nth-child(even) td {
-                @apply bg-grey-lightest;
+                @apply bg-grey-lighter;
             }
 
             td {
-                @apply font-light text-grey-darker border border-grey-light px-2 whitespace-no-wrap;
+                @apply font-light text-grey-darker /*border border-grey-light*/ px-2 whitespace-no-wrap;
             }
         }
     }
@@ -90,4 +90,14 @@
 
 .toolbar-top-right {
     @apply flex mb-4 items-center;
+}
+
+#header-fixed {
+    position: fixed;
+    top: 0px; display:none;
+    background-color:white;
+
+    th {
+        &:extend(.dataTable thead th);
+    }
 }
