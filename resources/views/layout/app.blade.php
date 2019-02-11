@@ -173,7 +173,7 @@
             $("#dataTableBuilder th").each(function (index) {
                 $("#header-fixed th:eq(" + index + ")").css('width', $(this).css('width'));
             });
-            $("#header-fixed th:eq(0)").html('');
+            $("#header-fixed th:eq(0)").find('label').remove();
 
             $(window).bind("scroll", function() {
                 var offset = $(this).scrollTop();
@@ -194,7 +194,9 @@
             $('#dataTableBuilder_filter input[type="search"]').attr('placeholder', 'Suche').parent().addClass('search');
 
             $('<table id="header-fixed"></table>').insertAfter('#dataTableBuilder');
+
             addFixedTableHeader();
+            adjustDisabledButtons();
 
             $("body").trigger('dt.draw');
         });
@@ -238,7 +240,20 @@
             if ($('.toolbar-top-right').length && $('.toolbar-top-right-content').length) {
                 $('.toolbar-top-right').html($('.toolbar-top-right-content').html());
             }
+
+            $('.btn:disabled, .btn-link:disabled').addClass('btn-disabled');
+
+            adjustDisabledButtons();
         });
+
+        function adjustDisabledButtons() {
+            $('.btn:disabled, .btn-link:disabled, a[disabled="disabled"]').addClass('btn-disabled').each(function () {
+                $(this).on('click', function (event) {
+                    event.stopImmediatePropagation();
+                    return false;
+                })
+            });
+        }
     </script>
     @stack('scripts')
 </body>
