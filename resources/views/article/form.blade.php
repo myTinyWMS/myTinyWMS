@@ -108,7 +108,13 @@
                     <div class="row">
                         <div class="col-lg-6">
                             @if ($isNewArticle ?? true)
-                                {{ Form::bsText('quantity', $article->quantity, [], 'Bestand') }}
+                                <div class="form-group">
+                                    <label class="control-label">Bestand</label>
+                                    <div class="form-control-static">
+                                        <input type="hidden" name="quantity" value="0" />
+                                        Anfangsbestand kann nur über einen WE gesetzt werden
+                                    </div>
+                                </div>
                             @endif
                         </div>
                         <div class="col-lg-6">

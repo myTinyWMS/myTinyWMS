@@ -62,14 +62,15 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             'L' => NumberFormat::FORMAT_NUMBER,
             'M' => NumberFormat::FORMAT_NUMBER,
             'N' => NumberFormat::FORMAT_NUMBER,
-            'O' => NumberFormat::FORMAT_TEXT,
-            'P' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'O' => NumberFormat::FORMAT_NUMBER,
+            'P' => NumberFormat::FORMAT_TEXT,
             'Q' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'R' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'S' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'T' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'U' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-            'V' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
+            'V' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'W' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
         ];
     }
 
@@ -86,6 +87,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_OUTGOING, 'total_outgoing')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_CORRECTION, 'total_correction')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INVENTORY, 'total_inventory')
+            ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES, 'total_sale_to_third_parties')
             ->with(['unit', 'category', 'supplierArticles.audits', 'supplierArticles.supplier', 'supplierArticles.article', 'audits'])
             ->orderedByArticleNumber()
             ->get();
@@ -122,6 +124,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'Warenausgang' => $article->total_outgoing ?? 0,
                     'Wareneingang' => $article->total_incoming ?? 0,
                     'Korrektur' => $article->total_correction ?? 0,
+                    'Verkauf an Fremdfirmen' => $article->total_sale_to_third_parties ?? 0,
                     'Inventur' => $article->total_inventory ?? 0,
                     'Endbestand' => $article->getAttributeAtDate('quantity', $end),
                     'Monat' => $this->month,
