@@ -1,5 +1,5 @@
 .dataTable {
-    @apply w-full;
+    @apply w-full mb-0;
 
     thead {
         th {
@@ -10,7 +10,11 @@
     tbody {
         tr {
             .table-action {
-                @apply invisible;
+                @apply invisible mt-2 block;
+
+                &:first-child {
+                    @apply mt-0;
+                }
             }
 
             &:hover .table-action {
@@ -26,11 +30,11 @@
             }
 
             &.group td {
-                @apply bg-grey font-bold;
+                @apply bg-grey font-bold text-black;
             }
 
             td {
-                @apply font-light text-grey-darker text-sm /*border border-grey-light*/ px-2;
+                @apply font-light text-grey-darker text-sm /*border border-grey-light*/ px-2 py-4 leading-tight align-middle;
             }
         }
     }
@@ -79,7 +83,7 @@
 }
 
 .table-footer {
-    @apply flex pb-4 px-2 justify-between items-center;
+    @apply flex py-4 px-2 justify-between items-center border-t border-grey-light;
 
     .dataTables_info {
         @apply text-sm text-grey;

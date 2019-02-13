@@ -4,5 +4,5 @@
     {{ method_field('DELETE') }}
     {{ csrf_field() }}
 
-    <button class="table-action btn-link mt-2" onclick="return confirm('Wirklich löschen?')">Löschen</button>
+    <button class="table-action btn-link" onclick="return confirm('Wirklich löschen?')">Löschen</button>
 </form>

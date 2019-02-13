@@ -139,7 +139,7 @@ class ArticleDataTable extends BaseDataTable
             ->minifiedAjax()
             ->columns($this->getColumns())
             ->parameters($this->getHtmlParameters())
-            ->addAction(['title' => '', 'width' => '80px', 'class' => 'text-right']);
+            ->addAction(['title' => 'Aktion', 'width' => '80px', 'class' => 'text-right']);
     }
 
     protected function getHtmlParameters() {

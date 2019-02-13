@@ -59,7 +59,7 @@ class InventoryDataTable extends BaseDataTable
                 'paging' => false,
                 'order'   => [[0, 'asc']],
             ])
-            ->addAction(['title' => '', 'width' => '170px']);
+            ->addAction(['title' => 'Aktion', 'width' => '170px']);
     }
 
     /**

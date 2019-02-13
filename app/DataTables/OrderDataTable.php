@@ -148,7 +148,7 @@ class OrderDataTable extends BaseDataTable
                 'order'   => [[1, 'asc']],
                 'rowGroup' => ['dataSrc' => 'supplier']
             ])
-            ->addAction(['title' => '', 'width' => '100px']);
+            ->addAction(['title' => 'Aktion', 'width' => '100px']);
     }
 
     /**

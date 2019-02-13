@@ -4,8 +4,8 @@
     {{ csrf_field() }}
 
     @if ($model->articles->count() > 0)
-        <button class="table-action btn-link mt-2" title="Dieser Einheit sind noch Artikel zugeordnet. Sie kann nicht gelöscht werden!" disabled="disabled">Löschen</button>
+        <button class="table-action btn-link" title="Dieser Einheit sind noch Artikel zugeordnet. Sie kann nicht gelöscht werden!" disabled="disabled">Löschen</button>
     @else
-        <button class="table-action btn-link mt-2" onclick="return confirm('Wirklich löschen?')">Löschen</button>
+        <button class="table-action btn-link" onclick="return confirm('Wirklich löschen?')">Löschen</button>
     @endif
 </form>
