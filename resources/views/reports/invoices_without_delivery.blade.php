@@ -22,7 +22,6 @@
                                 <tr>
                                     <th>Artikel</th>
                                     <th>Bestellung</th>
-                                    {{--<th>Rechnungsdatum</th>--}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -34,18 +33,6 @@
                                     <td>
                                         <a href="{{ route('order.show', $item->order) }}" target="_blank">{{ $item->order->internal_order_number }}</a>
                                     </td>
-                                    {{--<td>
-                                        @if($item->deliveryItems->count() > 1)
-                                            {{ $item->deliveryItems->first()->created_at->format('d.m.Y') }}
-                                        @else
-                                            @foreach($item->deliveryItems as $deliveryItem)
-                                                {{ $deliveryItem->created_at->format('d.m.Y') }}
-                                                @if(!$loop->last)
-                                                    <br>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    </td>--}}
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -54,9 +41,5 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="toolbar_content hidden">
-        <button class="btn btn-xs btn-primary" type="submit">Bestellung erstellen</button>
     </div>
 @endsection

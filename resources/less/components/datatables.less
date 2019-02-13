@@ -17,16 +17,16 @@
                 @apply visible;
             }
 
-            &.group td {
-                @apply bg-grey-light font-bold;
-            }
-
             &:nth-child(odd) td {
                 @apply bg-white;
             }
 
             &:nth-child(even) td {
                 @apply bg-grey-lighter;
+            }
+
+            &.group td {
+                @apply bg-grey font-bold;
             }
 
             td {
@@ -44,6 +44,22 @@
         @apply w-64;
         font-size: 16px;
     }
+}
+
+.table-wrapper {
+    @apply w-full bg-white shadow rounded-lg;
+}
+
+.table-header {
+    @apply py-4 px-4 flex justify-between;
+}
+
+.table-content {
+    @apply overflow-inherit relative;
+}
+
+.table-toolbar {
+    @apply flex justify-between items-start;
 }
 
 .table-filter {
@@ -88,7 +104,7 @@
     }
 }
 
-.toolbar-top-right {
+.table-toolbar-right {
     @apply flex mb-4 items-center;
 }
 

@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="toolbar-top-right-content hidden">
+    <div class="table-toolbar-right-content hidden">
         <a href="{{ route('unit.create') }}" class="btn btn-xs btn-primary">Neue Einheit</a>
     </div>
 

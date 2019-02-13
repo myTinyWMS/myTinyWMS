@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="toolbar-top-right-content hidden">
+    <div class="table-toolbar-right-content hidden">
         <a href="{{ route('category.create') }}" class="btn btn-primary">Neue Kategorie</a>
     </div>
 
@@ -17,16 +17,11 @@
     {!! $dataTable->table() !!}
     {!! Form::close() !!}
 
-    <div class="toolbar_content hidden">
+    <div class="footer_actions hidden">
         <button class="btn btn-xs btn-primary" type="submit">Lagerliste drucken</button>
     </div>
 @endsection
 
 @push('scripts')
     {!! $dataTable->scripts() !!}
-    <script>
-        $(document).ready(function () {
-            $('.toolbar').html($('.toolbar_content').html());
-        });
-    </script>
 @endpush

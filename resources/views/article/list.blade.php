@@ -9,7 +9,7 @@
 <input type="hidden" id="label_quantity" name="label_quantity" />
 {!! Form::close() !!}
 
-<div class="toolbar-top-right-content hidden">
+<div class="table-toolbar-right-content hidden">
     <div class="dropdown-menu group">
         <div class="dropdown-menu-header">
             weitere Aktionen
@@ -24,7 +24,7 @@
     <a href="{{ route('article.create') }}" class="btn btn-primary">Neuer Artikel</a>
 </div>
 
-<div class="toolbar_content hidden">
+<div class="footer_actions hidden">
     <div class="dropdown-menu group">
         <div class="dropdown-menu-header">
             Aktion

@@ -8,7 +8,7 @@
 {!! $dataTable->table() !!}
 {!! Form::close() !!}
 
-<div class="toolbar_content hidden">
+<div class="footer_actions hidden">
     <button class="btn btn-xs btn-secondary" type="submit">Bestellung erstellen</button>
 </div>
 @endsection
@@ -18,8 +18,6 @@
     <script>
         var currentlySelectedSupplier = null;
         $(document).ready(function () {
-            $('.toolbar').html($('.toolbar_content').html());
-
             $('.dataTable').on("click", 'input[type="checkbox"]', function () {
                 if ($('input[name="article[]"]:checked').length === 0) {
                     currentlySelectedSupplier = null;

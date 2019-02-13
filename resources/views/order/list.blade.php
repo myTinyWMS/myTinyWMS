@@ -10,7 +10,7 @@
 
 @section('content')
 
-    <div class="toolbar-top-right-content hidden">
+    <div class="table-toolbar-right-content hidden">
         <a href="{{ route('order.create') }}" class="btn btn-primary">Neue Bestellung</a>
     </div>
 

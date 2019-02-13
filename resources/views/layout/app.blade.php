@@ -233,12 +233,12 @@
                 checkboxClass: 'icheckbox_minimal-blue',
             });
 
-            if ($('.toolbar').length && $('.toolbar_content').length) {
-                $('.toolbar').html($('.toolbar_content').html());
+            if ($('.table-footer-actions').length && $('.footer_actions').length) {
+                $('.table-footer-actions').html($('.footer_actions').html());
             }
 
-            if ($('.toolbar-top-right').length && $('.toolbar-top-right-content').length) {
-                $('.toolbar-top-right').html($('.toolbar-top-right-content').html());
+            if ($('.table-toolbar-right').length && $('.table-toolbar-right-content').length) {
+                $('.table-toolbar-right').html($('.table-toolbar-right-content').html());
             }
 
             $('.btn:disabled, .btn-link:disabled').addClass('btn-disabled');

@@ -59,8 +59,4 @@
             </div>
         </div>
     </div>
-
-    <div class="toolbar_content hidden">
-        <button class="btn btn-xs btn-primary" type="submit">Bestellung erstellen</button>
-    </div>
 @endsection
