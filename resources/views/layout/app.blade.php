@@ -29,7 +29,7 @@
                 <div class="relative z-50 w-full max-w-xs">
                     <div class="relative">
                         <div class="relative">
-                            <label class="search"><input type="search" placeholder="Suche" class="form-control form-input form-input-bordered w-full"></label>
+                            <label class="search"><input type="search" placeholder="Suche" class="form-control form-input form-input-bordered w-full shadow"></label>
                         </div>
                     </div>
                 </div>
@@ -242,6 +242,7 @@
             }
 
             $('.btn:disabled, .btn-link:disabled').addClass('btn-disabled');
+            $('input:disabled, textarea:disabled, select:disabled').addClass('form-disabled');
 
             adjustDisabledButtons();
         });

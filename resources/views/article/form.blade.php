@@ -4,171 +4,182 @@
 @if ($isNewArticle ?? true)
     @yield('form_start')
 @endif
-    <div class="row">
-        <div class="col-lg-6 col-xxl-4">
-            <div class="ibox">
-                <div class="ibox-title">
-                    <h5>Details</h5>
+    <div class="card w-1/3">
+        <div class="card-header">
+            Details
+        </div>
+
+        <div class="card-content">
+            @if (!($isNewArticle ?? true))
+                @yield('form_start')
+            @endif
+
+            <div class="w-full flex">
+                <div class="w-1/3">
+                    @if (!($isNewArticle ?? true))
+                        <div class="form-group">
+                            <label class="form-label">Bestand</label>
+                            <div class="form-control-static">
+                                {{ $article->quantity }} <button type="button" class="btn-link btn-xs edit-quantity" data-toggle="modal" data-target="#changeQuantityModal">ändern</button>
+                            </div>
+                        </div>
+                    @endif
                 </div>
-                <div class="ibox-content">
-                    @if (!($isNewArticle ?? true))
-                        @yield('form_start')
-                    @endif
 
-                    <div class="row">
-                        <div class="col-lg-4">
-                            @if (!($isNewArticle ?? true))
-                                <div class="form-group">
-                                    <label class="control-label">Bestand</label>
-                                    <div class="form-control-static">
-                                        {{ $article->quantity }} <button type="button" class="btn btn-danger btn-xs edit-quantity m-l-md" data-toggle="modal" data-target="#changeQuantityModal">ändern</button>
-                                    </div>
-                                </div>
-                            @endif
+                <div class="w-2/3">
+                    @if($article->openOrders()->count())
+                        <div class="form-group">
+                            <label class="form-label">Offene Bestellungen</label>
+                            <div class="form-control-static">
+                                @foreach($article->openOrders() as $openOrder)
+                                    <a href="{{ route('order.show', $openOrder) }}" target="_blank">{{ $openOrder->internal_order_number }}</a> ({{ $openOrder->items->where('article_id', $article->id)->first()->quantity }}{{ !empty($article->unit) ? ' '.$article->unit->name : '' }})
+                                    <br>
+                                @endforeach
+                            </div>
                         </div>
-                        <div class="col-lg-8 text-right">
-                            @if($article->openOrders()->count())
+                    @endif
+                </div>
+            </div>
+
+            @if (!($isNewArticle ?? true) && ($article->outsourcing_quantity !== 0 || $article->replacement_delivery_quantity !== 0))
+                <div class="row">
+                    @if ($article->outsourcing_quantity !== 0)
+                        <div class="w-1/3">
                             <div class="form-group">
-                                <label class="control-label">Offene Bestellungen</label>
+                                <label class="form-label">Außenlagerbestand</label>
                                 <div class="form-control-static">
-                                    @foreach($article->openOrders() as $openOrder)
-                                        <a href="{{ route('order.show', $openOrder) }}" target="_blank">{{ $openOrder->internal_order_number }}</a> ({{ $openOrder->items->where('article_id', $article->id)->first()->quantity }}{{ !empty($article->unit) ? ' '.$article->unit->name : '' }})
-                                        <br>
-                                    @endforeach
+                                    {{ $article->outsourcing_quantity }}
                                 </div>
                             </div>
-                            @endif
-                        </div>
-                    </div>
-
-                    @if (!($isNewArticle ?? true) && ($article->outsourcing_quantity !== 0 || $article->replacement_delivery_quantity !== 0))
-                        <div class="row">
-                            @if ($article->outsourcing_quantity !== 0)
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Außenlagerbestand</label>
-                                        <div class="form-control-static">
-                                            {{ $article->outsourcing_quantity }}
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-
-                            @if ($article->replacement_delivery_quantity !== 0)
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Ersatzlieferung</label>
-                                        <div class="form-control-static">
-                                            {{ $article->replacement_delivery_quantity }}
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
                         </div>
                     @endif
 
-                    {{ Form::bsTextarea('name', $article->name, ['rows' => 2] , 'Name') }}
-                    {{ Form::bsSelect('status', $article->status, \Mss\Models\Article::getStatusTextArray(),  'Status') }}
-                    {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderedByName()->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
-
-                    <div class="form-group">
-                        {!! Form::label('category', 'Kategorie', ['class' => 'control-label']) !!}
-                        <a href="{{ route('article.index', ['category' => $article->category]) }}" class="m-l-sm" title="alle Artikel dieser Kategorie anzeigen" target="_blank"><i class="fa fa-filter"></i></a>
-
-                        @if ($isNewArticle ?? true)
-                            {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), null, ['class' => 'form-control', 'name' => 'category']) !!}
-                        @else
-                            {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), $article->category->id ?? null, ['class' => 'form-control', 'name' => 'category', 'disabled' => 'disabled']) !!}
-                            <div class="checkbox checkbox-danger">
-                                <input type="checkbox" id="enableChangeCategory" name="changeCategory" value="1" />
-                                <label for="enableChangeCategory">
-                                    Kategorie ändern
-                                </label>
-                            </div>
-                            <span class="help-block m-b-none text-danger hidden" id="changeCategoryWarning">Beim Ändern der Kategorie wird eine neue Artikel Nummer vergeben!</span>
-                        @endif
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            @if (!empty($article->unit_id))
-                                <div class="form-group">
-                                    <label class="control-label">Einheit</label>
-                                    <div class="form-control-static">{{ $article->unit->name }}</div>
+                    @if ($article->replacement_delivery_quantity !== 0)
+                        <div class="w-1/3">
+                            <div class="form-group">
+                                <label class="form-label">Ersatzlieferung</label>
+                                <div class="form-control-static">
+                                    {{ $article->replacement_delivery_quantity }}
                                 </div>
-                            @else
-                            {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => '']) }}
-                            @endif
+                            </div>
                         </div>
-                        <div class="col-lg-6">
-                            {{ Form::bsText('sort_id', $article->sort_id ?? 0, [], 'Sortierung') }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            @if ($isNewArticle ?? true)
-                                {{ Form::bsText('quantity', $article->quantity, [], 'Bestand') }}
-                            @endif
-                        </div>
-                        <div class="col-lg-6">
-
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            {{ Form::bsText('min_quantity', $article->min_quantity ?? 0, [], 'Mindestbestand') }}
-                        </div>
-                        <div class="col-lg-6">
-                            {{ Form::bsText('issue_quantity', $article->issue_quantity ?? 0, [], 'Entnahmemenge') }}
-                        </div>
-                        <div class="col-lg-12 m-b-md">
-                            <span class="help-block m-b-none">Mindestbestand = -1 &raquo; der Artikel erscheint nicht in der zu Bestellen Liste</span>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            {{ Form::bsSelect('inventory', $article->inventory, \Mss\Models\Article::getInventoryTextArray(),  'Inventur Typ') }}
-                        </div>
-                        <div class="col-lg-6">
-                            {{ Form::bsText('free_lines_in_printed_list', $article->free_lines_in_printed_list ?? 1, [], 'Leere Zeilen in Lagerliste') }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            {{ Form::bsText('cost_center', $article->cost_center ?? '', [], 'Kostenstelle') }}
-                        </div>
-                        <div class="col-lg-6">
-
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            {{ Form::bsSelect('packaging_category', $article->packaging_category, [null => '', \Mss\Models\Article::PACKAGING_CATEGORY_PAPER => 'Papier, Pappe, Karton', \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => 'Kunststoffe'],  'Verpackungs-Kategorie') }}
-                        </div>
-                        <div class="col-lg-6">
-                            {{ Form::bsText('weight', $article->weight ?? '', [], 'Gewicht in Gramm pro Einheit') }}
-                        </div>
-                    </div>
-
-                    {{ Form::bsTextarea('notes', $article->notes, ['rows' => 4], 'Bemerkungen') }}
-                    {{ Form::bsTextarea('order_notes', $article->order_notes, ['rows' => 2], 'Bestell Hinweise') }}
-
-                    <div class="form-group">
-                        @yield('submit')
-                    </div>
-                    @if (!($isNewArticle ?? true))
-                        {!! Form::close() !!}
                     @endif
+                </div>
+            @endif
+
+            {{ Form::bsTextarea('name', $article->name, ['rows' => 2] , 'Name') }}
+            {{ Form::bsSelect('status', $article->status, \Mss\Models\Article::getStatusTextArray(),  'Status') }}
+            {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderedByName()->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
+
+            <div class="form-group">
+                {!! Form::label('category', 'Kategorie', ['class' => 'form-label inline-block']) !!}
+                <a href="{{ route('article.index', ['category' => $article->category]) }}" class="ml-2" title="alle Artikel dieser Kategorie anzeigen" target="_blank"><i class="fa fa-filter"></i></a>
+
+                @if ($isNewArticle ?? true)
+                    {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), null, ['class' => 'form-select w-full', 'name' => 'category']) !!}
+                @else
+                    {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), $article->category->id ?? null, ['class' => 'form-select w-full', 'name' => 'category', 'disabled' => 'disabled']) !!}
+                    <div class="i-checks mt-2">
+                        <label>
+                            <input type="checkbox" id="enableChangeCategory" name="changeCategory" value="1" />
+                            Kategorie ändern
+                        </label>
+                    </div>
+                    <span class="help-block m-b-none text-danger hidden" id="changeCategoryWarning">Beim Ändern der Kategorie wird eine neue Artikel Nummer vergeben!</span>
+                @endif
+            </div>
+
+            <div class="row">
+                <div class="w-1/2">
+                    @if (!empty($article->unit_id))
+                        <div class="form-group">
+                            <label class="form-label">Einheit</label>
+                            <div class="form-control-static">{{ $article->unit->name }}</div>
+                        </div>
+                    @else
+                        {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => '']) }}
+                    @endif
+                </div>
+                <div class="w-1/2">
+                    {{ Form::bsText('sort_id', $article->sort_id ?? 0, [], 'Sortierung') }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="w-1/2">
+                    @if ($isNewArticle ?? true)
+                        {{ Form::bsText('quantity', $article->quantity, [], 'Bestand') }}
+                    @endif
+                </div>
+                <div class="w-1/2">
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="w-1/2 pr-4">
+                    {{ Form::bsText('min_quantity', $article->min_quantity ?? 0, [], 'Mindestbestand') }}
+                </div>
+                <div class="w-1/2">
+                    {{ Form::bsText('issue_quantity', $article->issue_quantity ?? 0, [], 'Entnahmemenge') }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <span class="help-block">Mindestbestand = -1 &raquo; der Artikel erscheint nicht in der zu Bestellen Liste</span>
+            </div>
+
+            <div class="row">
+                <div class="w-1/2 pr-4">
+                    {{ Form::bsSelect('inventory', $article->inventory, \Mss\Models\Article::getInventoryTextArray(),  'Inventur Typ') }}
+                </div>
+                <div class="w-1/2">
+                    {{ Form::bsText('free_lines_in_printed_list', $article->free_lines_in_printed_list ?? 1, [], 'Leere Zeilen in Lagerliste') }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="w-1/2 pr-4">
+                    {{ Form::bsText('cost_center', $article->cost_center ?? '', [], 'Kostenstelle') }}
+                </div>
+                <div class="w-1/2">
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="w-1/2 pr-4">
+                    {{ Form::bsSelect('packaging_category', $article->packaging_category, [null => '', \Mss\Models\Article::PACKAGING_CATEGORY_PAPER => 'Papier, Pappe, Karton', \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => 'Kunststoffe'],  'Verpackungs-Kategorie') }}
+                </div>
+                <div class="w-1/2">
+                    {{ Form::bsText('weight', $article->weight ?? '', [], 'Gewicht in Gramm pro Einheit') }}
+                </div>
+            </div>
+
+            {{ Form::bsTextarea('notes', $article->notes, ['rows' => 4], 'Bemerkungen') }}
+            {{ Form::bsTextarea('order_notes', $article->order_notes, ['rows' => 2], 'Bestell Hinweise') }}
+
+            @yield('submit')
+
+            @if (!($isNewArticle ?? true))
+                {!! Form::close() !!}
+            @endif
+        </div>
+    </div>
+
+    @yield('secondCol')
+
+    <div class="row">
+        <div class="w-1/2 col-xxl-4">
+            <div class="ibox">
+                <div class="ibox-content">
+
+
+
 
                 </div>
             </div>
         </div>
-        @yield('secondCol')
+
     </div>
 @if ($isNewArticle ?? true)
     {!! Form::close() !!}
@@ -185,7 +196,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="w-1/2">
                                 <div class="form-group">
                                     <label for="changelogCurrentQuantity" class="control-label">aktueller Bestand</label>
                                     <div class="form-control-static">
@@ -194,7 +205,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-lg-offset-2">
+                            <div class="w-1/3 col-lg-offset-2">
                                 <div class="form-group">
                                     <label for="changelogNewQuantity" class="control-label">Entnahmemenge</label>
                                     <div class="form-control-static">
@@ -206,7 +217,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="w-1/2">
                                 <div class="form-group">
                                     <label for="changelogChange" class="control-label">Veränderung</label>
                                     <div class="input-group">
@@ -222,7 +233,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="w-1/2">
                                 <div class="form-group">
                                     <label for="changelogType" class="control-label">Typ der Änderung</label>
                                     <select id="changelogType" name="changelogType" class="form-control" required>
@@ -308,7 +319,9 @@
         $("#tags").select2({
             tags: true,
             tokenSeparators: [',', ' '],
-            theme: "bootstrap",
+            theme: "default",
+            dropdownCssClass: 'form-select',
+            containerCssClass: 'form-control-static',
             createTag: function (params) {
                 var term = $.trim(params.term);
 
@@ -324,7 +337,9 @@
         });
 
         $("#category").select2({
-            theme: "bootstrap"
+            theme: "default",
+            dropdownCssClass: 'form-select',
+            containerCssClass: 'form-control-static',
         });
     });
 

@@ -62,6 +62,10 @@ small {
 	&.btn-disabled {
 		@apply line-through;
 	}
+
+	&.btn-xs {
+		@apply text-xs;
+	}
 }
 
 .btn-disabled {
@@ -131,6 +135,14 @@ small {
 
 .card {
 	@apply bg-white shadow rounded-lg;
+
+	.card-header {
+		@apply p-4 font-bold border-b border-grey-light;
+	}
+
+	.card-content {
+		@apply p-4;
+	}
 }
 
 .box {

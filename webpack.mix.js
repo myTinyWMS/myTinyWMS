@@ -28,7 +28,8 @@ mix
     .copy('resources/assets/vendor/iCheck/blue@2x.png', 'public/img')
     .combine([
         'resources/assets/vendor/iCheck/custom.css',
-        'resources/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css'
+        'resources/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css',
+        'resources/assets/vendor/select2/select2.min.css'
     ], 'public/css/vendor.css')
 
     /*.options({
