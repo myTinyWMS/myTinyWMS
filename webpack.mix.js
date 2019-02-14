@@ -21,6 +21,7 @@ mix
         ]
     })
 
+    .js('resources/js/app.js', 'public/js')
     .copy('resources/css/material-icons-outline', 'public/css')
     .copy('resources/assets/vendor/datatables/German.1.10.13.json', 'public/js/datatables')
     .copy('resources/assets/vendor/datatables/English.1.10.13.json', 'public/js/datatables')
@@ -29,7 +30,8 @@ mix
     .combine([
         'resources/assets/vendor/iCheck/custom.css',
         'resources/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css',
-        'resources/assets/vendor/select2/select2.min.css'
+        'resources/assets/vendor/select2/select2.min.css',
+        'resources/assets/vendor/tagify/tagify.css'
     ], 'public/css/vendor.css')
 
     /*.options({
@@ -98,7 +100,8 @@ mix
         'resources/assets/vendor/dropzone/dropzone.js',
         'resources/assets/vendor/iCheck/icheck.min.js',
         'resources/assets/vendor/js-cookie/js.cookie.js',
-        'resources/assets/vendor/html5sortable/html5sortable.min.js'
+        'resources/assets/vendor/html5sortable/html5sortable.min.js',
+        'resources/assets/vendor/tagify/jQuery.tagify.min.js'
     ], 'public/js/vendor.js')
     .combine([
         'resources/assets/vendor/jquery/jquery-3.1.1.min.js',

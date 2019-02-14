@@ -24,6 +24,7 @@
     "vue": "^2.5.16"
   },
   "dependencies": {
+    "@yaireo/tagify": "^2.12.0",
     "font-awesome": "^4.7.0",
     "tailwindcss-tables": "^0.2.0",
     "uiv": "^0.26.2",

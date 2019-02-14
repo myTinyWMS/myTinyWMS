@@ -44,6 +44,17 @@
             <div class="px-view py-view mx-auto">
                 <h1>@yield('title')</h1>
 
+                @include('flash::message')
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 @yield('content')
             </div>
 

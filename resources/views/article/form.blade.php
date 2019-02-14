@@ -69,7 +69,7 @@
 
             {{ Form::bsTextarea('name', $article->name, ['rows' => 2] , 'Name') }}
             {{ Form::bsSelect('status', $article->status, \Mss\Models\Article::getStatusTextArray(),  'Status') }}
-            {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderedByName()->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
+            {{ Form::bsText('tags', $article->tags->pluck('name')->implode(', '), ['class' => ''], 'Tags') }}
 
             <div class="form-group">
                 {!! Form::label('category', 'Kategorie', ['class' => 'form-label inline-block']) !!}
@@ -168,22 +168,9 @@
 
     @yield('secondCol')
 
-    <div class="row">
-        <div class="w-1/2 col-xxl-4">
-            <div class="ibox">
-                <div class="ibox-content">
-
-
-
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-@if ($isNewArticle ?? true)
-    {!! Form::close() !!}
-@endif
+    @if ($isNewArticle ?? true)
+        {!! Form::close() !!}
+    @endif
 
     <!-- Modal -->
     <div class="modal fade" id="changeQuantityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -315,8 +302,24 @@
             }
         });
 
-        // changeCategoryWarning
-        $("#tags").select2({
+        $('#tags')
+            .tagify({
+                whitelist: [
+                    @foreach(\Mss\Models\Tag::orderedByName()->pluck('name', 'id') as $id => $name)
+                    {"id": {{ $id }}, "value": "{{ $name }}"},
+                    @endforeach
+                ],
+                dropdown : {
+                    classname : "form-select",
+                    enabled   : 3,
+                    maxItems  : 5
+                }
+            })
+            .on('add', function(e, tagName){
+                console.log('added', tagName)
+            });
+
+        /*$("#tags").select2({
             tags: true,
             tokenSeparators: [',', ' '],
             theme: "default",
@@ -334,7 +337,7 @@
                     text: term
                 }
             }
-        });
+        });*/
 
         $("#category").select2({
             theme: "default",
