@@ -52,7 +52,7 @@ class OrderController extends Controller
      */
     public function create(Request $request, SelectArticleDataTable $selectArticleDataTable) {
         if (!$request->has('draw')) {
-            $articles = $this->getArticleList();
+            $allArticles = $this->getArticleList();
             $categories = Category::orderedByName()->get();
             $tags = Tag::orderedByName()->get();
 
@@ -83,7 +83,7 @@ class OrderController extends Controller
             }
         }
 
-        return $selectArticleDataTable->render('order.create', compact('order', 'articles', 'tags', 'categories', 'preSetArticles'));
+        return $selectArticleDataTable->render('order.create', compact('order', 'allArticles', 'tags', 'categories', 'preSetArticles'));
     }
 
     /**
