@@ -211,7 +211,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id, SelectArticleDataTable $selectArticleDataTable) {
-        $articles = $this->getArticleList();
+        $allArticles = $this->getArticleList();
         $order = Order::with(['items.article' => function($query) {
             $query->withCurrentSupplierArticle();
         }])->findOrFail($id);
@@ -233,7 +233,7 @@ class OrderController extends Controller
             ];
         });
 
-        return $selectArticleDataTable->render('order.edit', compact('order', 'preSetArticles', 'articles', 'tags', 'categories'));
+        return $selectArticleDataTable->render('order.edit', compact('order', 'preSetArticles', 'allArticles', 'tags', 'categories'));
     }
 
     /**
