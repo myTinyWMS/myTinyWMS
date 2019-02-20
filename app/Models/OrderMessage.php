@@ -2,10 +2,9 @@
 
 namespace Mss\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class OrderMessage extends Model
+class OrderMessage extends AuditableModel
 {
     use SoftDeletes;
 

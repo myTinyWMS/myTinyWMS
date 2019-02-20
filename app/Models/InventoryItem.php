@@ -2,9 +2,7 @@
 
 namespace Mss\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class InventoryItem extends Model
+class InventoryItem extends AuditableModel
 {
     protected $dates = [
         'created_at',
