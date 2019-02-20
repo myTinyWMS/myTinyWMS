@@ -220,12 +220,12 @@ class OrderController extends Controller
 
         /* @var $order Order */
         $preSetArticles = $order->items;
-        $preSetArticles->transform(function ($item) {
+        $preSetArticles->transform(function ($item) use ($order) {
             return [
                 'id' => $item->article->id,
                 'order_item_id' => $item->id,
                 'name' => $item->article->name,
-                'supplier_id' => $item->article->currentSupplierArticle->supplier_id,
+                'supplier_id' => $item->article->getSupplierArticleAtDate($order->created_at)->supplier_id,
                 'order_notes' => $item->article->order_notes ?? '',
                 'price' => formatPriceValue($item->price),
                 'quantity' => $item->quantity,

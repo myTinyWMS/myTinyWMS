@@ -157,7 +157,12 @@
                                     <br>
                                     <br>
                                     @if (($item->article->getCurrentSupplierArticle()->price / 100) != $item->price)
-                                    <span class="text-danger font-bold font-14">Achtung, aktueller Artikelpreis weicht von Preis aus dieser Bestellung ab!</span>
+                                        <span class="text-danger font-bold font-12">Achtung, aktueller Artikelpreis weicht von Preis aus dieser Bestellung ab!</span>
+                                        <br>
+                                    @endif
+                                    @if ($item->article->getCurrentSupplierArticle()->supplier_id != $order->supplier_id)
+                                        <span class="text-danger font-bold font-12">Der Artikel hat inzwischen einen anderen Lieferanten!</span>
+                                        <br>
                                     @endif
                                 </h3>
                             </div>
