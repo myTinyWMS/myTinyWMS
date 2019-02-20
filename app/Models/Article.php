@@ -374,8 +374,12 @@ class Article extends AuditableModel
      * @param $date
      * @return ArticleSupplier|null
      */
-    public function getSupplierArticleAtDate($date) {
-        $date = ($date instanceof Carbon) ? $date->endOfDay() : Carbon::parse($date)->endOfDay();
+    public function getSupplierArticleAtDate($date, $useEndOfDay = true) {
+        $date = ($date instanceof Carbon) ? $date : Carbon::parse($date);
+
+        if ($useEndOfDay) {
+            $date = $date->endOfDay();
+        }
 
         $supplierArticles = $this->supplierArticles->sortByDesc('created_at');
 
