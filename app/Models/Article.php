@@ -352,7 +352,9 @@ class Article extends AuditableModel
             if ($previousArticleSupplierAudits && $audits->count() && collect($audits->first())->get('modified')->has('supplier_id')) {
                 $audits->transform(function ($audit) use ($previousArticleSupplierAudits) {
                     $audit['modified']->transform(function ($value, $key) use ($previousArticleSupplierAudits) {
-                        $value['old'] = $previousArticleSupplierAudits->getFormattedForAudit($key);
+                        if (!array_key_exists('old', $value)) {
+                            $value['old'] = $previousArticleSupplierAudits->getFormattedForAudit($key);
+                        }
 
                         return $value;
                     });
