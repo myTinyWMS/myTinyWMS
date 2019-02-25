@@ -179,8 +179,6 @@
 
 @push('scripts')
 <script>
-    var changelogMath = 'sub';
-
     $(document).ready(function () {
         @if (!($isNewArticle ?? true))
         $('#unit_id').change(function () {
@@ -222,26 +220,5 @@
             containerCssClass: 'form-control-static',
         });
     });
-
-    $('#changeQuantityModal').on('show.bs.modal', function (event) {
-        changelogMath = 'sub';
-        $('#changeQuantityModal #changelogChange').val('');
-        updateChangelogType();
-    });
-
-    function updateChangelogType() {
-        $('#changelogType option').hide();
-        if (changelogMath === 'add') {
-            $('#changelogType option[data-type="add"]').show();
-            $('#changelogType option[data-type="both"]').show();
-        }
-        if (changelogMath === 'sub') {
-            $('#changelogType option[data-type="sub"]').show();
-            $('#changelogType option[data-type="both"]').show();
-        }
-        $('#changelogType').val(null);
-
-        $('input[name=changelogChangeType]').val(changelogMath);
-    }
 </script>
 @endpush
