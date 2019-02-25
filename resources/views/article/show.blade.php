@@ -20,111 +20,133 @@
 @endsection
 
 @section('secondCol')
-    <div class="col-lg-6 col-xxl-3">
-        <div class="ibox">
-            <div class="ibox-title">
-                <h5>Aktueller Lieferant</h5>
-                <a href="#" class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target="#changeSupplierModal">ändern</a>
-            </div>
-            <div class="ibox-content">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="control-label">
-                                Lieferant
-                                <a href="{{ route('article.index', ['supplier' => $article->currentSupplier]) }}" class="m-l-sm" title="alle Artikel des Lieferanten anzeigen" target="_blank"><i class="fa fa-filter"></i></a>
-                            </label>
-                            <div class="form-control-static"><a href="{{ route('supplier.show', $article->currentSupplier) }}" target="_blank">{{ $article->currentSupplier->name }}</a></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="control-label">Bestellnummer</label>
-                            <div class="form-control-static">{{ $article->currentSupplierArticle->order_number }}</div>
-                        </div>
+    <div class="w-2/3">
+
+        <div class="w-1/3 ml-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="flex">
+                        <div class="flex-1">Aktueller Lieferant</div>
+
+                        <dot-menu class="ml-2">
+                            <a href="#" class="btn-link" data-toggle="modal" data-target="#changeSupplierModal">ändern</a>
+                        </dot-menu>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="control-label">Preis <span class="text-danger">netto</span></label>
-                            <div class="form-control-static">{!! formatPrice($article->currentSupplierArticle->price / 100) !!}</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="control-label">Lieferzeit</label>
-                            <div class="form-control-static">{{ $article->currentSupplierArticle->delivery_time }}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="control-label">Bestellmenge</label>
-                            <div class="form-control-static">{{ $article->currentSupplierArticle->order_quantity }}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="ibox">
-            <div class="ibox-title">
-                <h5>Aktionen</h5>
-            </div>
-            <div class="ibox-content">
-                <p>
-                    <a href="{{ route('order.create', ['article' => $article]) }}" class="btn btn-primary">Neue Bestellung</a>
-                </p>
-                <p>
-                    <a href="{{ route('article.print_single_label', ['article' => $article, 'size' => 'small']) }}" class="btn btn-primary">kleines Label drucken</a>
-                    <a href="{{ route('article.print_single_label', ['article' => $article, 'size' => 'large']) }}" class="btn btn-primary">großes Label drucken</a>
-                </p>
-            </div>
-        </div>
-
-        <div class="ibox">
-            <div class="ibox-title">
-                <h5>Dateien</h5>
-            </div>
-            <div class="ibox-content">
-                <ul class="m-b-md">
-                    @if(is_array($article->files) && count($article->files))
-                        @foreach($article->files as $key => $file)
-                            <li><a href="{{ route('article.file_download', [$article, $key]) }}">{{ $file['orgName'] }}</a></li>
-                        @endforeach
-                    @endif
-                </ul>
-                {{ Form::dropzone('attachments', 'Anhänge', route('article.file_upload', $article)) }}
-            </div>
-        </div>
-
-        <div class="ibox">
-            <div class="ibox-title">
-                <h5>Notizen</h5>
-                <a href="#" class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#newNoteModal">Neue Notiz</a>
-            </div>
-            <div class="ibox-content">
-                <div class="feed-activity-list">
-                    @foreach($article->articleNotes()->latest()->get() as $note)
-                        <div class="feed-element">
-                            <div>
-                                <small class="pull-right text-navy">{{ $note->created_at->diffForHumans() }}</small>
-                                <p><strong>{{ $note->user->name }}</strong></p>
-                                <p>{{ $note->content }}</p>
-                                <small class="text-muted">
-                                    {{ $note->created_at->format('d.m.Y - H:i') }} Uhr
-                                    <button class="btn btn-xs btn-link delete_note" title="löschen" data-id="{{ $note->id }}">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </small>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="w-1/2">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Lieferant
+                                    <a href="{{ route('article.index', ['supplier' => $article->currentSupplier]) }}" class="m-l-sm" title="alle Artikel des Lieferanten anzeigen" target="_blank"><i class="fa fa-filter"></i></a>
+                                </label>
+                                <div class="form-control-static"><a href="{{ route('supplier.show', $article->currentSupplier) }}" target="_blank">{{ $article->currentSupplier->name }}</a></div>
                             </div>
                         </div>
-                    @endforeach
+                        <div class="w-1/2">
+                            <div class="form-group">
+                                <label class="form-label">Bestellnummer</label>
+                                <div class="form-control-static">{{ $article->currentSupplierArticle->order_number }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="w-1/2">
+                            <div class="form-group">
+                                <label class="form-label">Preis <span class="text-red">netto</span></label>
+                                <div class="form-control-static">{!! formatPrice($article->currentSupplierArticle->price / 100) !!}</div>
+                            </div>
+                        </div>
+                        <div class="w-1/2">
+                            <div class="form-group">
+                                <label class="form-label">Lieferzeit</label>
+                                <div class="form-control-static">{{ $article->currentSupplierArticle->delivery_time }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="w-1/2">
+                            <div class="form-group">
+                                <label class="form-label">Bestellmenge</label>
+                                <div class="form-control-static">{{ $article->currentSupplierArticle->order_quantity }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5>Aktionen</h5>
+                </div>
+                <div class="card-content">
+                    <div class="flex flex-col">
+                        <div class="py-4">
+                            <a href="{{ route('order.create', ['article' => $article]) }}" class="btn btn-secondary">Neue Bestellung</a>
+                        </div>
+
+                        <div class="py-4">
+                            <a href="{{ route('article.print_single_label', ['article' => $article, 'size' => 'small']) }}" class="btn btn-secondary">kleines Label drucken</a>
+                            <a href="{{ route('article.print_single_label', ['article' => $article, 'size' => 'large']) }}" class="btn btn-secondary">großes Label drucken</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5>Dateien</h5>
+                </div>
+                <div class="card-content">
+                    <ul class="">
+                        @if(is_array($article->files) && count($article->files))
+                            @foreach($article->files as $key => $file)
+                                <li><a href="{{ route('article.file_download', [$article, $key]) }}">{{ $file['orgName'] }}</a></li>
+                            @endforeach
+                        @endif
+                    </ul>
+                    {{ Form::dropzone('attachments', 'Anhänge', route('article.file_upload', $article)) }}
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <div class="flex">
+                        <h5 class="flex-1">Notizen</h5>
+                        <a href="#" class="btn-link btn-sm" data-toggle="modal" data-target="#newNoteModal">Neue Notiz</a>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="feed-activity-list">
+                        @foreach($article->articleNotes()->latest()->get() as $note)
+                            <div class="feed-element">
+                                <div class="flex mb-2">
+                                    <div class="font-bold flex-1 text-sm text-grey-darkest">{{ $note->user->name }}</div>
+                                    <div class="flex items-baseline">
+                                        <small class="text-grey-dark">{{ $note->created_at->format('d.m.Y - H:i') }}</small>
+
+                                        <dot-menu class="ml-2">
+                                            <a href="#" class="delete_note" data-id="{{ $note->id }}">löschen</a>
+                                        </dot-menu>
+                                    </div>
+                                </div>
+                                <div class="text-sm text-grey-dark">{{ $note->content }}</div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    {{--<div class="col-lg-6 col-xxl-3">
+
+
+
+
+
     </div>
 
     <div class="col-lg-12 col-xxl-5">
@@ -233,7 +255,7 @@
             </div>
         </div>
     </div>
-
+--}}
 
 @endsection
 

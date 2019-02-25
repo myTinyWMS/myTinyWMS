@@ -20,8 +20,8 @@
     @routes
 </head>
 
-<body class="min-w-site bg-grey-lighter text-black min-h-full">
-    <div class="flex min-h-screen">
+<body class="min-w-site bg-grey-lighter text-black min-h-full font-sans-nunito">
+    <div class="flex min-h-screen" id="app">
         @include('layout.sidebar')
 
         <div class="content" id="wrapper">
@@ -35,8 +35,6 @@
                 </div>
                 <div class="dropdown relative ml-auto h-9 flex items-center dropdown-right">
                     <a class="dropdown-trigger h-dropdown-trigger flex items-center cursor-pointer select-none h-9 flex items-center">
-                        <img src="https://secure.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?size=512" class="rounded-full w-8 h-8 mr-3"> <span class="text-90">Diamond Wilkinson</span>
-                        <svg width="10px" height="6px" viewBox="0 0 10 6" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="ml-2"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="04-user" transform="translate(-385.000000, -573.000000)" fill="var(--90)" fill-rule="nonzero"><path d="M393.292893,573.292893 C393.683418,572.902369 394.316582,572.902369 394.707107,573.292893 C395.097631,573.683418 395.097631,574.316582 394.707107,574.707107 L390.707107,578.707107 C390.316582,579.097631 389.683418,579.097631 389.292893,578.707107 L385.292893,574.707107 C384.902369,574.316582 384.902369,573.683418 385.292893,573.292893 C385.683418,572.902369 386.316582,572.902369 386.707107,573.292893 L390,576.585786 L393.292893,573.292893 Z" id="Path-2-Copy"></path></g></g></svg>
                     </a>
                 </div>
             </div>
@@ -46,7 +44,7 @@
 
                 @include('flash::message')
                 @if ($errors->any())
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger mb-4">
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -219,7 +217,7 @@
         });
 
         $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
+            // $('[data-toggle="tooltip"]').tooltip();
 
             if ($('#select_all').length) {
                 $('#select_all').change(function () {

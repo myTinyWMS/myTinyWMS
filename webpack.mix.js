@@ -77,26 +77,26 @@ mix
     ], 'public/css/vendor.css')*/
     .combine([
         'resources/assets/vendor/jquery/jquery-3.1.1.min.js',
-        'resources/assets/vendor/bootstrap/js/bootstrap.js',
-        'resources/assets/vendor/metisMenu/jquery.metisMenu.js',
-        'resources/assets/vendor/slimscroll/jquery.slimscroll.min.js',
-        'resources/assets/vendor/pace/pace.min.js',
-        'resources/assets/vendor/footable/footable.min.js',
+        // 'resources/assets/vendor/bootstrap/js/bootstrap.js',
+        // 'resources/assets/vendor/metisMenu/jquery.metisMenu.js',
+        // 'resources/assets/vendor/slimscroll/jquery.slimscroll.min.js',
+        // 'resources/assets/vendor/pace/pace.min.js',
+        // 'resources/assets/vendor/footable/footable.min.js',
         'resources/assets/vendor/datatables/jquery.dataTables.min.js',
         'resources/assets/vendor/datatables/dataTables.rowReorder.min.js',
         'resources/assets/vendor/datatables/dataTables.rowGroup.min.js',
-        'resources/assets/vendor/jasny/jasny-bootstrap.min.js',
-        'resources/assets/vendor/chartjs/Chart.bundle.min.js',
-        'resources/assets/vendor/chartjs/Chart.PieceLabel.min.js',
-        'resources/assets/vendor/chartjs-plugin-annotation/chartjs-plugin-annotation.min.js',
+        // 'resources/assets/vendor/jasny/jasny-bootstrap.min.js',
+        // 'resources/assets/vendor/chartjs/Chart.bundle.min.js',
+        // 'resources/assets/vendor/chartjs/Chart.PieceLabel.min.js',
+        // 'resources/assets/vendor/chartjs-plugin-annotation/chartjs-plugin-annotation.min.js',
         'resources/assets/vendor/select2/select2.min.js',
-        'resources/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-        'resources/assets/vendor/bootstrap-datepicker/locales/bootstrap-datepicker.de.min.js',
-        'resources/assets/vendor/bootstrap-typeahead/bootstrap3-typeahead.min.js',
+        // 'resources/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+        // 'resources/assets/vendor/bootstrap-datepicker/locales/bootstrap-datepicker.de.min.js',
+        // 'resources/assets/vendor/bootstrap-typeahead/bootstrap3-typeahead.min.js',
         'resources/assets/vendor/momenjs/moment.min.js',
-        'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.js',
-        'resources/assets/vendor/summernote/summernote.js',
-        'resources/assets/vendor/summernote/summernote-de-DE.js',
+        // 'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.js',
+        // 'resources/assets/vendor/summernote/summernote.js',
+        // 'resources/assets/vendor/summernote/summernote-de-DE.js',
         'resources/assets/vendor/dropzone/dropzone.js',
         'resources/assets/vendor/iCheck/icheck.min.js',
         'resources/assets/vendor/js-cookie/js.cookie.js',
@@ -116,5 +116,5 @@ mix
         'resources/assets/vendor/iCheck/icheck.min.js',
         'resources/assets/vendor/js-cookie/js.cookie.js'
     ], 'public/js/handscanner.js')
-    .js('resources/assets/js/app.js', 'public/js')
+    // .js('resources/assets/js/app.js', 'public/js')
     .version();

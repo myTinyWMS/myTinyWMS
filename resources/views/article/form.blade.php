@@ -4,9 +4,10 @@
 @if ($isNewArticle ?? true)
     @yield('form_start')
 @endif
+<div class="flex w-full">
     <div class="card w-1/3">
-        <div class="card-header">
-            Details
+        <div class="card-header flex">
+            <div class="flex-1">Details</div>
         </div>
 
         <div class="card-content">
@@ -20,7 +21,7 @@
                         <div class="form-group">
                             <label class="form-label">Bestand</label>
                             <div class="form-control-static">
-                                {{ $article->quantity }} <button type="button" class="btn-link btn-xs edit-quantity" data-toggle="modal" data-target="#changeQuantityModal">ändern</button>
+                                {{ $article->quantity }} <button type="button" class="btn-link btn-xs edit-quantity" @click="$modal.show('change-quantity')">ändern</button>
                             </div>
                         </div>
                     @endif
@@ -85,7 +86,7 @@
                             Kategorie ändern
                         </label>
                     </div>
-                    <span class="help-block m-b-none text-danger hidden" id="changeCategoryWarning">Beim Ändern der Kategorie wird eine neue Artikel Nummer vergeben!</span>
+                    <span class="help-block text-red mt-2 hidden" id="changeCategoryWarning">Beim Ändern der Kategorie wird eine neue Artikel Nummer vergeben!</span>
                 @endif
             </div>
 
@@ -123,9 +124,6 @@
                 <div class="w-1/2">
                     {{ Form::bsText('issue_quantity', $article->issue_quantity ?? 0, [], 'Entnahmemenge') }}
                 </div>
-            </div>
-            <div class="row mb-2">
-                <span class="help-block">Mindestbestand = -1 &raquo; der Artikel erscheint nicht in der zu Bestellen Liste</span>
             </div>
 
             <div class="row">
@@ -171,85 +169,12 @@
     @if ($isNewArticle ?? true)
         {!! Form::close() !!}
     @endif
+</div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="changeQuantityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                {!! Form::open(['route' => ['article.change_quantity', $article], 'method' => 'POST']) !!}
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Bestand ändern</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="w-1/2">
-                                <div class="form-group">
-                                    <label for="changelogCurrentQuantity" class="control-label">aktueller Bestand</label>
-                                    <div class="form-control-static">
-                                        <span id="changelogCurrentQuantity" data-quantity="{{ $article->quantity }}">{{ $article->quantity }}</span>
-                                        {{ optional($article->unit)->name }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-1/3 col-lg-offset-2">
-                                <div class="form-group">
-                                    <label for="changelogNewQuantity" class="control-label">Entnahmemenge</label>
-                                    <div class="form-control-static">
-                                        {{ $article->issue_quantity }}
-                                        {{ optional($article->unit)->name }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="w-1/2">
-                                <div class="form-group">
-                                    <label for="changelogChange" class="control-label">Veränderung</label>
-                                    <div class="input-group">
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="changelog-current-math">-</span> <span class="caret"></span></button>
-                                            <ul class="dropdown-menu pull-left" id="changelogChangeDropdown">
-                                                <li><a href="#" class="changelog-set-sub">-</a></li>
-                                                <li><a href="#" class="changelog-set-add">+</a></li>
-                                            </ul>
-                                        </div>
-                                        <input type="hidden" name="changelogChangeType" value="">
-                                        <input class="form-control" type="text" id="changelogChange" value="" name="changelogChange" placeholder="Menge" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-1/2">
-                                <div class="form-group">
-                                    <label for="changelogType" class="control-label">Typ der Änderung</label>
-                                    <select id="changelogType" name="changelogType" class="form-control" required>
-                                        <option value=""></option>
-                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_INCOMING }}" data-type="add">Wareneingang</option>
-                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING }}" data-type="sub">Warenausgang</option>
-                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_INVENTORY }}" data-type="both">Inventur</option>
-                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY }}" data-type="both">Ersatzlieferung</option>
-                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_OUTSOURCING }}" data-type="both">Ein-/Auslagerung Aussenlager</option>
-                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES }}" data-type="sub">Verkauf an Fremdfirmen</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="changelogNote" class="control-label">Bemerkung</label>
-                            <textarea class="form-control" rows="3" id="changelogNote" name="changelogNote"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-                        <button type="submit" class="btn btn-primary" id="changelogSubmit">Speichern</button>
-                    </div>
-                {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
+<!-- Modal -->
+<modal name="change-quantity" height="auto" classes="modal">
+    <change-quantity-form :article="{{ $article }}" unit="{{ optional($article->unit)->name }}"></change-quantity-form>
+</modal>
 @endsection
 
 @push('scripts')
@@ -263,43 +188,15 @@
         });
         @endif
 
-        $('#changelogSubmit').click(function () {
-            if (changelogMath === 'sub' && parseInt($('#changelogCurrentQuantity').attr('data-quantity')) < parseInt($('#changeQuantityModal #changelogChange').val())) {
-                alert('Es ist nicht möglich mehr auszubuchen als Bestand vorhanden ist!');
-                return false;
-            }
-            var message = 'Du willst den Bestand um ';
-            message += (changelogMath === 'sub') ? 'MINUS ' : 'PLUS ';
-            message += $('#changeQuantityModal #changelogChange').val() + ' ändern - als ';
-            message += '"' + $('#changelogType option:selected').text() + '". SICHER?';
 
-            return confirm(message);
+        $('#enableChangeCategory').on('ifChecked', function(event){
+            $('#changeCategoryWarning').removeClass('hidden');
+            $("#category").prop('disabled', false).removeClass('form-disabled');
         });
 
-        $('.changelog-set-add').click(function () {
-            $('.changelog-current-math').text('+');
-            changelogMath = 'add';
-            updateChangelogType();
-            $('#changelogChangeDropdown').dropdown('toggle');
-            return false;
-        });
-
-        $('.changelog-set-sub').click(function () {
-            $('.changelog-current-math').text('-');
-            changelogMath = 'sub';
-            updateChangelogType();
-            $('#changelogChangeDropdown').dropdown('toggle');
-            return false;
-        });
-
-        $('#enableChangeCategory').click(function () {
-            if($(this).is(':checked')) {
-                $('#changeCategoryWarning').removeClass('hidden');
-                $("#category").prop('disabled', false);
-            } else {
-                $('#changeCategoryWarning').addClass('hidden');
-                $("#category").prop('disabled', true);
-            }
+        $('#enableChangeCategory').on('ifUnchecked', function(event){
+            $('#changeCategoryWarning').addClass('hidden');
+            $("#category").prop('disabled', true).addClass('form-disabled');
         });
 
         $('#tags')
@@ -318,26 +215,6 @@
             .on('add', function(e, tagName){
                 console.log('added', tagName)
             });
-
-        /*$("#tags").select2({
-            tags: true,
-            tokenSeparators: [',', ' '],
-            theme: "default",
-            dropdownCssClass: 'form-select',
-            containerCssClass: 'form-control-static',
-            createTag: function (params) {
-                var term = $.trim(params.term);
-
-                if (term === '') {
-                    return null;
-                }
-
-                return {
-                    id: 'newTag_'+term,
-                    text: term
-                }
-            }
-        });*/
 
         $("#category").select2({
             theme: "default",
