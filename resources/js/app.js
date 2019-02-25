@@ -10,6 +10,7 @@ import VModal from 'vue-js-modal'
 
 window.Vue = require('vue');
 
+Vue.use(require('vue-moment'));
 Vue.use(VModal);
 
 Vue.mixin({
@@ -24,7 +25,9 @@ Vue.mixin({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('collapse', require('./components/Collapse.vue'));
 Vue.component('dot-menu', require('./components/DotMenu.vue'));
+Vue.component('article-quantity-changelog', require('./components/ArticelQuantityChangelog.vue'));
 Vue.component('change-quantity-form', require('./components/ChangeQuantityForm.vue'));
 
 window.app = new Vue({

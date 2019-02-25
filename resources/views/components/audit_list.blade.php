@@ -1,4 +1,4 @@
-<table class="table table-condensed audit-list">
+<table class="dataTable audit-list">
     <thead>
         <tr>
             <th>Zeitpunkt</th>

@@ -20,8 +20,7 @@
 @endsection
 
 @section('secondCol')
-    <div class="w-2/3">
-
+    <div class="w-2/3 flex">
         <div class="w-1/3 ml-4">
             <div class="card">
                 <div class="card-header">
@@ -29,7 +28,7 @@
                         <div class="flex-1">Aktueller Lieferant</div>
 
                         <dot-menu class="ml-2">
-                            <a href="#" class="btn-link" data-toggle="modal" data-target="#changeSupplierModal">ändern</a>
+                            <a href="javascript:void(0)" class="btn-link" @click="$modal.show('changeSupplierModal')">ändern</a>
                         </dot-menu>
                     </div>
                 </div>
@@ -139,95 +138,77 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    {{--<div class="col-lg-6 col-xxl-3">
-
-
-
-
-
-    </div>
-
-    <div class="col-lg-12 col-xxl-5">
-        <div class="ibox collapsed">
-            <div class="ibox-title">
-                <h5>Logbuch</h5>
-                <div class="ibox-tools">
-                    <a class="collapse-link">
-                        <i class="fa fa-chevron-up"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="ibox-content">
+        <div class="w-2/3 ml-4">
+            <collapse title="Logbuch">
                 @include('components.audit_list', $audits)
-            </div>
-        </div>
+            </collapse>
 
-        <div class="ibox">
-            <div class="ibox-title">
-                <h5>
-                    Bestands-Verlauf
-                </h5>
-                <div class="pull-right">
-                    <a href="{{ route('article.quantity_changelog', $article) }}" class="btn btn-primary btn-xs">mehr</a>
+            <div class="card mt-4">
+                <div class="card-header flex">
+                    <h5 class="flex-1">
+                        Bestands-Verlauf
+                    </h5>
+                    <a href="{{ route('article.quantity_changelog', $article) }}" class="btn-link btn-xs">mehr</a>
                 </div>
-            </div>
-            <div class="ibox-content">
-                <article-quantity-changelog :items="{{ json_encode($article->getShortChangelog()) }}" :article="{{ json_encode($article) }}" :edit-enabled="true"></article-quantity-changelog>
+                <div class="card-content">
+                    <article-quantity-changelog :items="{{ json_encode($article->getShortChangelog()) }}" :article="{{ json_encode($article) }}" :edit-enabled="true"></article-quantity-changelog>
+                </div>
             </div>
         </div>
     </div>
+
+    <modal name="changeSupplierModal"height="auto" classes="modal">
+        <h4 class="modal-title">Lieferant bearbeiten</h4>
+
+        {!! Form::open(['route' => ['article.change_supplier', $article], 'method' => 'POST']) !!}
+            <div class="row">
+                <div class="w-full">
+                    <div class="form-group">
+                        <label for="supplier" class="form-label">Lieferant</label>
+                        {!! Form::select('supplier', \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'), $article->currentSupplier->id ?? null, ['class' => 'form-control', 'id' => 'supplier', 'name' => 'supplier', 'style' => 'width: 100%']) !!}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="w-1/2">
+                    <div class="form-group">
+                        {{ Form::bsText('order_number', $article->currentSupplierArticle->order_number, [], 'Bestellnummer') }}
+                    </div>
+                </div>
+                <div class="w-1/2 ml-4">
+                    <div class="form-group">
+                        {{ Form::bsText('price', str_replace('.', ',', $article->currentSupplierArticle->price / 100), [], 'Preis netto') }}
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="w-1/2">
+                    <div class="form-group">
+                        {{ Form::bsText('delivery_time', $article->currentSupplierArticle->delivery_time, [], 'Lieferzeit (Wochentage)') }}
+                    </div>
+                </div>
+                <div class="w-1/2 ml-4">
+                    <div class="form-group">
+                        {{ Form::bsText('order_quantity', $article->currentSupplierArticle->order_quantity, [], 'Bestellmenge') }}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" @click="$modal.hide('changeSupplierModal')">Abbrechen</button>
+                <button type="submit" class="btn btn-primary">Speichern</button>
+            </div>
+        {!! Form::close() !!}
+    </modal>
+    
+    {{--
 
     <!-- Change Supplier Modal -->
     <div class="modal fade" id="changeSupplierModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {!! Form::open(['route' => ['article.change_supplier', $article], 'method' => 'POST']) !!}
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Lieferant bearbeiten</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label for="supplier" class="control-label">Lieferant</label>
-                                    {!! Form::select('supplier', \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'), $article->currentSupplier->id ?? null, ['class' => 'form-control', 'id' => 'supplier', 'name' => 'supplier', 'style' => 'width: 100%']) !!}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{ Form::bsText('order_number', $article->currentSupplierArticle->order_number, [], 'Bestellnummer') }}
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{ Form::bsText('price', str_replace('.', ',', $article->currentSupplierArticle->price / 100), [], 'Preis netto') }}
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{ Form::bsText('delivery_time', $article->currentSupplierArticle->delivery_time, [], 'Lieferzeit (Wochentage)') }}
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{ Form::bsText('order_quantity', $article->currentSupplierArticle->order_quantity, [], 'Bestellmenge') }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-                        <button type="submit" class="btn btn-primary">Speichern</button>
-                    </div>
-                {!! Form::close() !!}
+                
             </div>
         </div>
     </div>

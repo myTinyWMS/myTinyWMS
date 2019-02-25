@@ -9,6 +9,8 @@
 
     tbody {
         tr {
+            @apply text-grey-darker;
+
             .table-action {
                 @apply invisible mt-2 block;
 
@@ -21,11 +23,11 @@
                 @apply visible;
             }
 
-            &:nth-child(odd) td {
+            &:nth-child(odd) {
                 @apply bg-white;
             }
 
-            &:nth-child(even) td {
+            &:nth-child(even) {
                 @apply bg-grey-lighter;
             }
 
@@ -34,7 +36,7 @@
             }
 
             td {
-                @apply font-light text-grey-darker text-sm /*border border-grey-light*/ px-2 py-4 leading-tight align-middle;
+                @apply font-light text-sm /*border border-grey-light*/ px-2 py-4 leading-tight align-middle;
             }
         }
     }

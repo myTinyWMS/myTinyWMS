@@ -5,24 +5,13 @@ small {
 /**
  * Buttons
  */
-.text-danger {
-	@apply text-red;
-}
-
-.text-success {
-	@apply text-green;
-}
-
-.text-muted {
-	@apply text-grey-dark;
-}
 
 
 /**
  * Buttons
  */
 .btn {
-  	@apply font-bold py-2 px-4 rounded text-base h-8 leading-tight text-sm;
+  	@apply font-bold py-2 px-4 rounded text-base h-8 leading-tight text-sm whitespace-no-wrap;
 }
 
 .btn-sm {
@@ -137,6 +126,10 @@ small {
 	@apply bg-orange-lightest border-orange-light text-orange-dark;
 }
 
+.alert-info {
+	@apply bg-blue-lightest border-blue-light text-blue-dark;
+}
+
 .card {
 	@apply bg-white shadow rounded-lg;
 
@@ -189,11 +182,10 @@ small {
 	}
 
 	.dropdown-button-items {
-		@apply items-center absolute border border-grey-light rounded shadow-md p-1 bg-white w-full z-50 pin-r;
-		min-width: 160px;
+		@apply items-center absolute border border-grey-light rounded shadow-md p-1 bg-white w-auto z-50 pin-r;
 
 		a {
-			@apply px-4 py-2 font-normal whitespace-no-wrap block;
+			@apply pl-2 pr-4 py-2 font-normal whitespace-no-wrap block text-sm;
 
 			&:hover {
 				@apply bg-grey-lighter;
