@@ -99,7 +99,7 @@
                 {
                     type: 'bar',
                     backgroundColor: '#449D44',
-                    'label': 'Wareneingang (Ø {{ round(abs($chartValues[1]->avg()), 0) }})',
+                    'label': 'Wareneingang (Ø {{ $diffMonths ? round(abs($chartValues[1]->sum() / $diffMonths), 0) : $chartValues[1]->sum() }} / Monat)',
                     data: {!! $chartValues[1]->toJson() !!}
                 },
                 @endif
@@ -107,7 +107,7 @@
                 {
                     type: 'bar',
                     backgroundColor: '#ED5565',
-                    'label': 'Warenausgang (Ø {{ round(abs($chartValues[2]->avg()), 0) }})',
+                    'label': 'Warenausgang (Ø {{ $diffMonths ? round(abs($chartValues[2]->sum() / $diffMonths), 0) : $chartValues[2]->sum() }} / Monat)',
                     data: {!! $chartValues[2]->toJson() !!}
                 }
                 @endif

@@ -316,12 +316,11 @@ class Article extends AuditableModel
     }
 
     public function scopeWithAverageUsage($query) {
-        $query->addSubSelect('average_usage', ArticleQuantityChangelog::select(DB::raw('AVG(`change`)'))
+        $query->addSubSelect('average_usage', ArticleQuantityChangelog::select(DB::raw('SUM(`change`) / 12'))
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
             ->whereIn('type', [ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_CORRECTION])
             ->where('change', '>', 0)
             ->where('created_at', '>', Carbon::now()->subYear())
-            ->groupBy(DB::raw('MONTH(created_at)'))
         );
     }
 

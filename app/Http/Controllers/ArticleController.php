@@ -228,43 +228,47 @@ class ArticleController extends Controller
         $dateStart = $request->has('start') ? Carbon::parse($request->get('start')) : Carbon::now()->subMonth(12);
         $dateEnd = $request->has('end') ? Carbon::parse($request->get('end'))->addDay() : Carbon::now();
         $changelog = $article->quantityChangelogs()->with(['user', 'unit', 'deliveryItem.delivery.order'])->latest()->whereBetween('created_at', [$dateStart, $dateEnd])->paginate(100);
+        $diffMonths = abs($dateEnd->diffInMonths($dateStart));
+
+        $chartLabels = collect([$dateStart->format('Y-m') => $dateStart->formatLocalized('%b %Y')]);
+        for($i = 1; $i < $diffMonths; $i++) {
+            $chartLabels->put($dateStart->copy()->addMonth($i)->format('Y-m'), $dateStart->copy()->addMonth($i)->formatLocalized('%b %Y'));
+        }
 
         $all = $article->quantityChangelogs()->oldest()->whereBetween('created_at', [$dateStart, $dateEnd])->get();
 
-        $chartLabels = $all->groupBy(function ($item) {
-            return $item->created_at->formatLocalized('%b %Y');
-        })->keys();
+        $chartValues = collect();
+        $chartValues->put(1, collect());
+        $chartValues->put(2, collect());
 
-        $chartValues = $all->groupBy(function ($item) {
+        $chartLabels->each(function ($label, $key) use (&$chartValues) {
+            $chartValues[1]->put($key, 0);
+            $chartValues[2]->put($key, 0);
+        });
+
+        $all->groupBy(function ($item) {
             if ($item->type == ArticleQuantityChangelog::TYPE_INVENTORY) {
                 return ($item->change < 0) ? ArticleQuantityChangelog::TYPE_OUTGOING : ArticleQuantityChangelog::TYPE_INCOMING;
             }
 
             return $item->type;
-        })->transform(function ($group, $type) use ($chartLabels) {
-            $data = $group->groupBy(function ($item) {
-                return $item->created_at->formatLocalized('%b %Y');
+        })->each(function ($group, $type) use ($chartLabels, &$chartValues) {
+            $group->groupBy(function ($item) {
+                return $item->created_at->format('Y-m');
             })->transform(function ($items) {
                 return $items->sum('change');
+            })->each(function ($value, $key) use (&$chartValues, $type) {
+                $chartValues[$type]->put($key, $value);
             });
-
-            $chartLabels->each(function ($label) use ($data) {
-                if (!$key = $data->has($label)) {
-
-                    $data[$label] = 0;
-                }
-            });
-
-            $data = $data->mapWithKeys(function ($item, $key) use ($chartLabels) {
-                return [$chartLabels->search($key) => $item];
-            });
-
-            $data = $data->toArray();
-            ksort($data);
-            return collect($data);
         });
 
-        return view('article.quantity_changelog', compact('article', 'changelog', 'dateStart', 'dateEnd', 'chartLabels', 'chartValues'));
+        $chartValues->transform(function ($values) {
+            return $values->values();
+        });
+
+        $chartLabels = $chartLabels->values();
+
+        return view('article.quantity_changelog', compact('article', 'changelog', 'dateStart', 'dateEnd', 'chartLabels', 'chartValues', 'diffMonths'));
     }
 
     public function deleteQuantityChangelog(Article $article, ArticleQuantityChangelog $changelog) {
