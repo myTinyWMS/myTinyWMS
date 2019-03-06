@@ -235,7 +235,7 @@ class ArticleController extends Controller
             $chartLabels->put($dateStart->copy()->addMonth($i)->format('Y-m'), $dateStart->copy()->addMonth($i)->formatLocalized('%b %Y'));
         }
 
-        $all = $article->quantityChangelogs()->oldest()->whereBetween('created_at', [$dateStart, $dateEnd])->get();
+        $all = $article->quantityChangelogs()->oldest()->whereBetween('created_at', [$dateStart, $dateEnd])->whereIn('type', [ArticleQuantityChangelog::TYPE_OUTGOING, ArticleQuantityChangelog::TYPE_INCOMING])->get();
 
         $chartValues = collect();
         $chartValues->put(1, collect());
