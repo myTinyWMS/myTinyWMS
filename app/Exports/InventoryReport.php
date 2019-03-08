@@ -135,7 +135,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'WE Eur' => "=L$i*\$D$i",
                     'KO Eur' => "=M$i*\$D$i",
                     'VF Eur' => "=N$i*\$D$i",
-                    'INV Eur' => "=Q$i*\$D$i",
+                    'INV Eur' => "=O$i*\$D$i",
                     'EB Eur' => "=P$i*\$D$i",
                     'Kontrolle' => "=-(R$i+S$i+T$i-W$i)",
                 ];
