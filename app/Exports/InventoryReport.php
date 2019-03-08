@@ -137,7 +137,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'VF Eur' => "=N$i*\$D$i",
                     'INV Eur' => "=O$i*\$D$i",
                     'EB Eur' => "=P$i*\$D$i",
-                    'Kontrolle' => "=-(R$i+S$i+T$i-W$i)",
+                    'Kontrolle' => "=-(R$i+S$i+T$i-X$i)",
                 ];
             });
 
