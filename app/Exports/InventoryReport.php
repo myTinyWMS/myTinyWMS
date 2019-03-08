@@ -56,21 +56,23 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             'F' => NumberFormat::FORMAT_TEXT,
             'G' => NumberFormat::FORMAT_TEXT,
             'H' => NumberFormat::FORMAT_TEXT,
-            'I' => NumberFormat::FORMAT_NUMBER,
+            'I' => NumberFormat::FORMAT_TEXT,
             'J' => NumberFormat::FORMAT_NUMBER,
             'K' => NumberFormat::FORMAT_NUMBER,
             'L' => NumberFormat::FORMAT_NUMBER,
             'M' => NumberFormat::FORMAT_NUMBER,
             'N' => NumberFormat::FORMAT_NUMBER,
             'O' => NumberFormat::FORMAT_NUMBER,
-            'P' => NumberFormat::FORMAT_TEXT,
-            'Q' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'P' => NumberFormat::FORMAT_NUMBER,
+            'Q' => NumberFormat::FORMAT_TEXT,
             'R' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'S' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'T' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'U' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'V' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-            'W' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
+            'W' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'X' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'Y' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
         ];
     }
 
@@ -132,9 +134,10 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'WA Eur' => "=K$i*\$D$i",
                     'WE Eur' => "=L$i*\$D$i",
                     'KO Eur' => "=M$i*\$D$i",
-                    'INV Eur' => "=N$i*\$D$i",
-                    'EB Eur' => "=O$i*\$D$i",
-                    'Kontrolle' => "=-(Q$i+R$i+S$i-V$i)",
+                    'VF Eur' => "=N$i*\$D$i",
+                    'INV Eur' => "=Q$i*\$D$i",
+                    'EB Eur' => "=P$i*\$D$i",
+                    'Kontrolle' => "=-(R$i+S$i+T$i-W$i)",
                 ];
             });
 
