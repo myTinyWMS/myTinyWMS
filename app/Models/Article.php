@@ -87,7 +87,7 @@ class Article extends AuditableModel
     }
 
     public function currentSupplier() {
-        return $this->hasOne(Supplier::class, 'id', 'current_supplier_id');
+        return $this->hasOne(Supplier::class, 'id', 'current_supplier_id')->withTrashed();
     }
 
     public function scopeWithCurrentSupplierName($query)

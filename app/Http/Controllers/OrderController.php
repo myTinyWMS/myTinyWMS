@@ -148,11 +148,18 @@ class OrderController extends Controller
 
     public function itemInvoiceReceived(OrderItem $orderitem, Request $request) {
         $request->validate([
-            'invoice_status' => 'required|in:0,1,2'
+            'invoice_status' => 'required|in:0,1,2',
+            'change_article_price' => 'in:0,1'
         ]);
 
         $orderitem->invoice_received = $request->get('invoice_status');
         $orderitem->save();
+
+        if (request('change_article_price') == 1) {
+            $supplierArticle = $orderitem->article->getCurrentSupplierArticle();
+            $supplierArticle->price = $orderitem->price * 100;
+            $supplierArticle->save();
+        }
 
         if (!empty($request->get('mail_note'))) {
             $attachments = collect(json_decode($request->get('mail_attachments'), true));
@@ -167,6 +174,12 @@ class OrderController extends Controller
             if ($orderitem->invoice_received !== OrderItem::INVOICE_STATUS_RECEIVED) {
                 $orderitem->invoice_received = OrderItem::INVOICE_STATUS_RECEIVED;
                 $orderitem->save();
+            }
+
+            if (request('change_article_price') == 1) {
+                $supplierArticle = $orderitem->article->getCurrentSupplierArticle();
+                $supplierArticle->price = $orderitem->price * 100;
+                $supplierArticle->save();
             }
         });
 
