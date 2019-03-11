@@ -30,6 +30,7 @@
                     <div class="col-xs-3">
                         <small class="stats-label">interne Bestellnummer</small>
                         <h2>{{ $order->internal_order_number }}</h2>
+                        <h2>{{ $order->total_cost }}</h2>
                     </div>
 
                     <div class="col-xs-3">
@@ -145,7 +146,9 @@
                 </div>
             </div>
             <div class="ibox-content">
+                @php ($total = 0)
                 @foreach($order->items as $key => $item)
+                    @php ($total += ($item->quantity * $item->price))
                     <div class="panel panel-primary">
                         <div class="panel-body row">
                             <div class="col-lg-5">
@@ -170,11 +173,13 @@
                                 <div class="col-lg-4">
                                     <small class="stats-label">Preis netto je Einheit</small>
                                     <h3>{!! formatPrice($item->price)  !!}</h3>
+                                    <small>&sum; {!! formatPrice($item->price * $item->quantity) !!}</small>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <small class="stats-label">bestellte Menge</small>
                                     <h3>{{ $item->quantity }}</h3>
+                                    <br>
                                 </div>
                                 <div class="col-lg-4">
                                     @if($item->getQuantityDelivered() == $item->quantity)
@@ -184,6 +189,7 @@
                                     @endif
                                     <small class="stats-label">gelieferte Menge</small>
                                     <h3 class="@if($item->getQuantityDelivered() < $item->quantity) text-warning @elseif($item->getQuantityDelivered() > $item->quantity) text-danger @else text-success @endif">{{ $item->getQuantityDelivered() }}</h3>
+                                    <br>
                                 </div>
 
                                 <div class="col-lg-4 m-t-md">
@@ -241,6 +247,13 @@
                         </div>
                     </div>
                 @endforeach
+                <div class="row">
+                    <div class="col-lg-4 col-lg-offset-5">
+                        <div class="col-lg-12">
+                            <span style="border-top: 2px solid black; padding-top: 5px">&sum; {!! formatPrice($total) !!}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
