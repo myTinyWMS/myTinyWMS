@@ -83,8 +83,12 @@ class ArticleDataTable extends BaseDataTable
 
                 if ($diffPercent < -30) {
                     return $article->average_usage_12.' <i class="fa fa-angle-double-up text-danger bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 30% höher als in den letzten 12"></i>';
+                } elseif ($diffPercent < -15) {
+                    return $article->average_usage_12.' <i class="fa fa-angle-up text-danger bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 15% höher als in den letzten 12"></i>';
                 } elseif ($diffPercent > 30) {
                     return $article->average_usage_12.' <i class="fa fa-angle-double-down text-success bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 30% niedriger als in den letzten 12"></i>';
+                } elseif ($diffPercent > 15) {
+                    return $article->average_usage_12.' <i class="fa fa-angle-down text-success bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 30% niedriger als in den letzten 12"></i>';
                 }
 
                 return $article->average_usage_12;
