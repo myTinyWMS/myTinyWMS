@@ -315,12 +315,12 @@ class Article extends AuditableModel
         return $this->quantityChangelogs()->where('type', ArticleQuantityChangelog::TYPE_INCOMING)->latest()->first();
     }
 
-    public function scopeWithAverageUsage($query) {
-        $query->addSubSelect('average_usage', ArticleQuantityChangelog::select(DB::raw('SUM(`change`) / 12'))
+    public function scopeWithAverageUsage($query, $months = 12) {
+        $query->addSubSelect('average_usage_'.$months, ArticleQuantityChangelog::select(DB::raw('COALESCE(ROUND(ABS(SUM(`change`)) / '.$months.'), 0)'))
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
-            ->whereIn('type', [ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_CORRECTION])
-            ->where('change', '>', 0)
-            ->where('created_at', '>', Carbon::now()->subYear())
+            ->whereIn('type', [ArticleQuantityChangelog::TYPE_OUTGOING, ArticleQuantityChangelog::TYPE_CORRECTION])
+            ->where('change', '<', 0)
+            ->where('created_at', '>', Carbon::now()->subMonth($months))
         );
     }
 
