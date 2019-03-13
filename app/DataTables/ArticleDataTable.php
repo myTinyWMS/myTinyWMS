@@ -81,11 +81,11 @@ class ArticleDataTable extends BaseDataTable
                 $diff = $article->average_usage_12 - $article->average_usage_3;
                 $diffPercent = (100 * $diff) / $article->average_usage_12;
 
-                /*if ($diffPercent > 30) {
+                if ($diffPercent < -30) {
                     return $article->average_usage_12.' <i class="fa fa-angle-double-up text-danger bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 30% höher als in den letzten 12"></i>';
-                } elseif ($diffPercent < 30) {
+                } elseif ($diffPercent > 30) {
                     return $article->average_usage_12.' <i class="fa fa-angle-double-down text-success bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 30% niedriger als in den letzten 12"></i>';
-                }*/
+                }
 
                 return $article->average_usage_12;
             })
