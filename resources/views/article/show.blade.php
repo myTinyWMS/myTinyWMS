@@ -53,7 +53,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label class="control-label">Lieferzeit</label>
+                            <label class="control-label">Lieferzeit (Wochentagen)</label>
                             <div class="form-control-static">{{ $article->currentSupplierArticle->delivery_time }}</div>
                         </div>
                     </div>
