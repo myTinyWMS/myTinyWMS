@@ -142,12 +142,13 @@
                 startDate: start,
                 endDate: end,
                 ranges: {
-                    'Heute': [moment(), moment()],
-                    'Gestern': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Letzte 7 Tage': [moment().subtract(6, 'days'), moment()],
                     'Letzte 30 Tage': [moment().subtract(29, 'days'), moment()],
                     'Dieser Monat': [moment().startOf('month'), moment().endOf('month')],
-                    'Letzter Monat': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    'Letzter Monat': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                    'aktuelles Jahr': [moment().startOf('year'), moment()],
+                    '12 Monate': [moment().subtract(12, 'month').startOf('month'), moment()],
+                    '24 Monate': [moment().subtract(24, 'month').startOf('month'), moment()],
+                    '36 Monate': [moment().subtract(36, 'month').startOf('month'), moment()]
                 },
                 "locale": {
                     "format": "DD.MM.YYYY",
