@@ -78,7 +78,7 @@ class ArticleDataTable extends BaseDataTable
             ->addColumn('average_usage', function (Article $article) {
                 if ($article->average_usage_12 == 0) return $article->average_usage_12;
 
-                $diff = $article->average_usage_12 - $article->average_usage_3;
+                $diff = $article->average_usage_3 - $article->average_usage_12;
                 $diffPercent = (100 * $diff) / $article->average_usage_12;
 
                 if ($diffPercent < -30) {
