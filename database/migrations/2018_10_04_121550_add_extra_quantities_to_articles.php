@@ -27,8 +27,7 @@ class AddExtraQuantitiesToArticles extends Migration
     public function down()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->dropColumn('outsourcing_quantity');
-            $table->dropColumn('replacement_delivery_quantity');
+            $table->dropColumn(['outsourcing_quantity', 'replacement_delivery_quantity']);
         });
     }
 }

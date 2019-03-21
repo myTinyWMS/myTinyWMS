@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Mss\Console\Commands\CleanupEmptyOrdersCommand;
+use Mss\Console\Commands\CreateTestDatabase;
 use Mss\Console\Commands\ImportCommand;
 use Mss\Console\Commands\ImportMailsCommand;
 use Mss\Console\Commands\SendInventoryMailCommand;
@@ -19,6 +20,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        CreateTestDatabase::class,
         ImportCommand::class,
         SetArticleNumbersCommand::class,
         ImportMailsCommand::class,

@@ -124,20 +124,16 @@ class ArticleController extends Controller
 
         // tags
         $article->tags()->detach();
-        collect(\GuzzleHttp\json_decode($request->get('tags'), true))->each(function ($tagValue) use ($article) {
-            if (!array_key_exists('id', $tagValue)) {
-                $tag = Tag::firstOrCreate(['name' => $tagValue['value']]);
-                $article->tags()->attach($tag);
-            } else {
-                $article->tags()->attach(Tag::where('name', $tagValue['value'])->firstOrFail());
-            }/*
-            if (preg_match('/^newTag_(.+)/', $tagValue, $matches)) {
-                $tag = Tag::firstOrCreate(['name' => $matches[1]]);
-                $article->tags()->attach($tag);
-            } else {
-                $article->tags()->attach($tagValue);
-            }*/
-        });
+        if (!empty($request->get('tags'))) {
+            collect(\GuzzleHttp\json_decode($request->get('tags'), true))->each(function ($tagValue) use ($article) {
+                if (!array_key_exists('id', $tagValue)) {
+                    $tag = Tag::firstOrCreate(['name' => $tagValue['value']]);
+                    $article->tags()->attach($tag);
+                } else {
+                    $article->tags()->attach(Tag::where('name', $tagValue['value'])->firstOrFail());
+                }
+            });
+        }
 
         // categories
         if ($request->get('category') != $article->category_id && $request->get('changeCategory') == 1 && !empty($request->get('category'))) {

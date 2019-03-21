@@ -2,11 +2,12 @@
 
 namespace Tests;
 
-use Facebook\WebDriver\Chrome\ChromeOptions;
-use Facebook\WebDriver\Remote\WebDriverCapabilityType;
+use Illuminate\Support\Facades\DB;
+use Laravel\Dusk\Browser;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Mss\Models\User;
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -20,7 +21,30 @@ abstract class DuskTestCase extends BaseTestCase
      */
     public static function prepare()
     {
-        /*static::startChromeDriver();*/
+
+    }
+
+    /**
+     * Boot the testing helper traits.
+     *
+     * @return array
+     * @throws \Exception
+     */
+    protected function setUpTraits(): array
+    {
+        $uses = parent::setUpTraits();
+
+        $result = (DB::select("select schema_name from information_schema.schemata where schema_name = 'mss_test';"));
+        if (!$result || count($result) == 0) {
+            dd('run php artisan create:testdb first!');
+        }
+
+        return $uses;
+    }
+
+    protected function baseUrl()
+    {
+        return 'http://mss.test';
     }
 
     /**
@@ -31,18 +55,21 @@ abstract class DuskTestCase extends BaseTestCase
     protected function driver()
     {
         return RemoteWebDriver::create(
-            'http://webdriver:4445', DesiredCapabilities::phantomjs()->setCapability(WebDriverCapabilityType::ACCEPT_SSL_CERTS, true)
+            'http://selenium:4444', DesiredCapabilities::chrome()
         );
+    }
 
-	    /*$settings = DesiredCapabilities::chrome();
+    /**
+     * @param Browser $browser
+     * @return Browser
+     */
+    protected function login(Browser $browser) {
+        $user = User::first();
 
-	    $options = new ChromeOptions();
-	    $options->addArguments(['--window-size=1600,2000', '--disable-notifications', '--incognito']);
-	    $settings->setCapability(ChromeOptions::CAPABILITY, $options);
-
-	    return RemoteWebDriver::create(
-		    'http://chrome:4444', $settings
-	    );*/
-
+        return $browser->visit('/login')
+            ->assertSee('Benutzername')
+            ->type('login', $user->email)
+            ->type('password', 'password')
+            ->click('button[type=submit]');
     }
 }

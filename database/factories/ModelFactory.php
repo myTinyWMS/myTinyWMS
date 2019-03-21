@@ -17,7 +17,7 @@ $factory->define(Mss\Models\Article::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
         'quantity' => $faker->numberBetween(1, 10),
-        'status' => 1
+        'status' => \Mss\Models\Article::STATUS_ACTIVE
     ];
 });
 
@@ -40,12 +40,10 @@ $factory->define(Mss\Models\Unit::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Mss\Models\User::class, function (Faker\Generator $faker) {
-    static $password;
-
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('password'),
+        'password' => bcrypt('password'),
         'remember_token' => str_random(10),
         'settings' => []
     ];
@@ -69,47 +67,5 @@ $factory->define(Mss\Models\Order::class, function (Faker\Generator $faker) {
         'shipping_cost' => $faker->randomFloat(0, 500, 5000),
         'order_date' => $orderDate,
         'expected_delivery' => $orderDate->copy()->addDays($faker->randomFloat(0,1,50))
-    ];
-});
-
-/**
- * Legacy Models
- */
-
-$factory->define(Mss\Models\Legacy\Category::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->unique()->word,
-        'bemerkung' => $faker->sentence,
-        'anzahl' => $faker->numberBetween(1,10)
-    ];
-});
-
-$factory->define(Mss\Models\Legacy\Supplier::class, function (Faker\Generator $faker) {
-    return [
-        'company_name' => $faker->unique()->word,
-        'email' => $faker->email
-    ];
-});
-
-$factory->define(Mss\Models\Legacy\Material::class, function (Faker\Generator $faker) {
-    return [
-        'artikelbezeichnung' => $faker->unique()->word,
-        'entnahmemenge' => $faker->randomNumber(1),
-        'bestand' => $faker->randomNumber(1),
-        'mindbestand' => $faker->randomNumber(1),
-        'verbrauch' => $faker->randomNumber(1),
-        'preis' => $faker->randomNumber(1),
-    ];
-});
-
-$factory->define(Mss\Models\Legacy\MaterialLog::class, function (Faker\Generator $faker) {
-    return [
-        'material_id' => function () {
-            return factory(\Mss\Models\Legacy\Material::class)->create()->id;
-        },
-        'user_name' => $faker->userName,
-        'type' => 1,
-        'count' => $faker->randomNumber(1),
-        'ist_count' => $faker->randomNumber(1),
     ];
 });

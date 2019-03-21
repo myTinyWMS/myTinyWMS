@@ -13,17 +13,18 @@ class TestDataSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        $categories = factory(\Mss\Models\Category::class, 30)->create();
-        $suppliers = factory(\Mss\Models\Supplier::class, 20)->create();
+        $categories = factory(\Mss\Models\Category::class, 5)->create();
+        $suppliers = factory(\Mss\Models\Supplier::class, 5)->create();
         $units = \Mss\Models\Unit::all();
 
-        factory(\Mss\Models\Article::class, 500)->create()->each(function ($article) use ($categories, $suppliers, $units, $faker) {
+        factory(\Mss\Models\Article::class, 100)->create()->each(function ($article) use ($categories, $suppliers, $units, $faker) {
             $article->suppliers()->attach($suppliers->random(), ['order_number' => $faker->randomNumber(5).$faker->randomNumber(5), 'price' => $faker->randomFloat(0, 5, 100)]);
             $article->category()->associate($categories->random());
-            $article->unit()->associate($units->random())->save();
+            $article->unit()->associate($units->random());
+            $article->save();
         });
 
-        factory(\Mss\Models\Order::class, 20)->create()->each(function ($order) use ($faker) {
+        factory(\Mss\Models\Order::class, 10)->create()->each(function ($order) use ($faker) {
             factory(\Mss\Models\OrderItem::class, $faker->randomFloat(0, 1, 10))->create()->each(function ($orderItem) use ($order, $faker) {
                 $orderItem->article_id = \Mss\Models\Article::whereHas('suppliers', function ($query) use ($order) {
                     $query->where('supplier_id', $order->supplier_id);
