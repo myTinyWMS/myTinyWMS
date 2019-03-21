@@ -86,7 +86,7 @@
                             Kategorie ändern
                         </label>
                     </div>
-                    <span class="help-block text-red mt-2 hidden" id="changeCategoryWarning">Beim Ändern der Kategorie wird eine neue Artikel Nummer vergeben!</span>
+                    <span class="help-block text-red-500 mt-2 hidden" id="changeCategoryWarning">Beim Ändern der Kategorie wird eine neue Artikel Nummer vergeben!</span>
                 @endif
             </div>
 

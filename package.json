@@ -20,7 +20,7 @@
     "less-loader": "^4.1.0",
     "lodash": "^4.17.10",
     "popper.js": "^1.12",
-    "tailwindcss": "^0.7.4",
+    "tailwindcss": "^1.0.0-beta.3",
     "vue": "^2.5.16"
   },
   "dependencies": {

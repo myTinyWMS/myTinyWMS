@@ -42,14 +42,14 @@
                     <h3>Monats-Inventur-Liste</h3>
                     <small>nur aktive Verbrauchsmaterialien</small>
 
-                    <a class="btn-link block pb-2 absolute pin-b" href="{{ route('reports.inventory_pdf') }}"><i class="fa fa-download"></i> PDF herunterladen </a>
+                    <a class="btn-link block pb-2 absolute bottomo-0" href="{{ route('reports.inventory_pdf') }}"><i class="fa fa-download"></i> PDF herunterladen </a>
                 </div>
 
                 <div class="box h-32">
                     <h3>Jahres-Inventur-Liste</h3>
                     <small>alle aktiven Artikel</small>
 
-                    <a class="btn-link block pb-2 absolute pin-b" href="{{ route('reports.yearly_inventory_pdf') }}"><i class="fa fa-download"></i> PDF herunterladen </a>
+                    <a class="btn-link block pb-2 absolute bottomo-0" href="{{ route('reports.yearly_inventory_pdf') }}"><i class="fa fa-download"></i> PDF herunterladen </a>
                 </div>
             </div>
         </div>
@@ -59,13 +59,13 @@
                 <div class="box mb-4 h-32">
                     <h3>Wareneingänge ohne Rechnung</h3>
 
-                    <a class="btn-link block pb-2 absolute pin-b" href="{{ route('reports.deliveries_without_invoice') }}"><i class="fa fa-arrow-right"></i> Liste anzeigen </a>
+                    <a class="btn-link block pb-2 absolute bottomo-0" href="{{ route('reports.deliveries_without_invoice') }}"><i class="fa fa-arrow-right"></i> Liste anzeigen </a>
                 </div>
 
                 <div class="box h-32">
                     <h3>Rechnungen ohne Wareneingang</h3>
 
-                    <a class="btn-link block pb-2 absolute pin-b" href="{{ route('reports.invoices_without_delivery') }}"><i class="fa fa-arrow-right"></i> Liste anzeigen </a>
+                    <a class="btn-link block pb-2 absolute bottomo-0" href="{{ route('reports.invoices_without_delivery') }}"><i class="fa fa-arrow-right"></i> Liste anzeigen </a>
                 </div>
             </div>
         </div>

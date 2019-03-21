@@ -54,7 +54,7 @@
                     <div class="row">
                         <div class="w-1/2">
                             <div class="form-group">
-                                <label class="form-label">Preis <span class="text-red">netto</span></label>
+                                <label class="form-label">Preis <span class="text-red-500">netto</span></label>
                                 <div class="form-control-static">{!! formatPrice($article->currentSupplierArticle->price / 100) !!}</div>
                             </div>
                         </div>
@@ -122,16 +122,16 @@
                         @foreach($article->articleNotes()->latest()->get() as $note)
                             <div class="feed-element">
                                 <div class="flex mb-2">
-                                    <div class="font-bold flex-1 text-sm text-grey-darkest">{{ $note->user->name }}</div>
+                                    <div class="font-bold flex-1 text-sm text-gray-800">{{ $note->user->name }}</div>
                                     <div class="flex items-baseline">
-                                        <small class="text-grey-dark">{{ $note->created_at->format('d.m.Y - H:i') }}</small>
+                                        <small class="text-gray-600">{{ $note->created_at->format('d.m.Y - H:i') }}</small>
 
                                         <dot-menu class="ml-2">
                                             <a href="#" class="delete_note" data-id="{{ $note->id }}">löschen</a>
                                         </dot-menu>
                                     </div>
                                 </div>
-                                <div class="text-sm text-grey-dark">{{ $note->content }}</div>
+                                <div class="text-sm text-gray-600">{{ $note->content }}</div>
                             </div>
                         @endforeach
                     </div>

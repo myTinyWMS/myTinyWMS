@@ -17,7 +17,7 @@ mix
     .less('resources/less/app.less', 'public/css')
     .options({
         postCss: [
-            tailwindcss('/data/www/tailwind.js'),
+            tailwindcss('/data/www/tailwind.config.js'),
         ]
     })
 

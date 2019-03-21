@@ -17,7 +17,7 @@
         @yield('css_extra')
     </head>
 
-    <body class="min-w-site bg-grey-lighter text-black min-h-full">
+    <body class="min-w-site bg-gray-200 text-black min-h-full">
         <div class="flex min-h-screen items-center flex-col">
             <div class="my-8">
                 <img src="{{ config('app.logo') }}" alt="MSS" width="280" />

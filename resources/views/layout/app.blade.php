@@ -20,7 +20,7 @@
     @routes
 </head>
 
-<body class="min-w-site bg-grey-lighter text-black min-h-full font-sans-nunito">
+<body class="min-w-site bg-gray-200 text-black min-h-full font-sans-nunito">
     <div class="flex min-h-screen" id="app">
         @include('layout.sidebar')
 

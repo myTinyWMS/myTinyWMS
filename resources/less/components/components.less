@@ -23,30 +23,30 @@ small {
 }
 
 .btn-primary {
-	@apply bg-blue text-white;
+	@apply bg-blue-500 text-white;
 }
 .btn-primary:hover {
-	@apply bg-blue-dark;
+	@apply bg-blue-600;
 }
 
 .btn-secondary {
-	@apply bg-white text-blue border border-blue-light;
+	@apply bg-white text-blue-500 border border-blue-400;
 }
 
 .btn-secondary:hover {
-	@apply bg-blue-lightest;
+	@apply bg-blue-100;
 }
 
 .btn-success {
-	@apply bg-green text-white;
+	@apply bg-green-500 text-white;
 }
 
 .btn-success:hover {
-	@apply bg-green-dark;
+	@apply bg-green-600;
 }
 
 .btn-link {
-	@apply text-blue no-underline font-extrabold;
+	@apply text-blue-500 no-underline font-extrabold;
 
 	&:hover {
 		@apply opacity-50;
@@ -73,38 +73,38 @@ small {
 }
 
 .badge-warning {
-	@apply bg-orange-lightest text-orange-darker;
+	@apply bg-orange-100 text-orange-800;
 }
 
 .badge-success {
-	@apply bg-green-lightest text-green-darker;
+	@apply bg-green-100 text-green-800;
 }
 
 .badge-danger {
-	@apply bg-red-lightest text-red-darker;
+	@apply bg-red-100 text-red-800;
 }
 
 .badge-default {
-	@apply bg-blue-lightest text-blue-darker;
+	@apply bg-blue-100 text-blue-800;
 }
 
 .badge-info {
-	@apply bg-teal-lightest text-teal-darker;
+	@apply bg-teal-100 text-teal-800;
 }
 
 .badge-plain {
-	@apply bg-grey-light text-grey-darker;
+	@apply bg-gray-400 text-gray-700;
 }
 
 /**
  * Labels
  */
 .label {
-	@apply rounded-full text-xs px-2 py-1 bg-grey text-black;
+	@apply rounded-full text-xs px-2 py-1 bg-gray-500 text-black;
 }
 
 .label-primary {
-	@apply bg-blue text-white;
+	@apply bg-blue-500 text-white;
 }
 
 /**
@@ -115,26 +115,26 @@ small {
 }
 
 .alert-danger {
-	@apply bg-red-lightest border-red-light text-red-dark;
+	@apply bg-red-100 border-red-400 text-red-600;
 }
 
 .alert-success {
-	@apply bg-green-lightest border-green-light text-green-dark;
+	@apply bg-green-100 border-green-400 text-green-600;
 }
 
 .alert-warning {
-	@apply bg-orange-lightest border-orange-light text-orange-dark;
+	@apply bg-orange-100 border-orange-400 text-orange-600;
 }
 
 .alert-info {
-	@apply bg-blue-lightest border-blue-light text-blue-dark;
+	@apply bg-blue-100 border-blue-400 text-blue-600;
 }
 
 .card {
 	@apply bg-white shadow rounded-lg;
 
 	.card-header {
-		@apply p-4 font-bold border-b border-grey-light;
+		@apply p-4 font-bold border-b border-gray-400;
 	}
 
 	.card-content {
@@ -151,7 +151,7 @@ small {
 	@apply relative inline-block;
 
 	.dropdown-list-header {
-		@apply flex items-center cursor-pointer text-sm text-blue rounded-t-lg py-1 px-2;
+		@apply flex items-center cursor-pointer text-sm text-blue-500 rounded-t-lg py-1 px-2;
 	}
 
 	&:hover {
@@ -168,7 +168,7 @@ small {
 			@apply px-4 py-2 font-normal whitespace-no-wrap block;
 
 			&:hover {
-				@apply bg-grey-lighter;
+				@apply bg-gray-200;
 			}
 		}
 	}
@@ -178,17 +178,17 @@ small {
 	@apply relative inline-block;
 
 	.dropdown-button-header {
-		@apply flex items-center cursor-pointer text-sm text-blue rounded-t-lg py-1 px-2;
+		@apply flex items-center cursor-pointer text-sm text-blue-500 rounded-t-lg py-1 px-2;
 	}
 
 	.dropdown-button-items {
-		@apply items-center absolute border border-grey-light rounded shadow-md p-1 bg-white w-auto z-50 pin-r;
+		@apply items-center absolute border border-gray-400 rounded shadow-md p-1 bg-white w-auto z-50 right-0;
 
 		a {
 			@apply pl-2 pr-4 py-2 font-normal whitespace-no-wrap block text-sm;
 
 			&:hover {
-				@apply bg-grey-lighter;
+				@apply bg-gray-200;
 			}
 		}
 	}
@@ -198,7 +198,7 @@ small {
 	@apply bg-white rounded p-4 shadow-md;
 
 	.modal-title {
-		@apply pb-2 mb-4 font-bold border-b border-grey-light;
+		@apply pb-2 mb-4 font-bold border-b border-gray-400;
 	}
 
 	.modal-footer {

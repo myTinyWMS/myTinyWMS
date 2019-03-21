@@ -3,13 +3,13 @@
 
     thead {
         th {
-            @apply bg-grey-lighter font-extrabold text-grey-darkest uppercase border-t border-b-2 border-grey-light p-2 text-xs whitespace-no-wrap;
+            @apply bg-gray-200 font-extrabold text-gray-800 uppercase border-t border-b-2 border-gray-400 p-2 text-xs whitespace-no-wrap;
         }
     }
 
     tbody {
         tr {
-            @apply text-grey-darker;
+            @apply text-gray-700;
 
             .table-action {
                 @apply invisible mt-2 block;
@@ -28,15 +28,15 @@
             }
 
             &:nth-child(even) {
-                @apply bg-grey-lighter;
+                @apply bg-gray-200;
             }
 
             &.group td {
-                @apply bg-grey font-bold text-black;
+                @apply bg-gray-400 font-bold text-black;
             }
 
             td {
-                @apply font-light text-sm /*border border-grey-light*/ px-2 py-4 leading-tight align-middle;
+                @apply font-light text-sm /*border border-gray-400*/ px-2 py-4 leading-tight align-middle;
             }
         }
     }
@@ -69,7 +69,7 @@
 }
 
 .table-filter {
-    @apply text-grey-dark;
+    @apply text-gray-600;
 
     label {
         @apply flex flex-col mr-4 text-xs;
@@ -81,22 +81,22 @@
 }
 
 #dataTableBuilder_processing {
-    @apply text-grey-dark;
+    @apply text-gray-600;
 }
 
 .table-footer {
-    @apply flex py-4 px-2 justify-between items-center border-t border-grey-light;
+    @apply flex py-4 px-2 justify-between items-center border-t border-gray-400;
 
     .dataTables_info {
-        @apply text-sm text-grey;
+        @apply text-sm text-gray-500;
     }
 
     .dataTables_paginate {
         .pagination {
-            @apply list-reset flex;
+            @apply flex;
 
             li {
-                @apply border border-grey-light text-xs p-2;
+                @apply border border-gray-400 text-xs p-2;
 
                 &:first-child {
                     @apply rounded-l;

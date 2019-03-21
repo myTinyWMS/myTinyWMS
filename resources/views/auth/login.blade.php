@@ -7,27 +7,27 @@
         <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="{{ route('login') }}" method="post">
             {{ csrf_field() }}
             <div class="mb-4">
-                <label class="block text-grey-darker text-sm font-bold mb-2" for="login">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="login">
                     Benutzername / E-Mail
                 </label>
                 <input class="form-input {{ $errors->has('username') || $errors->has('email') ? ' has-error' : '' }}" id="login" name="login" value="{{ old('login') }}" type="text" placeholder="" required>
-                <span class="block mt-2 mb-4 text-grey-dark text-xs">Beim ersten Login bitte mit E-Mail Adresse einloggen</span>
+                <span class="block mt-2 mb-4 text-gray-600 text-xs">Beim ersten Login bitte mit E-Mail Adresse einloggen</span>
 
                 @if ($errors->has('username'))
-                    <p class="text-red text-xs italic mt-2">{{ $errors->first('username') }}</p>
+                    <p class="text-red-500 text-xs italic mt-2">{{ $errors->first('username') }}</p>
                 @endif
                 @if ($errors->has('email'))
-                    <p class="text-red text-xs italic mt-2">{{ $errors->first('email') }}</p>
+                    <p class="text-red-500 text-xs italic mt-2">{{ $errors->first('email') }}</p>
                 @endif
             </div>
             <div class="mb-6">
-                <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
                     Password
                 </label>
                 <input class="form-input {{ $errors->has('password') ? ' has-error' : '' }}" id="password" name="password" type="password" placeholder="" required>
 
                 @if ($errors->has('password'))
-                    <p class="text-red text-xs italic mt-2">{{ $errors->first('password') }}</p>
+                    <p class="text-red-500 text-xs italic mt-2">{{ $errors->first('password') }}</p>
                 @endif
             </div>
             <div class="flex items-center justify-between">
