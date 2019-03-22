@@ -68,7 +68,7 @@
                     @endif
 
                     {{ Form::bsTextarea('name', $article->name, ['rows' => 2] , 'Name') }}
-                    {{ Form::bsSelect('status', $article->status, \Mss\Models\Article::getStatusTextArray(),  'Status') }}
+                    {{ Form::bsSelect('status', $article->status, $article->quantity > 0 ? collect(\Mss\Models\Article::getStatusTextArray())->except(\Mss\Models\Article::STATUS_INACTIVE)->toArray() : \Mss\Models\Article::getStatusTextArray(),  'Status') }}
                     {{ Form::bsSelect('tags', $article->tags->pluck('id'), \Mss\Models\Tag::orderedByName()->pluck('name', 'id'), 'Tags', ['multiple' => 'multiple', 'name' => 'tags[]']) }}
 
                     <div class="form-group">
