@@ -117,7 +117,7 @@ class ArticleDataTable extends BaseDataTable
             })
             ->filterColumn('status', function ($query, $keyword) {
                 if ($keyword == 'all') {
-                    $query->whereIn('status', [Article::STATUS_ACTIVE, Article::STATUS_INACTIVE]);
+                    $query->whereIn('status', [Article::STATUS_ACTIVE, Article::STATUS_INACTIVE, Article::STATUS_NO_ORDERS]);
                 } else {
                     $query->where('status', $keyword);
                 }
