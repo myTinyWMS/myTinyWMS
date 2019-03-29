@@ -26,14 +26,14 @@
                 </div>
 
                 <div class="row text-left">
-                    <div class="col">
+                    <div class="col-4">
                         <div class="label">Nummer:</div>
                         <h5>{{ $article->article_number }}</h5>
                     </div>
 
-                    <div class="col">
+                    <div class="col-8">
                         <div class="label">aktueller Bestand:</div>
-                        <h5>{{ $article->quantity }}</h5>
+                        <h5>{{ $article->quantity }} {{ optional($article->unit)->name }}</h5>
                     </div>
                 </div>
 
