@@ -225,7 +225,7 @@ class ArticleController extends Controller
     }
 
     public function quantityChangelog(Article $article, Request $request) {
-        $dateStart = $request->has('start') ? Carbon::parse($request->get('start')) : Carbon::now()->subMonth(12);
+        $dateStart = $request->has('start') ? Carbon::parse($request->get('start')) : Carbon::now()->subMonth(12)->firstOfMonth();
         $dateEnd = $request->has('end') ? Carbon::parse($request->get('end'))->addDay() : Carbon::now();
         $changelog = $article->quantityChangelogs()->with(['user', 'unit', 'deliveryItem.delivery.order'])->latest()->whereBetween('created_at', [$dateStart, $dateEnd])->paginate(100);
         $diffMonths = abs($dateEnd->diffInMonths($dateStart));
