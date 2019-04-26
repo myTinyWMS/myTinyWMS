@@ -65,6 +65,12 @@
                         <td class="text-center">{{ item.new_quantity }}</td>
                     </template>
 
+                    <template v-if="item.type === CHANGELOG_TYPE_TRANSFER">
+                        <td class="bg-default text-center" title="Umbuchung">UB</td>
+                        <td class="text-center" v-bind:class="{ 'text-success': (item.change >= 0), 'text-danger': (item.change < 0) }">{{ item.change >= 0 ? '+'+item.change : item.change }}</td>
+                        <td class="text-center">{{ item.new_quantity }}</td>
+                    </template>
+
                     <td class="text-nowrap text-center">{{ item.unit ? item.unit.name : ''}}</td>
                     <td class="text-nowrap">{{ item.created_at | moment('DD.MM.YYYY HH:mm') }} Uhr</td>
                     <td>
@@ -224,6 +230,7 @@
                 CHANGELOG_TYPE_REPLACEMENT_DELIVERY: 8,
                 CHANGELOG_TYPE_OUTSOURCING: 9,
                 CHANGELOG_TYPE_SALE_TO_THIRD_PARTIES: 10,
+                CHANGELOG_TYPE_TRANSFER: 11,
 
                 highlightedRowId: null
             }

@@ -239,6 +239,7 @@
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY }}" data-type="both">Ersatzlieferung</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_OUTSOURCING }}" data-type="both">Ein-/Auslagerung Aussenlager</option>
                                         <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES }}" data-type="sub">Verkauf an Fremdfirmen</option>
+                                        <option value="{{ \Mss\Models\ArticleQuantityChangelog::TYPE_TRANSFER }}" data-type="both">Umbuchung</option>
                                     </select>
                                 </div>
                             </div>

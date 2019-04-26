@@ -68,6 +68,8 @@
                                         @include('components.quantity_log.outsourcing')
                                     @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES)
                                         @include('components.quantity_log.sale_to_third_parties')
+                                    @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_TRANSFER)
+                                        @include('components.quantity_log.transfer')
                                     @endif
                                 </tr>
                             @endforeach
