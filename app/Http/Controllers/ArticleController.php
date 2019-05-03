@@ -231,11 +231,11 @@ class ArticleController extends Controller
         $diffMonths = abs($dateEnd->diffInMonths($dateStart));
 
         $chartLabels = collect([$dateStart->format('Y-m') => $dateStart->formatLocalized('%b %Y')]);
-        for($i = 1; $i < $diffMonths; $i++) {
+        for($i = 1; $i <= $diffMonths; $i++) {
             $chartLabels->put($dateStart->copy()->addMonth($i)->format('Y-m'), $dateStart->copy()->addMonth($i)->formatLocalized('%b %Y'));
         }
 
-        $all = $article->quantityChangelogs()->oldest()->whereBetween('created_at', [$dateStart, $dateEnd])->whereIn('type', [ArticleQuantityChangelog::TYPE_OUTGOING, ArticleQuantityChangelog::TYPE_INCOMING])->get();
+        $all = $article->quantityChangelogs()->oldest()->whereBetween('created_at', [$dateStart, $dateEnd])->whereIn('type', [ArticleQuantityChangelog::TYPE_OUTGOING, ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_INVENTORY])->get();
 
         $chartValues = collect();
         $chartValues->put(1, collect());
@@ -246,9 +246,9 @@ class ArticleController extends Controller
             $chartValues[2]->put($key, 0);
         });
 
-        $all->groupBy(function ($item) {
+        $all->groupBy(function (&$item) {
             if ($item->type == ArticleQuantityChangelog::TYPE_INVENTORY) {
-                return ($item->change < 0) ? ArticleQuantityChangelog::TYPE_OUTGOING : ArticleQuantityChangelog::TYPE_INCOMING;
+                $item->type = ArticleQuantityChangelog::TYPE_OUTGOING;
             }
 
             return $item->type;
