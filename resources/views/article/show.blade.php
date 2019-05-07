@@ -99,13 +99,13 @@
                     <h5>Dateien</h5>
                 </div>
                 <div class="card-content">
-                    <ul class="">
-                        @if(is_array($article->files) && count($article->files))
+                    @if(is_array($article->files) && count($article->files))
+                        <ul class="mb-4 pl-4 list-disc">
                             @foreach($article->files as $key => $file)
                                 <li><a href="{{ route('article.file_download', [$article, $key]) }}">{{ $file['orgName'] }}</a></li>
                             @endforeach
-                        @endif
-                    </ul>
+                        </ul>
+                    @endif
                     {{ Form::dropzone('attachments', 'Anhänge', route('article.file_upload', $article)) }}
                 </div>
             </div>
@@ -114,7 +114,7 @@
                 <div class="card-header">
                     <div class="flex">
                         <h5 class="flex-1">Notizen</h5>
-                        <a href="#" class="btn-link btn-sm" data-toggle="modal" data-target="#newNoteModal">Neue Notiz</a>
+                        <a href="javascript:void(0)" class="btn-link btn-xs" @click="$modal.show('newNoteModal')">Neue Notiz</a>
                     </div>
                 </div>
                 <div class="card-content">
@@ -122,16 +122,16 @@
                         @foreach($article->articleNotes()->latest()->get() as $note)
                             <div class="feed-element">
                                 <div class="flex mb-2">
-                                    <div class="font-bold flex-1 text-sm text-gray-800">{{ $note->user->name }}</div>
+                                    <div class="flex-1 text-xs text-gray-600">{{ $note->user->name }}</div>
                                     <div class="flex items-baseline">
                                         <small class="text-gray-600">{{ $note->created_at->format('d.m.Y - H:i') }}</small>
 
                                         <dot-menu class="ml-2">
-                                            <a href="#" class="delete_note" data-id="{{ $note->id }}">löschen</a>
+                                            <a href="{{ route('article.delete_note', [$article, $note]) }}">löschen</a>
                                         </dot-menu>
                                     </div>
                                 </div>
-                                <div class="text-sm text-gray-600">{{ $note->content }}</div>
+                                <div class="text-gray-800">{{ $note->content }}</div>
                             </div>
                         @endforeach
                     </div>
@@ -158,7 +158,7 @@
         </div>
     </div>
 
-    <modal name="changeSupplierModal"height="auto" classes="modal">
+    <modal name="changeSupplierModal" height="auto" classes="modal">
         <h4 class="modal-title">Lieferant bearbeiten</h4>
 
         {!! Form::open(['route' => ['article.change_supplier', $article], 'method' => 'POST']) !!}
@@ -202,85 +202,13 @@
         {!! Form::close() !!}
     </modal>
 
-    {{--
-
-    <!-- Change Supplier Modal -->
-    <div class="modal fade" id="changeSupplierModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-            </div>
-        </div>
-    </div>
-
-    <!-- New Note Modal -->
-    <div class="modal fade" id="newNoteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Neue Notiz</h4>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="new_note">Notiz</label>
-                            <textarea id="new_note" class="form-control" rows="3"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-                    <button type="button" class="btn btn-primary" id="save_note">Speichern</button>
-                </div>
-            </div>
-        </div>
-    </div>
---}}
+    <add-article-modal :article="{{ $article }}"></add-article-modal>
 
 @endsection
 
 @push('scripts')
 <script>
     $(document).ready(function () {
-        $('#save_note').click(function () {
-            if ($('#new_note').val() === '') {
-                alert('Bitte einen Text eingeben!');
-                return false;
-            }
-
-            $.post("{{ route('article.add_note', $article) }}", { content: $('#new_note').val() })
-                .done(function(data) {
-                    var newItem = '<div class="feed-element">\n' +
-                        '                            <div>\n' +
-                        '                                <small class="pull-right text-navy">' + data['createdDiff'] + '</small>\n' +
-                        '                                <p><strong>' + data['user'] + '</strong></p>\n' +
-                        '                                <p>' + data['content'] + '</p>\n' +
-                        '                                <small class="text-muted">' +
-                                                         data['createdFormatted'] + ' Uhr' +
-                        '                                <button class="btn btn-xs btn-link delete_note" title="Notiz löschen" data-id="' + data['id'] + '">\n' +
-                        '                                    <i class="fa fa-trash"></i>\n' +
-                        '                                </button>' +
-                        '                                </small>\n' +
-                        '                            </div>\n' +
-                        '                        </div>';
-
-                    $('.feed-activity-list').prepend(newItem);
-                    $('#newNoteModal').modal('hide');
-                    $('#new_note').val('');
-                }
-            );
-        });
-
-        $('.delete_note').click(function () {
-            var note_link = $(this);
-            $.post("{{ route('article.delete_note', $article) }}", { note_id: note_link.attr('data-id') })
-                .done(function(data) {
-                    note_link.parent().parent().parent().remove();
-                }
-            );
-        });
-
         $("#supplier").select2({
             theme: "bootstrap"
         });

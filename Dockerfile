@@ -1,4 +1,4 @@
-FROM library/php:7.1.4-fpm
+FROM library/php:7.1-fpm
 
 RUN set -e -x \
     && apt-get update \

@@ -29,6 +29,7 @@ Vue.component('collapse', require('./components/Collapse.vue'));
 Vue.component('dot-menu', require('./components/DotMenu.vue'));
 Vue.component('article-quantity-changelog', require('./components/ArticelQuantityChangelog.vue'));
 Vue.component('change-quantity-form', require('./components/ChangeQuantityForm.vue'));
+Vue.component('add-article-modal', require('./components/AddArticleNoteModal.vue'));
 
 window.app = new Vue({
     el: '#app'

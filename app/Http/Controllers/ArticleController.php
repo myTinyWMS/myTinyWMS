@@ -187,17 +187,17 @@ class ArticleController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        return response()->json([
-            'createdDiff' => 'gerade eben',
-            'user' => $note->user->name,
-            'content' => $note->content,
-            'createdFormatted' => $note->created_at->format('d.m.Y - H:i'),
-            'id' => $note->id
-        ]);
+        flash('Notiz gespeichert')->success();
+
+        return redirect()->route('article.show', $article);
     }
 
-    public function deleteNote(Article $article, Request $request) {
-        return $article->articleNotes()->where('id', $request->get('note_id'))->delete();
+    public function deleteNote(Article $article, $note, Request $request) {
+        $article->articleNotes()->where('id', $note)->delete();
+
+        flash('Notiz gelöscht')->success();
+
+        return redirect()->route('article.show', $article);
     }
 
     public function fixQuantityChange(Article $article, FixArticleQuantityChangeRequest $request) {
