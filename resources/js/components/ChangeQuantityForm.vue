@@ -78,6 +78,7 @@
                     {value: 8, text: 'Ersatzlieferung', ifOnly: ''},
                     {value: 9, text: 'Ein-/Auslagerung Aussenlager', ifOnly: ''},
                     {value: 10, text: 'Verkauf an Fremdfirmen', ifOnly: 'sub'},
+                    {value: 11, text: 'Umbuchung', ifOnly: ''},
                 ]
             }
         },
