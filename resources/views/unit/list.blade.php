@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="table-toolbar-right-content hidden">
-        <a href="{{ route('unit.create') }}" class="btn btn-xs btn-primary">Neue Einheit</a>
+        <a href="{{ route('unit.create') }}" class="btn btn-primary">Neue Einheit</a>
     </div>
 
     {!! $dataTable->table() !!}

@@ -42,6 +42,24 @@
     }
 }
 
+.dataTable.multiRow {
+    tbody:nth-child(odd) {
+        @apply bg-gray-200;
+    }
+
+    tbody {
+        tr {
+            &:nth-child(odd) {
+                @apply bg-transparent;
+            }
+
+            &:nth-child(even) {
+                @apply bg-transparent;
+            }
+        }
+    }
+}
+
 .table-search {
     @apply h-auto mb-4 w-64 relative;
     font-size: 0;

@@ -1,4 +1,4 @@
-<table class="dataTable audit-list">
+<table class="dataTable multiRow audit-list">
     <thead>
         <tr>
             <th>Zeitpunkt</th>
@@ -8,8 +8,9 @@
             <th>neu</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach($audits as $audit)
+
+    @foreach($audits as $audit)
+        <tbody>
             @foreach($audit['modified'] as $data)
                 @if(!is_array($data['new']) && (!array_key_exists('old', $data) || !is_array($data['old'])))
                 <tr>
@@ -24,8 +25,8 @@
                 </tr>
                 @endif
             @endforeach
-        @endforeach
-    </tbody>
+        </tbody>
+    @endforeach
 </table>
 
 
