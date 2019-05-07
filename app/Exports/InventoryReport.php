@@ -56,20 +56,24 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             'F' => NumberFormat::FORMAT_TEXT,
             'G' => NumberFormat::FORMAT_TEXT,
             'H' => NumberFormat::FORMAT_TEXT,
-            'I' => NumberFormat::FORMAT_NUMBER,
+            'I' => NumberFormat::FORMAT_TEXT,
             'J' => NumberFormat::FORMAT_NUMBER,
             'K' => NumberFormat::FORMAT_NUMBER,
             'L' => NumberFormat::FORMAT_NUMBER,
             'M' => NumberFormat::FORMAT_NUMBER,
             'N' => NumberFormat::FORMAT_NUMBER,
-            'O' => NumberFormat::FORMAT_TEXT,
-            'P' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-            'Q' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-            'R' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'O' => NumberFormat::FORMAT_NUMBER,
+            'P' => NumberFormat::FORMAT_NUMBER,
+            'Q' => NumberFormat::FORMAT_NUMBER,
+            'R' => NumberFormat::FORMAT_TEXT,
             'S' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'T' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'U' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-            'V' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
+            'V' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'W' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'X' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'Y' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'Z' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
         ];
     }
 
@@ -86,6 +90,8 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_OUTGOING, 'total_outgoing')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_CORRECTION, 'total_correction')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INVENTORY, 'total_inventory')
+            ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_TRANSFER, 'total_transfer')
+            ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES, 'total_sale_to_third_parties')
             ->with(['unit', 'category', 'supplierArticles.audits', 'supplierArticles.supplier', 'supplierArticles.article', 'audits'])
             ->orderedByArticleNumber()
             ->get();
@@ -122,16 +128,20 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
                     'Warenausgang' => $article->total_outgoing ?? 0,
                     'Wareneingang' => $article->total_incoming ?? 0,
                     'Korrektur' => $article->total_correction ?? 0,
+                    'Verkauf an Fremdfirmen' => $article->total_sale_to_third_parties ?? 0,
                     'Inventur' => $article->total_inventory ?? 0,
+                    'Umbuchung' => $article->total_transfer ?? 0,
                     'Endbestand' => $article->getAttributeAtDate('quantity', $end),
                     'Monat' => $this->month,
                     'AB Eur' => "=J$i*\$D$i",
                     'WA Eur' => "=K$i*\$D$i",
                     'WE Eur' => "=L$i*\$D$i",
                     'KO Eur' => "=M$i*\$D$i",
-                    'INV Eur' => "=N$i*\$D$i",
-                    'EB Eur' => "=O$i*\$D$i",
-                    'Kontrolle' => "=-(Q$i+R$i+S$i-V$i)",
+                    'VF Eur' => "=N$i*\$D$i",
+                    'INV Eur' => "=O$i*\$D$i",
+                    'UB Eur' => "=P$i*\$D$i",
+                    'EB Eur' => "=Q$i*\$D$i",
+                    'Kontrolle' => "=-(S$i+T$i+U$i-Z$i)",
                 ];
             });
 

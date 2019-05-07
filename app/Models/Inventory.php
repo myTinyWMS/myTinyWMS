@@ -2,9 +2,7 @@
 
 namespace Mss\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Inventory extends Model
+class Inventory extends AuditableModel
 {
     protected $fillable = ['started_by'];
 

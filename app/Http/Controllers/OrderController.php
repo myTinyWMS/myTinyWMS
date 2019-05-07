@@ -52,7 +52,7 @@ class OrderController extends Controller
      */
     public function create(Request $request, SelectArticleDataTable $selectArticleDataTable) {
         if (!$request->has('draw')) {
-            $articles = $this->getArticleList();
+            $allArticles = $this->getArticleList();
             $categories = Category::orderedByName()->get();
             $tags = Tag::orderedByName()->get();
 
@@ -63,7 +63,8 @@ class OrderController extends Controller
 
             $preSetArticles = collect();
             if ($request->has('article')) {
-                $preSetArticles = Article::withCurrentSupplierArticle()->find($request->get('article'));
+                $articles = Article::withCurrentSupplierArticle()->find($request->get('article'));
+                $preSetArticles = ($articles instanceof Article) ? collect([$articles]) : $articles;
                 $preSetArticles->transform(function ($article) {
                     $deliveryTime = intval($article->currentSupplierArticle->delivery_time);
                     $deliveryDate = Carbon::now()->addWeekdays($deliveryTime);
@@ -82,7 +83,7 @@ class OrderController extends Controller
             }
         }
 
-        return $selectArticleDataTable->render('order.create', compact('order', 'articles', 'tags', 'categories', 'preSetArticles'));
+        return $selectArticleDataTable->render('order.create', compact('order', 'allArticles', 'tags', 'categories', 'preSetArticles'));
     }
 
     /**
@@ -147,11 +148,18 @@ class OrderController extends Controller
 
     public function itemInvoiceReceived(OrderItem $orderitem, Request $request) {
         $request->validate([
-            'invoice_status' => 'required|in:0,1,2'
+            'invoice_status' => 'required|in:0,1,2',
+            'change_article_price' => 'in:0,1'
         ]);
 
         $orderitem->invoice_received = $request->get('invoice_status');
         $orderitem->save();
+
+        if (request('change_article_price') == 1) {
+            $supplierArticle = $orderitem->article->getCurrentSupplierArticle();
+            $supplierArticle->price = $orderitem->price * 100;
+            $supplierArticle->save();
+        }
 
         if (!empty($request->get('mail_note'))) {
             $attachments = collect(json_decode($request->get('mail_attachments'), true));
@@ -166,6 +174,12 @@ class OrderController extends Controller
             if ($orderitem->invoice_received !== OrderItem::INVOICE_STATUS_RECEIVED) {
                 $orderitem->invoice_received = OrderItem::INVOICE_STATUS_RECEIVED;
                 $orderitem->save();
+            }
+
+            if (request('change_article_price') == 1) {
+                $supplierArticle = $orderitem->article->getCurrentSupplierArticle();
+                $supplierArticle->price = $orderitem->price * 100;
+                $supplierArticle->save();
             }
         });
 
@@ -210,7 +224,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id, SelectArticleDataTable $selectArticleDataTable) {
-        $articles = $this->getArticleList();
+        $allArticles = $this->getArticleList();
         $order = Order::with(['items.article' => function($query) {
             $query->withCurrentSupplierArticle();
         }])->findOrFail($id);
@@ -219,12 +233,12 @@ class OrderController extends Controller
 
         /* @var $order Order */
         $preSetArticles = $order->items;
-        $preSetArticles->transform(function ($item) {
+        $preSetArticles->transform(function ($item) use ($order) {
             return [
                 'id' => $item->article->id,
                 'order_item_id' => $item->id,
                 'name' => $item->article->name,
-                'supplier_id' => $item->article->currentSupplierArticle->supplier_id,
+                'supplier_id' => $item->article->getSupplierArticleAtDate($order->created_at, false)->supplier_id,
                 'order_notes' => $item->article->order_notes ?? '',
                 'price' => formatPriceValue($item->price),
                 'quantity' => $item->quantity,
@@ -232,7 +246,7 @@ class OrderController extends Controller
             ];
         });
 
-        return $selectArticleDataTable->render('order.edit', compact('order', 'preSetArticles', 'articles', 'tags', 'categories'));
+        return $selectArticleDataTable->render('order.edit', compact('order', 'preSetArticles', 'allArticles', 'tags', 'categories'));
     }
 
     /**

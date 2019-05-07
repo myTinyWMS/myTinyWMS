@@ -2,9 +2,7 @@
 
 namespace Mss\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Delivery extends Model
+class Delivery extends AuditableModel
 {
     protected $fillable = ['delivery_note_number', 'delivery_date', 'notes'];
     protected $dates = ['delivery_date'];

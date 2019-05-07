@@ -13,6 +13,7 @@ class ArticleQuantityChangelog extends AuditableModel
     const TYPE_REPLACEMENT_DELIVERY = 8;
     const TYPE_OUTSOURCING = 9;
     const TYPE_SALE_TO_THIRD_PARTIES = 10;
+    const TYPE_TRANSFER = 11;
 
     protected $fillable = ['created_at', 'updated_at', 'user_id', 'type', 'change', 'new_quantity', 'note', 'delivery_item_id', 'unit_id', 'article_id', 'related_id'];
 
@@ -26,7 +27,8 @@ class ArticleQuantityChangelog extends AuditableModel
             self::TYPE_INVENTORY,
             self::TYPE_REPLACEMENT_DELIVERY,    // no quantity change!
             self::TYPE_OUTSOURCING,             // no quantity change!
-            self::TYPE_SALE_TO_THIRD_PARTIES
+            self::TYPE_SALE_TO_THIRD_PARTIES,
+            self::TYPE_TRANSFER,
         ];
     }
 

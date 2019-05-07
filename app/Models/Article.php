@@ -87,7 +87,7 @@ class Article extends AuditableModel
     }
 
     public function currentSupplier() {
-        return $this->hasOne(Supplier::class, 'id', 'current_supplier_id');
+        return $this->hasOne(Supplier::class, 'id', 'current_supplier_id')->withTrashed();
     }
 
     public function scopeWithCurrentSupplierName($query)
@@ -315,13 +315,12 @@ class Article extends AuditableModel
         return $this->quantityChangelogs()->where('type', ArticleQuantityChangelog::TYPE_INCOMING)->latest()->first();
     }
 
-    public function scopeWithAverageUsage($query) {
-        $query->addSubSelect('average_usage', ArticleQuantityChangelog::select(DB::raw('AVG(`change`)'))
+    public function scopeWithAverageUsage($query, $months = 12) {
+        $query->addSubSelect('average_usage_'.$months, ArticleQuantityChangelog::select(DB::raw('COALESCE(ROUND(ABS(SUM(`change`)) / '.$months.'), 0)'))
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
-            ->whereIn('type', [ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_CORRECTION])
-            ->where('change', '>', 0)
-            ->where('created_at', '>', Carbon::now()->subYear())
-            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->whereIn('type', [ArticleQuantityChangelog::TYPE_OUTGOING, ArticleQuantityChangelog::TYPE_CORRECTION])
+            ->where('change', '<', 0)
+            ->where('created_at', '>', Carbon::now()->subMonth($months))
         );
     }
 
@@ -352,7 +351,9 @@ class Article extends AuditableModel
             if ($previousArticleSupplierAudits && $audits->count() && collect($audits->first())->get('modified')->has('supplier_id')) {
                 $audits->transform(function ($audit) use ($previousArticleSupplierAudits) {
                     $audit['modified']->transform(function ($value, $key) use ($previousArticleSupplierAudits) {
-                        $value['old'] = $previousArticleSupplierAudits->getFormattedForAudit($key);
+                        if (!array_key_exists('old', $value)) {
+                            $value['old'] = $previousArticleSupplierAudits->getFormattedForAudit($key);
+                        }
 
                         return $value;
                     });
@@ -374,8 +375,12 @@ class Article extends AuditableModel
      * @param $date
      * @return ArticleSupplier|null
      */
-    public function getSupplierArticleAtDate($date) {
-        $date = ($date instanceof Carbon) ? $date->endOfDay() : Carbon::parse($date)->endOfDay();
+    public function getSupplierArticleAtDate($date, $useEndOfDay = true) {
+        $date = ($date instanceof Carbon) ? $date : Carbon::parse($date);
+
+        if ($useEndOfDay) {
+            $date = $date->endOfDay();
+        }
 
         $supplierArticles = $this->supplierArticles->sortByDesc('created_at');
 
@@ -426,7 +431,7 @@ class Article extends AuditableModel
     public function scopeWithQuantityAtDate($query, $date, $fieldname) {
         $query->addSubSelect($fieldname, ArticleQuantityChangelog::select('new_quantity')
             ->whereRaw('articles.id = article_quantity_changelogs.article_id')
-            ->whereIn('type', [ArticleQuantityChangelog::TYPE_START, ArticleQuantityChangelog::TYPE_CORRECTION, ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_INVENTORY, ArticleQuantityChangelog::TYPE_OUTGOING, ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES])
+            ->whereIn('type', [ArticleQuantityChangelog::TYPE_START, ArticleQuantityChangelog::TYPE_CORRECTION, ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_INVENTORY, ArticleQuantityChangelog::TYPE_OUTGOING, ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES, ArticleQuantityChangelog::TYPE_TRANSFER])
             ->where('created_at', '<=', $date->copy()->endOfDay()->format('Y-m-d H:i:s'))
             ->latest()
         );

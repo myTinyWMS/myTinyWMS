@@ -68,6 +68,8 @@
                                         @include('components.quantity_log.outsourcing')
                                     @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES)
                                         @include('components.quantity_log.sale_to_third_parties')
+                                    @elseif ($log->type == \Mss\Models\ArticleQuantityChangelog::TYPE_TRANSFER)
+                                        @include('components.quantity_log.transfer')
                                     @endif
                                 </tr>
                             @endforeach
@@ -99,7 +101,7 @@
                 {
                     type: 'bar',
                     backgroundColor: '#449D44',
-                    'label': 'Wareneingang (Ø {{ round(abs($chartValues[1]->avg()), 0) }})',
+                    'label': 'Wareneingang (Ø {{ $diffMonths ? round(abs($chartValues[1]->sum() / $diffMonths), 0) : $chartValues[1]->sum() }} / Monat)',
                     data: {!! $chartValues[1]->toJson() !!}
                 },
                 @endif
@@ -107,7 +109,7 @@
                 {
                     type: 'bar',
                     backgroundColor: '#ED5565',
-                    'label': 'Warenausgang (Ø {{ round(abs($chartValues[2]->avg()), 0) }})',
+                    'label': 'Warenausgang (Ø {{ $diffMonths ? round(abs($chartValues[2]->sum() / $diffMonths), 0) : $chartValues[2]->sum() }} / Monat)',
                     data: {!! $chartValues[2]->toJson() !!}
                 }
                 @endif
@@ -142,12 +144,13 @@
                 startDate: start,
                 endDate: end,
                 ranges: {
-                    'Heute': [moment(), moment()],
-                    'Gestern': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Letzte 7 Tage': [moment().subtract(6, 'days'), moment()],
                     'Letzte 30 Tage': [moment().subtract(29, 'days'), moment()],
                     'Dieser Monat': [moment().startOf('month'), moment().endOf('month')],
-                    'Letzter Monat': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    'Letzter Monat': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                    'aktuelles Jahr': [moment().startOf('year'), moment()],
+                    '12 Monate': [moment().subtract(12, 'month').startOf('month'), moment()],
+                    '24 Monate': [moment().subtract(24, 'month').startOf('month'), moment()],
+                    '36 Monate': [moment().subtract(36, 'month').startOf('month'), moment()]
                 },
                 "locale": {
                     "format": "DD.MM.YYYY",

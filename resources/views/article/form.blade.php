@@ -69,7 +69,7 @@
             @endif
 
             {{ Form::bsTextarea('name', $article->name, ['rows' => 2] , 'Name') }}
-            {{ Form::bsSelect('status', $article->status, \Mss\Models\Article::getStatusTextArray(),  'Status') }}
+            {{ Form::bsSelect('status', $article->status, $article->quantity > 0 ? collect(\Mss\Models\Article::getStatusTextArray())->except(\Mss\Models\Article::STATUS_INACTIVE)->toArray() : \Mss\Models\Article::getStatusTextArray(),  'Status') }}
             {{ Form::bsText('tags', $article->tags->pluck('name')->implode(', '), ['class' => ''], 'Tags') }}
 
             <div class="form-group">
@@ -109,7 +109,13 @@
             <div class="row">
                 <div class="w-1/2">
                     @if ($isNewArticle ?? true)
-                        {{ Form::bsText('quantity', $article->quantity, [], 'Bestand') }}
+                                <div class="form-group">
+                                    <label class="control-label">Bestand</label>
+                                    <div class="form-control-static">
+                                        <input type="hidden" name="quantity" value="0" />
+                                        Anfangsbestand kann nur über einen WE gesetzt werden
+                                    </div>
+                                </div>
                     @endif
                 </div>
                 <div class="w-1/2">

@@ -20,7 +20,7 @@ class InventoryController extends Controller
     }
 
     public function new() {
-        $inventory = InventoryService::createNewInventory();
+        $inventory = InventoryService::createNewMonthInventory();
 
         return response()->redirectToRoute('handscanner.inventory.select_category', $inventory);
     }

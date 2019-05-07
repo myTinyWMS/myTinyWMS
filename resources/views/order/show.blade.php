@@ -30,6 +30,7 @@
                     <div class="col-xs-3">
                         <small class="stats-label">interne Bestellnummer</small>
                         <h2>{{ $order->internal_order_number }}</h2>
+                        <h2>{{ $order->total_cost }}</h2>
                     </div>
 
                     <div class="col-xs-3">
@@ -139,13 +140,17 @@
                     </div>
                     <div class="col-lg-4">
                         {!! Form::open(['method' => 'post', 'class' => 'force-inline', 'route' => ['order.all_items_invoice_received', $order]]) !!}
-                        <button type="submit" class="btn btn-xs btn-outline btn-success btn-xs" title="alle Rechnungen erhalten"><i class="fa fa-check"></i> Rechnung</button>
+                        <button type="submit" class="btn btn-xs btn-outline btn-success btn-xs" title="alle Rechnungen erhalten" id="all_items_invoice_received"><i class="fa fa-check"></i> Rechnung</button>
+                        <input type="hidden" name="change_article_price" value="0" />
                         {!! Form::close() !!}
                     </div>
                 </div>
             </div>
             <div class="ibox-content">
+                @php ($total = 0)
                 @foreach($order->items as $key => $item)
+                    @php ($total += ($item->quantity * $item->price))
+                    @php ($articleHasNewPrice = ($item->article->getCurrentSupplierArticle()->price / 100) != $item->price)
                     <div class="panel panel-primary">
                         <div class="panel-body row">
                             <div class="col-lg-5">
@@ -156,8 +161,13 @@
                                     <small class="p-t-8"># {{ $item->article->article_number }}</small>
                                     <br>
                                     <br>
-                                    @if (($item->article->getCurrentSupplierArticle()->price / 100) != $item->price)
-                                    <span class="text-danger font-bold font-14">Achtung, aktueller Artikelpreis weicht von Preis aus dieser Bestellung ab!</span>
+                                    @if ($articleHasNewPrice)
+                                        <span class="text-danger font-bold font-12">Achtung, aktueller Artikelpreis weicht von Preis aus dieser Bestellung ab!</span>
+                                        <br>
+                                    @endif
+                                    @if ($item->article->getCurrentSupplierArticle()->supplier_id != $order->supplier_id)
+                                        <span class="text-danger font-bold font-12">Der Artikel hat inzwischen einen anderen Lieferanten!</span>
+                                        <br>
                                     @endif
                                 </h3>
                             </div>
@@ -165,11 +175,17 @@
                                 <div class="col-lg-4">
                                     <small class="stats-label">Preis netto je Einheit</small>
                                     <h3>{!! formatPrice($item->price)  !!}</h3>
+                                    @if ($item->quantity > 1)
+                                    <small>&sum; {!! formatPrice($item->price * $item->quantity) !!}</small>
+                                    @endif
                                 </div>
 
                                 <div class="col-lg-4">
                                     <small class="stats-label">bestellte Menge</small>
                                     <h3>{{ $item->quantity }}</h3>
+                                    @if ($item->quantity > 1)
+                                    <br>
+                                    @endif
                                 </div>
                                 <div class="col-lg-4">
                                     @if($item->getQuantityDelivered() == $item->quantity)
@@ -179,6 +195,9 @@
                                     @endif
                                     <small class="stats-label">gelieferte Menge</small>
                                     <h3 class="@if($item->getQuantityDelivered() < $item->quantity) text-warning @elseif($item->getQuantityDelivered() > $item->quantity) text-danger @else text-success @endif">{{ $item->getQuantityDelivered() }}</h3>
+                                    @if ($item->quantity > 1)
+                                        <br>
+                                    @endif
                                 </div>
 
                                 <div class="col-lg-4 m-t-md">
@@ -211,10 +230,11 @@
                                             <i class="fa fa-check"></i>
                                         </button>
                                         <ul class="dropdown-menu invoice-status-dropdown" aria-labelledby="dLabel">
-                                            <li><a href="#" data-value="{{ \Mss\Models\OrderItem::INVOICE_STATUS_RECEIVED }}">{{ \Mss\Models\OrderItem::INVOICE_RECEIVED_TEXT[\Mss\Models\OrderItem::INVOICE_STATUS_RECEIVED] }}</a></li>
+                                            <li><a href="#" data-change-article-price="{{ $articleHasNewPrice }}" data-value="{{ \Mss\Models\OrderItem::INVOICE_STATUS_RECEIVED }}">{{ \Mss\Models\OrderItem::INVOICE_RECEIVED_TEXT[\Mss\Models\OrderItem::INVOICE_STATUS_RECEIVED] }}</a></li>
                                             <li><a href="#" data-value="{{ \Mss\Models\OrderItem::INVOICE_STATUS_CHECK }}">{{ \Mss\Models\OrderItem::INVOICE_RECEIVED_TEXT[\Mss\Models\OrderItem::INVOICE_STATUS_CHECK] }}</a></li>
                                             <li><a href="#" data-value="{{ \Mss\Models\OrderItem::INVOICE_STATUS_OPEN }}">{{ \Mss\Models\OrderItem::INVOICE_RECEIVED_TEXT[\Mss\Models\OrderItem::INVOICE_STATUS_OPEN] }}</a></li>
                                         </ul>
+                                        <input type="hidden" name="change_article_price" value="0" />
                                         <input type="hidden" name="invoice_status" value="" />
                                         <input type="hidden" name="mail_note" value="" />
                                         <input type="hidden" name="mail_attachments" value="" />
@@ -227,7 +247,7 @@
                                     <small class="stats-label">Liefertermin</small>
                                     <h3>
                                         {{ !empty($item->expected_delivery) ? $item->expected_delivery->format('d.m.Y') : '' }}
-                                        @if($order->items()->overdue()->count())
+                                        @if($item->expected_delivery && $item->expected_delivery < today() && $item->getQuantityDelivered() < $item->quantity)
                                             <span class="label label-danger">überfällig</span>
                                         @endif
                                     </h3>
@@ -236,6 +256,13 @@
                         </div>
                     </div>
                 @endforeach
+                <div class="row">
+                    <div class="col-lg-4 col-lg-offset-5">
+                        <div class="col-lg-12">
+                            <span style="border-top: 2px solid black; padding-top: 5px">&sum; {!! formatPrice($total) !!}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -299,7 +326,7 @@
     </div>
 </div>
 
-<!-- New Note Modal -->
+<!-- Check Invoice Modal -->
 <div class="modal fade" id="invoiceCheckModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -319,6 +346,26 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Ohne Mail weiter</button>
                 <button type="button" class="btn btn-primary" id="send_invoice_check_mail">Mail verschicken</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Change Article Price Modal -->
+<div class="modal fade" id="changeArticlePriceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Preisänderung</h4>
+            </div>
+            <div class="modal-body">
+                Der Preis mind. eines Artikels in dieser Bestellung weicht vom aktuellen Artikelpreis ab.<br>
+                Soll der Artikelpreis angepasst werden?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="do_not_change_article_price">Nein Artikelpreis nicht ändern</button>
+                <button type="button" class="btn btn-primary" id="change_article_price">Ja Artikelpreis anpassen</button>
             </div>
         </div>
     </div>
@@ -362,9 +409,24 @@
             $(this).closest('form').submit();
         });
 
+        $('#all_items_invoice_received').click(function () {
+            if ($('a[data-change-article-price="1"]').length > 0) {
+                currentForm = $(this).closest('form');
+                $('#changeArticlePriceModal').modal('show');
+                return false;
+            }
+        });
+
         $('.invoice-status-dropdown a').click(function (e) {
             e.preventDefault();
             $(this).parent().parent().parent().find('input[name="invoice_status"]').val($(this).data('value'));
+
+            if ($(this).data('value') === 1 && $(this).attr('data-change-article-price') == 1) {
+                currentForm = $(this).closest('form');
+                $('#changeArticlePriceModal').modal('show');
+
+                return false;
+            }
 
             if ($(this).data('value') === 2) {
                 currentForm = $(this).closest('form');
@@ -374,6 +436,18 @@
             }
 
             $(this).closest('form').submit();
+        });
+
+        $('#change_article_price').click(function () {
+            $(currentForm).find('input[name="change_article_price"]').val(1);
+            $('#changeArticlePriceModal').modal('hide');
+            $(currentForm).submit();
+        });
+
+        $('#do_not_change_article_price').click(function () {
+            $(currentForm).find('input[name="change_article_price"]').val(0);
+            $('#changeArticlePriceModal').modal('hide');
+            $(currentForm).submit();
         });
 
         $('#send_invoice_check_mail').click(function () {

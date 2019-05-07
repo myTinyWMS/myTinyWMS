@@ -2,9 +2,7 @@
 
 namespace Mss\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class DeliveryItem extends Model
+class DeliveryItem extends AuditableModel
 {
     protected $fillable = ['article_id', 'quantity'];
 

@@ -15,7 +15,7 @@ class ArticleDataTable extends BaseDataTable
     /**
      * @var array
      */
-    protected $rawColumns = ['action', 'price', 'checkbox', 'order_number', 'supplier_name'];
+    protected $rawColumns = ['action', 'price', 'checkbox', 'order_number', 'supplier_name', 'average_usage'];
 
     /**
      * Build DataTable class.
@@ -75,6 +75,24 @@ class ArticleDataTable extends BaseDataTable
             ->addColumn('tags', function (Article $article) {
                 return $article->tags->pluck('name')->implode(', ');
             })
+            ->addColumn('average_usage', function (Article $article) {
+                if ($article->average_usage_12 == 0) return $article->average_usage_12;
+
+                $diff = $article->average_usage_12 - $article->average_usage_3;
+                $diffPercent = (100 * $diff) / $article->average_usage_12;
+
+                if ($diffPercent < -30) {
+                    return $article->average_usage_12.' <i class="fa fa-angle-double-up text-danger bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 30% höher als in den letzten 12"></i>';
+                } elseif ($diffPercent < -15) {
+                    return $article->average_usage_12.' <i class="fa fa-angle-up text-danger bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 15% höher als in den letzten 12"></i>';
+                } elseif ($diffPercent > 30) {
+                    return $article->average_usage_12.' <i class="fa fa-angle-double-down text-success bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 30% niedriger als in den letzten 12"></i>';
+                } elseif ($diffPercent > 15) {
+                    return $article->average_usage_12.' <i class="fa fa-angle-down text-success bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 30% niedriger als in den letzten 12"></i>';
+                }
+
+                return $article->average_usage_12;
+            })
             ->filterColumn('id', function ($query, $keyword) {
                 $query->whereIn('id', explode(',', $keyword));
             })
@@ -99,7 +117,7 @@ class ArticleDataTable extends BaseDataTable
             })
             ->filterColumn('status', function ($query, $keyword) {
                 if ($keyword == 'all') {
-                    $query->whereIn('status', [Article::STATUS_ACTIVE, Article::STATUS_INACTIVE]);
+                    $query->whereIn('status', [Article::STATUS_ACTIVE, Article::STATUS_INACTIVE, Article::STATUS_NO_ORDERS]);
                 } else {
                     $query->where('status', $keyword);
                 }
@@ -124,7 +142,7 @@ class ArticleDataTable extends BaseDataTable
     public function query(Article $model)
     {
         return $model->newQuery()
-            ->withCurrentSupplierArticle()->withCurrentSupplier()->withCurrentSupplierName()->withAverageUsage()->withLastReceipt()
+            ->withCurrentSupplierArticle()->withCurrentSupplier()->withCurrentSupplierName()->withAverageUsage(12)->withAverageUsage(3)->withLastReceipt()
             ->with(['category', 'suppliers', 'unit', 'tags', 'openOrderItems']);
     }
 

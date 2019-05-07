@@ -81,7 +81,7 @@
                         <h5>Bestellte Artikel</h5>
                     </div>
                     <div class="ibox-content" id="article-list">
-                        <order-article-list ref="articleList" :supplier="supplier" :articles="articles" :all-articles="{{ json_encode($articles) }}" :existing-articles="existingArticles"></order-article-list>
+                        <order-article-list ref="articleList" :supplier="supplier" :articles="articles" :all-articles="{{ json_encode($allArticles) }}" :existing-articles="existingArticles"></order-article-list>
                     </div>
                 </div>
             </div>

@@ -60,7 +60,7 @@
                         </div>
                         <div class="w-1/2">
                             <div class="form-group">
-                                <label class="form-label">Lieferzeit</label>
+                                <label class="form-label">Lieferzeit (Wochentagen)</label>
                                 <div class="form-control-static">{{ $article->currentSupplierArticle->delivery_time }}</div>
                             </div>
                         </div>
@@ -201,14 +201,14 @@
             </div>
         {!! Form::close() !!}
     </modal>
-    
+
     {{--
 
     <!-- Change Supplier Modal -->
     <div class="modal fade" id="changeSupplierModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                
+
             </div>
         </div>
     </div>
