@@ -12,7 +12,9 @@
 @endsection
 
 @section('content')
-    <div class="row">
+    <inventory-articles :items="{{ json_encode($items) }}" :inventory="{{ json_encode($inventory) }}" :inventory-is-finished="{{ json_encode($inventory->isFinished()) }}"></inventory-articles>
+
+    {{--<div class="row">
         <div class="col-lg-12">
             <div class="tabs-container">
                 <div class="tabs-left">
@@ -110,5 +112,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
 @endsection

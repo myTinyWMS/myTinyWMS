@@ -25,11 +25,13 @@ Vue.mixin({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('z', require('./components/zondicon.vue'));
 Vue.component('collapse', require('./components/Collapse.vue'));
 Vue.component('dot-menu', require('./components/DotMenu.vue'));
 Vue.component('article-quantity-changelog', require('./components/ArticelQuantityChangelog.vue'));
 Vue.component('change-quantity-form', require('./components/ChangeQuantityForm.vue'));
 Vue.component('add-article-modal', require('./components/AddArticleNoteModal.vue'));
+Vue.component('inventory-articles', require('./components/InventoryArticles.vue'));
 
 window.app = new Vue({
     el: '#app'
