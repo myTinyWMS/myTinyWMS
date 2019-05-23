@@ -60,6 +60,7 @@ class SupplierDataTable extends BaseDataTable
     {
         return [
             ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
+            ['data' => 'accounts_payable_number', 'name' => 'accounts_payable_number', 'title' => 'Kreditorennummer'],
             ['data' => 'email', 'name' => 'email', 'title' => 'E-Mail'],
             ['data' => 'phone', 'name' => 'phone', 'title' => 'Telefon'],
             ['data' => 'contact_person', 'name' => 'contact_person', 'title' => 'Kontaktperson'],
