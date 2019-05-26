@@ -20,6 +20,13 @@ mix
             tailwindcss('/data/www/tailwind.config.js'),
         ]
     })
+    .webpackConfig({
+        resolve: {
+            alias: {
+                '@': path.resolve('resources/js'),
+            },
+        },
+    })
 
     .js('resources/js/app.js', 'public/js')
     .copy('resources/css/material-icons-outline', 'public/css')

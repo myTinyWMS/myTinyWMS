@@ -3,13 +3,13 @@
 
     thead {
         th {
-            @apply bg-gray-200 font-extrabold text-gray-800 uppercase border-t border-b-2 border-gray-400 p-2 text-xs whitespace-no-wrap;
+            @apply bg-gray-100 font-extrabold text-gray-500 uppercase border-t-0 border-b-2 border-gray-400 py-2 px-4 text-xs whitespace-no-wrap;
         }
     }
 
     tbody {
         tr {
-            @apply text-gray-700;
+            @apply text-gray-800;
 
             .table-action {
                 @apply invisible mt-2 block;
@@ -24,11 +24,11 @@
             }
 
             &:nth-child(odd) {
-                @apply bg-white;
+                @apply bg-gray-200;
             }
 
             &:nth-child(even) {
-                @apply bg-gray-200;
+                @apply bg-white;
             }
 
             &.group td {
@@ -36,7 +36,7 @@
             }
 
             td {
-                @apply font-light text-sm /*border border-gray-400*/ px-2 py-4 leading-tight align-middle;
+                @apply text-sm /*border border-gray-400*/ px-4 py-4 leading-tight align-middle;
             }
         }
     }
@@ -61,17 +61,17 @@
 }
 
 .table-search {
-    @apply h-auto mb-4 w-64 relative;
+    @apply h-auto w-64 relative;
     font-size: 0;
 
     input {
-        @apply w-64;
+        @apply w-64 rounded-tl-none rounded-bl-none text-gray-600;
         font-size: 16px;
     }
 }
 
 .table-wrapper {
-    @apply w-full bg-white shadow rounded-lg;
+    @apply w-full bg-white shadow rounded p-1;
 }
 
 .table-header {
@@ -103,7 +103,7 @@
 }
 
 .table-footer {
-    @apply flex py-4 px-2 justify-between items-center border-t border-gray-400;
+    @apply flex py-4 px-4 justify-between items-center border-t border-gray-400;
 
     .dataTables_info {
         @apply text-sm text-gray-500;
@@ -122,6 +122,10 @@
 
                 &:last-child {
                     @apply rounded-r;
+                }
+
+                &.active {
+                    @apply bg-gray-300;
                 }
             }
         }

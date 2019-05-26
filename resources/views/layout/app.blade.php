@@ -1,6 +1,6 @@
 @inject('globalPageService', 'Mss\Services\GlobalPageService')
 <!DOCTYPE html>
-<html class="h-full font-sans-nunito antialiased">
+<html class="h-full font-sans antialiased">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,26 +20,12 @@
     @routes
 </head>
 
-<body class="min-w-site bg-gray-200 text-black min-h-full font-sans-nunito">
+<body class="min-w-site bg-gray-200 text-black min-h-full">
     <div class="flex min-h-screen" id="app">
-        @include('layout.sidebar')
-
         <div class="content" id="wrapper">
-            <div class="flex items-center relative shadow h-header bg-white z-20 px-6">
-                <div class="relative z-50 w-full max-w-xs">
-                    <div class="relative">
-                        <div class="relative">
-                            <label class="search"><input type="search" placeholder="Suche" class="form-control form-input form-input-bordered w-full shadow"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="dropdown relative ml-auto h-9 flex items-center dropdown-right">
-                    <a class="dropdown-trigger h-dropdown-trigger flex items-center cursor-pointer select-none h-9 flex items-center">
-                    </a>
-                </div>
-            </div>
+            @include('layout.topnavbar')
 
-            <div class="px-view py-view mx-auto">
+            <div class="px-view py-view mx-auto pt-32">
                 <h1>@yield('title')</h1>
 
                 @include('flash::message')
@@ -66,112 +52,9 @@
         </div>
     </div>
 
-    @if (!empty($__env->yieldContent('datatableFilters')))
-        <div id="datatableFilter" class="hidden">
-            <div class="flex">
-                @yield('datatableFilters')
-            </div>
-        </div>
-    @endif
-
-    {{--@include('layout.topnavbar')--}}
-
-    {{--<div id="wrapper">
-        @include('layout.sidebar')
-
-        <!-- Page wraper -->
-        <div id="page-wrapper" class="gray-bg">
-
-            <!-- Page wrapper -->
-
-
-            <!-- Main view  -->
-            <div class="row wrapper page-heading">
-                <div class="col-lg-12">
-                    <h2>
-                        @yield('title')
-                        @yield('title_extra')
-                    </h2>
-                    <ol class="breadcrumb pull-left">
-                        @yield('breadcrumb')
-                    </ol>
-                    <div class="btn-toolbar pull-right">
-                        @yield('subnav')
-                    </div>
-                </div>
-            </div>
-
-            <div class="wrapper wrapper-content">
-                @include('flash::message')
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                @yield('content')
-
-                <!-- Footer -->
-                @include('layout.footer')
-            </div>
-        </div>
-
-
-    </div>--}}
-
     @routes
     <script src="{!! mix('js/vendor.js') !!}" type="text/javascript"></script>
     <script src="{!! mix('js/app.js') !!}" type="text/javascript"></script>
-
-    @if (!empty($__env->yieldContent('datatableFilters')))
-        <script>
-            $('#dataTableBuilder').on( 'init.dt', function () {
-                if ($('#datatableFilter').length && $('#datatableFilter').html().length) {
-                    $('.table-filter').append($('#datatableFilter').html());
-                    $('#datatableFilter').remove();
-
-                    $('.datatableFilter-select').each(function () {
-                        $(this).change(function () {
-                            window.LaravelDataTables.dataTableBuilder.columns($(this).attr('data-target-col')).search($(this).val()).draw();
-                            $("body").trigger('dt.filter.' + $(this).attr('id'));
-                            // saveFilterState($(this).attr('id'), $(this).attr('data-target-col'), $(this).val());
-                        });
-
-                        if ($(this).attr('data-pre-select')) {
-                            $(this).val($(this).attr('data-pre-select'));
-                        }
-                    });
-
-                    $("body").trigger('dt.init');
-
-                    //loadFilterState();
-                }
-            });
-
-            function saveFilterState(elementId, col, value) {
-                var currentFilterState = JSON.parse(localStorage.getItem('datatables-filterState'));
-                if (currentFilterState === null) {
-                    currentFilterState = {};
-                }
-
-                currentFilterState[elementId] = {value: value, col: col};
-                localStorage.setItem('datatables-filterState', JSON.stringify(currentFilterState));
-            }
-
-            function loadFilterState() {
-                var currentFilterState = JSON.parse(localStorage.getItem('datatables-filterState'));
-                if (currentFilterState !== null) {
-                    $.each(currentFilterState, function (elementId, item) {
-                        $('#'+elementId).val(item.value);
-                    });
-                }
-            }
-        </script>
-    @endif
 
     <script>
         function addFixedTableHeader() {
@@ -199,8 +82,6 @@
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_minimal-blue',
             });
-
-            $('#dataTableBuilder_filter input[type="search"]').attr('placeholder', 'Suche').parent().addClass('search');
 
             $('<table id="header-fixed"></table>').insertAfter('#dataTableBuilder');
 

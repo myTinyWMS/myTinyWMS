@@ -32,7 +32,10 @@ Vue.component('article-quantity-changelog', require('./components/ArticelQuantit
 Vue.component('change-quantity-form', require('./components/ChangeQuantityForm.vue'));
 Vue.component('add-article-modal', require('./components/AddArticleNoteModal.vue'));
 Vue.component('inventory-articles', require('./components/InventoryArticles.vue'));
+Vue.component('dropdown', require('./components/Shared/Dropdown.vue'));
+Vue.component('data-tables-filter', require('./components/DataTablesFilter.vue'));
+Vue.component('data-tables-filter-select', require('./components/DataTablesFilterSelect.vue'));
 
 window.app = new Vue({
-    el: '#app'
+    el: '#app',
 });

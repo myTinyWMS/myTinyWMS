@@ -8,7 +8,6 @@
 .content {
     min-width: 66.25rem;
     width: 100%;
-    max-width: calc(100vw - 13.75rem);
 }
 
 .h-header {
@@ -19,6 +18,12 @@
     width: 13.75rem
 }
 
+.pr-view {
+    padding-right: 3.125rem;
+}
+.pl-view {
+    padding-left: 3.125rem;
+}
 .px-view {
     padding-left: 3.125rem;
     padding-right: 3.125rem;
@@ -57,6 +62,20 @@
 
         &.active {
             @apply border-l-4 border-white font-extrabold pl-5 pr-6;
+        }
+    }
+}
+
+.topbar-nav {
+    a {
+        @apply text-gray-500;
+    }
+
+    .active {
+        @apply border-b-4 border-gray-800;
+
+        a {
+            @apply text-gray-800;
         }
     }
 }

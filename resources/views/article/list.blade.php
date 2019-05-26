@@ -25,57 +25,48 @@
 </div>
 
 <div class="footer_actions hidden">
-    <div class="dropdown-menu group">
-        <div class="dropdown-menu-header">
+    <div class="dropdown-list group">
+        <div class="dropdown-list-header">
             Aktion
             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
         </div>
-        <div class="dropdown-menu-list">
+        <div class="dropdown-list-items">
             <a href="#" id="print_small_label">Label erstellen (klein)</a>
             <a href="#" id="print_large_label">Label erstellen (groß)</a>
         </div>
         <input type="hidden" name="label_size" id="label_size" value="" />
     </div>
 </div>
-@endsection
 
-@section('datatableFilters')
-    <label>
-       Kategorie:&nbsp;
-        <select id="filterCategory" data-target-col="{{ \Mss\DataTables\ArticleDataTable::CATEGORY_COL_ID }}" class="form-control input-sm datatableFilter-select">
-            <option value=""></option>
-            @foreach($categories as $item)
-                <option value="{{ $item->id }}">{{ $item->name }}</option>
-            @endforeach
-        </select>
-    </label>
-    <label>
-        Tags:&nbsp;
-        <select id="filterTags" data-target-col="{{ \Mss\DataTables\ArticleDataTable::TAGS_COL_ID }}" class="form-control input-sm datatableFilter-select">
-            <option value=""></option>
-            @foreach($tags as $item)
-                <option value="{{ $item->id }}">{{ $item->name }}</option>
-            @endforeach
-        </select>
-    </label>
-    <label>
-       Lieferant:&nbsp;
-        <select id="filterSupplier" data-target-col="{{ \Mss\DataTables\ArticleDataTable::SUPPLIER_COL_ID }}" class="form-control input-sm datatableFilter-select">
-            <option value=""></option>
-            @foreach($supplier as $item)
-                <option value="{{ $item->id }}">{{ $item->name }}</option>
-            @endforeach
-        </select>
-    </label>
-    <label>
-       Status:&nbsp;
-        <select id="filterStatus" data-target-col="{{ \Mss\DataTables\ArticleDataTable::STATUS_COL_ID }}" class="form-control input-sm datatableFilter-select" data-pre-select="1">
-            <option value="all">alle</option>
-            <option value="1">aktiv</option>
-            <option value="0">deaktiviert</option>
-            <option value="2">Bestellstopp</option>
-        </select>
-    </label>
+<data-tables-filter>
+    <data-tables-filter-select is-article-category-col="true" label="Kategorie" col-id="{{ \Mss\DataTables\ArticleDataTable::CATEGORY_COL_ID }}">
+        <option value=""></option>
+        @foreach($categories as $item)
+            <option value="{{ $item->id }}">{{ $item->name }}</option>
+        @endforeach
+    </data-tables-filter-select>
+
+    <data-tables-filter-select label="Tags" col-id="{{ \Mss\DataTables\ArticleDataTable::TAGS_COL_ID }}">
+        <option value=""></option>
+        @foreach($tags as $item)
+            <option value="{{ $item->id }}">{{ $item->name }}</option>
+        @endforeach
+    </data-tables-filter-select>
+
+    <data-tables-filter-select label="Lieferant" col-id="{{ \Mss\DataTables\ArticleDataTable::SUPPLIER_COL_ID }}">
+        <option value=""></option>
+        @foreach($supplier as $item)
+            <option value="{{ $item->id }}">{{ $item->name }}</option>
+        @endforeach
+    </data-tables-filter-select>
+
+    <data-tables-filter-select label="Status" pre-set="1" col-id="{{ \Mss\DataTables\ArticleDataTable::STATUS_COL_ID }}">
+        <option value="all">alle</option>
+        <option value="1">aktiv</option>
+        <option value="0">deaktiviert</option>
+        <option value="2">Bestellstopp</option>
+    </data-tables-filter-select>
+</data-tables-filter-select>
 @endsection
 
 @push('scripts')

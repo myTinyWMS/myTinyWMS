@@ -22,15 +22,19 @@ small {
 	@apply h-4 py-0 px-2 text-xs;
 }
 
+.btn-white {
+	@apply bg-white text-gray-800;
+}
+
 .btn-primary {
-	@apply bg-blue-500 text-white;
+	@apply bg-blue-700 text-white;
 }
 .btn-primary:hover {
-	@apply bg-blue-600;
+	@apply bg-blue-800;
 }
 
 .btn-secondary {
-	@apply bg-white text-blue-500 border border-blue-400;
+	@apply bg-white text-blue-700 border border-blue-700;
 }
 
 .btn-secondary:hover {
@@ -169,7 +173,7 @@ small {
 	}
 
 	.dropdown-list-items {
-		@apply items-center absolute border border-t-0 rounded shadow-md p-1 bg-white p-2 invisible w-full z-50;
+		@apply items-start absolute border border-t-0 rounded shadow-md p-1 bg-white p-2 invisible flex flex-col z-50;
 		min-width: 160px;
 
 		a {
@@ -186,11 +190,15 @@ small {
 	@apply relative inline-block;
 
 	.dropdown-button-header {
-		@apply flex items-center cursor-pointer text-sm text-blue-500 rounded-t-lg py-1 px-2;
+		@apply flex items-center cursor-pointer py-1 px-2;
 	}
 
 	.dropdown-button-items {
-		@apply items-center absolute border border-gray-400 rounded shadow-md p-1 bg-white w-auto z-50 right-0;
+		@apply absolute border border-gray-400 rounded shadow-md px-4 pb-2 pt-1 bg-white w-auto z-50;
+
+		select {
+			@apply mb-2;
+		}
 
 		a {
 			@apply pl-2 pr-4 py-2 font-normal whitespace-no-wrap block text-sm;

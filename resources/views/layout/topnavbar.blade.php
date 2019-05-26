@@ -1,3 +1,78 @@
+<div class="w-full fixed pin-l pin-y z-50">
+    <div class="bg-blue-700 w-full h-header flex items-center">
+        <div class="pl-view pr-6 text-white flex">
+            <z icon="factory" class="fill-current w-6 h-6"></z>
+            <div class="ml-2 text-xl font-bold">MSS</div>
+        </div>
+        <div class="relative z-50 w-full max-w-xs">
+            <div class="relative">
+                <div class="relative">
+                    <label class="search"><input type="search" placeholder="Suche" class="form-control form-input form-input-bordered w-full shadow"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex items-center relative shadow-md h-header bg-white pl-view z-20 border-t border-gray-300 topbar-nav">
+        <h3 class="mr-6 h-full pt-5 {{ active_class(if_uri(['dashboard', '/'])) }}">
+            <a href="{{ url('/dashboard') }}">
+                Dashboard
+            </a>
+        </h3>
+
+        <h3 class="mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['article*'])) }}">
+            <a href="{{ url('/article') }}">
+                Artikel
+            </a>
+        </h3>
+
+        <h3 class="mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['order*'])) }}">
+            <a href="{{ url('/order') }}">
+                Bestellungen
+                @if($globalPageService->getUnreadMessageCount())
+                    <div class="label ml-2 inline-block" title="{{ $globalPageService->getUnreadMessageCount() }} ungelesene {{ trans_choice('plural.message', $globalPageService->getUnreadMessageCount()) }}">{{ $globalPageService->getUnreadMessageCount() }}</div>
+                @endif
+            </a>
+        </h3>
+
+        <h3 class="mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['supplier*'])) }}">
+            <a href="{{ url('/supplier') }}">
+                Lieferanten
+            </a>
+        </h3>
+
+        <h3 class="mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['category*'])) }}">
+            <a href="{{ url('/category') }}">
+                Kategorien
+            </a>
+        </h3>
+
+        <h3 class="mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['unit*'])) }}">
+            <a href="{{ url('/unit') }}">
+                Einheiten
+            </a>
+        </h3>
+
+        <h3 class="mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['report*'])) }}">
+            <a href="{{ url('/reports') }}">
+                Reports
+            </a>
+        </h3>
+
+        <h3 class="mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['inventory*'])) }}">
+            <a href="{{ url('/inventory') }}">
+                Inventur
+            </a>
+        </h3>
+
+        {{--<div class="dropdown relative ml-auto h-9 flex items-center dropdown-right">
+            <a class="dropdown-trigger h-dropdown-trigger flex items-center cursor-pointer select-none h-9 flex items-center">
+
+            </a>
+        </div>--}}
+    </div>
+</div>
+
+{{--
 <div class="row border-bottom">
     <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
@@ -80,4 +155,4 @@
         });
     });
 </script>
-@endpush
+@endpush--}}

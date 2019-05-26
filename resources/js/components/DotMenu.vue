@@ -1,9 +1,9 @@
 <template>
     <div class="dropdown-button group" ref="dropdownMenu">
-        <div class="dropdown-button-header">
+        <div class="dropdown-button-header text-sm text-blue-500 rounded-t-lg">
             <i class="fa fa-ellipsis-h text-grey-dark" @click="isVisible = ! isVisible"></i>
         </div>
-        <div class="dropdown-button-items" v-if="isVisible">
+        <div class="dropdown-button-items right-0 items-center" v-if="isVisible">
             <slot></slot>
         </div>
     </div>
