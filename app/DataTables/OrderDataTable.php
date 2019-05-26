@@ -43,7 +43,7 @@ class OrderDataTable extends BaseDataTable
                 $output = $expectedDelivery ? $expectedDelivery->format('d.m.Y') : '';
 
                 if ($order->items()->overdue()->count()) {
-                    $output .= '<br><span class="badge badge-danger">überfällig</span>';
+                    $output .= '<br><span class="text-red-400 text-sm font-bold">überfällig</span>';
                 }
 
                 return $output;
@@ -162,9 +162,9 @@ class OrderDataTable extends BaseDataTable
             ['data' => 'internal_order_number', 'name' => 'internal_order_number', 'title' => 'Bestellnummer', 'width' => '110px'],
             ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant', 'visible' => false],
             ['data' => 'items', 'name' => 'items', 'title' => 'Artikel'],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Bestellstatus', 'width' => '50px', 'class' => 'text-center'],
-            ['data' => 'confirmation_status', 'name' => 'confirmation_status', 'title' => 'AB', 'width' => '50px', 'class' => 'text-center', 'orderable' => false],
-            ['data' => 'invoice_status', 'name' => 'invoice_status', 'title' => 'Rechnung', 'width' => '50px', 'class' => 'text-center', 'orderable' => false],
+            ['data' => 'status', 'name' => 'status', 'title' => 'Bestellstatus', 'width' => '150px', 'class' => 'text-center'],
+            ['data' => 'confirmation_status', 'name' => 'confirmation_status', 'title' => 'AB', 'width' => '110px', 'class' => 'text-center', 'orderable' => false],
+            ['data' => 'invoice_status', 'name' => 'invoice_status', 'title' => 'Rechnung', 'width' => '110px', 'class' => 'text-center', 'orderable' => false],
             ['data' => 'order_date', 'name' => 'order_date', 'title' => 'Bestelldatum', 'class' => 'text-right', 'searchable' => false, 'width' => '90px'],
             ['data' => 'expected_delivery', 'name' => 'expected_delivery', 'title' => 'Lieferdatum', 'class' => 'text-right', 'searchable' => false, 'width' => '90px'],
         ];

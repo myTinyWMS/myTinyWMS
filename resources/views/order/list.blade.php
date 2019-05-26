@@ -37,50 +37,38 @@
     @endif
 
     {!! $dataTable->table() !!}
-@endsection
 
-@section('datatableFilters')
-    <label>
-        Lieferant:&nbsp;
-        <select id="filterSupplier" data-target-col="1" class="form-control input-sm datatableFilter-select">
+    <data-tables-filter>
+        <data-tables-filter-select label="Lieferant" col-id="1">
             <option value=""></option>
             @foreach($supplier as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>
             @endforeach
-        </select>
-    </label>
+        </data-tables-filter-select>
 
-    <label>
-        Status:&nbsp;
-        <select id="filterStatus" data-target-col="3" class="form-control input-sm datatableFilter-select">
+        <data-tables-filter-select label="Status" col-id="3">
             <option value="open">offen (neu, bestellt, teilweise geliefert)</option>
             <option value="{{ \Mss\Models\Order::STATUS_NEW }}">neu</option>
             <option value="{{ \Mss\Models\Order::STATUS_ORDERED }}">bestellt</option>
             <option value="{{ \Mss\Models\Order::STATUS_PARTIALLY_DELIVERED }}">teilweise geliefert</option>
             <option value="{{ \Mss\Models\Order::STATUS_DELIVERED }}">geliefert</option>
-        </select>
-    </label>
+        </data-tables-filter-select>
 
-    <label>
-        Rechnungsstatus:&nbsp;
-        <select id="filterInvoiceStatus" data-target-col="5" class="form-control input-sm datatableFilter-select">
+        <data-tables-filter-select label="Rechnungsstatus" col-id="5">
             <option value="empty">alle</option>
             <option value="none">offen</option>
             <option value="all">komplett erhalten</option>
             <option value="partial">teilweise erhalten</option>
             <option value="check">in Prüfung</option>
-        </select>
-    </label>
+        </data-tables-filter-select>
 
-    <label>
-        AB-Status:&nbsp;
-        <select id="filterConfirmationStatus" data-target-col="4" class="form-control input-sm datatableFilter-select">
+        <data-tables-filter-select label="AB-Status" col-id="4">
             <option value="empty">alle</option>
             <option value="none">offen</option>
             <option value="all">komplett erhalten</option>
             <option value="partial">teilweise erhalten</option>
-        </select>
-    </label>
+        </data-tables-filter-select>
+    </data-tables-filter>
 @endsection
 
 @push('scripts')

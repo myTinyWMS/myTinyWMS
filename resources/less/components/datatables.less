@@ -9,7 +9,7 @@
 
     tbody {
         tr {
-            @apply text-gray-800;
+            @apply text-gray-700;
 
             .table-action {
                 @apply invisible mt-2 block;
@@ -19,24 +19,27 @@
                 }
             }
 
-            &:hover .table-action {
-                @apply visible;
-            }
-
-            &:nth-child(odd) {
+            &:hover {
                 @apply bg-gray-200;
+
+                .table-action {
+                   @apply visible;
+                }
+            }
+            &:nth-child(odd) {
+                //@apply bg-gray-200;
             }
 
             &:nth-child(even) {
-                @apply bg-white;
+                //@apply bg-white;
             }
 
             &.group td {
-                @apply bg-gray-400 font-bold text-black;
+                @apply bg-white pt-8 border-t-2 border-gray-400 font-bold text-black;
             }
 
             td {
-                @apply text-sm /*border border-gray-400*/ px-4 py-4 leading-tight align-middle;
+                @apply text-sm font-semibold px-4 py-4 leading-tight align-middle;
             }
         }
     }
@@ -71,7 +74,7 @@
 }
 
 .table-wrapper {
-    @apply w-full bg-white shadow rounded p-1;
+    @apply w-full bg-white shadow rounded px-1;
 }
 
 .table-header {
@@ -138,7 +141,8 @@
 
 #header-fixed {
     position: fixed;
-    top: 0; display:none;
+    top: 120px;
+    display:none;
     background-color:white;
 
     th {
