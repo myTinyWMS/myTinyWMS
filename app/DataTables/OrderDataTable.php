@@ -23,7 +23,7 @@ class OrderDataTable extends BaseDataTable
         return datatables($query)
             ->setRowId('id')
             ->addColumn('supplier', function (Order $order) {
-                return $order->supplier ? $order->supplier->name : '';
+                return $order->supplier ? $order->supplier->name : '<span class="italic text-gray-600">leer</span>';
             })
             ->orderColumn('supplier', 'supplier_name $1')
             ->editColumn('order_date', function (Order $order) {
@@ -116,7 +116,7 @@ class OrderDataTable extends BaseDataTable
             })
             ->editColumn('status', 'order.status')
             ->addColumn('action', $this->actionView)
-            ->rawColumns(['action', 'status', 'order_date', 'expected_delivery', 'internal_order_number', 'invoice_status', 'confirmation_status', 'items']);
+            ->rawColumns(['action', 'supplier', 'status', 'order_date', 'expected_delivery', 'internal_order_number', 'invoice_status', 'confirmation_status', 'items']);
     }
 
     /**
@@ -148,7 +148,7 @@ class OrderDataTable extends BaseDataTable
                 'order'   => [[1, 'asc']],
                 'rowGroup' => ['dataSrc' => 'supplier']
             ])
-            ->addAction(['title' => 'Aktion', 'width' => '100px']);
+            ->addAction(['title' => 'Aktion', 'width' => '100px', 'class' => 'action-col']);
     }
 
     /**
