@@ -1,7 +1,7 @@
 <div class="w-full fixed pin-l pin-y z-50">
     {{-- Row 1 --}}
     <div class="bg-white w-full h-header flex items-center px-view">
-        <div class="flex-1 pr-6 text-blue-700 flex">
+        <div class="flex-1 pr-6 text-blue-900 flex">
             <z icon="factory" class="fill-current w-6 h-6"></z>
             <div class="ml-2 text-xl font-bold">MSS</div>
         </div>
@@ -33,7 +33,7 @@
                 <a href="{{ url('/order') }}">
                     Bestellungen
                     @if($globalPageService->getUnreadMessageCount())
-                        <div class="label ml-2 inline-block bg-blue-700 text-white rounded-full px-2 w-6 h-6" title="{{ $globalPageService->getUnreadMessageCount() }} ungelesene {{ trans_choice('plural.message', $globalPageService->getUnreadMessageCount()) }}">{{ $globalPageService->getUnreadMessageCount() }}</div>
+                        <div class="label ml-2 inline-block bg-blue-900 text-white rounded-full px-2 w-6 h-6" title="{{ $globalPageService->getUnreadMessageCount() }} ungelesene {{ trans_choice('plural.message', $globalPageService->getUnreadMessageCount()) }}">{{ $globalPageService->getUnreadMessageCount() }}</div>
                     @endif
                 </a>
             </h3>
