@@ -148,7 +148,7 @@ class OrderDataTable extends BaseDataTable
                 'order'   => [[1, 'asc']],
                 'rowGroup' => ['dataSrc' => 'supplier']
             ])
-            ->addAction(['title' => 'Aktion', 'width' => '100px', 'class' => 'action-col']);
+            ->addAction(['title' => 'Aktion', 'width' => '100px', 'class' => 'action-col border-r']);
     }
 
     /**
@@ -159,7 +159,7 @@ class OrderDataTable extends BaseDataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'internal_order_number', 'name' => 'internal_order_number', 'title' => 'Bestellnummer', 'width' => '110px'],
+            ['data' => 'internal_order_number', 'name' => 'internal_order_number', 'title' => 'Bestellnummer', 'width' => '160px', 'class' => 'border-l'],
             ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant', 'visible' => false],
             ['data' => 'items', 'name' => 'items', 'title' => 'Artikel'],
             ['data' => 'status', 'name' => 'status', 'title' => 'Bestellstatus', 'width' => '150px', 'class' => 'text-center'],
