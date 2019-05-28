@@ -1,17 +1,11 @@
-<div class="w-full fixed pin-l pin-y z-50">
+<div class="w-full fixed pin-l pin-y z-20">
     {{-- Row 1 --}}
     <div class="bg-white w-full h-header flex items-center px-view">
         <div class="flex-1 pr-6 text-blue-700 flex">
             <z icon="factory" class="fill-current w-6 h-6"></z>
             <div class="ml-2 text-xl font-bold">MSS</div>
         </div>
-        <div class="relative z-50 w-full max-w-xs">
-            <div class="relative">
-                <div class="relative">
-                    <label class="search"><input type="search" placeholder="Suche" class="form-control form-input form-input-bordered w-full shadow"></label>
-                </div>
-            </div>
-        </div>
+        <global-search></global-search>
     </div>
 
     {{-- Row 2 --}}

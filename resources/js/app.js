@@ -4,7 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-// require('./bootstrap');
+require('./bootstrap');
 
 import VModal from 'vue-js-modal'
 
@@ -35,6 +35,7 @@ Vue.component('inventory-articles', require('./components/InventoryArticles.vue'
 Vue.component('dropdown', require('./components/Shared/Dropdown.vue'));
 Vue.component('data-tables-filter', require('./components/DataTablesFilter.vue'));
 Vue.component('data-tables-filter-select', require('./components/DataTablesFilterSelect.vue'));
+Vue.component('global-search', require('./components/GlobalSearch.vue'));
 
 window.app = new Vue({
     el: '#app',
