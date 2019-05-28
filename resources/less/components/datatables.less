@@ -2,14 +2,22 @@
     @apply w-full mb-0;
 
     thead {
-        th {
-            @apply bg-gray-100 font-normal text-gray-600 uppercase border-t border-b-2 border-gray-400 py-2 px-4 text-xs whitespace-no-wrap;
+        tr {
+            th {
+                @apply bg-gray-100 font-normal text-gray-600 uppercase py-2 px-4 text-xs whitespace-no-wrap;
+                height: 40px;
+                border: 0;
+            }
         }
     }
 
     tbody {
         tr {
             @apply text-gray-700;
+
+            &:first-child td {
+                @apply border-t-0;
+            }
 
             .table-action {
                 @apply invisible mt-2 block;
@@ -65,13 +73,17 @@
     font-size: 0;
 
     input {
-        @apply w-64 rounded-tl-none rounded-bl-none text-gray-600;
+        @apply shadow w-64 text-gray-600;
         font-size: 16px;
     }
 }
 
+.has-filter .table-search input {
+    @apply rounded-tl-none rounded-bl-none;
+}
+
 .table-wrapper {
-    @apply w-full bg-white shadow rounded p-3;
+    @apply w-full bg-white shadow rounded-lg px-3 relative;
 }
 
 .table-header {
@@ -84,18 +96,6 @@
 
 .table-toolbar {
     @apply flex justify-between items-start;
-}
-
-.table-filter {
-    @apply text-gray-600;
-
-    label {
-        @apply flex flex-col mr-4 text-xs;
-
-        select {
-            @apply mt-2;
-        }
-    }
 }
 
 #dataTableBuilder_processing {
@@ -117,11 +117,11 @@
                 @apply border border-gray-400 text-xs p-2;
 
                 &:first-child {
-                    @apply rounded-l;
+                    @apply rounded-l-lg;
                 }
 
                 &:last-child {
-                    @apply rounded-r;
+                    @apply rounded-r-lg;
                 }
 
                 &.active {
@@ -145,4 +145,10 @@
     th {
         &:extend(.dataTable thead th);
     }
+}
+
+.fix-head-bg {
+    @apply absolute w-full rounded-lg top-0 left-0 bg-gray-100 border-b border-gray-400 rounded-b-none;
+
+    height: 48px;
 }

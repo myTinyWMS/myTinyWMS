@@ -24,7 +24,7 @@ label.search {
 }
 
 select {
-	@apply bg-gray-200 appearance-none border-2 border-gray-200 rounded pr-6 pl-2 py-1;
+	@apply bg-gray-200 appearance-none border-2 border-gray-200 rounded-lg pr-6 pl-2 py-1;
 	background-repeat: no-repeat;
 	background-size: 10px 6px;
 	background-position: center right .75rem;
@@ -32,14 +32,14 @@ select {
 }
 
 .tagify {
-	@apply bg-white border border-gray-400 text-gray-700 rounded;
+	@apply bg-white border border-gray-400 text-gray-700 rounded-lg;
 
 	tag {
 		div {
 			@apply text-gray-800;
 
 			&::before {
-				@apply bg-gray-400 border rounded shadow-none;
+				@apply bg-gray-400 border rounded-lg shadow-none;
 			}
 		}
 
@@ -50,7 +50,7 @@ select {
 }
 
 .form-input {
-	@apply appearance-none block w-full bg-white border border-gray-400 text-gray-800 rounded py-2 px-2 leading-tight;
+	@apply appearance-none block w-full bg-white border border-gray-400 text-gray-800 rounded-lg py-2 px-2 leading-tight;
 
   &:focus {
   	@apply outline-none bg-white border-gray-500;
@@ -62,7 +62,7 @@ select {
 }
 
 .form-textarea {
-	@apply appearance-none block w-full bg-white border border-gray-400 text-gray-800 rounded py-3 px-4 mb-3 leading-tight;
+	@apply appearance-none block w-full bg-white border border-gray-400 text-gray-800 rounded-lg py-3 px-4 mb-3 leading-tight;
 
   &:focus {
   	@apply outline-none bg-white border-gray-500;
@@ -70,7 +70,7 @@ select {
 }
 
 .form-select {
-	@apply block appearance-none w-full bg-white border border-gray-400 text-gray-800 px-4 pr-8 rounded leading-none;
+	@apply block appearance-none w-full bg-white border border-gray-400 text-gray-800 px-4 pr-8 rounded-lg leading-none;
 	// to get the same height as a input
 	padding-top: .6rem;
 	padding-bottom: .6rem;

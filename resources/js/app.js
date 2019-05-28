@@ -37,6 +37,7 @@ Vue.component('inventory-articles', require('./components/InventoryArticles.vue'
 Vue.component('dropdown', require('./components/Shared/Dropdown.vue'));
 Vue.component('data-tables-filter', require('./components/DataTablesFilter.vue'));
 Vue.component('data-tables-filter-select', require('./components/DataTablesFilterSelect.vue'));
+Vue.component('global-search', require('./components/GlobalSearch.vue'));
 
 Vue.component('invoice-status-change', require('./components/InvoiceStatusChange.vue'));
 Vue.component('invoice-status-change-all', require('./components/ChangeInvoiceStatusForAll.vue'));
