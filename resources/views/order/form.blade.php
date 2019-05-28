@@ -117,36 +117,29 @@
         </div>
     </order-form>
     {!! Form::close() !!}
-@endsection
 
-@section('datatableFilters')
-    <label>
-        Kategorie:&nbsp;
-        <select id="filterCategory" data-target-col="{{ \Mss\DataTables\SelectArticleDataTable::CATEGORY_COL_ID }}" class="form-control input-sm datatableFilter-select">
+    <data-tables-filter>
+        <data-tables-filter-select label="Kategorie" col-id="{{ \Mss\DataTables\SelectArticleDataTable::CATEGORY_COL_ID }}">
             <option value=""></option>
             @foreach($categories as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>
             @endforeach
-        </select>
-    </label>
-    <label>
-        Tags:&nbsp;
-        <select id="filterTags" data-target-col="{{ \Mss\DataTables\SelectArticleDataTable::TAGS_COL_ID }}" class="form-control input-sm datatableFilter-select">
+        </data-tables-filter-select>
+
+        <data-tables-filter-select label="Tags" col-id="{{ \Mss\DataTables\SelectArticleDataTable::TAGS_COL_ID }}">
             <option value=""></option>
             @foreach($tags as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>
             @endforeach
-        </select>
-    </label>
-    <label>
-        Status:&nbsp;
-        <select id="filterStatus" data-target-col="{{ \Mss\DataTables\SelectArticleDataTable::STATUS_COL_ID }}" class="form-control input-sm datatableFilter-select" data-pre-select="1">
+        </data-tables-filter-select>
+
+        <data-tables-filter-select label="Status" col-id="{{ \Mss\DataTables\SelectArticleDataTable::STATUS_COL_ID }}" pre-set="1">
             <option value="all">alle</option>
             <option value="1">aktiv</option>
             <option value="0">deaktiviert</option>
             <option value="2">Bestellstopp</option>
-        </select>
-    </label>
+        </data-tables-filter-select>
+    </data-tables-filter>
 @endsection
 
 @push('scripts')

@@ -146,12 +146,9 @@
             </div>
         </div>
     </div>
-@endsection
 
-@section('datatableFilters')
-    <label>
-        Status:&nbsp;
-        <select id="filterStatus" data-target-col="3" class="form-control input-sm datatableFilter-select">
+    <data-tables-filter>
+        <data-tables-filter-select label="Status" col-id="3">
             <option value="open">offen (neu, bestellt, teilweise geliefert)</option>
             <option value="{{ \Mss\Models\Order::STATUS_NEW }}">neu</option>
             <option value="{{ \Mss\Models\Order::STATUS_ORDERED }}">bestellt</option>
@@ -159,8 +156,8 @@
             <option value="{{ \Mss\Models\Order::STATUS_DELIVERED }}">geliefert</option>
             <option value="{{ \Mss\Models\Order::STATUS_PAID }}">bezahlt</option>
             <option value="{{ \Mss\Models\Order::STATUS_CANCELLED }}">storniert</option>
-        </select>
-    </label>
+        </data-tables-filter-select>
+    </data-tables-filter>
 @endsection
 
 @push('scripts')
