@@ -3,6 +3,7 @@
 namespace Mss\Http\Controllers;
 
 use Carbon\Carbon;
+use function GuzzleHttp\Promise\all;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
@@ -139,8 +140,8 @@ class OrderController extends Controller
         return redirect()->route('order.show', $order);
     }
 
-    public function itemConfirmationReceived(OrderItem $orderitem) {
-        $orderitem->confirmation_received = true;
+    public function itemConfirmationReceived(OrderItem $orderitem, $status) {
+        $orderitem->confirmation_received = ($status == 1);
         $orderitem->save();
 
         return redirect()->route('order.show', $orderitem->order);
@@ -162,8 +163,8 @@ class OrderController extends Controller
         }
 
         if (!empty($request->get('mail_note'))) {
-            $attachments = collect(json_decode($request->get('mail_attachments'), true));
-            Mail::to(UserSettings::getUsersWhereTrue(UserSettings::SETTING_NOTIFY_ON_INVOICE_CHECKS))->send(new InvoiceCheckMail($orderitem->order, $request->get('mail_note'), $attachments));
+            $attachments = collect($request->get('mail_attachments'));
+            Mail::to(UserSettings::getUsersWhereTrue(UserSettings::SETTING_NOTIFY_ON_INVOICE_CHECKS))->send(new InvoiceCheckMail($orderitem->order, nl2br($request->get('mail_note')), $attachments));
         }
 
         return redirect()->route('order.show', $orderitem->order);
@@ -213,8 +214,11 @@ class OrderController extends Controller
         $order = Order::with('items.order.items')->findOrFail($id);
         $audits = $order->getAllAudits();
         $messages = $order->messages()->with('user')->latest('received')->get();
+        $hasOneArticleWithNewPrice = $order->items->filter(function ($item) {
+            return (($item->article->getCurrentSupplierArticle()->price / 100) != $item->price);
+        })->count() > 0;
 
-        return $assignOrderDataTable->render('order.show', compact('order', 'audits', 'messages'));
+        return $assignOrderDataTable->render('order.show', compact('order', 'audits', 'messages', 'hasOneArticleWithNewPrice'));
     }
 
     /**
@@ -360,9 +364,9 @@ class OrderController extends Controller
             });
     }
 
-    public function changePaymentStatus(Order $order, Request $request) {
-        if (array_key_exists(intval($request->get('type')), Order::PAYMENT_STATUS_TEXT)) {
-            $order->payment_status = intval($request->get('type'));
+    public function changePaymentStatus(Order $order, $payment_status) {
+        if (array_key_exists(intval($payment_status), Order::PAYMENT_STATUS_TEXT)) {
+            $order->payment_status = intval($payment_status);
             $order->save();
             flash('Bezahlstatus geändert.', 'success');
         } else {
@@ -372,9 +376,9 @@ class OrderController extends Controller
         return redirect()->route('order.show', $order);
     }
 
-    public function changeStatus(Order $order, Request $request) {
-        if (array_key_exists(intval($request->get('status')), Order::STATUS_TEXTS)) {
-            $order->status = intval($request->get('status'));
+    public function changeStatus(Order $order, $status) {
+        if (array_key_exists(intval($status), Order::STATUS_TEXTS)) {
+            $order->status = intval($status);
             $order->save();
             flash('Status geändert.', 'success');
         } else {
@@ -391,6 +395,7 @@ class OrderController extends Controller
          * @todo queue file to delete after some time
          */
         $upload_success = $file->storeAs('upload_temp', $order->id.'_'.Uuid::generate(4)->string);
+
         if ($upload_success) {
             return response()->json($upload_success, 200);
         } else {

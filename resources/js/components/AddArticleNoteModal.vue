@@ -2,34 +2,33 @@
     <modal name="newNoteModal" height="auto" classes="modal">
         <h4 class="modal-title">Neue Notiz</h4>
 
-        <form method="post" v-bind:action="route('article.add_note', [article.id])" @submit="submit">
-            <div class="row">
-                <div class="w-full">
-                    <div class="form-group">
-                        <label for="new_note" class="form-label">Notiz</label>
-                        <textarea id="new_note"  name="content" class="form-textarea" rows="3"></textarea>
-                    </div>
+        <div class="row">
+            <div class="w-full">
+                <div class="form-group">
+                    <label for="new_note" class="form-label">Notiz</label>
+                    <textarea id="new_note" v-model="new_note" name="content" class="form-textarea" rows="3"></textarea>
                 </div>
             </div>
+        </div>
 
-            <div class="modal-footer">
-                <input type="hidden" v-bind:value="csrf" name="_token" />
-                <button type="button" class="btn btn-default" @click="$modal.hide('newNoteModal')">Abbrechen</button>
-                <button type="submit" class="btn btn-primary">Speichern</button>
-            </div>
-        </form>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" @click="$modal.hide('newNoteModal')">Abbrechen</button>
+            <button type="button" class="btn btn-primary" @click="submit()">Speichern</button>
+        </div>
     </modal>
 
 </template>
 
 <script>
+    import axios from 'axios';
+
     export default {
         props: ['article'],
 
         data() {
             return {
-                csrf: ""
-            };
+                new_note: ''
+            }
         },
 
         methods: {
@@ -42,14 +41,10 @@
                     return false;
                 }
 
-                $.post(route('article.add_note', that.article.id), {content: that.new_note.note}).done(function (data) {
-                    console.log(data);
+                axios.post(route('article.add_note', that.article.id), {content: that.new_note}).then(function (data) {
+                    location.reload();
                 });
             }
-        },
-
-        mounted() {
-            this.csrf = document.head.querySelector('meta[name="csrf-token"]').content;
         }
     }
 </script>

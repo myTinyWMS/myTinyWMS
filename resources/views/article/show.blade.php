@@ -120,8 +120,8 @@
                 <div class="card-content">
                     <div class="feed-activity-list">
                         @foreach($article->articleNotes()->latest()->get() as $note)
-                            <div class="feed-element">
-                                <div class="flex mb-2">
+                            <div class="feed-element mb-6">
+                                <div class="flex">
                                     <div class="flex-1 text-xs text-gray-600">{{ $note->user->name }}</div>
                                     <div class="flex items-baseline">
                                         <small class="text-gray-600">{{ $note->created_at->format('d.m.Y - H:i') }}</small>
@@ -202,7 +202,7 @@
         {!! Form::close() !!}
     </modal>
 
-    <add-article-modal :article="{{ $article }}"></add-article-modal>
+    <add-article-note-modal :article="{{ $article }}"></add-article-note-modal>
 
 @endsection
 

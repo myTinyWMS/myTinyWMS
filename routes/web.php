@@ -69,12 +69,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('order/{order}/cancel', 'OrderController@cancel')->name('order.cancel');
     Route::get('order/{order}/create-delivery', 'OrderController@createDelivery')->name('order.create_delivery');
     Route::post('order/{order}/store-delivery', 'OrderController@storeDelivery')->name('order.store_delivery');
-    Route::post('order/{order}/change-payment-status', 'OrderController@changePaymentStatus')->name('order.change_payment_status');
-    Route::post('order/{order}/change-status', 'OrderController@changeStatus')->name('order.change_status');
+    Route::get('order/{order}/payment-status/{payment_status}', 'OrderController@changePaymentStatus')->name('order.change_payment_status');
+    Route::get('order/{order}/status/{status}', 'OrderController@changeStatus')->name('order.change_status');
     Route::post('order/{order}/invoicecheck/upload', 'OrderController@uploadInvoiceCheckAttachments')->name('order.invoice_check_upload');
 
     Route::post('order/{orderitem}/item-invoice-received', 'OrderController@itemInvoiceReceived')->name('order.item_invoice_received');
-    Route::post('order/{orderitem}/item-confirmation-received', 'OrderController@itemConfirmationReceived')->name('order.item_confirmation_received');
+    Route::get('order/{orderitem}/item-confirmation-status/{status}', 'OrderController@itemConfirmationReceived')->name('order.item_confirmation_received');
     Route::post('order/{order}/all-items-invoice-received', 'OrderController@allItemsInvoiceReceived')->name('order.all_items_invoice_received');
     Route::post('order/{order}/all-items-confirmation-received', 'OrderController@allItemsConfirmationReceived')->name('order.all_items_confirmation_received');
 
