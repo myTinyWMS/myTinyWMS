@@ -1,5 +1,5 @@
 <template>
-    <dropdown caption="Filter">
+    <dropdown caption="Filter" class="hidden">
         <slot></slot>
     </dropdown>
 </template>
@@ -11,6 +11,8 @@
 
             $('#dataTableBuilder').on('init.dt', function () {
                 document.getElementById('table-filter').appendChild(that.$el);
+                document.getElementById('table-filter').getElementsByClassName('dropdown-button')[0].classList.remove('hidden');
+                document.getElementById('table-filter').parentElement.classList.add('has-filter');
             });
         }
     }
