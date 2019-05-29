@@ -9,7 +9,7 @@
 
     {{-- Row 2 --}}
     <div class="flex relative shadow-md h-header bg-white px-view z-20 border-t border-gray-300 topbar-nav">
-        <div class="flex-1 flex items-center">
+        <div class="flex-1 flex items-center cursor-pointer">
             <h3 class="mr-6 h-full pt-5 {{ active_class(if_uri(['dashboard', '/'])) }}">
                 <a href="{{ url('/dashboard') }}">
                     Dashboard
