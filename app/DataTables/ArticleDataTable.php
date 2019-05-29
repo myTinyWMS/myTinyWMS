@@ -128,6 +128,7 @@ class ArticleDataTable extends BaseDataTable
                 }
             })
             ->orderColumn('supplier', 'supplier_name $1')
+            ->orderColumn('last_receipt', 'last_receipt $1')
             ->addColumn('action', 'article.list_action')
             ->addColumn('checkbox', 'article.list_checkbox')
             ->rawColumns($this->rawColumns);
