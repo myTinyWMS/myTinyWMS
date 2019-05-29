@@ -1,7 +1,7 @@
 <template>
     <div class="relative" style="width: 24rem">
         <input type="search" placeholder="Suche" class="form-control form-input form-input-bordered w-full shadow" @keyup="changed()" v-model="value">
-        <ul class="absolute bg-white shadow rounded-lg right-0 z-50 border border-gray-600">
+        <ul class="absolute bg-white shadow rounded-lg right-0 z-50 border border-gray-600" v-show="suggestions.length > 0">
             <li v-for="item in suggestions" class="whitespace-no-wrap p-2 text-xs rounded-lg hover:bg-gray-400 cursor-pointer" @click="selected(item)">{{ item.name }}</li>
         </ul>
     </div>

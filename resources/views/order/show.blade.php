@@ -240,7 +240,7 @@
                                             <label class="form-label">
                                                 Rechnung
 
-                                                <invoice-status-change :item="{{ $item }}" :article-has-new-price="{{ $articleHasNewPrice }}"></invoice-status-change>
+                                                <invoice-status-change :item="{{ $item }}" :article-has-new-price="{{ $articleHasNewPrice ? 1 : 0 }}"></invoice-status-change>
                                             </label>
                                             <div class="form-control-static">
                                                 @if($item->invoice_received === \Mss\Models\OrderItem::INVOICE_STATUS_RECEIVED)
