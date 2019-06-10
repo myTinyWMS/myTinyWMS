@@ -45,6 +45,7 @@ Vue.component('invoice-status-change-all', require('./components/ChangeInvoiceSt
 Vue.component('add-article-note-modal', require('./components/AddArticleNoteModal.vue'));
 Vue.component('change-article-price-modal', require('./components/ChangeArticlePriceModal.vue'));
 Vue.component('invoice-check-modal', require('./components/InvoiceCheckModal.vue'));
+Vue.component('assign-order-message-modal', require('./components/AssignOrderMessageModal.vue'));
 
 Vue.component('vue-dropzone', vue2Dropzone);
 

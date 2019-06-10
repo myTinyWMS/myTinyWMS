@@ -156,11 +156,11 @@
                                         <div class="text-xs my-2"># {{ $item->article->article_number }}</div>
 
                                         @if ($articleHasNewPrice)
-                                            <span class="font-semibold text-red-500 text-sm">Achtung, aktueller Artikelpreis weicht von Preis aus dieser Bestellung ab!</span>
+                                            <span class="font-semibold text-red-500 text-xs">Achtung, aktueller Artikelpreis weicht von Preis aus dieser Bestellung ab!</span>
                                             <br>
                                         @endif
                                         @if ($item->article->getCurrentSupplierArticle()->supplier_id != $order->supplier_id)
-                                            <span class="font-semibold text-red-500 text-sm">Der Artikel hat inzwischen einen anderen Lieferanten!</span>
+                                            <span class="font-semibold text-red-500 text-xs">Der Artikel hat inzwischen einen anderen Lieferanten!</span>
                                             <br>
                                         @endif
                                     </div>

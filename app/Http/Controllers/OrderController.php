@@ -207,7 +207,8 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     * @param AssignOrderDataTable $assignOrderDataTable
      * @return \Illuminate\Http\Response
      */
     public function show($id, AssignOrderDataTable $assignOrderDataTable) {
