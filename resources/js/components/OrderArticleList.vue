@@ -4,12 +4,15 @@
             <div class="row flex">
                 <div class="flex-1">
                     <div class="form-group">
-                        <label class="form-label">Artikel</label>
-                        <div class="form-control-static">
-                            {{ article.name }}
-                            <dot-menu>
+                        <label class="form-label">
+                            Artikel
+
+                            <dot-menu direction="right">
                                 <a v-if="supplier" v-bind:class="{ 'm-l-md': (article.id) }" @click.prevent="showArticleList(index)">Artikel auswählen</a>
                             </dot-menu>
+                        </label>
+                        <div class="form-control-static">
+                            {{ article.name }}
                             <div class="text-red-500" v-if="!supplier">Bitte zuerst einen Lieferanten auswählen!</div>
                         </div>
                     </div>
@@ -43,7 +46,7 @@
             </div>
         </div>
 
-        <button class="btn btn-primary btn-sm" @click.prevent="addArticle(true)">Artikel hinzufügen</button>
+        <button class="btn btn-secondary btn-sm" @click.prevent="addArticle(true)">Artikel hinzufügen</button>
     </div>
 </template>
 

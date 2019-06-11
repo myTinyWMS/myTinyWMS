@@ -3,7 +3,7 @@
         <div class="dropdown-button-header text-sm text-blue-500 rounded-t-lg">
             <i class="fa fa-ellipsis-h text-grey-dark" @click="isVisible = ! isVisible"></i>
         </div>
-        <div class="dropdown-button-items right-0 items-center" v-if="isVisible">
+        <div class="dropdown-button-items items-center" :class="directionClass" v-if="isVisible">
             <slot></slot>
         </div>
     </div>
@@ -11,6 +11,11 @@
 
 <script>
     export default {
+        props: {
+            direction: {
+                default: 'left'
+            }
+        },
         data() {
             return {
                 isVisible: false
@@ -23,6 +28,16 @@
                 var target = e.target;
                 if (el !== target && !el.contains(target)) {
                     this.isVisible = false;
+                }
+            }
+        },
+
+        computed: {
+            directionClass: function () {
+                if (this.direction == 'left') {
+                    return 'right-0';
+                } else {
+                    return 'left-0';
                 }
             }
         },
