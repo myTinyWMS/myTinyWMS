@@ -21,6 +21,8 @@ Vue.mixin({
     }
 });
 
+export const serverBus = new Vue();
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -32,9 +34,12 @@ Vue.component('collapse', require('./components/Collapse.vue'));
 Vue.component('dot-menu', require('./components/DotMenu.vue'));
 Vue.component('article-quantity-changelog', require('./components/ArticelQuantityChangelog.vue'));
 Vue.component('change-quantity-form', require('./components/ChangeQuantityForm.vue'));
+Vue.component('order-form', require('./components/OrderForm.vue'));
+
+Vue.component('dropdown', require('./components/Shared/Dropdown.vue'));
+Vue.component('date-picker', require('./components/Shared/DatePicker.vue'));
 
 Vue.component('inventory-articles', require('./components/InventoryArticles.vue'));
-Vue.component('dropdown', require('./components/Shared/Dropdown.vue'));
 Vue.component('data-tables-filter', require('./components/DataTablesFilter.vue'));
 Vue.component('data-tables-filter-select', require('./components/DataTablesFilterSelect.vue'));
 Vue.component('global-search', require('./components/GlobalSearch.vue'));
@@ -46,6 +51,7 @@ Vue.component('add-article-note-modal', require('./components/AddArticleNoteModa
 Vue.component('change-article-price-modal', require('./components/ChangeArticlePriceModal.vue'));
 Vue.component('invoice-check-modal', require('./components/InvoiceCheckModal.vue'));
 Vue.component('assign-order-message-modal', require('./components/AssignOrderMessageModal.vue'));
+Vue.component('select-order-article-modal', require('./components/SelectOrderArticleModal.vue'));
 
 Vue.component('vue-dropzone', vue2Dropzone);
 

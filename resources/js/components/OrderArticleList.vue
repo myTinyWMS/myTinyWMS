@@ -1,0 +1,121 @@
+<template>
+    <div>
+        <div class="rounded border border-blue-700 p-4 mb-4 relative" v-for="(article, index) in articles" :key="index">
+            <div class="row flex">
+                <div class="flex-1">
+                    <div class="form-group">
+                        <label class="form-label">Artikel</label>
+                        <div class="form-control-static">
+                            {{ article.name }}
+                            <dot-menu>
+                                <a v-if="supplier" v-bind:class="{ 'm-l-md': (article.id) }" @click.prevent="showArticleList(index)">Artikel auswählen</a>
+                            </dot-menu>
+                            <div class="text-red-500" v-if="!supplier">Bitte zuerst einen Lieferanten auswählen!</div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning" v-if="article.order_notes">
+                        <i class="fa fa-exclamation-triangle"></i> {{ article.order_notes }}
+                    </div>
+                </div>
+                <div class="w-48 mr-4 text-right">
+                    <div class="form-group">
+                        <label for="quantity[]" class="form-label">Menge</label>
+                        <input class="form-input text-right quantity-select" required="required" name="quantity[]" id="quantity[]" type="text" v-model="article.quantity">
+                    </div>
+                </div>
+                <div class="w-48 mr-4 text-right">
+                    <div class="form-group">
+                        <label for="price[]" class="form-label">Preis netto je Einheit</label>
+                        <input class="form-input text-right price-select" required="required" name="price[]" id="price[]" type="text" v-model="article.price">
+                    </div>
+                </div>
+                <div class="w-48 text-right">
+                    <div class="form-group">
+                        <label :for="'expected_delivery' + index" class="form-label">Liefertermin</label>
+                        <input type="hidden" name="expected_delivery[]" v-model="article.expected_delivery">
+                        <date-picker v-model="article.expected_delivery" :id="'expected_delivery' + index"></date-picker>
+                    </div>
+                </div>
+                <a href="#" class="absolute right-0 top-0 -mr-3 -mt-3 bg-white" @click.prevent="removeArticle(index)">
+                    <z icon="close-outline" class="fill-current w-6 h-6"></z>
+                </a>
+            </div>
+        </div>
+
+        <button class="btn btn-primary btn-sm" @click.prevent="addArticle(true)">Artikel hinzufügen</button>
+    </div>
+</template>
+
+<script>
+    import { serverBus } from '../app';
+
+    export default {
+        props: ['allArticles', 'existingArticles', 'supplier', 'articles'],
+
+        data() {
+            return {
+                currentIndex: null
+            }
+        },
+
+        created() {
+            if (!this.articles.length) {
+                this.addArticle(false);
+            }
+        },
+
+        methods: {
+            addArticle(showArticleList) {
+                this.articles.push({
+                    id: null,
+                    order_item_id: null,
+                    name: null,
+                    order_notes: '',
+                    quantity: '',
+                    price: '',
+                    expected_delivery: ''
+                });
+
+                if (showArticleList) {
+                    this.showArticleList(this.articles.length - 1);
+                }
+            },
+
+            removeArticle(index) {
+                this.articles.splice(index, 1);
+            },
+
+            showArticleList(currentIndex) {
+                this.currentIndex = currentIndex;
+
+                let currentSupplierId = this.supplier;
+                let allArticles = _.map(this.allArticles, function (o) {
+                    if (o.supplier_id == currentSupplierId) return o;
+                });
+                allArticles = _.without(allArticles, undefined);
+                let notExistingIds = _.difference(_.map(allArticles, 'id'), _.map(this.articles, 'id'));
+
+                serverBus.$emit('filterOrderArticleList', notExistingIds);
+                this.$modal.show('selectOrderArticleModal');
+            },
+
+            formatPrice(value) {
+                return value.toString().replace('.', ',');
+            },
+
+            selectArticle(id) {
+                let article = _.find(this.allArticles, _.matchesProperty('id', id));
+                this.articles[this.currentIndex].id = article.id;
+                this.articles[this.currentIndex].order_item_id = null;
+                this.articles[this.currentIndex].name = article.name;
+                this.articles[this.currentIndex].order_notes = article.order_notes;
+                this.articles[this.currentIndex].quantity = article.order_quantity;
+                this.articles[this.currentIndex].price = this.formatPrice(article.price);
+                this.articles[this.currentIndex].expected_delivery = (moment(article.delivery_date).isValid() ? moment(article.delivery_date).format('DD.MM.YYYY') : '');
+
+                this.$modal.hide('selectOrderArticleModal');
+            }
+        }
+    }
+</script>

@@ -1,5 +1,5 @@
 <template>
-    <div class="dropdown-button group" ref="dropdownMenu">
+    <div class="dropdown-button group cursor-pointer" ref="dropdownMenu">
         <div class="dropdown-button-header text-sm text-blue-500 rounded-t-lg">
             <i class="fa fa-ellipsis-h text-grey-dark" @click="isVisible = ! isVisible"></i>
         </div>

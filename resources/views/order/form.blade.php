@@ -17,103 +17,92 @@
 
     @yield('form_start')
     <order-form inline-template ref="orderForm" :existing-articles="{{ json_encode($preSetArticles) }}" :supplier-col-id="{{ \Mss\DataTables\SelectArticleDataTable::SUPPLIER_COL_ID }}">
-        <div class="row">
-            <div class="col-lg-12 col-xl-6">
-                <div class="ibox">
-                    <div class="ibox-title">
-                        <h5>Bestelldetails</h5>
+        <div>
+            <div class="row">
+                <div class="card w-1/2">
+                    <div class="card-header">
+                        <div>Bestelldetails</div>
                     </div>
-                    <div class="ibox-content">
+                    <div class="card-content">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="w-1/2 mr-6">
                                 <div class="form-group">
-                                    <label class="control-label">interne Bestellnummer</label>
+                                    <label class="form-label">interne Bestellnummer</label>
                                     <h2 class="form-control-static no-margins">
                                         {{ $order->internal_order_number }}
                                     </h2>
                                     <small class="text-danger">Bitte bei der Bestellung angeben</small>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="w-1/2">
                                 {{ Form::bsSelect('status', $order->status, \Mss\Models\Order::STATUS_TEXTS,  'Status') }}
                             </div>
                         </div>
 
-                        <hr class="hr-line-solid">
-
-                        <div class="row">
-                            <div class="col-lg-6" id="supplier_select">
+                        <div class="row mt-2 pt-4 border-t border-gray-300">
+                            <div class="w-1/2 mr-6" id="supplier_select">
                                 {{ Form::bsSelect('supplier', $order->supplier_id, \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'),  'Lieferant', ['placeholder' => '', 'v-model' => 'supplier', 'v-bind:disabled' => 'hasArticles']) }}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="w-1/2">
                                 {{ Form::bsSelect('payment_status', $order->payment_status, \Mss\Models\Order::PAYMENT_STATUS_TEXT,  'Bezahlmethode') }}
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="w-1/2 mr-6">
                                 {{ Form::bsText('external_order_number', null, [], 'Bestellnummer des Lieferanten') }}
                             </div>
 
-                            <div class="col-lg-6">
+                            <div class="w-1/2">
                                 {{ Form::bsText('order_date', (!empty($order->order_date) ? $order->order_date->format('d.m.Y') : ''), ['class' => 'form-control datepicker'], 'Bestelldatum') }}
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-lg-12 col-xl-6">
-                <div class="ibox">
-                    <div class="ibox-title">
-                        <h5>Bemerkungen</h5>
-                    </div>
-                    <div class="ibox-content">
-                        {{ Form::bsTextarea('notes', null, [], '') }}
-                        {!! Form::hidden('order_id', $order->id) !!}
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-12 col-xl-12">
-                <div class="ibox">
-                    <div class="ibox-title">
-                        <h5>Bestellte Artikel</h5>
-                    </div>
-                    <div class="ibox-content" id="article-list">
-                        <order-article-list ref="articleList" :supplier="supplier" :articles="articles" :all-articles="{{ json_encode($allArticles) }}" :existing-articles="existingArticles"></order-article-list>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-12 col-xl-12">
-                <div class="ibox">
-                    <div class="ibox-content">
-                        <div class="form-group">
-                            @yield('submit')
+                <div class="w-1/2 ml-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>Bemerkungen</div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            @yield('secondCol')
-
-            <!-- Modal -->
-            <div class="modal modal-wide" id="articleSelectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Artikel auswählen:</h4>
-                        </div>
-                        <div class="modal-body">
-                            {!! $dataTable->table() !!}
+                        <div class="card-content">
+                            {{ Form::bsTextarea('notes', null, [], '') }}
+                            {!! Form::hidden('order_id', $order->id) !!}
                         </div>
                     </div>
                 </div>
             </div>
 
-            <input type="hidden" name="supplier_id" v-model="supplier">
-            <input type="hidden" name="article_data" v-model="articleData">
+            <div class="row mt-4">
+                <div class="w-full">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Bestellte Artikel</h5>
+                        </div>
+                        <div class="card-content" id="article-list">
+                            <order-article-list ref="articleList" :supplier="supplier" :articles="articles" :all-articles="{{ json_encode($allArticles) }}" :existing-articles="existingArticles"></order-article-list>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="w-full">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="form-group">
+                                @yield('submit')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @yield('secondCol')
+
+                <select-order-article-modal>{!! $dataTable->table() !!}</select-order-article-modal>
+
+                <input type="hidden" name="supplier_id" v-model="supplier">
+                <input type="hidden" name="article_data" v-model="articleData">
+            </div>
         </div>
     </order-form>
     {!! Form::close() !!}

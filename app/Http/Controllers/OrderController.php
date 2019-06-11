@@ -247,7 +247,7 @@ class OrderController extends Controller
                 'order_notes' => $item->article->order_notes ?? '',
                 'price' => formatPriceValue($item->price),
                 'quantity' => $item->quantity,
-                'expected_delivery' => optional($item->expected_delivery)->format('d.m.Y')
+                'expected_delivery' => optional($item->expected_delivery)->format('Y-m-d')
             ];
         });
 
