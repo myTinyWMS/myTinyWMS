@@ -27,6 +27,7 @@
                                 @if($item->expected_delivery && $item->expected_delivery < today() && $item->getQuantityDelivered() < $item->quantity)
                                     <span class="label label-danger">überfällig</span>
                                 @endif
+                                - {{ $item->getQuantityDelivered() }}
                             </td>
                         </tr>
                     @endforeach
