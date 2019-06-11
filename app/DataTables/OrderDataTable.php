@@ -4,6 +4,7 @@ namespace Mss\DataTables;
 
 use Carbon\Carbon;
 use Mss\Models\Order;
+use Mss\Models\OrderItem;
 
 class OrderDataTable extends BaseDataTable
 {
@@ -49,7 +50,12 @@ class OrderDataTable extends BaseDataTable
                     $output .=  '<br><small class="text-muted">('.$expectedDelivery->format('d.m.Y').')</small>';
                 }
 
-                if ($order->items()->overdue()->count()) {
+                $overdueItems = $order->items()->overdue()->get()->filter(function ($orderItem) {
+                    /** @var OrderItem $orderItem */
+                    return ($orderItem->getQuantityDelivered() < $orderItem->quantity);
+                });
+
+                if ($overdueItems->count()) {
                     $output .= '<br><span class="label label-danger">überfällig</span>';
                 }
 
