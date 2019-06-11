@@ -13,6 +13,7 @@
                             <th>Artikel</th>
                             <th>Bestellnummer</th>
                             <th>best. Menge</th>
+                            <th>Liefertermin</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -21,6 +22,12 @@
                             <td>{{ $item->article->name }}</td>
                             <td>{{ $item->article->currentSupplierArticle->order_number }}</td>
                             <td>{{ $item->quantity }}</td>
+                            <td>
+                                {{ !empty($item->expected_delivery) ? $item->expected_delivery->format('d.m.Y') : '' }}
+                                @if($item->expected_delivery && $item->expected_delivery < today() && $item->getQuantityDelivered() < $item->quantity)
+                                    <span class="label label-danger">überfällig</span>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
