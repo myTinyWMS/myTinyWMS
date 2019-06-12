@@ -4,6 +4,10 @@
             <i class="fa fa-ellipsis-h text-grey-dark" @click="isVisible = ! isVisible"></i>
         </div>
         <div class="dropdown-button-items items-center" :class="directionClass" v-if="isVisible">
+            <div class="dropdown-button-caret">
+                <div class="dropdown-button-caret-outer"></div>
+                <div class="dropdown-button-caret-inner"></div>
+            </div>
             <slot></slot>
         </div>
     </div>
@@ -34,11 +38,7 @@
 
         computed: {
             directionClass: function () {
-                if (this.direction == 'left') {
-                    return 'right-0';
-                } else {
-                    return 'left-0';
-                }
+                return 'direction-' + this.direction;
             }
         },
 

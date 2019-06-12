@@ -28,7 +28,7 @@
                         <div class="flex-1">Aktueller Lieferant</div>
 
                         <dot-menu class="ml-2">
-                            <a href="javascript:void(0)" class="btn-link" @click="$modal.show('changeSupplierModal')">ändern</a>
+                            <a href="javascript:void(0)" class="btn-link" @click="$modal.show('changeSupplierModal')">Lieferant ändern</a>
                         </dot-menu>
                     </div>
                 </div>
