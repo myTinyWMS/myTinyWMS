@@ -24,7 +24,7 @@
                     <div class="flex-1">Bestellung #{{ $order->internal_order_number }}</div>
 
                     <dot-menu class="ml-2">
-                        <a href="{{ route('order.edit', $order) }}" class="btn-link">bearbeiten</a>
+                        <a href="{{ route('order.edit', $order) }}">Bestellung bearbeiten</a>
                     </dot-menu>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                                 {!! Form::close() !!}
                             </div>
                             <div class="w-1/4">
-                                <invoice-status-change-all :order="{{ $order->id }}" :article-has-new-price="{{ $hasOneArticleWithNewPrice }}"></invoice-status-change-all>
+                                <invoice-status-change-all :order="{{ $order->id }}" :article-has-new-price="{{ $hasOneArticleWithNewPrice ? 'true' : 'false' }}"></invoice-status-change-all>
                             </div>
                         </div>
                     </div>
