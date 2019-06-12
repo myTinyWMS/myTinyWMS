@@ -277,3 +277,18 @@ small {
 		@apply text-right border-t border-gray-400 mt-4 pt-4;
 	}
 }
+
+.order-messages {
+	.tabs {
+		width: 20rem;
+		@apply cursor-pointer;
+
+		.active {
+			@apply bg-blue-700 text-white;
+
+			.label {
+				@apply bg-white text-blue-700;
+			}
+		}
+	}
+}

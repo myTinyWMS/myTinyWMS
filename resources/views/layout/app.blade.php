@@ -1,6 +1,6 @@
 @inject('globalPageService', 'Mss\Services\GlobalPageService')
 <!DOCTYPE html>
-<html class="h-full tracking-normal antialiased">
+<html class="h-full tracking-normal antialiased" lang="de">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

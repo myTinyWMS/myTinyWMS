@@ -336,7 +336,7 @@
         <div class="card w-full">
             <div class="card-header flex">
                 <div class="flex-1">Kommunikation</div>
-                <a href="{{ route('order.message_new', $order) }}" class="btn btn-primary">Neue Nachricht</a>
+                <a href="{{ route('order.message_new', $order) }}" class="btn btn-secondary">Neue Nachricht</a>
             </div>
             <div class="card-content">
                 @include('order.communications')

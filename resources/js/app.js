@@ -9,11 +9,14 @@ require('./bootstrap');
 import VModal from 'vue-js-modal'
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+import VueInternationalization from 'vue-i18n';
+import Locale from './vue-i18n-locales.generated';
 
 window.Vue = require('vue');
 
 Vue.use(require('vue-moment'));
 Vue.use(VModal);
+Vue.use(VueInternationalization);
 
 Vue.mixin({
     methods: {
@@ -22,6 +25,14 @@ Vue.mixin({
 });
 
 export const serverBus = new Vue();
+
+const lang = document.documentElement.lang.substr(0, 2);
+// or however you determine your current app locale
+
+const i18n = new VueInternationalization({
+    locale: lang,
+    messages: Locale
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -53,8 +64,11 @@ Vue.component('invoice-check-modal', require('./components/InvoiceCheckModal.vue
 Vue.component('assign-order-message-modal', require('./components/AssignOrderMessageModal.vue'));
 Vue.component('select-order-article-modal', require('./components/SelectOrderArticleModal.vue'));
 
+Vue.component('order-messages', require('./components/OrderMessages.vue'));
+
 Vue.component('vue-dropzone', vue2Dropzone);
 
 window.app = new Vue({
+    i18n,
     el: '#app',
 });
