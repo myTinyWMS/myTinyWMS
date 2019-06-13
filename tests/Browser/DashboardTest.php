@@ -16,6 +16,7 @@ class DashboardTest extends DuskTestCase
     public function test_login()
     {
         $this->browse(function (Browser $browser) {
+            $browser->resize(1920, 1000);
             $this->login($browser);
         });
     }

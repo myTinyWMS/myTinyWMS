@@ -39,13 +39,18 @@ class CreateTestDatabase extends Command
      */
     public function handle()
     {
+        // use dump
+        DB::unprepared(file_get_contents(database_path('mss_testdb_20190613.sql')));
+        Artisan::call('db:seed', ['--database' => 'testdb']);
+
+        /*// create from scratch
         DB::statement("drop database if exists mss_test");
         DB::statement("create database mss_test");
 
         DB::purge('testdb');
 
-        Artisan::call('migrate', ['--database' => 'testdb']);
+        Artisan::call('migrate:refresh', ['--database' => 'testdb']);
         Artisan::call('db:seed', ['--database' => 'testdb']);
-        Artisan::call('articlenumbers:set', ['--database' => 'testdb', '--force' => true]);
+        Artisan::call('articlenumbers:set', ['--database' => 'testdb', '--force' => true]);*/
     }
 }

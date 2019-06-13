@@ -16,6 +16,7 @@ class ArticleListTest extends DuskTestCase
     public function test_login()
     {
         $this->browse(function (Browser $browser) {
+            $browser->resize(1920, 1000);
             $this->login($browser);
         });
     }
@@ -58,7 +59,7 @@ class ArticleListTest extends DuskTestCase
         });
     }
 
-    public function test_article_list_shows_articles_with_order_stop() {
+    /*public function test_article_list_shows_articles_with_order_stop() {
         $articles = Article::active()->orderByDesc('article_number')->take(5)->get();
         $articles->each(function ($article) {
             $article->status = Article::STATUS_NO_ORDERS;
@@ -121,5 +122,5 @@ class ArticleListTest extends DuskTestCase
                 ->select('#filterSupplier', $article->currentSupplier->id)
                 ->waitForText($article->name, 10);
         });
-    }
+    }*/
 }
