@@ -12,9 +12,18 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import VueInternationalization from 'vue-i18n';
 import Locale from './vue-i18n-locales.generated';
 
+const lang = document.documentElement.lang.substr(0, 2);
+
 window.Vue = require('vue');
 
-Vue.use(require('vue-moment'));
+const moment = require('moment');
+require('moment/locale/' + lang);
+
+Vue.use(require('vue-moment'), {
+    moment
+});
+
+
 Vue.use(VModal);
 Vue.use(VueInternationalization);
 
@@ -26,9 +35,9 @@ Vue.mixin({
 
 export const serverBus = new Vue();
 
-const lang = document.documentElement.lang.substr(0, 2);
-// or however you determine your current app locale
 
+// or however you determine your current app locale
+moment.locale(lang);
 const i18n = new VueInternationalization({
     locale: lang,
     messages: Locale

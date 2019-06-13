@@ -13,6 +13,29 @@
 
 @section('content')
     <div class="row">
+        <div class="card w-full">
+            <div class="card-content">
+                <order-messages :messages="{{ $unassignedMessages }}"></order-messages>
+            </div>
+        </div>
+    </div>
+
+
+    <assign-order-message-modal>{!! $dataTable->table() !!}</assign-order-message-modal>
+
+    <data-tables-filter>
+        <data-tables-filter-select label="Status" col-id="2">
+            <option value="open">offen (neu, bestellt, teilweise geliefert)</option>
+            <option value="{{ \Mss\Models\Order::STATUS_NEW }}">neu</option>
+            <option value="{{ \Mss\Models\Order::STATUS_ORDERED }}">bestellt</option>
+            <option value="{{ \Mss\Models\Order::STATUS_PARTIALLY_DELIVERED }}">teilweise geliefert</option>
+            <option value="{{ \Mss\Models\Order::STATUS_DELIVERED }}">geliefert</option>
+            <option value="{{ \Mss\Models\Order::STATUS_PAID }}">bezahlt</option>
+            <option value="{{ \Mss\Models\Order::STATUS_CANCELLED }}">storniert</option>
+        </data-tables-filter-select>
+    </data-tables-filter>
+
+    {{--<div class="row">
         <div class="col-lg-12">
             <div class="ibox">
                 <div class="ibox-title">
@@ -83,10 +106,10 @@
                                                     @if($message->attachments->count())
                                                         <div class="m-t-lg">
                                                             <p>
-                                                                <span><i class="fa fa-paperclip"></i> {{ $message->attachments->count() }} {{ trans_choice('plural.attachment', $message->attachments->count()) }}{{-- - --}}</span>
-                                                                {{--<a href="#">Download all</a>
+                                                                <span><i class="fa fa-paperclip"></i> {{ $message->attachments->count() }} {{ trans_choice('plural.attachment', $message->attachments->count()) }}--}}{{-- - --}}{{--</span>
+                                                                --}}{{--<a href="#">Download all</a>
                                                                 |
-                                                                <a href="#">View all images</a>--}}
+                                                                <a href="#">View all images</a>--}}{{--
                                                             </p>
 
                                                             <div class="attachment">
@@ -157,17 +180,9 @@
             <option value="{{ \Mss\Models\Order::STATUS_PAID }}">bezahlt</option>
             <option value="{{ \Mss\Models\Order::STATUS_CANCELLED }}">storniert</option>
         </data-tables-filter-select>
-    </data-tables-filter>
+    </data-tables-filter>--}}
 @endsection
 
 @push('scripts')
     {!! $dataTable->scripts() !!}
-
-    <script>
-        $(document).ready(function () {
-            $('#assignMessageModal').on('shown.bs.modal', function (e) {
-                $('#message').val($(e.relatedTarget).attr('data-message-id'));
-            })
-        });
-    </script>
 @endpush

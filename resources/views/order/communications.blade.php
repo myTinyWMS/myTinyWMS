@@ -20,12 +20,4 @@
 
 @push('scripts')
     {!! $dataTable->scripts() !!}
-
-    <script>
-        $(document).ready(function () {
-            $('#assignMessageModal').on('shown.bs.modal', function (e) {
-                $('#message').val($(e.relatedTarget).attr('data-message-id'));
-            })
-        });
-    </script>
 @endpush

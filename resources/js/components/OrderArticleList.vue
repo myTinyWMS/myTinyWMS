@@ -8,7 +8,8 @@
                             Artikel
 
                             <dot-menu direction="right">
-                                <a v-if="supplier" v-bind:class="{ 'm-l-md': (article.id) }" @click.prevent="showArticleList(index)">Artikel auswählen</a>
+                                <a v-if="supplier" v-bind:class="{ 'm-l-md': (article.id) }" @click.prevent="showArticleList(index)">Artikel ändern</a>
+                                <a @click.prevent="removeArticle(index)">Artikel löschen</a>
                             </dot-menu>
                         </label>
                         <div class="form-control-static">
@@ -40,9 +41,6 @@
                         <date-picker v-model="article.expected_delivery" :id="'expected_delivery' + index"></date-picker>
                     </div>
                 </div>
-                <a href="#" class="absolute right-0 top-0 -mr-3 -mt-3 bg-white" @click.prevent="removeArticle(index)">
-                    <z icon="close-outline" class="fill-current w-6 h-6"></z>
-                </a>
             </div>
         </div>
 
