@@ -1,5 +1,5 @@
 <template>
-    <vue-datepicker-local v-model="localValue" :local="local" format="DD.MM.YYYY" input-class="form-input"/>
+    <vue-datepicker-local rangeSeparator="-" v-model="localValue" :local="local" :format="format" :type="type" input-class="form-input"/>
 </template>
 
 <script>
@@ -7,7 +7,7 @@
     import VueDatepickerLocal from 'vue-datepicker-local'
 
     export default {
-        props: ['value'],
+        props: {value: {}, format: {default: 'DD.MM.YYYY'}, outputformat: {default: 'YYYY-MM-DD'}, type: {default: 'normal'}},
         components: {
             VueDatepickerLocal
         },
@@ -17,7 +17,13 @@
                     return this.value
                 },
                 set (value) {
-                    this.$emit('input', moment(value).format('YYYY-MM-DD'))
+                    if (typeof value == 'object') {
+                        value[0] = moment(value[0]).format(this.outputformat);
+                        value[1] = moment(value[1]).format(this.outputformat);
+                        this.$emit('input', value);
+                    } else {
+                        this.$emit('input', moment(value).format(this.outputformat))
+                    }
                 }
             }
         },

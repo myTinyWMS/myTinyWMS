@@ -52,7 +52,7 @@ class ReportsController extends Controller
     }
 
     public function generateArticleWeightReport(Request $request) {
-        $dateRange = explode(' - ', $request->get('daterange'));
+        $dateRange = explode(',', $request->get('daterange'));
         $start = Carbon::parse($dateRange[0]);
         $end = Carbon::parse($dateRange[1]);
 

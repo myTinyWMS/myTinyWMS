@@ -58,6 +58,7 @@ Vue.component('order-form', require('./components/OrderForm.vue'));
 
 Vue.component('dropdown', require('./components/Shared/Dropdown.vue'));
 Vue.component('date-picker', require('./components/Shared/DatePicker.vue'));
+Vue.component('date-picker-input', require('./components/Shared/DatePickerInput'));
 
 Vue.component('inventory-articles', require('./components/InventoryArticles.vue'));
 Vue.component('data-tables-filter', require('./components/DataTablesFilter.vue'));
