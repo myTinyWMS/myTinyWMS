@@ -19,6 +19,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * Class Article
  *
  * @method static Builder active()
+ * @method static Builder enabled()
  * @package Mss\Models
  */
 class Article extends AuditableModel
@@ -208,8 +209,16 @@ class Article extends AuditableModel
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeActive($query) {
+    public function scopeEnabled($query) {
         return $query->whereIn('status', [self::STATUS_ACTIVE, self::STATUS_NO_ORDERS]);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query) {
+        return $query->where('status', self::STATUS_ACTIVE);
     }
 
     /**

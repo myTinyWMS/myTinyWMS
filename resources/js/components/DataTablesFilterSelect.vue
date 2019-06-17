@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col">
         <label>{{ label }}:</label>
-        <select @change="onChange()" class="form-control input-sm" v-model="value">
+        <select @change="onChange()" class="form-control input-sm" v-model="value" :id="id">
             <slot></slot>
         </select>
     </div>
@@ -9,7 +9,7 @@
 
 <script>
     export default {
-        props: ["label", "colId", "preSet", "isArticleCategoryCol"],
+        props: ["label", "colId", "preSet", "isArticleCategoryCol", "id"],
 
         data() {
             return {

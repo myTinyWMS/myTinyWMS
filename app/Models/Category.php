@@ -34,7 +34,7 @@ class Category extends AuditableModel
 
     public function scopeWithActiveArticles($query) {
         $query->with(['articles' => function ($query) {
-            $query->active()->orderedByArticleNumber();
+            $query->enabled()->orderedByArticleNumber();
         }]);
     }
 }

@@ -64,12 +64,8 @@ abstract class DuskTestCase extends BaseTestCase
      * @return Browser
      */
     protected function login(Browser $browser) {
-        $user = User::first();
-
-        return $browser->visit('/login')
-            ->assertSee('Benutzername')
-            ->type('login', $user->email)
-            ->type('password', 'password')
-            ->click('button[type=submit]');
+        return $browser->loginAs(User::first())
+            ->visit('/reports')
+            ->assertSee('Reports');
     }
 }

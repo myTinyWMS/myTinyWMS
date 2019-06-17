@@ -68,7 +68,14 @@ class ArticleDataTable extends BaseDataTable
             ->editColumn('category', function (Article $article) {
                 return optional($article->category)->name;
             })
-            ->editColumn('supplier_name', 'article.list_supplier')
+            ->editColumn('supplier_name', function (Article $article) {
+                return '<div class="flex">
+                            <div>'.$article->supplier_name.'</div>
+                            <div class="flex-1 text-right pr-4">
+                                <a href="'.route('article.index', ['supplier' => $article->current_supplier_id]).'"><i class="fa fa-filter"></i></a>
+                            </div>
+                        </div>';
+            })
             ->addColumn('unit', function (Article $article) {
                 return optional($article->unit)->name;
             })
@@ -108,7 +115,7 @@ class ArticleDataTable extends BaseDataTable
                 /*
                  * @todo optimize me!
                  */
-                $query->whereRaw('(SELECT supplier_id FROM article_supplier WHERE article_supplier.article_id = articles.id order by created_at desc limit 1) = '.$keyword);
+                $query->whereRaw('(SELECT supplier_id FROM article_supplier WHERE article_supplier.article_id = articles.id order by created_at desc limit 1) = ?', $keyword);
             })
             ->filterColumn('tags', function ($query, $keyword) {
                 $query->whereHas('tags', function ($query) use ($keyword) {
@@ -126,10 +133,14 @@ class ArticleDataTable extends BaseDataTable
                 if (!isset(request('columns')[15]['search']) && !isset(request('columns')[17]['search'])) {
                     $query->where('status', Article::STATUS_ACTIVE);
                 }
-            })
+            }, true)
             ->orderColumn('supplier', 'supplier_name $1')
-            ->addColumn('action', 'article.list_action')
-            ->addColumn('checkbox', 'article.list_checkbox')
+            ->addColumn('action', function ($article) {
+                return '<a href="'.route('article.show', $article).'" class="table-action" target="_blank">Details</a>';
+            })
+            ->addColumn('checkbox', function ($article) {
+                return '<div class="i-checks"><label><input type="checkbox" value="'.$article->id.'" name="article[]" /></label></div>';
+            })
             ->rawColumns($this->rawColumns);
     }
 
@@ -176,25 +187,25 @@ class ArticleDataTable extends BaseDataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'checkbox', 'name' => 'checkbox', 'title' => '<div class="i-checks"><label><input type="checkbox" value="" id="select_all" /></label></div>', 'width' => '10px', 'orderable' => false, 'class' => 'text-center'],
-            ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sort.', 'width' => '40px', 'visible' => false],
+            ['data' => 'checkbox', 'name' => 'checkbox', 'title' => '<div class="i-checks"><label><input type="checkbox" value="" id="select_all" /></label></div>', 'width' => '10px', 'orderable' => false, 'class' => 'text-center', 'searchable' => false],
+            ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sort.', 'width' => '40px', 'visible' => false, 'searchable' => false],
             ['data' => 'article_number', 'name' => 'article_number', 'title' => '#'],
             ['data' => 'name', 'name' => 'name', 'title' => 'Artikelbezeichnung'],
             ['data' => 'order_number', 'name' => 'order_number', 'title' => 'Bestellnummer'],
-            ['data' => 'quantity', 'name' => 'quantity', 'title' => 'Bestand', 'class' => 'text-center', 'width' => '40px'],
-            ['data' => 'min_quantity', 'name' => 'min_quantity', 'title' => 'M.Bestand', 'class' => 'text-center', 'width' => '55px'],
-            ['data' => 'order_quantity', 'name' => 'order_quantity', 'title' => 'B.Menge', 'class' => 'text-center', 'width' => '55px'],
-            ['data' => 'average_usage', 'name' => 'average_usage', 'title' => '&#x00D8; Verbr.', 'class' => 'text-center', 'width' => '60px'],
-            ['data' => 'unit', 'name' => 'unit', 'title' => 'Einheit'],
-            ['data' => 'price', 'name' => 'price', 'title' => 'Preis', 'class' => 'text-right whitespace-no-wrap'],
+            ['data' => 'quantity', 'name' => 'quantity', 'title' => 'Bestand', 'class' => 'text-center', 'width' => '40px', 'searchable' => false],
+            ['data' => 'min_quantity', 'name' => 'min_quantity', 'title' => 'M.Bestand', 'class' => 'text-center', 'width' => '55px', 'searchable' => false],
+            ['data' => 'order_quantity', 'name' => 'order_quantity', 'title' => 'B.Menge', 'class' => 'text-center', 'width' => '55px', 'searchable' => false],
+            ['data' => 'average_usage', 'name' => 'average_usage', 'title' => '&#x00D8; Verbr.', 'class' => 'text-center', 'width' => '60px', 'searchable' => false],
+            ['data' => 'unit', 'name' => 'unit', 'title' => 'Einheit', 'searchable' => false],
+            ['data' => 'price', 'name' => 'price', 'title' => 'Preis', 'class' => 'text-right whitespace-no-wrap', 'searchable' => false],
             ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung', 'visible' => false],
-            ['data' => 'delivery_time', 'name' => 'delivery_time', 'title' => 'Lieferzeit', 'class' => 'text-center'],
+            ['data' => 'delivery_time', 'name' => 'delivery_time', 'title' => 'Lieferzeit', 'class' => 'text-center', 'searchable' => false],
             ['data' => 'supplier_name', 'name' => 'supplier_name', 'title' => 'Lieferant'],
-            ['data' => 'last_receipt', 'name' => 'last_receipt', 'title' => 'letzter WE', 'width' => '70px', 'class' => 'whitespace-no-wrap'],
+            ['data' => 'last_receipt', 'name' => 'last_receipt', 'title' => 'letzter WE', 'width' => '70px', 'class' => 'whitespace-no-wrap', 'searchable' => false],
             ['data' => 'tags', 'name' => 'tags', 'title' => 'Tags', 'visible' => false],
             ['data' => 'category', 'name' => 'category', 'title' => 'Kategorie', 'visible' => false],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'visible' => false],
-            ['data' => 'id', 'name' => 'id', 'title' => 'ID', 'visible' => false],
+            ['data' => 'id', 'name' => 'id', 'title' => 'ID', 'visible' => false, 'searchable' => false],
         ];
     }
 

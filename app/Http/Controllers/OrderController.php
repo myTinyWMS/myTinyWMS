@@ -344,7 +344,7 @@ class OrderController extends Controller
     }
 
     protected function getArticleList() {
-        return Article::active()->with(['suppliers', 'category'])->withCurrentSupplier()->withCurrentSupplierArticle()->orderBy('name')->get()
+        return Article::enabled()->with(['suppliers', 'category'])->withCurrentSupplier()->withCurrentSupplierArticle()->orderBy('name')->get()
             ->filter(function ($article) {
                 return !empty($article->currentSupplierArticle);
             })

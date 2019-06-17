@@ -345,7 +345,7 @@ class ArticleController extends Controller
     }
 
     public function sortUpdateForm() {
-        $articles = Article::active()->with('category')->withCurrentSupplier()->withCurrentSupplierName()->orderBy('sort_id')->get()->groupBy(function ($article) {
+        $articles = Article::enabled()->with('category')->withCurrentSupplier()->withCurrentSupplierName()->orderBy('sort_id')->get()->groupBy(function ($article) {
             return optional($article->category)->name;
         })->ksort();
         $units = Unit::orderedByName()->pluck('name', 'id');
@@ -363,7 +363,7 @@ class ArticleController extends Controller
     }
 
     public function massUpdateForm() {
-        $articles = Article::active()->with('category')->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
+        $articles = Article::enabled()->with('category')->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
             return optional($article->category)->name;
         })->ksort();
         $units = Unit::orderedByName()->pluck('name', 'id');
@@ -423,7 +423,7 @@ class ArticleController extends Controller
     }
 
     public function inventoryUpdateForm() {
-        $articles = Article::active()->with(['category', 'unit'])->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
+        $articles = Article::enabled()->with(['category', 'unit'])->withCurrentSupplier()->withCurrentSupplierName()->get()->groupBy(function ($article) {
             return optional($article->category)->name;
         })->ksort();
 

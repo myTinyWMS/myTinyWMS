@@ -42,6 +42,7 @@ class CreateTestDatabase extends Command
         // use dump
         DB::unprepared(file_get_contents(database_path('mss_testdb_20190613.sql')));
         Artisan::call('db:seed', ['--database' => 'testdb']);
+        Artisan::call('articlenumbers:set', ['--database' => 'testdb', '--force' => true]);
 
         /*// create from scratch
         DB::statement("drop database if exists mss_test");

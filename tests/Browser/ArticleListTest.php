@@ -16,20 +16,20 @@ class ArticleListTest extends DuskTestCase
     public function test_login()
     {
         $this->browse(function (Browser $browser) {
-            $browser->resize(1920, 1000);
+            $browser->resize(1920, 2000);
             $this->login($browser);
         });
     }
 
     public function test_article_lists_shows_first_5_active_articles_from_db()
     {
-        $articles = Article::active()->orderBy('article_number')->take(5)->get();
+        $articles = Article::enabled()->orderBy('article_number')->take(5)->get();
 
         $this->browse(function (Browser $browser) use ($articles) {
             $browser
                 ->visit('/article')
                 ->assertSee('Artikelübersicht')
-                ->waitForLink('Details');
+                ->waitUntilMissing('#dataTableBuilder_processing');
 
             $articles->each(function ($article) use ($browser) {
                 $browser->assertSee($article->name);
@@ -49,9 +49,9 @@ class ArticleListTest extends DuskTestCase
                 ->visit('/article')
                 ->assertSee('Artikelübersicht')
                 ->waitForLink('Details')
+                ->click('#table-filter')
                 ->select('#filterStatus', '0')
-                ->pause(1000)
-                ->waitForLink('Details');
+                ->waitUntilMissing('#dataTableBuilder_processing');
 
             $articles->each(function ($article) use ($browser) {
                 $browser->assertSee($article->name);
@@ -59,7 +59,7 @@ class ArticleListTest extends DuskTestCase
         });
     }
 
-    /*public function test_article_list_shows_articles_with_order_stop() {
+    public function test_article_list_shows_articles_with_order_stop() {
         $articles = Article::active()->orderByDesc('article_number')->take(5)->get();
         $articles->each(function ($article) {
             $article->status = Article::STATUS_NO_ORDERS;
@@ -71,9 +71,9 @@ class ArticleListTest extends DuskTestCase
                 ->visit('/article')
                 ->assertSee('Artikelübersicht')
                 ->waitForLink('Details')
+                ->click('#table-filter')
                 ->select('#filterStatus', '2')
-                ->pause(1000)
-                ->waitForLink('Details');
+                ->waitUntilMissing('#dataTableBuilder_processing');
 
             $articles->each(function ($article) use ($browser) {
                 $browser->assertSee($article->name);
@@ -89,10 +89,10 @@ class ArticleListTest extends DuskTestCase
                 ->visit('/article')
                 ->assertSee('Artikelübersicht')
                 ->waitForLink('Details')
-                ->assertDontSee($article->name)
+                ->assertDontSee($article->article_number)
                 ->type('.dataTables_filter input', $article->name)
-                ->keys('.dataTables_filter input', $article->name, ['{ENTER}'])
-                ->waitForText($article->name, 10);
+                ->waitUntilMissing('#dataTableBuilder_processing')
+                ->assertSee($article->article_number);
         });
     }
 
@@ -104,9 +104,11 @@ class ArticleListTest extends DuskTestCase
                 ->visit('/article')
                 ->assertSee('Artikelübersicht')
                 ->waitForLink('Details')
-                ->assertDontSee($article->name)
+                ->assertDontSee($article->article_number)
+                ->click('#table-filter')
                 ->select('#filterCategory', $article->category_id)
-                ->waitForText($article->name, 10);
+                ->waitUntilMissing('#dataTableBuilder_processing')
+                ->assertSee($article->article_number);
         });
     }
 
@@ -118,9 +120,11 @@ class ArticleListTest extends DuskTestCase
                 ->visit('/article')
                 ->assertSee('Artikelübersicht')
                 ->waitForLink('Details')
-                ->assertDontSee($article->name)
+                ->assertDontSee($article->article_number)
+                ->click('#table-filter')
                 ->select('#filterSupplier', $article->currentSupplier->id)
-                ->waitForText($article->name, 10);
+                ->waitUntilMissing('#dataTableBuilder_processing')
+                ->assertSee($article->article_number);
         });
-    }*/
+    }
 }

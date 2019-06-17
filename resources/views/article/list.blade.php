@@ -39,7 +39,7 @@
 </div>
 
 <data-tables-filter>
-    <data-tables-filter-select is-article-category-col="true" label="Kategorie" col-id="{{ \Mss\DataTables\ArticleDataTable::CATEGORY_COL_ID }}">
+    <data-tables-filter-select is-article-category-col="true" label="Kategorie" col-id="{{ \Mss\DataTables\ArticleDataTable::CATEGORY_COL_ID }}" id="filterCategory">
         <option value=""></option>
         @foreach($categories as $item)
             <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -53,14 +53,14 @@
         @endforeach
     </data-tables-filter-select>
 
-    <data-tables-filter-select label="Lieferant" col-id="{{ \Mss\DataTables\ArticleDataTable::SUPPLIER_COL_ID }}">
+    <data-tables-filter-select label="Lieferant" col-id="{{ \Mss\DataTables\ArticleDataTable::SUPPLIER_COL_ID }}" id="filterSupplier">
         <option value=""></option>
         @foreach($supplier as $item)
             <option value="{{ $item->id }}">{{ $item->name }}</option>
         @endforeach
     </data-tables-filter-select>
 
-    <data-tables-filter-select label="Status" pre-set="1" col-id="{{ \Mss\DataTables\ArticleDataTable::STATUS_COL_ID }}">
+    <data-tables-filter-select label="Status" pre-set="1" col-id="{{ \Mss\DataTables\ArticleDataTable::STATUS_COL_ID }}" id="filterStatus">
         <option value="all">alle</option>
         <option value="1">aktiv</option>
         <option value="0">deaktiviert</option>
