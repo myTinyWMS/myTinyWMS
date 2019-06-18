@@ -109,13 +109,13 @@
             <div class="row">
                 <div class="w-1/2">
                     @if ($isNewArticle ?? true)
-                                <div class="form-group">
-                                    <label class="control-label">Bestand</label>
-                                    <div class="form-control-static">
-                                        <input type="hidden" name="quantity" value="0" />
-                                        Anfangsbestand kann nur über einen WE gesetzt werden
-                                    </div>
-                                </div>
+                        <div class="form-group">
+                            <label class="control-label">Bestand</label>
+                            <div class="form-control-static text-red-600 text-sm">
+                                <input type="hidden" name="quantity" value="0" />
+                                Anfangsbestand kann nur über einen WE gesetzt werden
+                            </div>
+                        </div>
                     @endif
                 </div>
                 <div class="w-1/2">

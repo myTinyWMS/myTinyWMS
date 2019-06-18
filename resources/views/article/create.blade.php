@@ -16,16 +16,14 @@
 @endsection
 
 @section('submit')
-    {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
+    {!! Form::submit('Speichern', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
 @endsection
 
 @section('secondCol')
-    <div class="col-lg-6 col-xxl-4">
-        <div class="ibox">
-            <div class="ibox-title">
-                <h5>Lieferant</h5>
-            </div>
-            <div class="ibox-content">
+    <div class="w-1/3 ml-4">
+        <div class="card">
+            <div class="card-header">Lieferant</div>
+            <div class="card-content">
                 {{ Form::bsSelect('supplier_id', null, \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'),  'Lieferant', ['placeholder' => '', 'required' => 'required']) }}
                 {{ Form::bsText('supplier_order_number', null, [], 'Bestellnummer') }}
                 {{ Form::bsText('supplier_price', null, [], 'Preis netto') }}
