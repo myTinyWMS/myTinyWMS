@@ -37,6 +37,7 @@ class DashboardTest extends DuskTestCase
             $browser
                 ->visit('/')
                 ->assertSee('Dashboard')
+                ->waitUntilMissing('#dataTableBuilder_processing')
                 ->assertSee($article->name);
         });
     }
@@ -57,6 +58,7 @@ class DashboardTest extends DuskTestCase
             $browser
                 ->visit('/')
                 ->assertSee('Dashboard')
+                ->waitUntilMissing('#dataTableBuilder_processing')
                 ->assertDontSee($article->name);
         });
     }
@@ -77,6 +79,7 @@ class DashboardTest extends DuskTestCase
             $browser
                 ->visit('/')
                 ->assertSee('Dashboard')
+                ->waitUntilMissing('#dataTableBuilder_processing')
                 ->assertDontSee($article->name);
         });
     }
@@ -97,6 +100,7 @@ class DashboardTest extends DuskTestCase
             $browser
                 ->visit('/')
                 ->assertSee('Dashboard')
+                ->waitUntilMissing('#dataTableBuilder_processing')
                 ->assertDontSee($article->name);
         });
     }
@@ -125,6 +129,7 @@ class DashboardTest extends DuskTestCase
             $browser
                 ->visit('/')
                 ->assertSee('Dashboard')
+                ->waitUntilMissing('#dataTableBuilder_processing')
                 ->assertDontSee($article->name);
         });
     }
