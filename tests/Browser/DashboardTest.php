@@ -13,8 +13,7 @@ class DashboardTest extends DuskTestCase
      *
      * @throws \Throwable
      */
-    public function test_login()
-    {
+    public function test_login() {
         $this->browse(function (Browser $browser) {
             $browser->resize(1920, 1000);
             $this->login($browser);
@@ -25,8 +24,7 @@ class DashboardTest extends DuskTestCase
      * @return void
      * @throws \Throwable
      */
-    public function test_dashboard_shows_article_with_less_quantity()
-    {
+    public function test_dashboard_shows_article_with_less_quantity() {
         $article = factory(Article::class)->create([
             'quantity' => 10,
             'min_quantity' => 20,
@@ -38,7 +36,7 @@ class DashboardTest extends DuskTestCase
                 ->visit('/')
                 ->assertSee('Dashboard')
                 ->waitUntilMissing('#dataTableBuilder_processing')
-                ->assertSee($article->name);
+                ->assertSeeIn('#dataTableBuilder tbody ', $article->name);
         });
     }
 
@@ -46,8 +44,7 @@ class DashboardTest extends DuskTestCase
      * @return void
      * @throws \Throwable
      */
-    public function test_dashboard_does_not_show_disabled_article()
-    {
+    public function test_dashboard_does_not_show_disabled_article() {
         $article = factory(Article::class)->create([
             'quantity' => 10,
             'min_quantity' => 20,
@@ -59,7 +56,7 @@ class DashboardTest extends DuskTestCase
                 ->visit('/')
                 ->assertSee('Dashboard')
                 ->waitUntilMissing('#dataTableBuilder_processing')
-                ->assertDontSee($article->name);
+                ->assertDontSeeIn('#dataTableBuilder tbody ', $article->name);
         });
     }
 
@@ -67,8 +64,7 @@ class DashboardTest extends DuskTestCase
      * @return void
      * @throws \Throwable
      */
-    public function test_dashboard_does_not_show_article_with_order_stop()
-    {
+    public function test_dashboard_does_not_show_article_with_order_stop() {
         $article = factory(Article::class)->create([
             'quantity' => 10,
             'min_quantity' => 20,
@@ -80,7 +76,7 @@ class DashboardTest extends DuskTestCase
                 ->visit('/')
                 ->assertSee('Dashboard')
                 ->waitUntilMissing('#dataTableBuilder_processing')
-                ->assertDontSee($article->name);
+                ->assertDontSeeIn('#dataTableBuilder tbody ', $article->name);
         });
     }
 
@@ -88,8 +84,7 @@ class DashboardTest extends DuskTestCase
      * @return void
      * @throws \Throwable
      */
-    public function test_dashboard_does_not_show_article_with_min_quantity_of_minus_one()
-    {
+    public function test_dashboard_does_not_show_article_with_min_quantity_of_minus_one() {
         $article = factory(Article::class)->create([
             'quantity' => 10,
             'min_quantity' => -1,
@@ -101,7 +96,7 @@ class DashboardTest extends DuskTestCase
                 ->visit('/')
                 ->assertSee('Dashboard')
                 ->waitUntilMissing('#dataTableBuilder_processing')
-                ->assertDontSee($article->name);
+                ->assertDontSeeIn('#dataTableBuilder tbody ', $article->name);
         });
     }
 
@@ -109,8 +104,7 @@ class DashboardTest extends DuskTestCase
      * @return void
      * @throws \Throwable
      */
-    public function test_dashboard_does_not_show_article_with_current_order()
-    {
+    public function test_dashboard_does_not_show_article_with_current_order() {
         $article = factory(Article::class)->create([
             'quantity' => 10,
             'min_quantity' => 20,
@@ -130,7 +124,25 @@ class DashboardTest extends DuskTestCase
                 ->visit('/')
                 ->assertSee('Dashboard')
                 ->waitUntilMissing('#dataTableBuilder_processing')
-                ->assertDontSee($article->name);
+                ->assertDontSeeIn('#dataTableBuilder tbody ', $article->name);
+        });
+    }
+
+    public function test_create_order_from_dashboard() {
+        $article = Article::active()->whereNotNull('article_number')->first();
+        $article->quantity = 10;
+        $article->min_quantity = 20;
+        $article->save();
+
+        $this->browse(function (Browser $browser) use ($article) {
+            $browser
+                ->visit('/')
+                ->assertSee('Dashboard')
+                ->waitUntilMissing('#dataTableBuilder_processing')
+                ->click('#new_order_'.$article->id)
+                ->click('#create_new_order')
+                ->waitForText('Neue Bestellung')
+                ->assertSeeIn('#article-list ', $article->name);
         });
     }
 }

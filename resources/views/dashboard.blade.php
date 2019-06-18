@@ -9,7 +9,7 @@
 {!! Form::close() !!}
 
 <div class="footer_actions hidden">
-    <button class="btn btn-xs btn-secondary" type="submit">Bestellung erstellen</button>
+    <button class="btn btn-xs btn-secondary" type="submit" id="create_new_order">Bestellung erstellen</button>
 </div>
 @endsection
 

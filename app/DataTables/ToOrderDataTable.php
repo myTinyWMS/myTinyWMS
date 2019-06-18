@@ -32,7 +32,13 @@ class ToOrderDataTable extends ArticleDataTable
                 return $article->currentSupplier->id;
             }
         ])
-        ->editColumn('checkbox', 'dashboard.to_order_list_checkbox');
+        ->editColumn('checkbox',function (Article $article) {
+            return '<div class="i-checks">
+                        <label id="new_order_'.$article->id.'">
+                            <input type="checkbox" value="'.$article->id.'" name="article[]" />
+                        </label>
+                    </div>';
+        });
 
         return $dataTable;
     }
