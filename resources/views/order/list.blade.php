@@ -39,22 +39,24 @@
     {!! $dataTable->table() !!}
 
     <data-tables-filter>
-        <data-tables-filter-select label="Lieferant" col-id="1">
+        <data-tables-filter-select label="Lieferant" col-id="1" id="filterSupplier">
             <option value=""></option>
             @foreach($supplier as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>
             @endforeach
         </data-tables-filter-select>
 
-        <data-tables-filter-select label="Status" col-id="3">
+        <data-tables-filter-select label="Status" col-id="3" id="filterStatus">
             <option value="open">offen (neu, bestellt, teilweise geliefert)</option>
             <option value="{{ \Mss\Models\Order::STATUS_NEW }}">neu</option>
             <option value="{{ \Mss\Models\Order::STATUS_ORDERED }}">bestellt</option>
             <option value="{{ \Mss\Models\Order::STATUS_PARTIALLY_DELIVERED }}">teilweise geliefert</option>
             <option value="{{ \Mss\Models\Order::STATUS_DELIVERED }}">geliefert</option>
+            <option value="{{ \Mss\Models\Order::STATUS_CANCELLED }}">storniert</option>
+            <option value="{{ \Mss\Models\Order::STATUS_PAID }}">bezahlt</option>
         </data-tables-filter-select>
 
-        <data-tables-filter-select label="Rechnungsstatus" col-id="5">
+        <data-tables-filter-select label="Rechnungsstatus" col-id="5" id="filterInvoiceStatus">
             <option value="empty">alle</option>
             <option value="none">offen</option>
             <option value="all">komplett erhalten</option>
@@ -62,7 +64,7 @@
             <option value="check">in Prüfung</option>
         </data-tables-filter-select>
 
-        <data-tables-filter-select label="AB-Status" col-id="4">
+        <data-tables-filter-select label="AB-Status" col-id="4" id="filterABStatus">
             <option value="empty">alle</option>
             <option value="none">offen</option>
             <option value="all">komplett erhalten</option>

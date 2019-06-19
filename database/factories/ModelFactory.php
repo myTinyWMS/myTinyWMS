@@ -13,6 +13,9 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use Faker\Generator;
+use Mss\Models\OrderItem;
+
 $factory->define(Mss\Models\Article::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
@@ -67,5 +70,17 @@ $factory->define(Mss\Models\Order::class, function (Faker\Generator $faker) {
         'shipping_cost' => $faker->randomFloat(0, 500, 5000),
         'order_date' => $orderDate,
         'expected_delivery' => $orderDate->copy()->addDays($faker->randomFloat(0,1,50))
+    ];
+});
+
+$factory->define(Mss\Models\OrderMessage::class, function (Faker\Generator $faker) {
+    return [
+        'order_id' => \Mss\Models\Order::inRandomOrder()->first()->id,
+        'received' => \Carbon\Carbon::now()->subDay(),
+        'sender' => [$faker->safeEmail],
+        'receiver' => ['System'],
+        'subject' => $faker->sentence,
+        'htmlbody' => $faker->paragraph,
+        'read' => 1
     ];
 });
