@@ -41,7 +41,6 @@ class Article extends AuditableModel
     protected $fillable = ['name', 'article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes', 'free_lines_in_printed_list', 'cost_center', 'weight', 'packaging_category'];
 
     protected $casts = [
-        'inventory' => 'boolean',
         'files' => 'array'
     ];
 
