@@ -18,7 +18,7 @@
         <div class="dropdown-list-items">
             <a href="{{ route('article.mass_update_form') }}">Massenupdate</a>
             <a href="{{ route('article.inventory_update_form') }}">Inventurupdate</a>
-            <a href="{{ route('article.sort_update_form') }}">Sortierung</a>
+{{--            <a href="{{ route('article.sort_update_form') }}">Sortierung</a>--}}
         </div>
     </div>
     <a href="{{ route('article.create') }}" class="btn btn-primary">Neuer Artikel</a>
