@@ -43,9 +43,9 @@ class OrderDataTable extends BaseDataTable
                 $expectedDelivery = $order->items->max('expected_delivery');
                 $output = $expectedDelivery ? $expectedDelivery->format('d.m.Y') : '';
 
-                $overdueItems = $order->items()->overdue()->get()->filter(function ($orderItem) {
+                $overdueItems = $order->items->filter(function ($orderItem) {
                     /** @var OrderItem $orderItem */
-                    return ($orderItem->getQuantityDelivered() < $orderItem->quantity);
+                    return ($orderItem->expected_delivery < now() && $orderItem->getQuantityDelivered() < $orderItem->quantity);
                 });
 
                 if ($overdueItems->count()) {
@@ -134,7 +134,7 @@ class OrderDataTable extends BaseDataTable
     public function query(Order $model)
     {
         return $model->newQuery()->withSupplierName()
-            ->with(['items', 'items.article' => function ($query) {
+            ->with(['items.order.deliveries.items', 'items.article' => function ($query) {
                 $query->withCurrentSupplierArticle();
             }, 'supplier', 'messages']);
     }

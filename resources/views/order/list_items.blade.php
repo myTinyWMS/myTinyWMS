@@ -1,4 +1,4 @@
-<div class="dropdown-list group" style="width: 400px">
+<div class="dropdown-list group" style="width: 800px">
     <div class="dropdown-list-header font-bold">
         {{ $order->items->count() }} Artikel
         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -24,7 +24,7 @@
                     <td>
                         {{ !empty($item->expected_delivery) ? $item->expected_delivery->format('d.m.Y') : '' }}
                         @if($item->expected_delivery && $item->expected_delivery < today() && $item->getQuantityDelivered() < $item->quantity)
-                            <span class="label label-danger">überfällig</span>
+                            <div class="mt-2 text-red-400 text-sm font-bold">überfällig</div>
                         @endif
                     </td>
                 </tr>
