@@ -75,7 +75,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $changelog->links() }}
+                    {{ $changelog->appends(['start' => $dateStart->format('Y-m-d'), 'end' => $dateEnd->format('Y-m-d')])->links() }}
                 </div>
             </div>
         </div>

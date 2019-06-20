@@ -10,6 +10,8 @@
                     <th>Artikel</th>
                     <th>Bestellnummer</th>
                     <th>best. Menge</th>
+                    <th>gel. Menge</th>
+                    <th>Liefertermin</th>
                 </tr>
             </thead>
             <tbody>
@@ -18,6 +20,13 @@
                     <td class="text-sm" style="white-space: normal!important;">{{ $item->article->name }}</td>
                     <td class="text-sm">{{ $item->article->currentSupplierArticle->order_number }}</td>
                     <td class="text-sm text-center">{{ $item->quantity }}</td>
+                    <td>{{ $item->getQuantityDelivered() }}</td>
+                    <td>
+                        {{ !empty($item->expected_delivery) ? $item->expected_delivery->format('d.m.Y') : '' }}
+                        @if($item->expected_delivery && $item->expected_delivery < today() && $item->getQuantityDelivered() < $item->quantity)
+                            <span class="label label-danger">überfällig</span>
+                        @endif
+                    </td>
                 </tr>
             @endforeach
             </tbody>

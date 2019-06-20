@@ -15,6 +15,7 @@
                     {{ Form::bsText('phone', null, [], 'Telefon') }}
                     {{ Form::bsText('contact_person', null, [], 'Kontaktperson') }}
                     {{ Form::bsText('website', null, [], 'Webseite') }}
+                    {{ Form::bsText('accounts_payable_number', null, [], 'Kreditorennummer') }}
                     {{ Form::bsTextarea('notes', null, [], 'Bemerkungen') }}
 
                     <div class="form-group">

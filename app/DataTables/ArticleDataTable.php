@@ -135,6 +135,7 @@ class ArticleDataTable extends BaseDataTable
                 }
             }, true)
             ->orderColumn('supplier', 'supplier_name $1')
+            ->orderColumn('last_receipt', 'last_receipt $1')
             ->addColumn('action', function ($article) {
                 return '<a href="'.route('article.show', $article).'" class="table-action" target="_blank">Details</a>';
             })

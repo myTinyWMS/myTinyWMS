@@ -12,7 +12,7 @@ class Supplier extends AuditableModel
     use SoftDeletes;
 
     protected $fillable = [
-        'name', 'email', 'phone', 'contact_person', 'website', 'notes'
+        'name', 'email', 'phone', 'contact_person', 'website', 'notes', 'accounts_payable_number'
     ];
 
     protected $dates = ['deleted_at'];
