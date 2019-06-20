@@ -20,8 +20,8 @@
 @endsection
 
 @section('secondCol')
-    <div class="w-2/3 flex">
-        <div class="w-1/3 ml-4">
+    <div class="4xl:w-2/3 w-1/2 flex flex-wrap 4xl:flex-no-wrap">
+        <div class="4xl:w-1/3 w-full ml-4">
             <div class="card">
                 <div class="card-header">
                     <div class="flex">
@@ -139,7 +139,7 @@
             </div>
         </div>
 
-        <div class="w-2/3 ml-4">
+        <div class="4xl:w-2/3 w-full ml-4">
             <collapse title="Logbuch">
                 @include('components.audit_list', $audits)
             </collapse>

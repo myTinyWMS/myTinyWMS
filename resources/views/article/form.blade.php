@@ -4,8 +4,8 @@
 @if ($isNewArticle ?? true)
     @yield('form_start')
 @endif
-<div class="flex w-full">
-    <div class="card w-1/3">
+<div class="flex w-full items-start">
+    <div class="card 4xl:w-1/3 w-1/2">
         <div class="card-header flex">
             <div class="flex-1">Details</div>
         </div>
