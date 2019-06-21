@@ -110,19 +110,11 @@
                 <div class="row mt-2 pt-4 border-t border-gray-300">
                     <div class="w-full">
                         <div class="row">
-                            <div class="w-1/2">
+                            <div class="w-full">
                                 <div class="form-group">
                                     <label class="form-label">Bemerkungen</label>
                                     <div class="form-control-static">{{ $order->notes ?: '-' }}</div>
                                 </div>
-                            </div>
-                            <div class="w-1/4">
-                                {!! Form::open(['method' => 'post', 'route' => ['order.all_items_confirmation_received', $order]]) !!}
-                                <button type="submit" class="btn  btn-secondary border-green-600 text-green-600"><z icon="checkmark" class="fill-current w-3 h-3 inline-block"></z> alle Auftragsbestätigungen erhalten</button>
-                                {!! Form::close() !!}
-                            </div>
-                            <div class="w-1/4">
-                                <invoice-status-change-all :order="{{ $order->id }}" :article-has-new-price="{{ $hasOneArticleWithNewPrice ? 'true' : 'false' }}"></invoice-status-change-all>
                             </div>
                         </div>
                     </div>
@@ -140,6 +132,16 @@
         <div class="card w-2/3">
             <div class="card-header flex">
                 <div class="w-5/12">Artikel</div>
+                <div class="w-7/12 flex justify-end">
+                    <div class="mr-2">
+                        {!! Form::open(['method' => 'post', 'route' => ['order.all_items_confirmation_received', $order]]) !!}
+                        <button type="submit" class="btn  btn-secondary border-green-600 text-green-600"><z icon="checkmark" class="fill-current w-3 h-3 inline-block"></z> alle Auftragsbestätigungen erhalten</button>
+                        {!! Form::close() !!}
+                    </div>
+                    <div>
+                        <invoice-status-change-all :order="{{ $order->id }}" :article-has-new-price="{{ $hasOneArticleWithNewPrice ? 'true' : 'false' }}"></invoice-status-change-all>
+                    </div>
+                </div>
             </div>
             <div class="card-content">
                 @php ($total = 0)
@@ -198,7 +200,7 @@
                                             <div class="form-control-static flex @if($item->getQuantityDelivered() < $item->quantity) text-orange-500 @elseif($item->getQuantityDelivered() > $item->quantity) text-red-500 @else text-green-500 @endif">
                                                 <div class="flex-1">{{ $item->getQuantityDelivered() }}</div>
 
-                                                @if($item->getQuantityDelivered() == $item->quantity or 1)
+                                                @if($item->getQuantityDelivered() == $item->quantity)
                                                     <div><z icon="checkmark-outline" class="w-8 h-8 fill-current" title="komplett geliefert"></z></div>
                                                 @elseif($item->getQuantityDelivered() > $item->quantity)
                                                     <div><z icon="exclamation-outline" class="w-8 h-8 fill-current" title="zu viel geliefert"></z></div>

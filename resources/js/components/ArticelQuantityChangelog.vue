@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="dataTable">
+        <table class="dataTable table-condensed">
             <thead>
                 <tr>
                     <th>Typ</th>

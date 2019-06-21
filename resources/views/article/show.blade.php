@@ -20,8 +20,8 @@
 @endsection
 
 @section('secondCol')
-    <div class="4xl:w-2/3 w-1/2 flex flex-wrap 4xl:flex-no-wrap">
-        <div class="4xl:w-1/3 w-full ml-4">
+    <div class="2xl:w-2/3 w-1/2 flex flex-wrap 2xl:flex-no-wrap">
+        <div class="2xl:w-1/3 w-full ml-4">
             <div class="card">
                 <div class="card-header">
                     <div class="flex">
@@ -35,7 +35,7 @@
 
                 <div class="card-content">
                     <div class="row">
-                        <div class="w-1/2">
+                        <div class="w-2/3">
                             <div class="form-group">
                                 <label class="form-label">
                                     Lieferant
@@ -44,7 +44,7 @@
                                 <div class="form-control-static"><a href="{{ route('supplier.show', $article->currentSupplier) }}" target="_blank">{{ $article->currentSupplier->name }}</a></div>
                             </div>
                         </div>
-                        <div class="w-1/2">
+                        <div class="w-1/3">
                             <div class="form-group">
                                 <label class="form-label">Bestellnummer</label>
                                 <div class="form-control-static">{{ $article->currentSupplierArticle->order_number }}</div>
@@ -52,21 +52,21 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="w-1/2">
+                        <div class="w-2/3">
                             <div class="form-group">
                                 <label class="form-label">Preis <span class="text-red-500">netto</span></label>
                                 <div class="form-control-static">{!! formatPrice($article->currentSupplierArticle->price / 100) !!}</div>
                             </div>
                         </div>
-                        <div class="w-1/2">
+                        <div class="w-1/3">
                             <div class="form-group">
-                                <label class="form-label">Lieferzeit (Wochentagen)</label>
-                                <div class="form-control-static">{{ $article->currentSupplierArticle->delivery_time }}</div>
+                                <label class="form-label">Lieferzeit</label>
+                                <div class="form-control-static">{{ $article->currentSupplierArticle->delivery_time }} Wochentage</div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="w-1/2">
+                        <div class="w-2/3">
                             <div class="form-group">
                                 <label class="form-label">Bestellmenge</label>
                                 <div class="form-control-static">{{ $article->currentSupplierArticle->order_quantity }}</div>
@@ -139,7 +139,7 @@
             </div>
         </div>
 
-        <div class="4xl:w-2/3 w-full ml-4">
+        <div class="2xl:w-2/3 w-full ml-4">
             <collapse title="Logbuch">
                 @include('components.audit_list', $audits)
             </collapse>

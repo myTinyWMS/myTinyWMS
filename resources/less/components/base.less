@@ -1,5 +1,12 @@
 html {
+	@apply text-sm;
 	font-family: 'Roboto', sans-serif;
+}
+
+@screen 4xl {
+	html {
+		@apply text-base;
+	}
 }
 
 a {
@@ -12,7 +19,7 @@ a {
 }
 
 h1 {
-	@apply my-6 text-gray-800 font-bold text-3xl;
+	@apply my-6 text-gray-800 font-bold text-2xl;
 }
 
 h2 {
