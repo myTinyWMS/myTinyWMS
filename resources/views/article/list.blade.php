@@ -2,27 +2,29 @@
 
 @section('title', 'Artikelübersicht')
 
+@section('title_extra')
+    <div>
+        <div class="dropdown-list group">
+            <div class="dropdown-list-header">
+                weitere Aktionen
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+            </div>
+            <div class="dropdown-list-items">
+                <a href="{{ route('article.mass_update_form') }}">Massenupdate</a>
+                <a href="{{ route('article.inventory_update_form') }}">Inventurupdate</a>
+                {{--            <a href="{{ route('article.sort_update_form') }}">Sortierung</a>--}}
+            </div>
+        </div>
+        <a href="{{ route('article.create') }}" class="btn btn-secondary">Neuer Artikel</a>
+    </div>
+@endsection
+
 @section('content')
 
 {!! Form::open(['route' => ['article.print_label'], 'method' => 'POST', 'id' => 'print_label_form']) !!}
 {!! $dataTable->table() !!}
 <input type="hidden" id="label_quantity" name="label_quantity" />
 {!! Form::close() !!}
-
-<div class="table-toolbar-right-content hidden">
-    <div class="dropdown-list group">
-        <div class="dropdown-list-header">
-            weitere Aktionen
-            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-        </div>
-        <div class="dropdown-list-items">
-            <a href="{{ route('article.mass_update_form') }}">Massenupdate</a>
-            <a href="{{ route('article.inventory_update_form') }}">Inventurupdate</a>
-{{--            <a href="{{ route('article.sort_update_form') }}">Sortierung</a>--}}
-        </div>
-    </div>
-    <a href="{{ route('article.create') }}" class="btn btn-primary">Neuer Artikel</a>
-</div>
 
 <div class="footer_actions hidden">
     <div class="dropdown-list group">

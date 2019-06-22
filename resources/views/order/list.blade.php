@@ -2,6 +2,10 @@
 
 @section('title', 'Bestellungen')
 
+@section('title_extra')
+    <a href="{{ route('order.create') }}" class="btn btn-secondary">Neue Bestellung</a>
+@endsection
+
 @section('breadcrumb')
     <li class="active">
         <strong>Übersicht</strong>
@@ -9,11 +13,6 @@
 @endsection
 
 @section('content')
-
-    <div class="table-toolbar-right-content hidden">
-        <a href="{{ route('order.create') }}" class="btn btn-primary">Neue Bestellung</a>
-    </div>
-
 
     @if($unassignedMessages)
     <div class="alert alert-warning mb-6">

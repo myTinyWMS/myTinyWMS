@@ -26,7 +26,10 @@
             @include('layout.topnavbar')
 
             <div class="px-view py-view mx-auto pt-32">
-                <h1>@yield('title')</h1>
+                <div class="flex items-center">
+                    <h1 class="flex-1">@yield('title')</h1>
+                    @yield('title_extra')
+                </div>
 
                 @include('flash::message')
                 @if ($errors->any())

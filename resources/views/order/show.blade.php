@@ -3,7 +3,7 @@
 @section('title', 'Bestellung bei '.optional($order->supplier)->name)
 
 @section('title_extra')
-    <a href="{{ route('order.create_delivery', $order) }}" class="btn btn-primary btn-sm pull-right">Wareneingang erfassen</a>
+    <a href="{{ route('order.create_delivery', $order) }}" class="btn btn-secondary">Wareneingang erfassen</a>
 @endsection
 
 @section('breadcrumb')
