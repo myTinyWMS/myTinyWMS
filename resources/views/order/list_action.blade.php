@@ -1,4 +1,4 @@
-<a href="{{ route('order.show', $id) }}" class="table-action">Details</a>
+<a href="{{ route('order.show', $id) }}" target="_blank" class="table-action">Details</a>
 
 <form action="{{ route('order.destroy', $id) }}" class="list-form" method="POST">
     {{ method_field('DELETE') }}
