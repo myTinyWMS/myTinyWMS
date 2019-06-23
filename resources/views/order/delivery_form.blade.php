@@ -31,80 +31,79 @@
 
     {!! Form::open(['route' => ['order.store_delivery', $order], 'method' => 'POST']) !!}
     <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox">
-                <div class="ibox-title">
+        <div class="w-full">
+            <div class="card w-1/2">
+                <div class="card-header">
                     <h5>Neuer Wareneingang</h5>
                 </div>
-                <div class="ibox-content">
+                <div class="card-content">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="w-1/2">
                             {{ Form::bsText('delivery_note_number', null, [], 'Lieferscheinnummer') }}
                         </div>
 
-                        <div class="col-lg-6">
+                        <div class="w-1/2 pl-6">
                             {{ Form::bsText('delivery_date', \Carbon\Carbon::now()->format('d.m.Y'), ['class' => 'form-control datepicker', 'data-date-end-date' => '0d'], 'Lieferdatum') }}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="w-full">
                             {{ Form::bsTextarea('notes', null, ['rows' => 3], 'Bemerkungen') }}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="ibox">
-                <div class="ibox-title">
+
+            <div class="card mt-4">
+                <div class="card-header">
                     <h5>Gelieferte Artikel</h5>
                 </div>
-                <div class="ibox-content">
+                <div class="card-content">
                     @foreach($order->items as $key => $item)
-                        <div class="panel panel-primary">
-                            <div class="panel-body row">
-                                <div class="col-lg-4">
-                                    <small class="stats-label">Artikel {{ $key+1 }}</small>
-                                    <h4>
-                                        <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
-                                        <br/>
-                                        <small class="p-t-8"># {{ $item->article->article_number }}</small>
-                                    </h4>
-                                </div>
-                                <div class="col-lg-2">
-                                    <small class="stats-label">Bestellnummer</small>
-                                    <h4>{{ $item->article->currentSupplierArticle->order_number }}</h4>
-                                </div>
-                                <div class="col-lg-1">
-                                    <small class="stats-label">bestellte Menge</small>
-                                    <h4>{{ $item->quantity }}</h4>
-                                </div>
-                                <div class="col-lg-1">
-                                    <small class="stats-label">bereits geliefert</small>
-                                    <h4>{{ $item->getQuantityDelivered() }}</h4>
-                                </div>
-                                <div class="col-lg-2">
-                                    <small class="stats-label">gelieferte Menge</small>
-                                    <div class="input-group m-t-xs">
-                                        <input class="form-control" type="text" name="quantities[{{ $item->article->id }}]">
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-success set-full-quantity" data-quantity="{{ ($item->quantity - $item->getQuantityDelivered() > 0) ? ($item->quantity - $item->getQuantityDelivered()) : 0 }}" title="alles"><i class="fa fa-check"></i></button>
-                                        </span>
+                        <div class="rounded border border-blue-700 p-4 mb-4 row">
+                            <div class="w-4/12">
+                                <small class="form-label">Artikel {{ $key+1 }}</small>
+                                <h4>
+                                    <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
+                                    <br/>
+                                    <small class="p-t-8"># {{ $item->article->article_number }}</small>
+                                </h4>
+                            </div>
+                            <div class="w-2/12">
+                                <small class="form-label">Bestellnummer</small>
+                                <h4>{{ $item->article->currentSupplierArticle->order_number }}</h4>
+                            </div>
+                            <div class="w-1/12">
+                                <small class="form-label">bestellte Menge</small>
+                                <h4>{{ $item->quantity }}</h4>
+                            </div>
+                            <div class="w-1/12">
+                                <small class="form-label">bereits geliefert</small>
+                                <h4>{{ $item->getQuantityDelivered() }}</h4>
+                            </div>
+                            <div class="w-2/12 mr-2">
+                                <small class="form-label">gelieferte Menge</small>
+                                <div class="mt-2 flex">
+                                    <input class="form-input mr-2" type="text" name="quantities[{{ $item->article->id }}]">
+                                    <div class="">
+                                        <button type="button" class="btn btn-success set-full-quantity" data-quantity="{{ ($item->quantity - $item->getQuantityDelivered() > 0) ? ($item->quantity - $item->getQuantityDelivered()) : 0 }}" title="alles"><i class="fa fa-check"></i></button>
                                     </div>
                                 </div>
-                                <div class="col-lg-2">
-                                    <small class="stats-label">Label drucken</small>
-                                    <div class="row m-t-xs">
-                                        <div class="col-lg-4">
-                                            <div class="input-group">
-                                                <input class="form-control" type="text" name="label_count[{{ $item->article->id }}]" value="0">
-                                            </div>
+                            </div>
+                            <div class="w-2/12 mr-2">
+                                <small class="form-label">Label drucken</small>
+                                <div class="row mt-2">
+                                    <div class="w-4/12 mr-2">
+                                        <div class="input-group">
+                                            <input class="form-input" type="text" name="label_count[{{ $item->article->id }}]" value="0">
                                         </div>
-                                        <div class="col-lg-8">
-                                            <div class="input-group has-feedback">
-                                                <select class="form-control p-l-xs" name="label_type[{{ $item->article->id }}]">
-                                                    <option value="small">Klein</option>
-                                                    <option value="large">Groß</option>
-                                                </select>
-                                            </div>
+                                    </div>
+                                    <div class="w-8/12">
+                                        <div class="input-group has-feedback">
+                                            <select class="form-select pl-2" name="label_type[{{ $item->article->id }}]">
+                                                <option value="small">Klein</option>
+                                                <option value="large">Groß</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -113,8 +112,8 @@
                     @endforeach
                 </div>
             </div>
-            <div class="ibox">
-                <div class="ibox-content">
+            <div class="card">
+                <div class="card-content">
                     <div class="form-group">
                         {!! Form::submit('Speichern', ['class' => 'btn btn-primary force-inline']) !!}
                     </div>
