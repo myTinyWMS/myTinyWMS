@@ -23,6 +23,7 @@ class InventoryMail extends Mailable
 
     /**
      * InventoryMail constructor.
+     *
      * @param Carbon $date
      * @param array $files
      */

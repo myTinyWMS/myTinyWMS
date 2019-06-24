@@ -57,8 +57,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            new ArticleCount,
-            new Help,
+            new ArticleCount(),
+            new Help(),
         ];
     }
 

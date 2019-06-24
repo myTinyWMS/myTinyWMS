@@ -19,6 +19,7 @@ class ImportMailsService {
 
     /**
      * ImportMailsService constructor.
+     *
      * @param \Webklex\IMAP\Client $client
      */
     public function __construct(\Webklex\IMAP\Client $client) {

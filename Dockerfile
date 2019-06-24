@@ -1,4 +1,4 @@
-FROM library/php:7.1-fpm
+FROM library/php:7.2-fpm
 
 RUN set -e -x \
     && apt-get update \
@@ -15,7 +15,7 @@ RUN set -e -x \
         locales git gnupg \
         libfreetype6-dev libmcrypt-dev libjpeg-dev libpng-dev \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
-    && docker-php-ext-install -j$(nproc) zip pdo_mysql mcrypt intl bcmath imap pgsql iconv  \
+    && docker-php-ext-install -j$(nproc) zip pdo_mysql intl bcmath imap pgsql iconv  \
     && docker-php-ext-configure pgsql \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \

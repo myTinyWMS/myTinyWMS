@@ -51,6 +51,7 @@ class UserSettings {
 
     /**
      * UserSettings constructor.
+     *
      * @param User $user
      */
     public function __construct(User $user) {
