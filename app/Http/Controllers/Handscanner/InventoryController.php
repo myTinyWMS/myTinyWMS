@@ -45,7 +45,7 @@ class InventoryController extends Controller
 
     public function process(Inventory $inventory, Category $category, $article_number) {
         $article = Article::where('article_number', $article_number)->firstOrFail();
-        $item = $inventory->items->where('article_id', $article->id)->first();
+        $item = $inventory->items->where('article_id', $article->id)->firstOrFail();
 
         return view('handscanner.inventory.process', compact('article', 'inventory', 'category', 'item'));
     }
