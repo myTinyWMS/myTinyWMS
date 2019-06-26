@@ -14,6 +14,7 @@ class FormComponentsServiceProvider extends ServiceProvider
     public function boot() {
         if (!App::runningInConsole()) {
             Form::component('bsText', 'components.form.text', ['name', 'value' => null, 'attributes' => [], 'label' => null]);
+            Form::component('bsNumber', 'components.form.number', ['name', 'value' => null, 'attributes' => [], 'label' => null]);
             Form::component('bsPassword', 'components.form.password', ['name', 'attributes' => [], 'label' => null, 'helpText' => null]);
             Form::component('aceHTML', 'components.form.ace_html', ['name', 'value' => null, 'attributes' => [], 'label' => null]);
             Form::component('summernote', 'components.form.summernote', ['name', 'value' => null, 'attributes' => [], 'label' => null]);
