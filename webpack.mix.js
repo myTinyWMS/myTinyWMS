@@ -34,10 +34,11 @@ mix
     .copy('resources/assets/vendor/datatables/English.1.10.13.json', 'public/js/datatables')
     .copy('resources/assets/vendor/iCheck/blue.png', 'public/img')
     .copy('resources/assets/vendor/iCheck/blue@2x.png', 'public/img')
+    .copy('resources/assets/vendor/summernote/font', 'public/css/font')
     .combine([
         'resources/assets/vendor/iCheck/custom.css',
-        // 'resources/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css',
         'resources/assets/vendor/select2/select2.min.css',
+        'resources/assets/vendor/summernote/summernote-lite.css',
         'resources/assets/vendor/tagify/tagify.css'
     ], 'public/css/vendor.css')
 
@@ -103,7 +104,8 @@ mix
         'resources/assets/vendor/momenjs/moment.min.js',
         // 'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.js',
         // 'resources/assets/vendor/summernote/summernote.js',
-        // 'resources/assets/vendor/summernote/summernote-de-DE.js',
+        'resources/assets/vendor/summernote/summernote-lite.js',
+        'resources/assets/vendor/summernote/summernote-de-DE.js',
         'resources/assets/vendor/dropzone/dropzone.js',
         'resources/assets/vendor/iCheck/icheck.min.js',
         'resources/assets/vendor/js-cookie/js.cookie.js',

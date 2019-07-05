@@ -76,6 +76,8 @@ Vue.component('select-order-article-modal', require('./components/SelectOrderArt
 
 Vue.component('order-messages', require('./components/OrderMessages.vue'));
 
+Vue.component('wysiwyg-editor', require('./components/WysiwygEditor.vue'));
+
 Vue.component('vue-dropzone', vue2Dropzone);
 
 window.app = new Vue({

@@ -11,32 +11,8 @@
     </li>
 @endsection
 
-@section('summernote_custom_toolbar')
-['custom', [ 'signature']],
-@endsection
-
-@section('summernote_custom_config')
-,buttons: {
-    signature: SignatureButton
-}
-@endsection
-
-@section('summernote_custom_js')
-var SignatureButton = function (context) {
-    var ui = $.summernote.ui;
-
-    // create button
-    var button = ui.button({
-        contents: '<i class="fa fa-plus"/> Signatur',
-        tooltip: 'Signatur einfügen',
-        click: function () {
-            context.invoke('editor.pasteHTML', `{!! html_entity_decode(Auth::user()->signature) !!}`);
-        }
-    });
-
-    return button.render();   // return button as jquery object
-};
-@endsection
+@section('summernote_show_signature_button', true)
+@section('summernote_signature', html_entity_decode(Auth::user()->signature))
 
 @section('content')
 <div class="row">
