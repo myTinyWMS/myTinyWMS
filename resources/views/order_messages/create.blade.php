@@ -19,7 +19,7 @@
 
 @section('content')
 <div class="row">
-    <div class="w-8/12">
+    <div class="w-8/12 mr-4">
         {!! Form::open(['route' => ['order.message_create', $order], 'method' => 'POST', 'id' => 'newMessageForm']) !!}
         <div class="card">
             <div class="card-header">
