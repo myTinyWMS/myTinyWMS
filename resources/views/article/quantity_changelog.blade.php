@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="card-content">
-                    <table class="table table-condensed table-bordered table-hover">
+                    <table class="table dataTable">
                         <thead>
                             <tr>
                                 <th>Typ</th>
@@ -73,7 +73,9 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $changelog->appends(['start' => $dateStart->format('Y-m-d'), 'end' => $dateEnd->format('Y-m-d')])->links() }}
+                    <div class="mt-6 flex justify-end">
+                        {{ $changelog->appends(['start' => $dateStart->format('Y-m-d'), 'end' => $dateEnd->format('Y-m-d')])->links() }}
+                    </div>
                 </div>
             </div>
         </div>
