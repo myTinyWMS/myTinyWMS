@@ -39,7 +39,8 @@ mix
         'resources/assets/vendor/iCheck/custom.css',
         'resources/assets/vendor/select2/select2.min.css',
         'resources/assets/vendor/summernote/summernote-lite.css',
-        'resources/assets/vendor/tagify/tagify.css'
+        'resources/assets/vendor/tagify/tagify.css',
+        'resources/assets/vendor/daterangepicker/daterangepicker.css',
     ], 'public/css/vendor.css')
 
     /*.options({
@@ -94,7 +95,7 @@ mix
         'resources/assets/vendor/datatables/dataTables.rowReorder.min.js',
         'resources/assets/vendor/datatables/dataTables.rowGroup.min.js',
         // 'resources/assets/vendor/jasny/jasny-bootstrap.min.js',
-        // 'resources/assets/vendor/chartjs/Chart.bundle.min.js',
+        'resources/assets/vendor/chartjs/Chart.bundle.min.js',
         // 'resources/assets/vendor/chartjs/Chart.PieceLabel.min.js',
         // 'resources/assets/vendor/chartjs-plugin-annotation/chartjs-plugin-annotation.min.js',
         'resources/assets/vendor/select2/select2.min.js',
@@ -103,6 +104,7 @@ mix
         // 'resources/assets/vendor/bootstrap-typeahead/bootstrap3-typeahead.min.js',
         'resources/assets/vendor/momenjs/moment.min.js',
         // 'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.js',
+        'resources/assets/vendor/daterangepicker/daterangepicker.js',
         // 'resources/assets/vendor/summernote/summernote.js',
         'resources/assets/vendor/summernote/summernote-lite.js',
         'resources/assets/vendor/summernote/summernote-de-DE.js',
