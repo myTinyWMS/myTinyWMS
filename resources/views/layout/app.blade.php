@@ -26,6 +26,12 @@
             @include('layout.topnavbar')
 
             <div class="px-view py-view mx-auto pt-32">
+                <div>
+                    <ul class="breadcrumb">
+                        @yield('breadcrumb')
+                    </ul>
+                </div>
+
                 <div class="flex items-center">
                     <h1 class="flex-1">@yield('title')</h1>
                     @yield('title_extra')
