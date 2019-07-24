@@ -72,7 +72,7 @@
                 <i class="fa fa-bell"></i>  <span class="ml-2 inline-block text-white rounded-full w-5 h-5 absolute @if(count($globalPageService->getNotifications())) bg-red-700 @else bg-blue-700 @endif notification-label">{{ count($globalPageService->getNotifications()) }}</span>
             </a>
 
-            <a href="#" class="dropdown-toggle mr-8" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs"></i> <span class="caret"></span></a>
+            <a href="{{ route('settings.show') }}" class="dropdown-toggle mr-8" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs"></i> <span class="caret"></span></a>
 
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="fa fa-sign-out"></i> Logout

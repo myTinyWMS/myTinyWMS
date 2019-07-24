@@ -54,9 +54,9 @@
                     </div>
 
                     <div class="flex">
-                        <a v-for="(attachment, index) in messages[currentIndex].attachments" :href="route('order.message_attachment_download', [message.id, attachment.fileName])" class="block border flex flex-col items-center p-4 mr-4 hover:bg-gray-400">
+                        <a v-for="(attachment, index) in messages[currentIndex].attachments" :href="route('order.message_attachment_download', [messages[currentIndex].id, attachment.fileName])" class="block border flex flex-col items-center p-4 mr-4 hover:bg-gray-400">
                             <z icon="document" class="fill-current w-8 h-8 mb-4"></z>
-                            <div class="text-sm">{{ $attachment.orgFileName }}</div>
+                            <div class="text-sm">{{ attachment.orgFileName }}</div>
                         </a>
                     </div>
                 </div>

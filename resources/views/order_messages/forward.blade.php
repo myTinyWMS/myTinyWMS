@@ -11,49 +11,25 @@
     </li>
 @endsection
 
-@section('summernote_custom_toolbar')
-['custom', [ 'signature']],
-@endsection
-
-@section('summernote_custom_config')
-,buttons: {
-    signature: SignatureButton
-}
-@endsection
-
-@section('summernote_custom_js')
-var SignatureButton = function (context) {
-    var ui = $.summernote.ui;
-
-    // create button
-    var button = ui.button({
-        contents: '<i class="fa fa-plus"/> Signatur',
-        tooltip: 'Signatur einfügen',
-        click: function () {
-            context.invoke('editor.pasteHTML', `{!! html_entity_decode(Auth::user()->signature) !!}`);
-        }
-    });
-
-    return button.render();   // return button as jquery object
-};
-@endsection
+@section('summernote_show_signature_button', true)
+@section('summernote_signature', html_entity_decode(Auth::user()->signature))
 
 @section('content')
 <div class="row">
-    <div class="col-lg-8 col-xl-8">
+    <div class="w-8/12 mr-4">
         {!! Form::open(['route' => ['order.message_forward', $message], 'method' => 'POST', 'id' => 'forwardMessageForm']) !!}
-        <div class="ibox">
-            <div class="ibox-title">
+        <div class="card">
+            <div class="card-header">
                 <h5>Nachricht weiterleiten </h5>
             </div>
-            <div class="ibox-content">
+            <div class="card-content">
                 {{ Form::bsText('receiver', $preSetReceiver, [], 'Empfänger (mehrere mit Komma getrennt)') }}
                 {{ Form::bsText('subject', $preSetSubject, ['disabled' => 'disabled'], 'Betreff') }}
 
                 @if (!empty($message->htmlBody))
-                    {{ Form::summernote('content', $message->htmlBody, [], 'Nachricht') }}
+                    {{ Form::wysiwygEditor('content', $message->htmlBody, [], 'Nachricht') }}
                 @else
-                    {{ Form::summernote('content', nl2br($message->textBody), [], 'Nachricht') }}
+                    {{ Form::wysiwygEditor('content', nl2br($message->textBody), [], 'Nachricht') }}
                 @endif
 
                 <hr class="hr-line-solid">
@@ -62,12 +38,12 @@ var SignatureButton = function (context) {
         </div>
         {!! Form::close() !!}
     </div>
-    <div class="col-lg-4 col-xl-4">
-        <div class="ibox">
-            <div class="ibox-title">
+    <div class="w-4/12">
+        <div class="card">
+            <div class="card-header">
                 <h5>Anhänge</h5>
             </div>
-            <div class="ibox-content">
+            <div class="card-content">
                 @if($message->attachments->count())
                 <ul>
                     @foreach($message->attachments as $attachment)
