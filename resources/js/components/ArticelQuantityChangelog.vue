@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="dataTable table-condensed">
+        <table class="dataTable table-condensed" id="articleQuantityChangelogTable">
             <thead>
                 <tr>
                     <th>Typ</th>

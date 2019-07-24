@@ -20,7 +20,8 @@ $factory->define(Mss\Models\Article::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
         'quantity' => $faker->numberBetween(1, 10),
-        'status' => \Mss\Models\Article::STATUS_ACTIVE
+        'status' => \Mss\Models\Article::STATUS_ACTIVE,
+        'cost_center' => 1
     ];
 });
 

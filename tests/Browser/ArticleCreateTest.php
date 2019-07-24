@@ -9,7 +9,7 @@ use Mss\Models\Unit;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 
-class CreateArticleTest extends DuskTestCase
+class ArticleCreateTest extends DuskTestCase
 {
     /**
      * login before all other tests

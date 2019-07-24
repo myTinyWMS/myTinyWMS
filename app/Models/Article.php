@@ -18,6 +18,10 @@ use OwenIt\Auditing\Contracts\Auditable;
 /**
  * Class Article
  *
+ * @property integer id
+ * @property string article_number
+ * @property integer quantity
+ * @property integer outsourcing_quantity
  * @method static Builder active()
  * @method static Builder enabled()
  * @package Mss\Models

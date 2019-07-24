@@ -28,11 +28,11 @@
                     <label class="form-label">Veränderung</label>
 
                     <div class="flex">
-                        <select v-model="changelogChangeType" name="changelogChangeType">
+                        <select v-model="changelogChangeType" name="changelogChangeType" id="changelogChangeType">
                             <option value="add">Plus</option>
                             <option value="sub">Minus</option>
                         </select>
-                        <input class="form-input w-24 ml-2" type="text" v-model="change" value="" name="changelogChange" placeholder="Menge" required>
+                        <input class="form-input w-24 ml-2" type="text" v-model="change" value="" name="changelogChange" id="changelogChange" placeholder="Menge" required>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
         <div class="modal-footer">
             <input type="hidden" v-bind:value="csrf" name="_token" />
             <button type="button" class="btn btn-default" @click="$modal.hide('change-quantity')">Abbrechen</button>
-            <button type="submit" class="btn btn-primary">Speichern</button>
+            <button type="submit" class="btn btn-primary" id="submitChangeQuantity">Speichern</button>
         </div>
     </form>
 </template>
