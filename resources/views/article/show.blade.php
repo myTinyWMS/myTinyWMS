@@ -27,8 +27,8 @@
                     <div class="flex">
                         <div class="flex-1">Aktueller Lieferant</div>
 
-                        <dot-menu class="ml-2">
-                            <a href="javascript:void(0)" class="btn-link" @click="$modal.show('changeSupplierModal')">Lieferant ändern</a>
+                        <dot-menu class="ml-2" id="changeSupplierMenu">
+                            <a href="javascript:void(0)" class="btn-link" @click="$modal.show('changeSupplierModal')" id="changeSupplierLink">Lieferant ändern</a>
                         </dot-menu>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                 </div>
                 <div class="card-content">
                     @if(is_array($article->files) && count($article->files))
-                        <ul class="mb-4 pl-4 list-disc">
+                        <ul class="mb-4 pl-4 list-disc" id="fileList">
                             @foreach($article->files as $key => $file)
                                 <li><a href="{{ route('article.file_download', [$article, $key]) }}">{{ $file['orgName'] }}</a></li>
                             @endforeach
@@ -114,7 +114,7 @@
                 <div class="card-header">
                     <div class="flex">
                         <h5 class="flex-1">Notizen</h5>
-                        <a href="javascript:void(0)" class="btn-link btn-xs" @click="$modal.show('newNoteModal')">Neue Notiz</a>
+                        <a href="javascript:void(0)" class="btn-link btn-xs" @click="$modal.show('newNoteModal')" id="addNote">Neue Notiz</a>
                     </div>
                 </div>
                 <div class="card-content">
@@ -197,7 +197,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" @click="$modal.hide('changeSupplierModal')">Abbrechen</button>
-                <button type="submit" class="btn btn-primary">Speichern</button>
+                <button type="submit" class="btn btn-primary" id="saveChangeSupplier">Speichern</button>
             </div>
         {!! Form::close() !!}
     </modal>

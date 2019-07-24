@@ -24,6 +24,8 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property integer outsourcing_quantity
  * @method static Builder active()
  * @method static Builder enabled()
+ * @method static Builder withCurrentSupplierArticle()
+ * @method static Builder withCurrentSupplier()
  * @package Mss\Models
  */
 class Article extends AuditableModel

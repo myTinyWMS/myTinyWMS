@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use Faker\Factory;
 use Mss\Models\Article;
 use Mss\Models\Category;
+use Mss\Models\Supplier;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 
@@ -117,12 +118,106 @@ class ArticleEditTest extends DuskTestCase
                 ->select('#category', $newCategory->id)
                 ->click('#saveArticle')
                 ->waitForText('Artikel gespeichert')
-                ->assertDontSee($oldArticleNumber);
+                ->assertDontSee($oldArticleNumber)
             ;
 
             $article->refresh();
             $browser->assertSee($article->article_number);
             $this->assertNotEquals($oldArticleNumber, $article->article_number);
+        });
+    }
+
+    public function test_changing_supplier_details() {
+        $article = Article::active()->withCurrentSupplierArticle()->inRandomOrder()->first();
+        $currentSupplierArticle = $article->currentSupplierArticle;
+        $currentSupplierArticle->update([
+            'order_number' => 1,
+            'price' => 1,
+            'delivery_time' => 1,
+            'order_quantity' => 1
+        ]);
+
+        $this->browse(function (Browser $browser) use ($article, $currentSupplierArticle) {
+            $browser
+                ->visit('/article/' . $article->id)
+                ->assertSee($article->article_number)
+                ->click('#changeSupplierMenu')
+                ->click('#changeSupplierLink')
+                ->waitForText('Lieferant bearbeiten')
+                ->type('#order_number', 2)
+                ->type('#price', 2)
+                ->type('#delivery_time', 2)
+                ->type('#order_quantity', 2)
+                ->click('#saveChangeSupplier')
+                ->waitForText('Lieferantendaten gespeichert')
+            ;
+
+            $currentSupplierArticle->refresh();
+
+            $this->assertEquals(2, $currentSupplierArticle->order_number);
+            $this->assertEquals(200, $currentSupplierArticle->price);
+            $this->assertEquals(2, $currentSupplierArticle->delivery_time);
+            $this->assertEquals(2, $currentSupplierArticle->order_quantity);
+        });
+    }
+
+    public function test_change_supplier() {
+        $article = Article::active()->withCurrentSupplier()->inRandomOrder()->first();
+        $newSupplier = Supplier::where('id', '!=', $article->currentSupplier->id)->inRandomOrder()->first();
+
+        $this->browse(function (Browser $browser) use ($article, $newSupplier) {
+            $browser
+                ->visit('/article/' . $article->id)
+                ->assertSee($article->article_number)
+                ->click('#changeSupplierMenu')
+                ->click('#changeSupplierLink')
+                ->waitForText('Lieferant bearbeiten')
+                ->select('#supplier', $newSupplier->id)
+                ->click('#saveChangeSupplier')
+                ->waitForText('Lieferantendaten gespeichert')
+            ;
+
+            $article = Article::withCurrentSupplier()->where('id', $article->id)->first();
+            $this->assertEquals($newSupplier->id, $article->currentSupplier->id);
+        });
+    }
+
+    public function test_uploading_file_to_article() {
+        $article = Article::active()->whereNull('files')->inRandomOrder()->first();
+
+        $this->browse(function (Browser $browser) use ($article) {
+            $browser
+                ->visit('/article/' . $article->id)
+                ->assertSee($article->article_number)
+                ->attach('input.dz-hidden-input', '/data/www/tests/Browser/test.png')
+                ->waitFor('.dz-success-mark')
+                ->refresh()
+                ->assertSeeIn('#fileList', 'test.png');
+            ;
+
+            $article->refresh();
+
+            $attachment = $article->files[0];
+            $this->assertFileExists(storage_path('app/article_files/'.$attachment['storageName']));
+            unlink(storage_path('app/article_files/'.$attachment['storageName']));
+        });
+    }
+
+    public function test_adding_notes_to_article() {
+        $article = Article::active()->inRandomOrder()->first();
+
+        $faker = Factory::create();
+        $note = $faker->sentence;
+
+        $this->browse(function (Browser $browser) use ($article, $note) {
+            $browser
+                ->visit('/article/' . $article->id)
+                ->assertSee($article->article_number)
+                ->click('#addNote')
+                ->type('#new_note', $note)
+                ->click('#addNoteSubmit')
+                ->waitForText($note)
+            ;
         });
     }
 
