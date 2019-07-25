@@ -28,7 +28,7 @@
                             <div class="w-1/2 mr-6">
                                 <div class="form-group">
                                     <label class="form-label">interne Bestellnummer</label>
-                                    <h2 class="form-control-static no-margins">
+                                    <h2 class="form-control-static pt-0 order-number">
                                         {{ $order->internal_order_number }}
                                     </h2>
                                     <small class="text-danger">Bitte bei der Bestellung angeben</small>

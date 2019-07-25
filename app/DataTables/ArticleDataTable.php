@@ -206,7 +206,7 @@ class ArticleDataTable extends BaseDataTable
             ['data' => 'tags', 'name' => 'tags', 'title' => 'Tags', 'visible' => false],
             ['data' => 'category', 'name' => 'category', 'title' => 'Kategorie', 'visible' => false],
             ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'visible' => false],
-            ['data' => 'id', 'name' => 'id', 'title' => 'ID', 'visible' => false, 'searchable' => false],
+            ['data' => 'id', 'name' => 'id', 'title' => 'ID', 'visible' => false],
         ];
     }
 

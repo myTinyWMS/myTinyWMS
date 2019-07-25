@@ -1,15 +1,15 @@
 <template>
     <div>
-        <div class="rounded border border-blue-700 p-4 mb-4 relative" v-for="(article, index) in articles" :key="index">
+        <div class="rounded border border-blue-700 p-4 mb-4 relative order-article" v-for="(article, index) in articles" :key="index">
             <div class="row flex">
                 <div class="flex-1">
                     <div class="form-group">
                         <label class="form-label">
                             Artikel
 
-                            <dot-menu direction="right">
-                                <a v-if="supplier" v-bind:class="{ 'm-l-md': (article.id) }" @click.prevent="showArticleList(index)">Artikel ändern</a>
-                                <a @click.prevent="removeArticle(index)">Artikel löschen</a>
+                            <dot-menu direction="right" class="article-menu">
+                                <a v-if="supplier" v-bind:class="{ 'm-l-md': (article.id), 'change-article': true }" @click.prevent="showArticleList(index)">Artikel ändern</a>
+                                <a @click.prevent="removeArticle(index)" class="delete-article">Artikel löschen</a>
                             </dot-menu>
                         </label>
                         <div class="form-control-static">
@@ -38,13 +38,13 @@
                     <div class="form-group">
                         <label :for="'expected_delivery' + index" class="form-label">Liefertermin</label>
                         <input type="hidden" name="expected_delivery[]" v-model="article.expected_delivery">
-                        <date-picker v-model="article.expected_delivery" :id="'expected_delivery' + index"></date-picker>
+                        <date-picker v-model="article.expected_delivery" :id="'expected_delivery' + index" class="deliverydate-input"></date-picker>
                     </div>
                 </div>
             </div>
         </div>
 
-        <button class="btn btn-secondary btn-sm" @click.prevent="addArticle(true)">Artikel hinzufügen</button>
+        <button class="btn btn-secondary btn-sm" id="add-article" @click.prevent="addArticle(true)">Artikel hinzufügen</button>
     </div>
 </template>
 
@@ -113,7 +113,7 @@
                 this.articles[this.currentIndex].order_notes = article.order_notes;
                 this.articles[this.currentIndex].quantity = article.order_quantity;
                 this.articles[this.currentIndex].price = this.formatPrice(article.price);
-                this.articles[this.currentIndex].expected_delivery = (moment(article.delivery_date).isValid() ? moment(article.delivery_date).format('DD.MM.YYYY') : '');
+                this.articles[this.currentIndex].expected_delivery = (moment(article.delivery_date).isValid() ? moment(article.delivery_date).format('YYYY-MM-DD') : '');
 
                 this.$modal.hide('selectOrderArticleModal');
             }
