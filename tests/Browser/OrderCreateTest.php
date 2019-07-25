@@ -4,6 +4,7 @@
 use Carbon\Carbon;
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
+use Mss\Models\Article;
 use Mss\Models\Order;
 use Mss\Models\Supplier;
 use Tests\DuskTestCase;
@@ -92,7 +93,7 @@ class OrderCreateTest extends DuskTestCase
                 ->assertDontSee('Artikel auswählen')
                 ->assertSeeIn('.order-article:nth-child(1)', $article->name)
                 ->assertValue('.order-article:nth-child(1) .quantity-select', $supplierArticle->order_quantity)
-                ->assertValue('.order-article:nth-child(1) .price-select', str_replace('.', ',', $supplierArticle->price / 100))
+                ->assertValue('.order-article:nth-child(1) .price-select', str_replace('.', ',', sprintf("%01.2f", $supplierArticle->price / 100)))
                 ->assertValue('.order-article:nth-child(1) input[name="expected_delivery[]"]', Carbon::now()->addWeekdays($supplierArticle->delivery_time)->format('Y-m-d'))
             ;
         });
@@ -166,6 +167,22 @@ class OrderCreateTest extends DuskTestCase
             $this->assertNotNull($order);
             $this->assertEquals($supplier->id, $order->supplier_id);
             $this->assertEquals(2, $order->items->count());
+        });
+    }
+
+    public function test_creating_order_from_article() {
+        $this->browse(function (Browser $browser) {
+            $article = Article::withCurrentSupplier()->active()->inRandomOrder()->first();
+            $supplierArticle = $article->getCurrentSupplierArticle();
+
+            $browser
+                ->visit('/order/create?article=' . $article->id)
+                ->assertSelected('#supplier', $article->currentSupplier->id)
+                ->assertSee($article->name)
+                ->assertSeeIn('.order-article:nth-child(1)', $article->name)
+                ->assertValue('.order-article:nth-child(1) .quantity-select', $supplierArticle->order_quantity)
+                ->assertValue('.order-article:nth-child(1) .price-select', str_replace('.', ',', sprintf("%01.2f", $supplierArticle->price / 100)))
+                ->assertValue('.order-article:nth-child(1) input[name="expected_delivery[]"]', Carbon::now()->addWeekdays($supplierArticle->delivery_time)->format('Y-m-d'));
         });
     }
 }
