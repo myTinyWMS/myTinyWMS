@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex-1 px-4">
+        <div class="flex-1 px-4" v-if="messages.length">
             <div class="flex flex-col py-2 pr-4 border-b">
                 <div class="flex">
                     <div class="text-xs text-gray-500 flex-1">
