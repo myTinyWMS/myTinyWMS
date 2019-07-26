@@ -112,10 +112,10 @@
                     @endforeach
                 </div>
             </div>
-            <div class="card">
+            <div class="card mt-4">
                 <div class="card-content">
                     <div class="form-group">
-                        {!! Form::submit('Speichern', ['class' => 'btn btn-primary force-inline']) !!}
+                        {!! Form::submit('Speichern', ['class' => 'btn btn-primary force-inline', 'id' => 'save-delivery']) !!}
                     </div>
                 </div>
             </div>

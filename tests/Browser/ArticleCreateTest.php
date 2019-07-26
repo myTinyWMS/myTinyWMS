@@ -47,7 +47,7 @@ class ArticleCreateTest extends DuskTestCase
 //                ->type('#tags', $tag1)
 //                ->type('#tags', $tag2)
 //                ->type('#tags', $tag3)
-                ->select('#category', $category->id)
+                ->select('#changeArticleCategory', $category->id)
                 ->select('#unit_id', $unit->id)
                 ->type('#sort_id', 5)
                 ->type('#min_quantity', 10)

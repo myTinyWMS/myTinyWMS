@@ -84,7 +84,6 @@ abstract class DuskTestCase extends BaseTestCase
         $response = $client->get('http://mailhog:8025/api/v1/messages');
         $body = $response->getBody();
         $receivedMailCount = collect(json_decode($body, true))->count();
-        dump(collect(json_decode($body, true)), $receivedMailCount);
 
         $this->assertEquals($mailCount, $receivedMailCount);
     }

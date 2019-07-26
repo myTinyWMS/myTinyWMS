@@ -345,6 +345,8 @@ class OrderController extends Controller
             });
         }
 
+        flash('Lieferung gespeichert.')->success();
+
         return redirect()->route('order.show', $order);
     }
 

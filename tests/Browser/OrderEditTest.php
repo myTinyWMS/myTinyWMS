@@ -159,4 +159,28 @@ class OrderEditTest extends DuskTestCase
             $this->assertEquals(OrderItem::INVOICE_STATUS_CHECK, $item->invoice_received);
         });
     }
+
+    public function test_creating_delivery() {
+        $this->browse(function (Browser $browser) {
+            /** @var Order $order */
+            $order = Order::has('items', '=', 1)->inRandomOrder()->first();
+            $order->status = Order::STATUS_ORDERED;
+            $order->save();
+
+            $browser
+                ->visit('/order/'.$order->id.'/create-delivery')
+                ->waitForText('Neuer Wareneingang')
+                ->type('#delivery_note_number', 'foo123')
+                ->type('#notes', 'lorem ipsum')
+                ->click('.set-full-quantity:nth-child(1)')
+                ->assertValue('input[name="quantities['.$order->items->first()->article->id.']"]', $order->items->first()->quantity)
+                ->click('#save-delivery')
+                ->waitForText('Lieferung gespeichert.');
+
+            $order->refresh();
+            $this->assertEquals(1, $order->deliveries()->count());
+            $this->assertEquals($order->items->first()->quantity, $order->deliveries->first()->items->first()->quantity);
+            $this->assertEquals(Order::STATUS_DELIVERED, $order->status);
+        });
+    }
 }

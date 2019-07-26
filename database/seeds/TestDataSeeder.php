@@ -1,6 +1,14 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Mss\Models\Article;
+use Mss\Models\ArticleQuantityChangelog;
+use Mss\Models\Category;
+use Mss\Models\Order;
+use Mss\Models\OrderItem;
+use Mss\Models\Supplier;
+use Mss\Models\Unit;
 
 class TestDataSeeder extends Seeder
 {
@@ -13,37 +21,37 @@ class TestDataSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        $categories = factory(\Mss\Models\Category::class, 5)->create();
-        $suppliers = factory(\Mss\Models\Supplier::class, 5)->create();
-        $units = \Mss\Models\Unit::all();
+        $categories = factory(Category::class, 5)->create();
+        $suppliers = factory(Supplier::class, 5)->create();
+        $units = Unit::all();
 
-        factory(\Mss\Models\Article::class, 100)->create()->each(function ($article) use ($categories, $suppliers, $units, $faker) {
+        factory(Article::class, 100)->create()->each(function ($article) use ($categories, $suppliers, $units, $faker) {
             $article->suppliers()->attach($suppliers->random(), ['order_number' => $faker->randomNumber(5).$faker->randomNumber(5), 'price' => $faker->randomFloat(0, 5, 100)]);
             $article->category()->associate($categories->random());
             $article->unit()->associate($units->random());
             $article->save();
         });
 
-        factory(\Mss\Models\Order::class, 10)->create()->each(function ($order) use ($faker) {
-            factory(\Mss\Models\OrderItem::class, $faker->randomFloat(0, 1, 5))->create()->each(function ($orderItem) use ($order, $faker) {
-                $orderItem->article_id = \Mss\Models\Article::whereHas('suppliers', function ($query) use ($order) {
+        factory(Order::class, 10)->create()->each(function ($order) use ($faker) {
+            factory(OrderItem::class, $faker->randomFloat(0, 1, 5))->create()->each(function ($orderItem) use ($order, $faker) {
+                $orderItem->article_id = Article::whereHas('suppliers', function ($query) use ($order) {
                     $query->where('supplier_id', $order->supplier_id);
                 })->inRandomOrder()->first()->id;
-                $orderItem->expected_delivery = \Carbon\Carbon::now()->addDays(rand(5, 20));
+                $orderItem->expected_delivery = Carbon::now()->addDays(rand(5, 20));
                 $orderItem->order()->associate($order);
                 $orderItem->save();
             });
         });
 
-        /* @var $article \Mss\Models\Article */
-        $article = \Mss\Models\Article::first();
+        /* @var $article Article */
+        $article = Article::first();
         $quantity = 200;
-        $date = \Carbon\Carbon::now();
+        $date = Carbon::now();
 
         for($i = 0; $i < 100; $i++) {
             $type = rand(1,2);
             $change = rand(1, 10);
-            $change = ($type == \Mss\Models\ArticleQuantityChangelog::TYPE_OUTGOING) ? ($change * -1) : $change;
+            $change = ($type == ArticleQuantityChangelog::TYPE_OUTGOING) ? ($change * -1) : $change;
 
             $date = $date->subDays(rand(1, 3));
 
