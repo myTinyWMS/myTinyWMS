@@ -5,6 +5,8 @@ namespace Mss\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /*
+ * @property integer $id
+ * @property string $name
  * @method static \Illuminate\Database\Query\Builder orderedByName()
  */
 class Supplier extends AuditableModel

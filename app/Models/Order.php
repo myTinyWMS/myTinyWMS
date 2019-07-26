@@ -9,7 +9,10 @@ use Illuminate\Support\Arr;
 /**
  * Class Order
  *
+ * @property integer $id
  * @property string $internal_order_number
+ * @property integer $status
+ * @property Supplier $supplier
  * @property Collection $messages
  * @property Collection $items
  * @package Mss\Models

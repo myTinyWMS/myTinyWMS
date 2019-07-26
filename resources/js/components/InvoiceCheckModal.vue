@@ -17,9 +17,13 @@
             </div>
         </div>
 
+        <div class="row alert alert-danger mt-4" v-show="invoiceNotificationUsersCount == 0">
+            Achtung, kein User hat die Rechnungsbenachrichtigungen aktiv!
+        </div>
+
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" @click="submit(false)">Ohne Mail weiter</button>
-            <button type="button" class="btn btn-primary" @click="submit(true)">Mail verschicken</button>
+            <button type="button" class="btn btn-default" @click="submit(false)" id="dont-send-invoice-check-mail">Ohne Mail weiter</button>
+            <button type="button" class="btn btn-primary" @click="submit(true)" id="send-invoice-check-mail" v-show="invoiceNotificationUsersCount > 0">Mail verschicken</button>
         </div>
     </modal>
 
@@ -29,7 +33,7 @@
     import axios from 'axios';
 
     export default {
-        props: ['status', 'orderitem'],
+        props: ['status', 'orderitem', 'invoiceNotificationUsersCount'],
 
         data() {
             return {

@@ -1,11 +1,11 @@
 <template>
     <dot-menu class="ml-2 normal-case">
-        <a href="javascript:void(0)" @click="checkNewArticlePrice()">erhalten</a>
-        <a href="javascript:void(0)" @click="sendInvoiceCheckMail()">in Prüfung</a>
+        <a href="javascript:void(0)" @click="checkNewArticlePrice(1)">erhalten</a>
+        <a href="javascript:void(0)" @click="sendInvoiceCheckMail(2)">in Prüfung</a>
         <a href="javascript:void(0)" @click="setStatus(0)">nicht erhalten</a>
 
         <change-article-price-modal :status="1" :orderitem="item.id" :name="'changeArticlePriceSingleModal'"></change-article-price-modal>
-        <invoice-check-modal :status="2" :orderitem="item"></invoice-check-modal>
+        <invoice-check-modal :status="2" :orderitem="item" :invoice-notification-users-count="invoiceNotificationUsersCount"></invoice-check-modal>
     </dot-menu>
 </template>
 
@@ -13,13 +13,13 @@
     import axios from 'axios';
 
     export default {
-        props: ['item', 'articleHasNewPrice'],
+        props: ['item', 'articleHasNewPrice', 'invoiceNotificationUsersCount'],
 
         methods: {
             sendInvoiceCheckMail() {
                 this.$modal.show('invoiceCheckModal');
             },
-            checkNewArticlePrice() {
+            checkNewArticlePrice(status) {
                 if (this.articleHasNewPrice == 1) {
                     this.$modal.show('changeArticlePriceSingleModal');
                 } else {

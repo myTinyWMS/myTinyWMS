@@ -69,10 +69,10 @@
                     </div>
 
                     <div class="w-1/4">
-                        <div class="form-group">
+                        <div class="form-group order-status">
                             <label class="form-label">
                                 Status
-                                <dot-menu class="ml-2 normal-case">
+                                <dot-menu class="ml-2 normal-case order-change-status">
                                     @foreach(\Mss\Models\Order::STATUS_TEXTS as $value => $name)
                                         <a href="{{ route('order.change_status', ['order' => $order, 'status' => $value]) }}">{{ $name }}</a>
                                     @endforeach
@@ -85,10 +85,10 @@
                     </div>
 
                     <div class="w-1/4">
-                        <div class="form-group">
+                        <div class="form-group payment-method">
                             <label class="form-label">
                                 Bezahlmethode
-                                <dot-menu class="ml-2 normal-case">
+                                <dot-menu class="ml-2 normal-case order-change-payment-method">
                                     <a href="{{ route('order.change_payment_status', ['order' => $order, 'payment_status' => \Mss\Models\Order::PAYMENT_STATUS_UNPAID]) }}">unbezahlt</a>
                                     <a href="{{ route('order.change_payment_status', ['order' => $order, 'payment_status' => \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_PAYPAL]) }}">Paypal</a>
                                     <a href="{{ route('order.change_payment_status', ['order' => $order, 'payment_status' => \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD]) }}">Kreditkarte</a>
@@ -148,7 +148,7 @@
                 @foreach($order->items as $key => $item)
                     @php ($total += ($item->quantity * $item->price))
                     @php ($articleHasNewPrice = ($item->article->getCurrentSupplierArticle()->price / 100) != $item->price)
-                    <div class="rounded border border-blue-700 p-4 mb-4">
+                    <div class="rounded border border-blue-700 p-4 mb-4" id="order-article-{{ $item->id }}">
                         <div class="row">
                             <div class="w-5/12">
                                 <div class="form-group">
@@ -216,7 +216,7 @@
 
                                 <div class="row">
                                     <div class="w-4/12">
-                                        <div class="form-group">
+                                        <div class="form-group confirmation-status">
                                             <label class="form-label">
                                                 Auftragsbestätigung
 
@@ -238,12 +238,11 @@
                                     </div>
 
                                     <div class="w-4/12">
-                                        <div class="form-group">
-                                            <label class="form-label">
-                                                Rechnung
-
-                                                <invoice-status-change :item="{{ $item }}" :article-has-new-price="{{ $articleHasNewPrice ? 1 : 0 }}"></invoice-status-change>
-                                            </label>
+                                        <div class="form-group invoice-status">
+                                            <div class="flex">
+                                                <label class="form-label">Rechnung</label>
+                                                <invoice-status-change :item="{{ $item }}" :article-has-new-price="{{ $articleHasNewPrice ? 1 : 0 }}" invoice-notification-users-count="{{ $invoiceNotificationUsersCount }}"></invoice-status-change>
+                                            </div>
                                             <div class="form-control-static">
                                                 @if($item->invoice_received === \Mss\Models\OrderItem::INVOICE_STATUS_RECEIVED)
                                                     <span class="w-3 h-3 inline-block align-middle rounded-full bg-green-500"></span>

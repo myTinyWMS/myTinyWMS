@@ -93,7 +93,7 @@ class OrderCreateTest extends DuskTestCase
                 ->assertDontSee('Artikel auswählen')
                 ->assertSeeIn('.order-article:nth-child(1)', $article->name)
                 ->assertValue('.order-article:nth-child(1) .quantity-select', $supplierArticle->order_quantity)
-                ->assertValue('.order-article:nth-child(1) .price-select', str_replace('.', ',', sprintf("%01.2f", $supplierArticle->price / 100)))
+                ->assertValue('.order-article:nth-child(1) .price-select', number_format($supplierArticle->price / 100, 2, ',', '.'))
                 ->assertValue('.order-article:nth-child(1) input[name="expected_delivery[]"]', Carbon::now()->addWeekdays($supplierArticle->delivery_time)->format('Y-m-d'))
             ;
         });
@@ -181,7 +181,7 @@ class OrderCreateTest extends DuskTestCase
                 ->assertSee($article->name)
                 ->assertSeeIn('.order-article:nth-child(1)', $article->name)
                 ->assertValue('.order-article:nth-child(1) .quantity-select', $supplierArticle->order_quantity)
-                ->assertValue('.order-article:nth-child(1) .price-select', str_replace('.', ',', sprintf("%01.2f", $supplierArticle->price / 100)))
+                ->assertValue('.order-article:nth-child(1) .price-select', number_format($supplierArticle->price / 100, 2, ',', '.'))
                 ->assertValue('.order-article:nth-child(1) input[name="expected_delivery[]"]', Carbon::now()->addWeekdays($supplierArticle->delivery_time)->format('Y-m-d'));
         });
     }

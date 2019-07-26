@@ -9,6 +9,7 @@ services:
     links:
     - db
     - redis
+    - mailhog
     ports:
     - 3080:80
     - 30443:443
@@ -47,6 +48,13 @@ services:
   redis:
     container_name: mss_redis
     image: redis
+
+  mailhog:
+    container_name: mss_mailhog
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
 
   selenium:
     container_name: mss_selenium

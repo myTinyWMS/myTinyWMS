@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\TestCase as BaseTestCase;
@@ -67,5 +68,24 @@ abstract class DuskTestCase extends BaseTestCase
         return $browser->loginAs(User::first())
             ->visit('/reports')
             ->assertSee('Reports');
+    }
+
+    protected function startMailTest() {
+        // Instantiating GuzzleHTTP client
+        $client = new Client();
+        // Deleting all the emails, so that inbox would be empty
+        $client->delete('http://mailhog:8025/api/v1/messages');
+    }
+
+    protected function assertMailsSent($mailCount) {
+        $client = new Client();
+
+        // sending request to get all emails
+        $response = $client->get('http://mailhog:8025/api/v1/messages');
+        $body = $response->getBody();
+        $receivedMailCount = collect(json_decode($body, true))->count();
+        dump(collect(json_decode($body, true)), $receivedMailCount);
+
+        $this->assertEquals($mailCount, $receivedMailCount);
     }
 }
