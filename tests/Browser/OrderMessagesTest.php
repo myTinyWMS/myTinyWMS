@@ -225,4 +225,35 @@ class OrderMessagesTest extends DuskTestCase
             $this->assertEquals(1, $order2->messages()->count());
         });
     }
+
+    public function test_assign_unassigned_email() {
+        $this->browse(function (Browser $browser) {
+            /** @var Order $order */
+            $order = Order::inRandomOrder()->doesntHave('messages')->first();
+            $message = factory(OrderMessage::class)->make(['read' => 0]);
+            $message->order_id = null;
+            $message->save();
+
+            $browser
+                ->visit('/order')
+                ->assertSee('1 nicht zugeordnete neue Nachricht')
+                ->clickLink('mehr »')
+                ->waitForText('Neue Nachrichten')
+                ->assertSee($message->subject)
+                ->click('.order-message-menu')
+                ->clickLink('Verschieben')
+                ->waitForText('Nachricht zuordnen')
+                ->waitUntilMissing('#dataTableBuilder_processing')
+                ->radio('orderid', $order->id)
+                ->click('#save-assign-order-message')
+                ->waitForText('Nachricht verschoben')
+                ->assertSee($order->internal_order_number)
+            ;
+
+            $message->refresh();
+            $this->assertEquals($order->id, $message->order_id);
+
+            $this->assertEquals(1, $order->messages()->count());
+        });
+    }
 }
