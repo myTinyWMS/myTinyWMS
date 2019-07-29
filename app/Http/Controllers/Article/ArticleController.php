@@ -88,6 +88,7 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
+        /** @var Article $article */
         $article = Article::withCurrentSupplier()->withCurrentSupplierArticle()->findOrFail($id);
 
         $context = [
