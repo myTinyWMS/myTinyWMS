@@ -97,17 +97,20 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('order/{order}/create-delivery', 'DeliveryController@create')->name('order.create_delivery');
         Route::post('order/{order}/store-delivery', 'DeliveryController@store')->name('order.store_delivery');
-    });
 
-    Route::get('order/message/{message}/attachment-download/{attachment}', 'OrderMessageController@messageAttachmentDownload')->name('order.message_attachment_download');
-    Route::get('order/{order}/message/new', 'OrderMessageController@create')->name('order.message_new');
-    Route::post('order/{order}/message/new', 'OrderMessageController@store')->name('order.message_create');
-    Route::get('order/message/{message}/delete/{order?}', 'OrderMessageController@delete')->name('order.message_delete');
-    Route::get('order/{order}/message/{message}/read', 'OrderMessageController@markRead')->name('order.message_read');
-    Route::get('order/{order}/message/{message}/unread', 'OrderMessageController@markUnread')->name('order.message_unread');
-    Route::get('order/message/unassigned', 'OrderMessageController@unassignedMessages')->name('order.messages_unassigned');
-    Route::post('order/{order}/message/upload', 'OrderMessageController@uploadNewAttachments')->name('order.message_upload');
-    Route::post('order/message/assign', 'OrderMessageController@assignToOrder')->name('order.message_assign');
-    Route::get('order/message/{message}/forward', 'OrderMessageController@forwardForm')->name('order.message_forward_form');
-    Route::post('order/message/{message}/forward', 'OrderMessageController@forward')->name('order.message_forward');
+        Route::get('order/{order}/message/new', 'MessageController@create')->name('order.message_new');
+        Route::post('order/{order}/message/new', 'MessageController@store')->name('order.message_create');
+        Route::get('order/message/{message}/delete/{order?}', 'MessageController@delete')->name('order.message_delete');
+        Route::get('order/{order}/message/{message}/read', 'MessageController@markRead')->name('order.message_read');
+        Route::get('order/{order}/message/{message}/unread', 'MessageController@markUnread')->name('order.message_unread');
+
+        Route::get('order/message/{message}/attachment-download/{attachment}', 'MessageAttachmentController@download')->name('order.message_attachment_download');
+        Route::post('order/{order}/message/upload', 'MessageAttachmentController@upload')->name('order.message_upload');
+
+        Route::get('order/message/unassigned', 'UnassignedMessagesController@index')->name('order.messages_unassigned');
+        Route::post('order/message/assign', 'UnassignedMessagesController@assignToOrder')->name('order.message_assign');
+
+        Route::get('order/message/{message}/forward', 'MessageForwardController@create')->name('order.message_forward_form');
+        Route::post('order/message/{message}/forward', 'MessageForwardController@store')->name('order.message_forward');
+    });
 });

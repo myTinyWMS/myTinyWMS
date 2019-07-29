@@ -1,6 +1,6 @@
 <?php
 
-namespace Mss\Http\Controllers;
+namespace Mss\Http\Controllers\Order;
 
 
 use Carbon\Carbon;
@@ -11,13 +11,14 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Mss\DataTables\AssignOrderDataTable;
 use Mss\DataTables\OrderDataTable;
+use Mss\Http\Controllers\Controller;
 use Mss\Http\Requests\NewOrderMessageRequest;
 use Mss\Mail\SupplierMail;
 use Mss\Models\Order;
 use Mss\Models\OrderMessage;
 use Webpatser\Uuid\Uuid;
 
-class OrderMessageController extends Controller {
+class MessageController extends Controller {
 
     public function create(Order $order) {
         $order->load(['items.article' => function ($query) {
@@ -126,86 +127,5 @@ class OrderMessageController extends Controller {
         flash('Nachricht als gelesen markiert.')->success();
 
         return redirect()->route('order.show', $order);
-    }
-
-    public function uploadNewAttachments(Order $order, Request $request) {
-        $file = $request->file('file');
-
-        /**
-         * @todo queue file to delete after some time
-         */
-        $upload_success = $file->storeAs('upload_temp', $order->id.'_'.Uuid::generate(4)->string);
-        if ($upload_success) {
-            return response()->json($upload_success, 200);
-        } else {
-            return response()->json('error', 400);
-        }
-    }
-
-    public function unassignedMessages(AssignOrderDataTable $assignOrderDataTable) {
-        $unassignedMessages = OrderMessage::unassigned()->unread()->get();
-
-        return $assignOrderDataTable->render('order_messages.unsassigned_messages', compact('unassignedMessages'));
-    }
-
-    public function messageAttachmentDownload(OrderMessage $message, $attachment) {
-        $attachment = $message->attachments->where('fileName', $attachment)->first();
-        $filePath = storage_path('attachments/'.$attachment['fileName']);
-        if (!file_exists($filePath)) {
-            $filePath = storage_path('app/attachments/'.$attachment['fileName']);
-            if (!file_exists($filePath)) {
-                return response("Datei nicht gefunden", 404);
-            }
-        }
-
-        return response()->download($filePath, iconv_mime_decode($attachment['orgFileName']), ['Content-Type' => $attachment['contentType']]);
-    }
-
-    public function assignToOrder(Request $request) {
-        $message = OrderMessage::find($request->get('message'));
-        $order = Order::find($request->get('orderid'));
-        if ($message && $order) {
-            $message->order()->associate($order);
-            $message->save();
-            flash('Nachricht verschoben')->success();
-            return redirect()->route('order.show', $order);
-        }
-
-        flash('Nachricht nicht verschoben')->error();
-        return redirect()->route('order.messages_unassigned');
-    }
-
-    public function forwardForm(OrderMessage $message) {
-        $preSetBody = $message->htmlBody;
-        $preSetReceiver = null;
-        $preSetSubject = 'FW: '.$message->subject;
-
-        return view('order_messages.forward', compact('preSetBody', 'preSetReceiver', 'preSetSubject', 'message'));
-    }
-
-    public function forward(OrderMessage $message, Request $request) {
-        $message->load('order');
-        $receivers = collect(explode(',', $request->get('receiver')))->transform(function ($receiver) {
-            return trim($receiver);
-        });
-
-        if (count($receivers) > 1) {
-            $mail = Mail::to($receivers->first())->cc($receivers->slice(1));
-        } else {
-            $mail = Mail::to($receivers);
-        }
-
-        $body = $request->get('content');
-        $mail->queue(new SupplierMail (
-            'FW '.$message->subject, $body, $message->attachments
-        ));
-
-        flash('Nachricht weitergeleitet')->success();
-
-        if ($message->order) {
-            return response()->redirectToRoute('order.show', $message->order);
-        } else {
-            return response()->redirectToRoute('order.messages_unassigned');
-        }
     }
 }
