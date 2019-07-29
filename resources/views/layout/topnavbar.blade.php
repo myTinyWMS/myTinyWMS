@@ -44,6 +44,18 @@
                 </a>
             </h3>
 
+            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['report*'])) }}">
+                <a href="{{ url('/reports') }}">
+                    Reports
+                </a>
+            </h3>
+
+            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['inventory*'])) }}">
+                <a href="{{ url('/inventory') }}">
+                    Inventur
+                </a>
+            </h3>
+
             <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['supplier*'])) }}">
                 <a href="{{ url('/supplier') }}">
                     Lieferanten
@@ -59,18 +71,6 @@
             <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['unit*'])) }}">
                 <a href="{{ url('/unit') }}">
                     Einheiten
-                </a>
-            </h3>
-
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['report*'])) }}">
-                <a href="{{ url('/reports') }}">
-                    Reports
-                </a>
-            </h3>
-
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['inventory*'])) }}">
-                <a href="{{ url('/inventory') }}">
-                    Inventur
                 </a>
             </h3>
         </div>
