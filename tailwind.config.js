@@ -2,6 +2,7 @@ module.exports = {
     variants: {
         borderColor: ['responsive', 'hover', 'focus', 'group-hover'],
         visibility: ['responsive', 'group-hover'],
+        display: ['responsive']
     },
     theme: {
         fontSize: {
@@ -19,6 +20,10 @@ module.exports = {
             '6xl': '4rem',
         },
         screens: {
+            sm: '640px',
+            md: '768px',
+            lg: '1024px',
+            xl: '1280px',
             '2xl': '1690px',
             '3xl': '1920px',
             '4xl': '2560px'
