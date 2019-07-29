@@ -58,7 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
         'article' => 'Article\ArticleController',
         'supplier' => 'SupplierController',
         'category' => 'CategoryController',
-        'order' => 'OrderController',
+        'order' => 'Order\OrderController',
         'unit' => 'UnitController',
         'inventory' => 'InventoryController',
     ]);
@@ -83,19 +83,21 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('global-search', 'GlobalSearchController@process')->name('global_search');
 
-    Route::post('order/create', 'OrderController@create')->name('order.create_post');
-    Route::get('order/article_list/{supplier}', 'OrderController@articleList')->name('order.article_list');
-    Route::get('order/{order}/cancel', 'OrderController@cancel')->name('order.cancel');
-    Route::get('order/{order}/create-delivery', 'OrderController@createDelivery')->name('order.create_delivery');
-    Route::post('order/{order}/store-delivery', 'OrderController@storeDelivery')->name('order.store_delivery');
-    Route::get('order/{order}/payment-status/{payment_status}', 'OrderController@changePaymentStatus')->name('order.change_payment_status');
-    Route::get('order/{order}/status/{status}', 'OrderController@changeStatus')->name('order.change_status');
-    Route::post('order/{order}/invoicecheck/upload', 'OrderController@uploadInvoiceCheckAttachments')->name('order.invoice_check_upload');
+    Route::namespace('Order')->group(function () {
+        Route::post('order/{orderitem}/item-invoice-received', 'OrderItemsController@invoiceReceived')->name('order.item_invoice_received');
+        Route::get('order/{orderitem}/item-confirmation-status/{status}', 'OrderItemsController@confirmationReceived')->name('order.item_confirmation_received');
+        Route::post('order/{order}/all-items-invoice-received', 'OrderItemsController@allItemsInvoiceReceived')->name('order.all_items_invoice_received');
+        Route::post('order/{order}/all-items-confirmation-received', 'OrderItemsController@allItemsConfirmationReceived')->name('order.all_items_confirmation_received');
 
-    Route::post('order/{orderitem}/item-invoice-received', 'OrderController@itemInvoiceReceived')->name('order.item_invoice_received');
-    Route::get('order/{orderitem}/item-confirmation-status/{status}', 'OrderController@itemConfirmationReceived')->name('order.item_confirmation_received');
-    Route::post('order/{order}/all-items-invoice-received', 'OrderController@allItemsInvoiceReceived')->name('order.all_items_invoice_received');
-    Route::post('order/{order}/all-items-confirmation-received', 'OrderController@allItemsConfirmationReceived')->name('order.all_items_confirmation_received');
+        Route::post('order/create', 'OrderController@create')->name('order.create_post');
+        Route::get('order/{order}/cancel', 'OrderController@cancel')->name('order.cancel');
+        Route::get('order/{order}/payment-status/{payment_status}', 'OrderController@changePaymentStatus')->name('order.change_payment_status');
+        Route::get('order/{order}/status/{status}', 'OrderController@changeStatus')->name('order.change_status');
+        Route::post('order/{order}/invoicecheck/upload', 'OrderController@uploadInvoiceCheckAttachments')->name('order.invoice_check_upload');
+
+        Route::get('order/{order}/create-delivery', 'DeliveryController@create')->name('order.create_delivery');
+        Route::post('order/{order}/store-delivery', 'DeliveryController@store')->name('order.store_delivery');
+    });
 
     Route::get('order/message/{message}/attachment-download/{attachment}', 'OrderMessageController@messageAttachmentDownload')->name('order.message_attachment_download');
     Route::get('order/{order}/message/new', 'OrderMessageController@create')->name('order.message_new');

@@ -1,35 +1,23 @@
 <?php
 
-namespace Mss\Http\Controllers;
+namespace Mss\Http\Controllers\Order;
 
 use Carbon\Carbon;
-use function GuzzleHttp\Promise\all;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
-use Mss\DataTables\ArticleDataTable;
-use Mss\DataTables\AssignOrderDataTable;
-use Mss\DataTables\OrderDataTable;
-use Mss\DataTables\SelectArticleDataTable;
-use Mss\Events\DeliverySaved;
-use Mss\Http\Requests\OrderRequest;
-use Mss\Mail\InvoiceCheckMail;
-use Mss\Models\Article;
-use Mss\Models\ArticleQuantityChangelog;
-use Mss\Models\Category;
-use Mss\Models\Delivery;
-use Mss\Models\Order;
-use Mss\Models\OrderItem;
-use Mss\Models\OrderMessage;
-use Mss\Models\Supplier;
 use Mss\Models\Tag;
-use Mss\Models\User;
-use Mss\Models\UserSettings;
-use Mss\Notifications\NewDeliverySavedAndInvoiceExists;
-use Mss\Services\PrintLabelService;
+use Mss\Models\Order;
+use Mss\Models\Article;
 use Webpatser\Uuid\Uuid;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
+use Mss\Models\Supplier;
+use Mss\Models\Category;
+use Mss\Models\OrderItem;
+use Illuminate\Http\Request;
+use Mss\Models\OrderMessage;
+use Mss\Models\UserSettings;
+use Mss\DataTables\OrderDataTable;
+use Mss\Http\Requests\OrderRequest;
+use Mss\Http\Controllers\Controller;
+use Mss\DataTables\AssignOrderDataTable;
+use Mss\DataTables\SelectArticleDataTable;
 
 class OrderController extends Controller
 {
@@ -140,68 +128,6 @@ class OrderController extends Controller
         return redirect()->route('order.show', $order);
     }
 
-    public function itemConfirmationReceived(OrderItem $orderitem, $status) {
-        $orderitem->confirmation_received = ($status == 1);
-        $orderitem->save();
-
-        flash('Status der Auftragsbestätigung aktualisiert.')->success();
-
-        return redirect()->route('order.show', $orderitem->order);
-    }
-
-    public function itemInvoiceReceived(OrderItem $orderitem, Request $request) {
-        $request->validate([
-            'invoice_status' => 'required|in:0,1,2',
-            'change_article_price' => 'in:0,1'
-        ]);
-
-        $orderitem->invoice_received = $request->get('invoice_status');
-        $orderitem->save();
-
-        if (request('change_article_price') == 1) {
-            $supplierArticle = $orderitem->article->getCurrentSupplierArticle();
-            $supplierArticle->price = $orderitem->price * 100;
-            $supplierArticle->save();
-        }
-
-        if (!empty($request->get('mail_note'))) {
-            $attachments = collect($request->get('mail_attachments'));
-            Mail::to(UserSettings::getUsersWhereTrue(UserSettings::SETTING_NOTIFY_ON_INVOICE_CHECKS))->send(new InvoiceCheckMail($orderitem->order, nl2br($request->get('mail_note')), $attachments));
-        }
-
-        flash('Status der Rechnung aktualisiert.')->success();
-
-        return 'true';
-    }
-
-    public function allItemsInvoiceReceived(Order $order) {
-        $order->items->each(function ($orderitem) {
-            if ($orderitem->invoice_received !== OrderItem::INVOICE_STATUS_RECEIVED) {
-                $orderitem->invoice_received = OrderItem::INVOICE_STATUS_RECEIVED;
-                $orderitem->save();
-            }
-
-            if (request('change_article_price') == 1) {
-                $supplierArticle = $orderitem->article->getCurrentSupplierArticle();
-                $supplierArticle->price = $orderitem->price * 100;
-                $supplierArticle->save();
-            }
-        });
-
-        return redirect()->route('order.show', $order);
-    }
-
-    public function allItemsConfirmationReceived(Order $order) {
-        $order->items->each(function ($orderitem) {
-            if (!$orderitem->confirmation_received) {
-                $orderitem->confirmation_received = true;
-                $orderitem->save();
-            }
-        });
-
-        return redirect()->route('order.show', $order);
-    }
-
     public function cancel(Order $order) {
         $order->delete();
 
@@ -284,70 +210,6 @@ class OrderController extends Controller
 
         flash('Bestellung gelöscht', 'success');
         return redirect()->route('order.index');
-    }
-
-    public function articleList(Supplier $supplier) {
-        return response()->json($supplier->articles->pluck(['name', 'id']));
-    }
-
-    public function createDelivery(Order $order) {
-        $order->load(['items.article' => function($query) {
-            $query->withCurrentSupplierArticle();
-        }]);
-
-        return view('order.delivery_form', compact('order'));
-    }
-
-    public function storeDelivery(Order $order, Request $request) {
-        /* @var Delivery $delivery */
-        $delivery = $order->deliveries()->create([
-            'delivery_date' => Carbon::parse($request->get('delivery_date')),
-            'delivery_note_number' => $request->get('delivery_note_number'),
-            'notes' => $request->get('notes')
-        ]);
-
-        $articlesToPrint = new Collection();
-        $quantities = collect($request->get('quantities'));
-        $order->items->each(function ($orderItem) use ($quantities, $delivery, $order, $request, &$articlesToPrint) {
-            /* @var OrderItem $orderItem */
-            $quantity = intval($quantities->get($orderItem->article->id));
-            if ($quantities->has($orderItem->article->id) && $quantity > 0) {
-                $deliveryItem = $delivery->items()->create([
-                    'article_id' => $orderItem->article->id,
-                    'quantity' => $quantity
-                ]);
-
-                if (array_key_exists($orderItem->article->id, $request->get('label_count', [])) && intval($request->get('label_count', [])[$orderItem->article->id]) > 0) {
-                    $articlesToPrint->push($orderItem->article);
-                }
-
-                $orderItem->article->changeQuantity($quantity, ArticleQuantityChangelog::TYPE_INCOMING, 'Bestellung '.$order->internal_order_number, $deliveryItem);
-            }
-        });
-
-        if ($order->isFullyDelivered()) {
-            $order->status = Order::STATUS_DELIVERED;
-            $order->save();
-        } else {
-            $order->status = Order::STATUS_PARTIALLY_DELIVERED;
-            $order->save();
-        }
-
-        event(new DeliverySaved($delivery));
-
-        if ($articlesToPrint->count() > 0) {
-            $labelService = new PrintLabelService();
-            $articlesToPrint->each(function ($article) use ($request, $labelService) {
-                $count = intval($request->get('label_count', [])[$article->id]);
-                for($i=1; $i<=$count; $i++) {
-                    $labelService->printArticleLabels(new Collection([$article]), $request->get('label_type', [$article->id => 'small'])[$article->id]);
-                }
-            });
-        }
-
-        flash('Lieferung gespeichert.')->success();
-
-        return redirect()->route('order.show', $order);
     }
 
     protected function getArticleList() {
