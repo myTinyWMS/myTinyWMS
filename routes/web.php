@@ -16,15 +16,34 @@ Auth::routes();
 Route::get('/', 'DashboardController@index');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('article/sort-update', 'ArticleController@sortUpdateForm')->name('article.sort_update_form');
-    Route::post('article/sort-update', 'ArticleController@sortUpdateFormPost')->name('article.sort_update_form_post');
-    Route::get('article/mass-update', 'ArticleController@massUpdateForm')->name('article.mass_update_form');
-    Route::post('article/mass-update', 'ArticleController@massUpdateSave')->name('article.mass_update_save');
-    Route::get('article/inventory-update', 'ArticleController@inventoryUpdateForm')->name('article.inventory_update_form');
-    Route::post('article/inventory-update', 'ArticleController@inventoryUpdateSave')->name('article.inventory_update_save');
-    Route::post('article/{article}/file_upload', 'ArticleController@fileUpload')->name('article.file_upload');
-    Route::get('article/{article}/file-download/{file}', 'ArticleController@fileDownload')->name('article.file_download');
-    Route::get('article/{article}/print-label/{size}', 'ArticleController@printSingleLabel')->name('article.print_single_label');
+    Route::namespace('Article')->group(function () {
+        Route::get('article/sort-update', 'SortController@index')->name('article.sort_update_form');
+        Route::post('article/sort-update', 'SortController@store')->name('article.sort_update_form_post');
+
+        Route::get('article/mass-update', 'MassUpdateController@index')->name('article.mass_update_form');
+        Route::post('article/mass-update', 'MassUpdateController@store')->name('article.mass_update_save');
+
+        Route::get('article/inventory-update', 'InventoryUpdateController@index')->name('article.inventory_update_form');
+        Route::post('article/inventory-update', 'InventoryUpdateController@store')->name('article.inventory_update_save');
+
+        Route::post('article/{article}/file_upload', 'AttachmentController@upload')->name('article.file_upload');
+        Route::get('article/{article}/file-download/{file}', 'AttachmentController@download')->name('article.file_download');
+
+        Route::get('article/{article}/print-label/{size}', 'LabelController@printSingleLabel')->name('article.print_single_label');
+        Route::post('article/print-label', 'LabelController@printLabel')->name('article.print_label');
+
+        Route::post('article/{article}/addnote', 'NoteController@store')->name('article.add_note');
+        Route::get('article/{article}/deletenote/{note}', 'NoteController@delete')->name('article.delete_note');
+
+        Route::post('article/{article}/change-changelog-note', 'QuantityChangelogController@changeChangelogNote')->name('article.change_changelog_note');
+        Route::get('article/{article}/quantity-changelog', 'QuantityChangelogController@index')->name('article.quantity_changelog');
+        Route::get('article/{article}/quantity-changelog/{changelog}/delete', 'QuantityChangelogController@delete')->name('article.quantity_changelog.delete');
+
+        Route::post('article/{article}/change-quantity', 'ArticleController@changeQuantity')->name('article.change_quantity');
+        Route::post('article/{article}/fix-quantity-change', 'ArticleController@fixQuantityChange')->name('article.fix_quantity_change');
+
+        Route::post('article/{article}/change-supplier', 'SupplierController@store')->name('article.change_supplier');
+    });
 
     Route::post('inventory/{inventory}/article/{article}/processed', 'InventoryController@processed')->name('inventory.processed');
     Route::get('inventory/{inventory}/article/{article}/correct', 'InventoryController@correct')->name('inventory.correct');
@@ -36,7 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::resources([
-        'article' => 'ArticleController',
+        'article' => 'Article\ArticleController',
         'supplier' => 'SupplierController',
         'category' => 'CategoryController',
         'order' => 'OrderController',
@@ -89,15 +108,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('order/message/assign', 'OrderMessageController@assignToOrder')->name('order.message_assign');
     Route::get('order/message/{message}/forward', 'OrderMessageController@forwardForm')->name('order.message_forward_form');
     Route::post('order/message/{message}/forward', 'OrderMessageController@forward')->name('order.message_forward');
-
-    Route::post('article/reorder', 'ArticleController@reorder')->name('article.reorder');
-    Route::post('article/print-label', 'ArticleController@printLabel')->name('article.print_label');
-    Route::post('article/{article}/change-changelog-note', 'ArticleController@changeChangelogNote')->name('article.change_changelog_note');
-    Route::post('article/{article}/addnote', 'ArticleController@addNote')->name('article.add_note');
-    Route::get('article/{article}/deletenote/{note}', 'ArticleController@deleteNote')->name('article.delete_note');
-    Route::get('article/{article}/quantity-changelog', 'ArticleController@quantityChangelog')->name('article.quantity_changelog');
-    Route::get('article/{article}/quantity-changelog/{changelog}/delete', 'ArticleController@deleteQuantityChangelog')->name('article.quantity_changelog.delete');
-    Route::post('article/{article}/change-quantity', 'ArticleController@changeQuantity')->name('article.change_quantity');
-    Route::post('article/{article}/fix-quantity-change', 'ArticleController@fixQuantityChange')->name('article.fix_quantity_change');
-    Route::post('article/{article}/change-supplier', 'ArticleController@changeSupplier')->name('article.change_supplier');
 });

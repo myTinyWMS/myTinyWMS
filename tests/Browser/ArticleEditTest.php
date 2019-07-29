@@ -4,8 +4,10 @@ namespace Tests\Browser;
 
 use Faker\Factory;
 use Mss\Models\Article;
+use Mss\Models\ArticleNote;
 use Mss\Models\Category;
 use Mss\Models\Supplier;
+use Mss\Models\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 
@@ -218,6 +220,25 @@ class ArticleEditTest extends DuskTestCase
                 ->click('#addNoteSubmit')
                 ->waitForText($note)
             ;
+        });
+    }
+
+    public function test_deleting_notes_from_article() {
+        $this->browse(function (Browser $browser) {
+            $article = Article::active()->inRandomOrder()->first();
+            $note = $article->articleNotes()->save(factory(ArticleNote::class)->make(['user_id' => User::first()->id, 'article_id' => $article->id]));
+
+            $this->assertEquals(1, $article->articleNotes()->count());
+
+            $browser
+                ->visit('/article/' . $article->id)
+                ->assertSee($note->content)
+                ->click('.notes-menu')
+                ->clickLink('löschen')
+                ->waitForText('Notiz gelöscht')
+            ;
+
+            $this->assertEquals(0, $article->articleNotes()->count());
         });
     }
 

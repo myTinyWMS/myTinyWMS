@@ -11,17 +11,27 @@
 |
 */
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
 
-use Faker\Generator;
-use Mss\Models\OrderItem;
+use Carbon\Carbon;
+use Mss\Models\User;
+use Mss\Models\Order;
+use Mss\Models\Article;
+use Mss\Models\Supplier;
+use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Mss\Models\Article::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
         'quantity' => $faker->numberBetween(1, 10),
-        'status' => \Mss\Models\Article::STATUS_ACTIVE,
+        'status' => Article::STATUS_ACTIVE,
         'cost_center' => 1
+    ];
+});
+
+$factory->define(Mss\Models\ArticleNote::class, function (Faker\Generator $faker) {
+    return [
+        'content' => $faker->sentence
     ];
 });
 
@@ -56,16 +66,16 @@ $factory->define(Mss\Models\User::class, function (Faker\Generator $faker) {
 
 $factory->define(Mss\Models\OrderItem::class, function (Faker\Generator $faker) {
     return [
-        'article_id' => \Mss\Models\Article::inRandomOrder()->first()->id,
+        'article_id' => Article::inRandomOrder()->first()->id,
         'price' => $faker->randomFloat(0, 500, 100000),
         'quantity' => $faker->randomFloat(0, 1, 30)
     ];
 });
 
 $factory->define(Mss\Models\Order::class, function (Faker\Generator $faker) {
-    $orderDate = \Carbon\Carbon::now()->subDays($faker->randomNumber(1));
+    $orderDate = Carbon::now()->subDays($faker->randomNumber(1));
     return [
-        'supplier_id' => \Mss\Models\Supplier::inRandomOrder()->first()->id,
+        'supplier_id' => Supplier::inRandomOrder()->first()->id,
         'internal_order_number' => $orderDate->format('ymd').$faker->randomNumber(2, true),
         'external_order_number' => $faker->randomNumber(5),
         'total_cost' => $faker->randomFloat(0, 500, 10000),
@@ -77,8 +87,8 @@ $factory->define(Mss\Models\Order::class, function (Faker\Generator $faker) {
 
 $factory->define(Mss\Models\OrderMessage::class, function (Faker\Generator $faker) {
     return [
-        'order_id' => \Mss\Models\Order::inRandomOrder()->first()->id,
-        'received' => \Carbon\Carbon::now()->subDay(),
+        'order_id' => Order::inRandomOrder()->first()->id,
+        'received' => Carbon::now()->subDay(),
         'sender' => [$faker->safeEmail],
         'receiver' => ['System'],
         'subject' => $faker->sentence,

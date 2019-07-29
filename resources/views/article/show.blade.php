@@ -126,7 +126,7 @@
                                     <div class="flex items-baseline">
                                         <small class="text-gray-600">{{ $note->created_at->format('d.m.Y - H:i') }}</small>
 
-                                        <dot-menu class="ml-2">
+                                        <dot-menu class="ml-2 notes-menu">
                                             <a href="{{ route('article.delete_note', [$article, $note]) }}">löschen</a>
                                         </dot-menu>
                                     </div>
