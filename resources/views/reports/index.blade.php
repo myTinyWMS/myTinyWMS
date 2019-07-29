@@ -4,8 +4,8 @@
 
 @section('content')
 <div class="px-2 -ml-2" id="reports">
-    <div class="flex -mx-2">
-        <div class="md:w-1/2 lg:w-1/4 px-2">
+    <div class="flex -mx-2 flex-wrap">
+        <div class="w-1/2 xl:w-1/3 2xl:w-1/4 4xl:w-1/5 px-2 mb-4">
             <div class="card h-full">
                 <div class="card-header">Inventurauswertung</div>
                 <div class="card-content">
@@ -13,11 +13,11 @@
 
                     <form method="post" action="{{ route('reports.inventory_report') }}" id="inventory-report" class="mt-4">
                         {{ csrf_field() }}
-                        <div class="flex">
-                            <div class="w-1/2 pr-4">
+                        <div class="flex flex-wrap">
+                            <div class="w-full lg:w-1/2 pr-4">
                                 {{ Form::bsSelect('inventorytype', null, \Mss\Models\Article::getInventoryTextArray(),  'Inventur Typ', ['placeholder' => 'egal']) }}
                             </div>
-                            <div class="w-1/2">
+                            <div class="w-full lg:w-1/2">
                                 <label class="form-label">Monat</label>
                                 <date-picker-input format="YYYY-MM" outputformat="YYYY-MM" type="inline" name="month" picker-class="w-auto"></date-picker-input>
                             </div>
@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div class="md:w-1/2 lg:w-1/4 px-2">
+        <div class="w-1/2 xl:w-1/3 2xl:w-1/4 4xl:w-1/5 px-2 mb-4">
             <div class="card h-full">
                 <div class="card-header">WA Vergleich</div>
                 <div class="card-content">
@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <div class="md:w-1/2 lg:w-1/4 px-2">
+        <div class="w-1/2 xl:w-1/3 2xl:w-1/4 4xl:w-1/5 px-2">
             <div class="flex-column">
                 <div class="card mb-4 h-40">
                     <div class="card-header">Monats-Inventur-Liste</div>
@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <div class="md:w-1/2 lg:w-1/4 px-2">
+        <div class="w-1/2 xl:w-1/3 2xl:w-1/4 4xl:w-1/5 px-2">
             <div class="flex-column">
                 <div class="card mb-4 h-40">
                     <div class="card-header">Wareneingänge ohne Rechnung</div>
@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <div class="md:w-1/2 lg:w-1/4 px-2">
+        <div class="w-1/2 xl:w-1/3 2xl:w-1/4 4xl:w-1/5 px-2">
             <div class="flex">
                 <div class="card mb-4 h-56">
                     <div class="card-header">Verpackungs-Lizensierungs-Report</div>

@@ -15,7 +15,7 @@
             return {
                 value: '',
                 suggestions : [],
-                selectedItem: -1
+                selectedItem: 0
             }
         },
         methods: {
@@ -43,6 +43,7 @@
                         query: this.value
                     }).then(function(response) {
                         that.suggestions = [];
+                        that.selectedItem = 0;
                         response.data.forEach(function(a) {
                             that.suggestions.push(a)
                         })
