@@ -33,7 +33,7 @@
                 @endif
 
                 <hr class="hr-line-solid">
-                {!! Form::submit('Abschicken', ['class' => 'btn btn-primary']) !!}
+                {!! Form::submit('Abschicken', ['class' => 'btn btn-primary', 'id' => 'send-message']) !!}
             </div>
         </div>
         {!! Form::close() !!}

@@ -28,7 +28,7 @@
                             von {{ messages[currentIndex].sender.join(', ') }}
                         </template>
                     </div>
-                    <dot-menu>
+                    <dot-menu class="order-message-menu">
                         <a :href="route('order.message_forward_form', [messages[currentIndex]])" title="Weiterleiten"><i class="fa fa-forward"></i> Weiterleiten</a>
                         <template v-if="order">
                         <a :href="route('order.message_create', {'order': order, 'answer': messages[currentIndex].id})"><i class="fa fa-reply"></i> Antworten</a>

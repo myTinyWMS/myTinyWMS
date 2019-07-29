@@ -33,7 +33,7 @@
                 <hr class="hr-line-solid">
                 {!! Form::hidden('attachments') !!}
                 {!! Form::hidden('sendOrder', $sendOrder) !!}
-                {!! Form::submit('Abschicken', ['class' => 'btn btn-primary']) !!}
+                {!! Form::submit('Abschicken', ['class' => 'btn btn-primary', 'id' => 'send-message']) !!}
             </div>
         </div>
         {!! Form::close() !!}

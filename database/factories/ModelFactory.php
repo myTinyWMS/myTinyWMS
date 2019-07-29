@@ -33,7 +33,8 @@ $factory->define(Mss\Models\Category::class, function (Faker\Generator $faker) {
 
 $factory->define(Mss\Models\Supplier::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->word
+        'name' => $faker->word,
+        'email' => $faker->safeEmail
     ];
 });
 

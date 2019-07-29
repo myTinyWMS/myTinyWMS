@@ -114,12 +114,16 @@ class OrderMessageController extends Controller {
         $message->read = false;
         $message->save();
 
+        flash('Nachricht als ungelesen markiert.')->success();
+
         return redirect()->route('order.show', $order);
     }
 
     public function markRead(Order $order, OrderMessage $message) {
         $message->read = true;
         $message->save();
+
+        flash('Nachricht als gelesen markiert.')->success();
 
         return redirect()->route('order.show', $order);
     }

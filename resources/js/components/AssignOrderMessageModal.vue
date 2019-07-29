@@ -13,7 +13,7 @@
                 <input type="hidden" name="_token" :value="token">
                 <input type="hidden" name="message" :value="message_id">
                 <button type="button" class="btn btn-default" @click="$modal.hide('assignOrderMessageModal')">Abbrechen</button>
-                <button type="submit" class="btn btn-primary">Speichern</button>
+                <button type="submit" class="btn btn-primary" id="save-assign-order-message">Speichern</button>
             </div>
         </form>
     </modal>
