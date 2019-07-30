@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Mss\Models\OrderItem;
 use Mss\Models\UserSettings;
 use Mss\Notifications\NewDeliverySavedAndInvoiceExists;
+use Mss\Notifications\NewDeliverySavedAndNoInvoiceExists;
 use Mss\Notifications\NewDeliverySavedForWatchedCategories;
 use Mss\Notifications\NewDeliveryWithVaryingDeliveryQuantity;
 
@@ -33,6 +34,7 @@ class DeliverySavedListener
     public function handle(DeliverySaved $event)
     {
         $this->notifyIfInvoiceHasBeenReceived($event);
+        $this->notifyIfInvoiceHasNotBeenReceived($event);
         $this->notifyIfCategoriesHaveBeenWatched($event);
         $this->notifyIfDeliveryQuantityDifferesFromOrderQuantity($event);
     }
@@ -51,6 +53,13 @@ class DeliverySavedListener
                 Notification::send($user, new NewDeliverySavedForWatchedCategories($watchedArticles, $event->delivery));
             }
         });
+    }
+
+    protected function notifyIfInvoiceHasNotBeenReceived(DeliverySaved $event) {
+        $noInvoiceReceivedYet = ($event->delivery->order->items->whereIn('invoice_received', [OrderItem::INVOICE_STATUS_RECEIVED, OrderItem::INVOICE_STATUS_CHECK])->count() == 0);
+        if ($noInvoiceReceivedYet) {
+            Notification::send(UserSettings::getUsersWhereTrue(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_WITHOUT_INVOICE_RECEIVED), new NewDeliverySavedAndNoInvoiceExists($event->delivery));
+        }
     }
 
     protected function notifyIfInvoiceHasBeenReceived(DeliverySaved $event) {

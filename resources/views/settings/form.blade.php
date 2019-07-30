@@ -25,6 +25,15 @@
                             <div class="mb-4">
                                 <div class="i-checks">
                                     <label>
+                                        <input type="checkbox" name="setting[{{ UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_WITHOUT_INVOICE_RECEIVED }}]" @if(Auth::user()->settings()->get(UserSettings::SETTING_NOTIFY_AFTER_NEW_DELIVERY_WITHOUT_INVOICE_RECEIVED)) checked @endif value="1">
+                                        Benachrichtigung wenn eine Lieferung zu einem Artikel erfolgt, für den noch keine Rechnung vorhanden ist
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="i-checks">
+                                    <label>
                                         <input type="checkbox" name="setting[{{ UserSettings::SETTING_NOTIFY_ON_INVOICE_CHECKS }}]" @if(Auth::user()->settings()->get(UserSettings::SETTING_NOTIFY_ON_INVOICE_CHECKS)) checked @endif value="1">
                                         Benachrichtigung bei Rechnungen die zur Prüfung angemerkt wurden
                                     </label>
