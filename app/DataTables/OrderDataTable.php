@@ -14,6 +14,16 @@ class OrderDataTable extends BaseDataTable
     protected $actionView = 'order.list_action';
 
     /**
+     * @var bool
+     */
+    protected $paging = false;
+
+    /**
+     * @var array
+     */
+    protected $defaultStatusFilter = Order::STATES_OPEN;
+
+    /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
@@ -113,10 +123,11 @@ class OrderDataTable extends BaseDataTable
                 $query->where('supplier_id', $keyword);
             })
             ->filter(function ($query) {
-                if (!isset(request('columns')[3]['search'])) {
-                    $query->whereIn('status', Order::STATUSES_OPEN);
+                if (!isset(request('columns')[3]['search']) && !empty($this->defaultStatusFilter)) {
+                    $query->whereIn('status', $this->defaultStatusFilter);
                 }
-            })
+
+            }, true)
             ->addColumn('items', function ($order) {
                 return view('order.list_items', compact('order'))->render();
             })
@@ -150,7 +161,7 @@ class OrderDataTable extends BaseDataTable
             ->minifiedAjax()
             ->columns($this->getColumns())
             ->parameters([
-                'paging' => false,
+                'paging' => $this->paging,
                 'order'   => [[1, 'asc']],
                 'rowGroup' => ['dataSrc' => 'supplier']
             ])

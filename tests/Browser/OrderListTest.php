@@ -126,4 +126,22 @@ class OrderListTest extends DuskTestCase
                 ->assertSeeIn('#dataTableBuilder tbody', $order->internal_order_number);
         });
     }
+
+    public function test_search_by_order_number() {
+        $this->browse(function (Browser $browser) {
+            $order1 = Order::statusOpen()->doesntHave('messages')->whereNotNull('supplier_id')->inRandomOrder()->first();
+            $order2 = Order::statusOpen()->doesntHave('messages')->where('id', '!=', $order1->id)->whereNotNull('supplier_id')->inRandomOrder()->first();
+
+            $browser
+                ->visit('/order')
+                ->waitUntilMissing('#dataTableBuilder_processing')
+                ->assertSee($order1->internal_order_number)
+                ->assertSee($order2->internal_order_number)
+                ->type('#dataTableBuilder_filter input', $order1->internal_order_number)
+                ->waitUntilMissing('#dataTableBuilder_processing')
+                ->assertSee($order1->internal_order_number)
+                ->assertDontSee($order2->internal_order_number)
+            ;
+        });
+    }
 }
