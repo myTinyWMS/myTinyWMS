@@ -17,7 +17,7 @@
                     return this.value
                 },
                 set (value) {
-                    if (typeof value == 'object') {
+                    if (typeof value == 'object' && !(value instanceof Date)) {
                         value[0] = moment(value[0]).format(this.outputformat);
                         value[1] = moment(value[1]).format(this.outputformat);
                         this.$emit('input', value);
