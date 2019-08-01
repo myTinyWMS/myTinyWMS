@@ -1,5 +1,5 @@
 <div class="w-full fixed pin-l pin-y z-20">
-    @if(env('DEBUG'))
+    @if(env('APP_DEBUG'))
     <div class="fixed top-0 keft-0 m-2 p-3 text-xs font-mono text-white h-8 w-8 rounded-full flex items-center justify-center bg-gray-700 sm:bg-pink-500 md:bg-orange-500 lg:bg-green-500 xl:bg-blue-500 2xl:bg-red-500 3xl:bg-purple-500 4xl:bg-teal-500">
         <div class="block  sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden 3xl:hidden 4xl:hidden">al</div>
         <div class="hidden sm:block  md:hidden lg:hidden xl:hidden 2xl:hidden 3xl:hidden 4xl:hidden">sm</div>
