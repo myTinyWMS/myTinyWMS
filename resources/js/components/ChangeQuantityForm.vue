@@ -67,7 +67,7 @@
 
         data() {
             return {
-                changelogChangeType: 'add',
+                changelogChangeType: 'sub',
                 changelogType: {value: ''},
                 change: '',
                 csrf: "",
