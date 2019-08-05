@@ -126,6 +126,12 @@ class Order extends AuditableModel
         );
     }
 
+    public function scopeOverdue($query) {
+        $query->whereHas('items', function ($query) {
+            $query->overdue()->notFullyDelivered();
+        });
+    }
+
     /**
      * {@inheritdoc}
      */

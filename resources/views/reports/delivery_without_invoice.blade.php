@@ -15,8 +15,8 @@
     <div class="row">
         <div class="row">
             <div class="col-lg-12">
-                <div class="ibox">
-                    <div class="ibox-content">
+                <div class="card">
+                    <div class="card-content">
                         <table class="table table-striped">
                             <thead>
                                 <tr>

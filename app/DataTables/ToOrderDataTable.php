@@ -11,6 +11,8 @@ use Mss\Models\OrderItem;
 
 class ToOrderDataTable extends ArticleDataTable
 {
+    protected $dom = '<"table-toolbar"<"flex mb-4"<"#table-filter">>r<"table-toolbar-right">><"table-wrapper"<"fix-head-bg"><"table-content"t><"table-footer"<"table-footer-actions">ip>>';
+
     /**
      * Build DataTable class.
      *
