@@ -13,7 +13,7 @@ RUN set -e -x \
         libpq-dev \
         libldap2-dev libxrender1 libxext6 \
         locales git gnupg \
-        libfreetype6-dev libmcrypt-dev libjpeg-dev libpng-dev \
+        libfreetype6-dev libmcrypt-dev libjpeg-dev libpng-dev wkhtmltopdf \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install -j$(nproc) zip pdo_mysql intl bcmath imap pgsql iconv  \
     && docker-php-ext-configure pgsql \
