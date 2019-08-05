@@ -43,10 +43,8 @@
 
                 <h1 class="my-2 pm-2 border-b">{{ messages[currentIndex].subject }}</h1>
 
-                <iframe seamless frameborder="0" class="w-full h-screen" :srcdoc="messages[currentIndex].htmlBody" v-if="messages[currentIndex].htmlBody != ''"></iframe>
-                <div class="w-full h-screen" v-else>
-                    {{ cleanTextBody(messages[currentIndex].textBody) }}
-                </div>
+                <iframe seamless frameborder="0" class="w-full h-screen" :srcdoc="messages[currentIndex].htmlBody" v-if="messages[currentIndex].htmlBody != '' && messages[currentIndex].htmlBody != 0"></iframe>
+                <div class="w-full h-screen" v-else v-html="cleanTextBody(messages[currentIndex].textBody)"></div>
 
                 <div class="mt-4 border-t pt-4" v-if="messages[currentIndex].attachments.length">
                     <div class="text-xs mb-4">
