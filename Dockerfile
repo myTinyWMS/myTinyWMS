@@ -13,7 +13,7 @@ RUN set -e -x \
         libpq-dev \
         libldap2-dev libxrender1 libxext6 \
         locales git gnupg \
-        libfreetype6-dev libmcrypt-dev libjpeg-dev libpng-dev wkhtmltopdf \
+        libfreetype6-dev libmcrypt-dev libjpeg-dev libpng-dev \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install -j$(nproc) zip pdo_mysql intl bcmath imap pgsql iconv  \
     && docker-php-ext-configure pgsql \
@@ -32,6 +32,12 @@ RUN set -e -x \
     && docker-php-ext-enable redis \
     && sed -i '/^#.* de_DE.* /s/^#//' /etc/locale.gen \
     && locale-gen
+
+# Install wkhtmltopdf
+RUN set -e -x \
+	&& wget "https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb" -q -O /tmp/wkhtmltox_0.12.5-1.stretch_amd64.deb \
+	&& apt install -y /tmp/wkhtmltox_0.12.5-1.stretch_amd64.deb \
+	&& rm -rf /tmp/wkhtmltox_0.12.5-1.stretch_amd64.deb
 
 # Install nodejs and npm
 RUN set -e -x \
