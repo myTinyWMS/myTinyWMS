@@ -46,9 +46,9 @@
                 <iframe seamless frameborder="0" class="w-full h-screen" :srcdoc="messages[currentIndex].htmlBody" v-if="messages[currentIndex].htmlBody != '' && messages[currentIndex].htmlBody != 0"></iframe>
                 <div class="w-full h-screen" v-else v-html="cleanTextBody(messages[currentIndex].textBody)"></div>
 
-                <div class="mt-4 border-t pt-4" v-if="messages[currentIndex].attachments.length">
+                <div class="mt-4 border-t pt-4" v-if="Object.keys(messages[currentIndex].attachments).length">
                     <div class="text-xs mb-4">
-                        <z icon="attachment" class="fill-current w-3 h-3 inline-block"></z> {{ messages[currentIndex].attachments.length }} {{ $tc('plural.attachment', messages[currentIndex].attachments.length) }}:
+                        <z icon="attachment" class="fill-current w-3 h-3 inline-block"></z> {{ Object.keys(messages[currentIndex].attachments).length }} {{ $tc('plural.attachment', messages[currentIndex].attachments.length) }}:
                     </div>
 
                     <div class="flex">
