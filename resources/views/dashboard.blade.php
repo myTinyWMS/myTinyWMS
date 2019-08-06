@@ -19,8 +19,9 @@
         <button class="btn btn-xs btn-secondary" type="submit" id="create_new_order">@lang('Bestellung erstellen')</button>
     </div>
 
-    <div class="row">
-        <div class="w-1/2 mr-4">
+    <div class="flex flex-wrap -mx-2">
+        @if(count($invoicesWithoutDelivery))
+        <div class="w-1/2 px-2 mb-4">
             <div class="card">
                 <div class="card-header">
                     @lang('Rechnungen ohne Wareneingang')
@@ -49,7 +50,10 @@
                 </div>
             </div>
         </div>
-        <div class="w-1/2">
+        @endif
+
+        @if(count($deliveriesWithoutInvoice))
+        <div class="w-1/2 px-2 mb-4">
             <div class="card">
                 <div class="card-header">
                     @lang('Wareneingänge ohne Rechnung')
@@ -57,48 +61,48 @@
                 <div class="card-content">
                     <table class="dataTable">
                         <thead>
-                            <tr>
-                                <th>@lang('Artikel')</th>
-                                <th>@lang('Bestellung')</th>
-                                <th>@lang('Lieferant')</th>
-                                <th>@lang('Lieferzeitpunkt')</th>
-                                <th>@lang('Bestellwert')</th>
-                            </tr>
+                        <tr>
+                            <th>@lang('Artikel')</th>
+                            <th>@lang('Bestellung')</th>
+                            <th>@lang('Lieferant')</th>
+                            <th>@lang('Lieferzeitpunkt')</th>
+                            <th>@lang('Bestellwert')</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach($deliveriesWithoutInvoice as $item)
-                                <tr>
-                                    <td>
-                                        <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('order.show', $item->order) }}" target="_blank">{{ $item->order->internal_order_number }}</a>
-                                    </td>
-                                    <td>{{ $item->order->supplier->name }}</td>
-                                    <td>
-                                        @if($item->deliveryItems->count() > 1)
-                                            {{ $item->deliveryItems->first()->created_at->format('d.m.Y') }}
-                                        @else
-                                            @foreach($item->deliveryItems as $deliveryItem)
-                                                {{ $deliveryItem->created_at->format('d.m.Y') }}
-                                                @if(!$loop->last)
-                                                    <br>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    </td>
-                                    <td>{!! formatPrice($item->price * $item->quantity) !!}</td>
-                                </tr>
-                            @endforeach
+                        @foreach($deliveriesWithoutInvoice as $item)
+                            <tr>
+                                <td>
+                                    <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('order.show', $item->order) }}" target="_blank">{{ $item->order->internal_order_number }}</a>
+                                </td>
+                                <td>{{ $item->order->supplier->name }}</td>
+                                <td>
+                                    @if($item->deliveryItems->count() > 1)
+                                        {{ $item->deliveryItems->first()->created_at->format('d.m.Y') }}
+                                    @else
+                                        @foreach($item->deliveryItems as $deliveryItem)
+                                            {{ $deliveryItem->created_at->format('d.m.Y') }}
+                                            @if(!$loop->last)
+                                                <br>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </td>
+                                <td>{!! formatPrice($item->price * $item->quantity) !!}</td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-    </div>
+        @endif
 
-    <div class="row mt-4">
-        <div class="w-1/2 mr-4">
+        @if(count($overdueOrders))
+        <div class="w-1/2 px-2 mb-4">
             <div class="card">
                 <div class="card-header">
                     @lang('Überfällige Bestellungen')
@@ -127,7 +131,10 @@
                 </div>
             </div>
         </div>
-        <div class="w-1/2">
+        @endif
+
+        @if(count($ordersWithoutMessages))
+        <div class="w-1/2 px-2 mb-4">
             <div class="card">
                 <div class="card-header">
                     @lang('Bestellungen ohne E-Mail')
@@ -156,10 +163,10 @@
                 </div>
             </div>
         </div>
-    </div>
+        @endif
 
-    <div class="row mt-4">
-        <div class="w-1/2">
+        @if(count($ordersWithoutConfirmation))
+        <div class="w-1/2 px-2 mb-4">
             <div class="card">
                 <div class="card-header">
                     @lang('Bestellungen ohne AB')
@@ -188,6 +195,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
 @endsection
 
