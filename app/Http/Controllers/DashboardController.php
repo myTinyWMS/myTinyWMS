@@ -4,6 +4,7 @@ namespace Mss\Http\Controllers;
 
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Mss\DataTables\ToOrderDataTable;
 use Mss\Models\Article;
 use Mss\Models\Order;
@@ -18,13 +19,17 @@ class DashboardController extends Controller
 
         $deliveriesWithoutInvoice = $this->getDeliveriesWithoutInvoice();
         $invoicesWithoutDelivery = $this->getInvoicesWithoutDelivery();
-        $overdueOrders = Order::with(['items', 'supplier'])->overdue()->get();
+        $overdueOrders = Order::with(['items', 'supplier'])->overdue()->orderBySub(
+            OrderItem::select(DB::raw('MAX(expected_delivery)'))->whereColumn('order_id', 'orders.id')
+        )->get();
         $ordersWithoutMessages = Order::with(['items', 'supplier'])->whereDoesntHave('messages')->whereIn('status', [Order::STATUS_NEW, Order::STATUS_ORDERED])->whereHas('supplier', function ($query) {
             $query->where('email', '!=', '');
         })->get();
         $ordersWithoutConfirmation = Order::with(['items', 'supplier'])->whereIn('status', [Order::STATUS_NEW, Order::STATUS_ORDERED])->whereHas('items', function ($query) {
             $query->where('confirmation_received', false);
-        })->get();
+        })->orderBySub(
+            OrderItem::select(DB::raw('MAX(expected_delivery)'))->whereColumn('order_id', 'orders.id')
+        )->get();
 
         return $toOrderDataTable->render('dashboard', compact('deliveriesWithoutInvoice', 'invoicesWithoutDelivery', 'overdueOrders', 'ordersWithoutMessages', 'ordersWithoutConfirmation'));
     }

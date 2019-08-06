@@ -31,6 +31,7 @@
         "martinlindhe/laravel-vue-i18n-generator": "^0.1.39",
         "owen-it/laravel-auditing": "^8.0",
         "predis/predis": "^1.1",
+        "reinink/advanced-eloquent": "^0.2.0",
         "sentry/sentry-laravel": "^0.8.0",
         "tightenco/ziggy": "^0.6.9",
         "webklex/laravel-imap": "1.0.4.1",
