@@ -102,7 +102,7 @@
         <div class="w-1/2 mr-4">
             <div class="card">
                 <div class="card-header">
-                    @lang('Überfällige Bestellugen')
+                    @lang('Überfällige Bestellungen')
                 </div>
                 <div class="card-content">
                     <table class="dataTable">
