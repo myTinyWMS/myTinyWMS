@@ -55,6 +55,8 @@
                 © 2019 Alexander Reichardt
                 <span class="px-1">·</span>
                 v1.1.0
+                <span class="px-1">·</span>
+                Eingeloggt als: {{ \Illuminate\Support\Facades\Auth::user()->username }}
             </p>
         </div>
     </div>

@@ -19,7 +19,7 @@
         <button class="btn btn-xs btn-secondary" type="submit" id="create_new_order">@lang('Bestellung erstellen')</button>
     </div>
 
-    @if(auth()->user()->name == 'admin')
+    @if(auth()->user()->username == 'admin')
     <div class="row">
         <div class="w-1/2 mr-4">
             <div class="card">
