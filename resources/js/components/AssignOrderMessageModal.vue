@@ -37,6 +37,9 @@
         methods: {
             opened () {
                 window.LaravelDataTables[window.DataTableId]=$('#'+window.DataTableId).DataTable(window.DataTableConfig);
+                $('#dataTableBuilder').on('init.dt', function () {
+                    $('body').trigger('datatablesInit');
+                });
             },
             beforeOpen (event) {
                 this.message_id = event.params.message_id;
