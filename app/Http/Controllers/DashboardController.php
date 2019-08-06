@@ -19,7 +19,7 @@ class DashboardController extends Controller
 
         $deliveriesWithoutInvoice = $this->getDeliveriesWithoutInvoice();
         $invoicesWithoutDelivery = $this->getInvoicesWithoutDelivery();
-        $overdueOrders = Order::with(['items', 'supplier'])->overdue()->orderBySub(
+        $overdueOrders = Order::with(['items', 'supplier'])->where('status', '!=', Order::STATUS_CANCELLED)->overdue()->orderBySub(
             OrderItem::select(DB::raw('MAX(expected_delivery)'))->whereColumn('order_id', 'orders.id')
         )->get();
         $ordersWithoutMessages = Order::with(['items', 'supplier'])->whereDoesntHave('messages')->whereIn('status', [Order::STATUS_NEW, Order::STATUS_ORDERED])->whereHas('supplier', function ($query) {
@@ -27,9 +27,7 @@ class DashboardController extends Controller
         })->get();
         $ordersWithoutConfirmation = Order::with(['items', 'supplier'])->whereIn('status', [Order::STATUS_NEW, Order::STATUS_ORDERED])->whereHas('items', function ($query) {
             $query->where('confirmation_received', false);
-        })->orderBySub(
-            OrderItem::select(DB::raw('MAX(expected_delivery)'))->whereColumn('order_id', 'orders.id')
-        )->get();
+        })->orderBy('order_date')->get();
 
         return $toOrderDataTable->render('dashboard', compact('deliveriesWithoutInvoice', 'invoicesWithoutDelivery', 'overdueOrders', 'ordersWithoutMessages', 'ordersWithoutConfirmation'));
     }

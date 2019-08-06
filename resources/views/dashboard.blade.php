@@ -171,7 +171,7 @@
                         <tr>
                             <th>@lang('Bestellung')</th>
                             <th>@lang('Lieferant')</th>
-                            <th>@lang('Lieferzeitpunkt')</th>
+                            <th>@lang('Bestellzeitpunkt')</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -181,7 +181,7 @@
                                     <a href="{{ route('order.show', $order) }}" target="_blank">{{ $order->internal_order_number }}</a>
                                 </td>
                                 <td>{{ $order->supplier->name }}</td>
-                                <td>{{ $order->items->max('expected_delivery') ? $order->items->max('expected_delivery')->format('d.m.Y') : '' }}</td>
+                                <td>{{ $order->order_date->format('d.m.Y') }}</td>
                             </tr>
                         @endforeach
                         </tbody>

@@ -27,7 +27,7 @@
 
             <div class="px-12 py-12 mx-auto pt-32">
                 <div>
-                    <ul class="breadcrumb">
+                    <ul class="breadcrumb print:hidden">
                         @yield('breadcrumb')
                     </ul>
                 </div>
@@ -55,8 +55,8 @@
                 © 2019 Alexander Reichardt
                 <span class="px-1">·</span>
                 v1.1.0
-                <span class="px-1">·</span>
-                Eingeloggt als: {{ \Illuminate\Support\Facades\Auth::user()->username }}
+                <span class="px-1 print:hidden">·</span>
+                <span class="print:hidden">Eingeloggt als: {{ \Illuminate\Support\Facades\Auth::user()->username }}</span>
             </p>
         </div>
     </div>
