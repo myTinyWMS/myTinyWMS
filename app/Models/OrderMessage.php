@@ -47,11 +47,7 @@ class OrderMessage extends AuditableModel
 
     public function getAttachmentsAttribute($value) {
         return collect(json_decode($value, true))->transform(function ($attachment) {
-            if(stripos($attachment['orgFileName'], "=?utf-8?b?") !== false) {
-                $attachment['orgFileName'] = str_ireplace("=?utf-8?B?", "", $attachment['orgFileName']);
-                $attachment['orgFileName'] = str_replace("==?=", "", $attachment['orgFileName']);
-                $attachment['orgFileName'] = utf8_encode(base64_decode($attachment['orgFileName']));
-            }
+            $attachment['orgFileName'] = iconv_mime_decode($attachment['orgFileName']);
 
             return $attachment;
         });
