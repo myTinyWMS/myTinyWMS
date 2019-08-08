@@ -42,6 +42,7 @@ class Order extends AuditableModel
     const PAYMENT_STATUS_PAID_WITH_CREDIT_CARD = 2;
     const PAYMENT_STATUS_PAID_WITH_INVOICE = 3;
     const PAYMENT_STATUS_PAID_WITH_AUTOMATIC_DEBIT_TRANSFER = 4;
+    const PAYMENT_STATUS_PAID_WITH_PRE_PAYMENT = 5;
 
     const PAYMENT_STATUS_TEXT = [
         self::PAYMENT_STATUS_UNPAID => 'unbezahlt',
@@ -49,6 +50,7 @@ class Order extends AuditableModel
         self::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD => 'Kreditkarte',
         self::PAYMENT_STATUS_PAID_WITH_INVOICE => 'Rechnung',
         self::PAYMENT_STATUS_PAID_WITH_AUTOMATIC_DEBIT_TRANSFER => 'Bankeinzug',
+        self::PAYMENT_STATUS_PAID_WITH_PRE_PAYMENT => 'Vorkasse',
     ];
 
     protected $dates = ['order_date', 'expected_delivery'];

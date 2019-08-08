@@ -94,6 +94,7 @@
                                     <a href="{{ route('order.change_payment_status', ['order' => $order, 'payment_status' => \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD]) }}">Kreditkarte</a>
                                     <a href="{{ route('order.change_payment_status', ['order' => $order, 'payment_status' => \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_INVOICE]) }}">Rechnung</a>
                                     <a href="{{ route('order.change_payment_status', ['order' => $order, 'payment_status' => \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_AUTOMATIC_DEBIT_TRANSFER]) }}">Bankeinzug</a>
+                                    <a href="{{ route('order.change_payment_status', ['order' => $order, 'payment_status' => \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_PRE_PAYMENT]) }}">Vorkasse</a>
                                 </dot-menu>
                             </label>
                             <div class="form-control-static">
