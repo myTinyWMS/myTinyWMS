@@ -123,7 +123,7 @@
                                     <a href="{{ route('order.show', $order) }}" target="_blank">{{ $order->internal_order_number }}</a>
                                 </td>
                                 <td>{{ $order->supplier->name }}</td>
-                                <td>{{ $order->items->max('expected_delivery')->format('d.m.Y') }}</td>
+                                <td>{{ $order->getOldestOverdueDate()->format('d.m.Y') }}</td>
                             </tr>
                         @endforeach
                         </tbody>

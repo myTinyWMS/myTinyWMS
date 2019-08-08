@@ -105,7 +105,7 @@ class OrderItem extends AuditableModel
     }
 
     public function scopeOverDue($query) {
-        $query->where('expected_delivery', '<', now());
+        $query->where('expected_delivery', '<', today());
     }
 
     /**

@@ -133,6 +133,15 @@ class Order extends AuditableModel
     }
 
     /**
+     * @return Carbon
+     */
+    public function getOldestOverdueDate() {
+        return $this->items->filter(function ($item) {
+            return $item->getQuantityDelivered() != $item->quantity;
+        })->min('expected_delivery');
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function transformAudit(array $data): array {
