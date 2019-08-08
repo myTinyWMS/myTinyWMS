@@ -66,6 +66,12 @@
             }
         },
 
+        mounted() {
+            if(this.existingArticles.length > 0) {
+                this.filterArticleList();
+            }
+        },
+
         methods: {
             addArticle(showArticleList) {
                 this.articles.push({
@@ -89,7 +95,11 @@
 
             showArticleList(currentIndex) {
                 this.currentIndex = currentIndex;
+                this.filterArticleList();
+                this.$modal.show('selectOrderArticleModal');
+            },
 
+            filterArticleList() {
                 let currentSupplierId = this.supplier;
                 let allArticles = _.map(this.allArticles, function (o) {
                     if (o.supplier_id == currentSupplierId) return o;
@@ -98,7 +108,6 @@
                 let notExistingIds = _.difference(_.map(allArticles, 'id'), _.map(this.articles, 'id'));
 
                 serverBus.$emit('filterOrderArticleList', notExistingIds);
-                this.$modal.show('selectOrderArticleModal');
             },
 
             formatPrice(value) {
