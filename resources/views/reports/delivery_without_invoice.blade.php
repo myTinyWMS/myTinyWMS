@@ -15,8 +15,8 @@
     <div class="row">
         <div class="row">
             <div class="col-lg-12">
-                <div class="ibox">
-                    <div class="ibox-content">
+                <div class="card">
+                    <div class="card-content">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -58,9 +58,5 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="toolbar_content hidden">
-        <button class="btn btn-xs btn-primary" type="submit">Bestellung erstellen</button>
     </div>
 @endsection

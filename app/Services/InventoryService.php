@@ -24,7 +24,7 @@ class InventoryService {
      * @return PdfWrapper
      */
     public static function generatePdf($inventoryType = null) {
-        $articles = Article::active()->orderedByArticleNumber()->with(['unit', 'category']);
+        $articles = Article::enabled()->orderedByArticleNumber()->with(['unit', 'category']);
         if (!is_null($inventoryType)) {
             $articles->where('inventory', $inventoryType);
         }
@@ -124,7 +124,7 @@ class InventoryService {
             'started_by' => Auth::id()
         ]);
 
-        $articles = Article::active()->where('inventory', Article::INVENTORY_TYPE_CONSUMABLES)->get();
+        $articles = Article::enabled()->where('inventory', Article::INVENTORY_TYPE_CONSUMABLES)->get();
         $articles->each(function ($article) use ($inventory) {
             $inventory->items()->create([
                 'article_id' => $article->id
@@ -139,7 +139,7 @@ class InventoryService {
             'started_by' => Auth::id()
         ]);
 
-        $articles = Article::active()->get();
+        $articles = Article::enabled()->get();
         $articles->each(function ($article) use ($inventory) {
             $inventory->items()->create([
                 'article_id' => $article->id

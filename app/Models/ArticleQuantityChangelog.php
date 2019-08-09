@@ -17,6 +17,8 @@ class ArticleQuantityChangelog extends AuditableModel
 
     protected $fillable = ['created_at', 'updated_at', 'user_id', 'type', 'change', 'new_quantity', 'note', 'delivery_item_id', 'unit_id', 'article_id', 'related_id'];
 
+    static $auditName = 'Artikel-Bestandsänderung';
+
     public static function getAvailableTypes() {
         return [
             self::TYPE_START,

@@ -19,6 +19,8 @@ class Category extends AuditableModel
 
     protected $dates = ['deleted_at'];
 
+    static $auditName = 'Kategorie';
+
     protected $fieldNames = [
         'name' => 'Name',
         'notes' => 'Bemerkungen'
@@ -34,7 +36,7 @@ class Category extends AuditableModel
 
     public function scopeWithActiveArticles($query) {
         $query->with(['articles' => function ($query) {
-            $query->active()->orderedByArticleNumber();
+            $query->enabled()->orderedByArticleNumber();
         }]);
     }
 }

@@ -16,6 +16,6 @@
 @endsection
 
 @section('submit')
-    {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
+    {!! Form::submit('Speichern', ['class' => 'btn btn-primary', 'id' => 'save-order']) !!}
     <a href="{{ route('order.cancel', $order) }}" class="btn btn-danger pull-right">Abbrechen</a>
 @endsection

@@ -18,7 +18,14 @@ use OwenIt\Auditing\Contracts\Auditable;
 /**
  * Class Article
  *
+ * @property integer id
+ * @property string article_number
+ * @property integer quantity
+ * @property integer outsourcing_quantity
  * @method static Builder active()
+ * @method static Builder enabled()
+ * @method static Builder withCurrentSupplierArticle()
+ * @method static Builder withCurrentSupplier()
  * @package Mss\Models
  */
 class Article extends AuditableModel
@@ -40,11 +47,12 @@ class Article extends AuditableModel
     protected $fillable = ['name', 'article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes', 'free_lines_in_printed_list', 'cost_center', 'weight', 'packaging_category'];
 
     protected $casts = [
-        'inventory' => 'boolean',
         'files' => 'array'
     ];
 
     protected $dates = ['deleted_at'];
+
+    static $auditName = 'Artikel';
 
     protected $fieldNames = [
         'name' => 'Name',
@@ -208,8 +216,16 @@ class Article extends AuditableModel
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeActive($query) {
+    public function scopeEnabled($query) {
         return $query->whereIn('status', [self::STATUS_ACTIVE, self::STATUS_NO_ORDERS]);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query) {
+        return $query->where('status', self::STATUS_ACTIVE);
     }
 
     /**

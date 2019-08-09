@@ -14,6 +14,16 @@ class OrderDataTable extends BaseDataTable
     protected $actionView = 'order.list_action';
 
     /**
+     * @var bool
+     */
+    protected $paging = false;
+
+    /**
+     * @var array
+     */
+    protected $defaultStatusFilter = Order::STATES_OPEN;
+
+    /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
@@ -24,7 +34,7 @@ class OrderDataTable extends BaseDataTable
         return datatables($query)
             ->setRowId('id')
             ->addColumn('supplier', function (Order $order) {
-                return $order->supplier ? $order->supplier->name : '';
+                return $order->supplier ? $order->supplier->name : '<span class="italic text-gray-600">leer</span>';
             })
             ->orderColumn('supplier', 'supplier_name $1')
             ->editColumn('order_date', function (Order $order) {
@@ -36,27 +46,20 @@ class OrderDataTable extends BaseDataTable
                     return 'heute';
                 }
 
-                return $order->order_date->diffForHumans(Carbon::now()->startOfDay()).'<br><small class="text-muted">('.$order->order_date->format('d.m.Y').')</small>';
+                return $order->order_date->format('d.m.Y');
             })
             ->editColumn('expected_delivery', function (Order $order) {
                 /* @var $expectedDelivery Carbon */
                 $expectedDelivery = $order->items->max('expected_delivery');
-                if (empty($expectedDelivery)) {
-                    $output = '';
-                } else if ($expectedDelivery->diffInDays(Carbon::now()) < 1) {
-                    $output = 'heute';
-                } else {
-                    $output = $expectedDelivery->diffForHumans(Carbon::now()->startOfDay());
-                    $output .=  '<br><small class="text-muted">('.$expectedDelivery->format('d.m.Y').')</small>';
-                }
+                $output = $expectedDelivery ? $expectedDelivery->format('d.m.Y') : '';
 
-                $overdueItems = $order->items()->overdue()->get()->filter(function ($orderItem) {
+                $overdueItems = $order->items->filter(function ($orderItem) {
                     /** @var OrderItem $orderItem */
-                    return ($orderItem->getQuantityDelivered() < $orderItem->quantity);
+                    return ($orderItem->expected_delivery < now() && $orderItem->getQuantityDelivered() < $orderItem->quantity);
                 });
 
                 if ($overdueItems->count()) {
-                    $output .= '<br><span class="label label-danger">überfällig</span>';
+                    $output .= '<br><span class="text-red-400 text-sm font-bold">überfällig</span>';
                 }
 
                 return $output;
@@ -120,16 +123,17 @@ class OrderDataTable extends BaseDataTable
                 $query->where('supplier_id', $keyword);
             })
             ->filter(function ($query) {
-                if (!isset(request('columns')[3]['search'])) {
-                    $query->whereIn('status', Order::STATUSES_OPEN);
+                if (!isset(request('columns')[3]['search']) && !empty($this->defaultStatusFilter)) {
+                    $query->whereIn('status', $this->defaultStatusFilter);
                 }
-            })
+
+            }, true)
             ->addColumn('items', function ($order) {
                 return view('order.list_items', compact('order'))->render();
             })
             ->editColumn('status', 'order.status')
             ->addColumn('action', $this->actionView)
-            ->rawColumns(['action', 'status', 'order_date', 'expected_delivery', 'internal_order_number', 'invoice_status', 'confirmation_status', 'items']);
+            ->rawColumns(['action', 'supplier', 'status', 'order_date', 'expected_delivery', 'internal_order_number', 'invoice_status', 'confirmation_status', 'items']);
     }
 
     /**
@@ -141,7 +145,7 @@ class OrderDataTable extends BaseDataTable
     public function query(Order $model)
     {
         return $model->newQuery()->withSupplierName()
-            ->with(['items', 'items.article' => function ($query) {
+            ->with(['items.order.deliveries.items', 'items.article' => function ($query) {
                 $query->withCurrentSupplierArticle();
             }, 'supplier', 'messages']);
     }
@@ -157,11 +161,11 @@ class OrderDataTable extends BaseDataTable
             ->minifiedAjax()
             ->columns($this->getColumns())
             ->parameters([
-                'paging' => false,
+                'paging' => $this->paging,
                 'order'   => [[1, 'asc']],
                 'rowGroup' => ['dataSrc' => 'supplier']
             ])
-            ->addAction(['title' => '', 'width' => '100px']);
+            ->addAction(['title' => 'Aktion', 'width' => '100px', 'class' => 'action-col']);
     }
 
     /**
@@ -172,12 +176,12 @@ class OrderDataTable extends BaseDataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'internal_order_number', 'name' => 'internal_order_number', 'title' => 'Bestellnummer', 'width' => '110px'],
+            ['data' => 'internal_order_number', 'name' => 'internal_order_number', 'title' => 'Bestellnummer', 'width' => '160px'],
             ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant', 'visible' => false],
             ['data' => 'items', 'name' => 'items', 'title' => 'Artikel'],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Bestellstatus', 'width' => '50px', 'class' => 'text-center'],
-            ['data' => 'confirmation_status', 'name' => 'confirmation_status', 'title' => 'AB', 'width' => '50px', 'class' => 'text-center', 'orderable' => false],
-            ['data' => 'invoice_status', 'name' => 'invoice_status', 'title' => 'Rechnung', 'width' => '50px', 'class' => 'text-center', 'orderable' => false],
+            ['data' => 'status', 'name' => 'status', 'title' => 'Bestellstatus', 'width' => '150px', 'class' => 'text-center'],
+            ['data' => 'confirmation_status', 'name' => 'confirmation_status', 'title' => 'AB', 'width' => '110px', 'class' => 'text-center', 'orderable' => false],
+            ['data' => 'invoice_status', 'name' => 'invoice_status', 'title' => 'Rechnung', 'width' => '110px', 'class' => 'text-center', 'orderable' => false],
             ['data' => 'order_date', 'name' => 'order_date', 'title' => 'Bestelldatum', 'class' => 'text-right', 'searchable' => false, 'width' => '90px'],
             ['data' => 'expected_delivery', 'name' => 'expected_delivery', 'title' => 'Lieferdatum', 'class' => 'text-right', 'searchable' => false, 'width' => '90px'],
         ];

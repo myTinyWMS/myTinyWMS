@@ -1,6 +1,6 @@
 @inject('globalPageService', 'Mss\Services\GlobalPageService')
 <!DOCTYPE html>
-<html>
+<html class="h-full tracking-normal antialiased" lang="de">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,44 +9,37 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="stylesheet" href="{!! mix('css/vendor.css') !!}" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="/css/material-icons.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+
+    {{--<link rel="stylesheet" href="{!! mix('css/vendor.css') !!}" />--}}
     <link rel="stylesheet" href="{!! mix('css/app.css') !!}" />
 
     @yield('extra_head')
     @routes
 </head>
 
-<body @if ($globalPageService->hasMiniNavbar()) class="mini-navbar" @endif>
-    <!-- Wrapper-->
-    <div id="wrapper">
-        @include('layout.sidebar')
-
-        <!-- Page wraper -->
-        <div id="page-wrapper" class="gray-bg">
-
-            <!-- Page wrapper -->
+<body class="min-w-site bg-gray-200 text-black min-h-full">
+    <div class="flex min-h-screen" id="app">
+        <div class="content" id="wrapper">
             @include('layout.topnavbar')
 
-            <!-- Main view  -->
-            <div class="row wrapper page-heading">
-                <div class="col-lg-12">
-                    <h2>
-                        @yield('title')
-                        @yield('title_extra')
-                    </h2>
-                    <ol class="breadcrumb pull-left">
+            <div class="px-12 py-12 mx-auto pt-32">
+                <div>
+                    <ul class="breadcrumb print:hidden">
                         @yield('breadcrumb')
-                    </ol>
-                    <div class="btn-toolbar pull-right">
-                        @yield('subnav')
-                    </div>
+                    </ul>
                 </div>
-            </div>
 
-            <div class="wrapper wrapper-content">
+                <div class="flex items-center">
+                    <h1 class="flex-1">@yield('title')</h1>
+                    @yield('title_extra')
+                </div>
+
                 @include('flash::message')
                 @if ($errors->any())
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger mb-4">
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -56,78 +49,53 @@
                 @endif
 
                 @yield('content')
-
-                <!-- Footer -->
-                @include('layout.footer')
             </div>
+
+            <p class="footer">
+                © 2019 Alexander Reichardt
+                <span class="px-1">·</span>
+                v1.1.0
+                <span class="px-1 print:hidden">·</span>
+                <span class="print:hidden">Eingeloggt als: {{ \Illuminate\Support\Facades\Auth::user()->username }}</span>
+            </p>
         </div>
-
-        @if (!empty($__env->yieldContent('datatableFilters')))
-            <div id="datatableFilter" class="hidden">
-                <div class="pull-left m-b-md text-left">
-                    <h4 class="text-left">Filter:</h4>
-                    @yield('datatableFilters')
-                </div>
-            </div>
-        @endif
     </div>
 
     @routes
     <script src="{!! mix('js/vendor.js') !!}" type="text/javascript"></script>
     <script src="{!! mix('js/app.js') !!}" type="text/javascript"></script>
 
-    @if (!empty($__env->yieldContent('datatableFilters')))
-        <script>
-            $('#dataTableBuilder').on( 'init.dt', function () {
-                if ($('#datatableFilter').html().length) {
-                    $('#dataTableBuilder_filter').append($('#datatableFilter').html());
-                    $('#datatableFilter').remove();
+    <script>
+        function addFixedTableHeader() {
+            var tableOffset = $("#dataTableBuilder").offset().top;
+            var header = $("#dataTableBuilder > thead").clone();
+            var fixedHeader = $("#header-fixed").append(header);
 
-                    $('.datatableFilter-select').each(function () {
-                        $(this).change(function () {
-                            window.LaravelDataTables.dataTableBuilder.columns($(this).attr('data-target-col')).search($(this).val()).draw();
-                            $("body").trigger('dt.filter.' + $(this).attr('id'));
-                            // saveFilterState($(this).attr('id'), $(this).attr('data-target-col'), $(this).val());
-                        });
+            $("#dataTableBuilder th").each(function (index) {
+                $("#header-fixed th:eq(" + index + ")").css('width', $(this).css('width'));
+            });
+            $("#header-fixed th:eq(0)").find('label').remove();
 
-                        if ($(this).attr('data-pre-select')) {
-                            $(this).val($(this).attr('data-pre-select'));
-                        }
-                    });
+            $(window).bind("scroll", function() {
+                var offset = $(this).scrollTop();
 
-                    $("body").trigger('dt.init');
-
-                    //loadFilterState();
+                if (offset >= tableOffset && fixedHeader.is(":hidden")) {
+                    fixedHeader.show();
+                } else if (offset < tableOffset) {
+                    fixedHeader.hide();
                 }
             });
+        }
 
-            function saveFilterState(elementId, col, value) {
-                var currentFilterState = JSON.parse(localStorage.getItem('datatables-filterState'));
-                if (currentFilterState === null) {
-                    currentFilterState = {};
-                }
-
-                currentFilterState[elementId] = {value: value, col: col};
-                localStorage.setItem('datatables-filterState', JSON.stringify(currentFilterState));
-            }
-
-            function loadFilterState() {
-                var currentFilterState = JSON.parse(localStorage.getItem('datatables-filterState'));
-                if (currentFilterState !== null) {
-                    $.each(currentFilterState, function (elementId, item) {
-                        $('#'+elementId).val(item.value);
-                    });
-                }
-            }
-        </script>
-    @endif
-
-    <script>
         $('#dataTableBuilder').on( 'draw.dt', function () {
             $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green'
+                checkboxClass: 'icheckbox_minimal-blue',
             });
+
+            $('<table id="header-fixed"></table>').insertAfter('#dataTableBuilder');
+
+            addFixedTableHeader();
+            adjustDisabledButtons();
 
             $("body").trigger('dt.draw');
         });
@@ -139,7 +107,7 @@
         });
 
         $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
+            // $('[data-toggle="tooltip"]').tooltip();
 
             if ($('#select_all').length) {
                 $('#select_all').change(function () {
@@ -161,10 +129,31 @@
             }
 
             $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
+                checkboxClass: 'icheckbox_minimal-blue',
             });
+
+            if ($('.table-footer-actions').length && $('.footer_actions').length) {
+                $('.table-footer-actions').html($('.footer_actions').html());
+            }
+
+            if ($('.table-toolbar-right').length && $('.table-toolbar-right-content').length) {
+                $('.table-toolbar-right').html($('.table-toolbar-right-content').html());
+            }
+
+            $('.btn:disabled, .btn-link:disabled').addClass('btn-disabled');
+            $('input:disabled, textarea:disabled, select:disabled').addClass('form-disabled');
+
+            adjustDisabledButtons();
         });
+
+        function adjustDisabledButtons() {
+            $('.btn:disabled, .btn-link:disabled, a[disabled="disabled"]').addClass('btn-disabled').each(function () {
+                $(this).on('click', function (event) {
+                    event.stopImmediatePropagation();
+                    return false;
+                })
+            });
+        }
     </script>
     @stack('scripts')
 </body>

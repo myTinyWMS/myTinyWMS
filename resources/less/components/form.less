@@ -1,0 +1,127 @@
+input {
+	@apply bg-white appearance-none rounded-lg p-2 text-gray-500;
+}
+
+input[type="radio"] {
+	-moz-appearance: radio!important;
+	-webkit-appearance: radio!important;
+	appearance: radio!important;
+}
+
+.note-editable{
+	font-family: "Arial"!important;
+}
+
+label {
+	@apply text-gray-800;
+}
+
+label.search {
+  &:before {
+  	@apply text-gray-500 text-xl absolute py-2 z-50;
+	font-family: 'FontAwesome';
+	left: 7px;
+	content: "\F002";
+	top: -3px;
+  }
+
+  input {
+  	@apply relative pl-8;
+	&::placeholder {
+		@apply text-gray-600;
+	}
+  }
+}
+
+select {
+	@apply bg-gray-200 appearance-none border-2 border-gray-200 rounded-lg pr-6 pl-2 py-1;
+	background-repeat: no-repeat;
+	background-size: 10px 6px;
+	background-position: center right .75rem;
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6"><path fill="%2335393C" fill-rule="nonzero" d="M8.293.293a1 1 0 0 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4A1 1 0 0 1 1.707.293L5 3.586 8.293.293z"/></svg>');
+}
+
+.tagify {
+	@apply bg-white border border-gray-400 text-gray-700 rounded-lg;
+
+	tag {
+		div {
+			@apply text-gray-800;
+
+			&::before {
+				@apply bg-gray-400 border rounded-lg shadow-none;
+			}
+		}
+
+		&:hover:not([readonly]) div::before {
+			@apply shadow-none bg-gray-500;
+		}
+	}
+}
+
+.form-input {
+	@apply appearance-none block w-full bg-white border border-gray-400 text-gray-800 rounded-lg py-2 px-2 leading-tight;
+
+  &:focus {
+  	@apply outline-none bg-white border-gray-500;
+  }
+}
+
+.datepicker > input.form-input {
+	@apply form-input h-auto text-base text-right pr-10;
+}
+
+.datepicker {
+	@apply w-full;
+}
+
+.form-input-bordered {
+	@apply border border-gray-400;
+}
+
+.form-textarea {
+	@apply appearance-none block w-full bg-white border border-gray-400 text-gray-800 rounded-lg py-3 px-4 mb-3 leading-tight;
+
+  &:focus {
+  	@apply outline-none bg-white border-gray-500;
+  }
+}
+
+.form-select {
+	@apply block appearance-none w-full bg-white border border-gray-400 text-gray-800 pl-2 pr-8 rounded-lg leading-none;
+	// to get the same height as a input
+	padding-top: .6rem;
+	padding-bottom: .6rem;
+
+  &:focus {
+  	@apply outline-none bg-white border-gray-500;
+  }
+}
+
+.form-label {
+	@apply block uppercase tracking-wider text-gray-600 text-2xs font-normal mb-1;
+}
+
+.has-error {
+	@apply border border-red-500;
+}
+
+.form-group {
+	@apply mb-4;
+}
+
+.form-control-static {
+	@apply text-gray-800 text-lg leading-tight;
+}
+
+.form-disabled {
+	@apply cursor-not-allowed bg-gray-200;
+}
+
+.help-block {
+	@apply block mb-2 text-gray-500 text-xs;
+}
+
+.dropzone {
+	@apply border border-dashed border-blue-400 p-12 text-center text-gray-500;
+}

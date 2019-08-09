@@ -27,8 +27,7 @@ class AddQuantitiesToInventoryItem extends Migration
     public function down()
     {
         Schema::table('inventory_items', function (Blueprint $table) {
-            $table->dropColumn('old_quantity');
-            $table->dropColumn('new_quantity');
+            $table->dropColumn(['old_quantity', 'new_quantity']);
         });
     }
 }

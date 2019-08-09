@@ -3,212 +3,105 @@
 @section('title', 'Reports')
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="contact-box center-version">
-                <a href="#">
-                    <h3 class="m-b-xs"><strong>Inventurauswertung</strong></h3>
-                    <div class="font-bold">Monat und Inventurtyp auswählen um Report zu erstellen:</div>
-                </a>
-                <div class="contact-box-footer">
-                    <form method="post" action="{{ route('reports.inventory_report') }}" id="inventory-report">
+<div class="px-2 -ml-2" id="reports">
+    <div class="flex -mx-2 flex-wrap">
+        <div class="w-1/2 xl:w-1/3 2xl:w-1/4 4xl:w-1/5 px-2 mb-4">
+            <div class="card h-full">
+                <div class="card-header">Inventurauswertung</div>
+                <div class="card-content">
+                    <small>Monat und Inventurtyp auswählen um Report zu erstellen:</small>
+
+                    <form method="post" action="{{ route('reports.inventory_report') }}" id="inventory-report" class="mt-4">
                         {{ csrf_field() }}
-                        {{ Form::bsSelect('inventorytype', null, \Mss\Models\Article::getInventoryTextArray(),  'Inventur Typ', ['placeholder' => 'egal']) }}
-                        <div class="m-t-xs btn-group">
-                            <div id="monthpicker"></div>
+                        <div class="flex flex-wrap">
+                            <div class="w-full lg:w-1/2 pr-4">
+                                {{ Form::bsSelect('inventorytype', null, \Mss\Models\Article::getInventoryTextArray(),  'Inventur Typ', ['placeholder' => 'egal']) }}
+                            </div>
+                            <div class="w-full lg:w-1/2">
+                                <label class="form-label">Monat</label>
+                                <date-picker-input format="YYYY-MM" outputformat="YYYY-MM" type="inline" name="month" picker-class="w-auto"></date-picker-input>
+                            </div>
                         </div>
-                        <input type="hidden" value="" name="month" id="month" />
+                        <button type="submit" class="btn btn-secondary">Report erstellen</button>
                     </form>
                 </div>
             </div>
         </div>
 
-         <div class="col-lg-3">
-            <div class="contact-box center-version">
-                <a href="#">
-                    <h3 class="m-b-xs"><strong>WA Vergleich</strong></h3>
-                    <div class="font-bold">Monat auswählen um Report zu erstellen:</div>
-                </a>
-                <div class="contact-box-footer">
-                    <form method="post" action="{{ route('reports.article_usage_report') }}" id="article-usage-report">
+        <div class="w-1/2 xl:w-1/3 2xl:w-1/4 4xl:w-1/5 px-2 mb-4">
+            <div class="card h-full">
+                <div class="card-header">WA Vergleich</div>
+                <div class="card-content">
+                    <small>Monat auswählen um Report zu erstellen</small>
+
+                    <form method="post" action="{{ route('reports.article_usage_report') }}" id="article-usage-report" class="mt-4">
                         {{ csrf_field() }}
-                        <div class="m-t-xs btn-group">
-                            <div id="monthpicker2"></div>
-                        </div>
-                        <input type="hidden" value="" name="month" id="month2" />
+                        <date-picker-input format="YYYY-MM" outputformat="YYYY-MM" type="inline" name="month" picker-class="w-auto"></date-picker-input>
+
+                        <button type="submit" class="btn btn-secondary mt-4">Report erstellen</button>
                     </form>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-2">
-            <div class="contact-box center-version">
+        <div class="w-1/2 xl:w-1/3 2xl:w-1/4 4xl:w-1/5 px-2">
+            <div class="flex-column">
+                <div class="card mb-4 h-40">
+                    <div class="card-header">Monats-Inventur-Liste</div>
+                    <div class="card-content">
+                        <small class="block mb-4">nur aktive Verbrauchsmaterialien</small>
 
-                <a href="{{ route('reports.inventory_pdf') }}">
-                    <h3 class="m-b-xs"><strong>Monats-Inventur-Liste</strong></h3>
-                    <div class="font-bold">aktive Verbrauchsmaterialien</div>
-                </a>
-                <div class="contact-box-footer">
-                    <div class="m-t-xs btn-group">
-                        <a class="btn btn-white" href="{{ route('reports.inventory_pdf') }}"><i class="fa fa-download"></i> PDF herunterladen </a>
+                        <a class="btn btn-secondary pb-2" href="{{ route('reports.inventory_pdf') }}"><i class="fa fa-download"></i> PDF herunterladen </a>
                     </div>
                 </div>
-            </div>
-            <div class="contact-box center-version">
 
-                <a href="{{ route('reports.inventory_pdf') }}">
-                    <h3 class="m-b-xs"><strong>Jahres-Inventur-Liste</strong></h3>
-                    <div class="font-bold">alle aktiven Artikel</div>
-                </a>
-                <div class="contact-box-footer">
-                    <div class="m-t-xs btn-group">
-                        <a class="btn btn-white" href="{{ route('reports.yearly_inventory_pdf') }}"><i class="fa fa-download"></i> PDF herunterladen </a>
+                <div class="card h-40">
+                    <div class="card-header">Jahres-Inventur-Liste</div>
+                    <div class="card-content relative">
+                        <small class="block mb-4">alle aktiven Artikel</small>
+
+                        <a class="btn btn-secondary pb-2" href="{{ route('reports.yearly_inventory_pdf') }}"><i class="fa fa-download"></i> PDF herunterladen </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-2">
-            <div class="contact-box center-version">
-                <a href="{{ route('reports.deliveries_without_invoice') }}">
-                    <h3 class="m-b-xs"><strong>Wareneingänge ohne Rechnung</strong></h3>
-                    <div class="font-bold">&nbsp;</div>
-                </a>
-                <div class="contact-box-footer">
-                    <div class="m-t-xs btn-group">
-                        <a class="btn btn-white" href="{{ route('reports.deliveries_without_invoice') }}"><i class="fa fa-arrow-right"></i> Liste anzeigen </a>
+        <div class="w-1/2 xl:w-1/3 2xl:w-1/4 4xl:w-1/5 px-2">
+            <div class="flex-column">
+                <div class="card mb-4 h-40">
+                    <div class="card-header">Wareneingänge ohne Rechnung</div>
+                    <div class="card-content">
+                        <a class="btn btn-secondary pb-2" href="{{ route('reports.deliveries_without_invoice') }}"><i class="fa fa-arrow-right"></i> Liste anzeigen </a>
+                    </div>
+                </div>
+
+                <div class="card mb-4 h-40">
+                    <div class="card-header">Rechnungen ohne Wareneingang</div>
+                    <div class="card-content">
+                        <a class="btn btn-secondary pb-2" href="{{ route('reports.invoices_without_delivery') }}"><i class="fa fa-arrow-right"></i> Liste anzeigen </a>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="contact-box center-version">
-                <a href="{{ route('reports.invoices_without_delivery') }}">
-                    <h3 class="m-b-xs"><strong>Rechnungen ohne Wareneingang</strong></h3>
-                    <div class="font-bold">&nbsp;</div>
-                </a>
-                <div class="contact-box-footer">
-                    <div class="m-t-xs btn-group">
-                        <a class="btn btn-white" href="{{ route('reports.invoices_without_delivery') }}"><i class="fa fa-arrow-right"></i> Liste anzeigen </a>
+        <div class="w-1/2 xl:w-1/3 2xl:w-1/4 4xl:w-1/5 px-2">
+            <div class="flex">
+                <div class="card mb-4 h-56">
+                    <div class="card-header">Verpackungs-Lizensierungs-Report</div>
+                    <div class="card-content">
+                        <small>Zeitraum auswählen um Report zu erstellen</small>
+                        <form method="post" action="{{ route('reports.article_weight_report') }}" id="article-weight-report" class="form-inline">
+                            {{ csrf_field() }}
+
+                            <date-picker-input format="DD.MM.YYYY" outputformat="YYYY-MM-DD" name="daterange" picker-class="w-auto" :default="[]"></date-picker-input>
+                            <button type="submit" class="btn btn-secondary mt-4">
+                                <i class="fa fa-arrow-right"></i> Liste anzeigen
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="contact-box center-version">
-                <a href="#">
-                    <h3 class="m-b-xs"><strong>Verpackungs-Lizensierungs-Report</strong></h3>
-                    <div class="font-bold">Zeitraum auswählen um Report zu erstellen:</div>
-                </a>
-                <div class="contact-box-footer">
-                    <form method="post" action="{{ route('reports.article_weight_report') }}" id="article-weight-report" class="form-inline">
-                        {{ csrf_field() }}
-                        <input type="text" id="daterangepicker1" name="daterange" class="form-control">
-                        <button type="submit" class="btn btn-white">
-                            <i class="fa fa-arrow-right"></i> Liste anzeigen
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        {{--<div class="col-lg-3">
-            <div class="contact-box center-version">
-
-                <a href="profile.html">
-
-                    <img alt="image" class="img-circle" src="img/a2.jpg">
-
-
-                    <h3 class="m-b-xs"><strong>John Smith</strong></h3>
-
-                    <div class="font-bold">Graphics designer</div>
-                    <address class="m-t-md">
-                        <strong>Twitter, Inc.</strong><br>
-                        795 Folsom Ave, Suite 600<br>
-                        San Francisco, CA 94107<br>
-                        <abbr title="Phone">P:</abbr> (123) 456-7890
-                    </address>
-
-                </a>
-                <div class="contact-box-footer">
-                    <div class="m-t-xs btn-group">
-                        <a class="btn btn-xs btn-white"><i class="fa fa-phone"></i> Call </a>
-                        <a class="btn btn-xs btn-white"><i class="fa fa-envelope"></i> Email</a>
-                        <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>--}}
-    </div>
+</div>
 @endsection
-
-@push('scripts')
-    <script>
-        $(function() {
-            $('#monthpicker').datepicker({
-                autoclose: true,
-                minViewMode: 1,
-                format: 'yyyy-mm'
-            }).on('changeDate', function(selected){
-                $('#month').val(moment(selected.date).format('YYYY-MM'));
-                $('#inventory-report').submit();
-            });
-
-            $('#monthpicker2').datepicker({
-                autoclose: true,
-                minViewMode: 1,
-                format: 'yyyy-mm'
-            }).on('changeDate', function(selected){
-                $('#month2').val(moment(selected.date).format('YYYY-MM'));
-                $('#article-usage-report').submit();
-            });
-
-            $('#daterangepicker1').daterangepicker({
-                startDate: "01.01." + moment().year(),
-                endDate: "31.12." + moment().year(),
-                ranges: {
-                    'aktuelles Jahr': ["01.01." + moment().year(), "31.12." + moment().year()],
-                    'letztes Jahr': ["01.01." + moment().subtract(1, 'year').year(), "31.12." + moment().subtract(1, 'year').year()]
-                },
-                "locale": {
-                    "format": "DD.MM.YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Übernehmen",
-                    "cancelLabel": "Abbrechen",
-                    "fromLabel": "Von",
-                    "toLabel": "Bis",
-                    "customRangeLabel": "Individuell",
-                    "weekLabel": "W",
-                    "daysOfWeek": [
-                        "So",
-                        "Mo",
-                        "Di",
-                        "Mi",
-                        "Do",
-                        "Fr",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "Januar",
-                        "Februar",
-                        "März",
-                        "April",
-                        "Mai",
-                        "Juni",
-                        "Juli",
-                        "August",
-                        "September",
-                        "Oktober",
-                        "November",
-                        "Dezember"
-                    ],
-                    "firstDay": 1
-                }
-            });
-        });
-    </script>
-@endpush

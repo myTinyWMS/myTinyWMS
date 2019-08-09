@@ -8,8 +8,8 @@ services:
     image: project_mss
     links:
     - db
-#    - db_onp
     - redis
+    - mailhog
     ports:
     - 3080:80
     - 30443:443
@@ -49,11 +49,26 @@ services:
     container_name: mss_redis
     image: redis
 
-#  db_onp:
-#    container_name: mss_onp_db
-#    image: postgres:9.6
-#    environment:
-#      POSTGRES_PASSWORD: mss
-#      POSTGRES_DB: fcp
-#    ports:
-#    - "24432:5432"
+  mailhog:
+    container_name: mss_mailhog
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  selenium:
+    container_name: mss_selenium
+    image: robcherry/docker-chromedriver
+    environment:
+      CHROMEDRIVER_WHITELISTED_IPS: ""
+      CHROMEDRIVER_PORT: "4444"
+    ports:
+      - 4444:4444
+    depends_on:
+      - app
+    links:
+      - app:mss.test
+    volumes:
+      - /dev/shm:/dev/shm
+    cap_add:
+      - "SYS_ADMIN"

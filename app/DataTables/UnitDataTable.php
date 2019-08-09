@@ -48,7 +48,7 @@ class UnitDataTable extends BaseDataTable
                 'paging' => false,
                 'order'   => [[0, 'asc']],
             ])
-            ->addAction(['title' => '', 'width' => '150px']);
+            ->addAction(['title' => 'Aktion', 'width' => '150px']);
     }
 
     /**

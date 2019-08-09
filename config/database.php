@@ -35,7 +35,7 @@ return [
 
         'sqlite' => [
             'driver' => 'sqlite',
-            'database' => database_path('database.sqlite'),
+            'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
         ],
 
@@ -54,18 +54,19 @@ return [
             'engine' => null,
         ],
 
-        'onp' => [
-            'driver' => 'pgsql',
-            'host' => env('DB_ONP_HOST', '127.0.0.1'),
-            'port' => env('DB_ONP_PORT', '5432'),
-            'database' => env('DB_ONP_DATABASE', 'forge'),
-            'username' => env('DB_ONP_USERNAME', 'forge'),
-            'password' => env('DB_ONP_PASSWORD', ''),
-            'charset' => 'SQL_ASCII',
-            'collation' => 'C',
+        'testdb' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => 'mss_test',
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
-            'schema' => 'public',
-            'sslmode' => 'prefer',
+            'strict' => true,
+            'engine' => null,
         ],
 
         'sqlite_testing' => [

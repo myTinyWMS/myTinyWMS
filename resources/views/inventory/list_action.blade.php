@@ -1,2 +1,2 @@
-<a href="{{ route('inventory.show', $id) }}" class="btn btn-primary btn-xs inline">fortsetzen</a>
-<a href="{{ route('inventory.finish', $id) }}" class="btn btn-danger btn-xs inline" onclick="return confirm('Sicher?')">abschließen</a>
+<a href="{{ route('inventory.show', $id) }}" class="table-action">fortsetzen</a>
+<a href="{{ route('inventory.finish', $id) }}" class="table-action" onclick="return confirm('Sicher?')">abschließen</a>

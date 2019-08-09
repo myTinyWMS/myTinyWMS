@@ -11,6 +11,8 @@ use Mss\Models\OrderItem;
 
 class ToOrderDataTable extends ArticleDataTable
 {
+    protected $dom = '<"table-toolbar"<"flex mb-4"<"#table-filter">>r<"table-toolbar-right">><"table-wrapper"<"fix-head-bg"><"table-content"t><"table-footer"<"table-footer-actions">ip>>';
+
     /**
      * Build DataTable class.
      *
@@ -32,7 +34,13 @@ class ToOrderDataTable extends ArticleDataTable
                 return $article->currentSupplier->id;
             }
         ])
-        ->editColumn('checkbox', 'dashboard.to_order_list_checkbox');
+        ->editColumn('checkbox',function (Article $article) {
+            return '<div class="i-checks">
+                        <label id="new_order_'.$article->id.'">
+                            <input type="checkbox" value="'.$article->id.'" name="article[]" />
+                        </label>
+                    </div>';
+        });
 
         return $dataTable;
     }

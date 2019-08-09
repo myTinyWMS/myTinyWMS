@@ -14,6 +14,8 @@ class ArticleSupplier extends Pivot implements Auditable
     protected $guarded = [];
     protected $auditsToDisplay = 20;
 
+    static $auditName = 'Lieferoptionen';
+
     protected $fieldNames = [
         'price' => 'Preis',
         'delivery_time' => 'Lieferzeit',

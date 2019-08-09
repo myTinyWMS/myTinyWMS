@@ -15,8 +15,8 @@
     <div class="row">
         <div class="row">
             <div class="col-lg-12">
-                <div class="ibox">
-                    <div class="ibox-content">
+                <div class="card">
+                    <div class="card-content">
                         @foreach([\Mss\Models\Article::PACKAGING_CATEGORY_PAPER => 'Papier, Pappe, Karton', \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => 'Kunststoffe'] as $key => $headline)
                             <h2>{{ $headline }}</h2>
 

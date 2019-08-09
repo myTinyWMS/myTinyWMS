@@ -31,6 +31,8 @@ class OrderItem extends AuditableModel
 
     protected $ignoredAuditFields = ['order_id'];
 
+    static $auditName = 'Bestellposition';
+
     protected $fillable = ['article_id', 'price', 'quantity', 'expected_delivery'];
 
     protected $casts = [
@@ -105,7 +107,7 @@ class OrderItem extends AuditableModel
     }
 
     public function scopeOverDue($query) {
-        $query->where('expected_delivery', '<', now());
+        $query->where('expected_delivery', '<', today());
     }
 
     /**

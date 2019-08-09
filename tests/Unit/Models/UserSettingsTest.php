@@ -4,28 +4,11 @@ namespace Tests\Unit\Services;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
-use Mss\Console\Commands\ImportCommand;
 use Mss\Exceptions\InvalidParameterException;
-use Mss\Models\Article;
-use Mss\Models\ArticleQuantityChangelog;
-use Mss\Models\Category;
-use Mss\Models\Legacy\MaterialLog;
-use Mss\Models\Supplier;
 use Mss\Models\User;
 use Mss\Models\UserSettings;
 use Mss\Services\ImportFromOnpService;
-use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\NullOutput;
 use Tests\TestCase;
-use Mss\Models\Legacy\Category as LegacyCategory;
-use Mss\Models\Legacy\Supplier as LegacySupplier;
-use Mss\Models\Legacy\Material as LegacyArticle;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Mss\Models\Legacy\MaterialLog as LegacyArticleLog;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Symfony\Component\Console\Application as ConsoleApplication;
-use Symfony\Component\Console\Tester\CommandTester;
 
 class UserSettingsTest extends TestCase
 {

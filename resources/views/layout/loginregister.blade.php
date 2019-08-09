@@ -1,33 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full font-sans-nunito antialiased">
 
-<head>
+    <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>@yield('title') </title>
+        <title>@yield('title') </title>
 
-    <link rel="stylesheet" href="{!! asset('css/vendor.css') !!}"/>
-    <link rel="stylesheet" href="{!! asset('css/app.css') !!}"/>
-    @yield('css_extra')
-</head>
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,800,800i,900,900i" rel="stylesheet">
+        <link href="/css/material-icons.css" rel="stylesheet">
+        <link href="/css/vendor.css" rel="stylesheet">
 
-<body class="gray-bg">
+        <link rel="stylesheet" href="{!! mix('css/app.css') !!}" />
 
-<div class="middle-box text-center loginscreen   animated fadeInDown">
-    <div>
-        <div>
-            <img src="{{ config('app.logo') }}" alt="MSS" width="280" />
+        @yield('css_extra')
+    </head>
+
+    <body class="min-w-site bg-gray-200 text-black min-h-full">
+        <div class="flex min-h-screen items-center flex-col">
+            <div class="my-8">
+                <img src="{{ config('app.logo') }}" alt="MSS" width="280" />
+            </div>
+
+            @yield('content')
         </div>
-        <br/>
 
-        @yield('content')
-    </div>
-</div>
-
-<script src="{!! asset('js/vendor.js') !!}" type="text/javascript"></script>
-<script src="{!! asset('js/app.js') !!}" type="text/javascript"></script>
-</body>
+        <script src="{!! asset('js/vendor.js') !!}" type="text/javascript"></script>
+        <script src="{!! asset('js/app.js') !!}" type="text/javascript"></script>
+    </body>
 
 </html>

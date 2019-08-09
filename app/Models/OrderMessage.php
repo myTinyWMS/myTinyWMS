@@ -14,7 +14,14 @@ class OrderMessage extends AuditableModel
         'receiver' => 'array',
     ];
 
+    static $auditName = 'Nachricht';
+
     protected $dates = ['received'];
+
+    protected $fieldNames = [
+        'read' => 'gelesen',
+        'order_id' => 'Bestellung'
+    ];
 
     protected $fillable = [
         'order_id',
@@ -46,7 +53,11 @@ class OrderMessage extends AuditableModel
     }
 
     public function getAttachmentsAttribute($value) {
-        return collect(json_decode($value, true));
+        return collect(json_decode($value, true))->transform(function ($attachment) {
+            $attachment['orgFileName'] = iconv_mime_decode($attachment['orgFileName']);
+
+            return $attachment;
+        });
     }
 
     public function scopeUnread($query) {

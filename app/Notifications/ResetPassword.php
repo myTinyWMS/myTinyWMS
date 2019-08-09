@@ -35,7 +35,7 @@ class ResetPassword extends ResetPasswordNotification
             return call_user_func(static::$toMailCallback, $notifiable, $this->token);
         }
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Passwort zurücksetzen')
             ->line('Sie erhalten diese E-Mail weil Sie ihr Passwort zurücksetzen wollen.')
             ->action('Passwort zurücksetzen', url(config('app.url').route('password.reset', $this->token, false)))

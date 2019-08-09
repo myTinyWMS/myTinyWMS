@@ -5,7 +5,8 @@ namespace Mss\DataTables;
 class AssignOrderDataTable extends OrderDataTable {
 
     protected $actionView = 'order_messages.order_list_action';
-    protected $pageLength = 10;
+    protected $pageLength = 30;
+    protected $paging = true;
 
     /**
      * Get columns.

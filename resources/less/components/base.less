@@ -1,0 +1,76 @@
+html {
+	@apply text-sm;
+	font-family: 'Roboto', sans-serif;
+}
+
+@screen 4xl {
+	html {
+		@apply text-base;
+	}
+}
+
+a {
+	@apply text-blue-700 no-underline font-bold;
+	letter-spacing: 0.03em;
+
+	&:hover {
+		@apply opacity-50;
+	}
+}
+
+h1 {
+	@apply my-6 text-gray-800 font-bold text-2xl;
+}
+
+h2 {
+	@apply text-black pt-4;
+}
+
+.font-sans-nunito {
+    font-family: Nunito,system-ui,BlinkMacSystemFont,-apple-system,sans-serif;
+	font-size: inherit;
+}
+
+.overflow-inherit {
+	overflow-y: inherit;
+}
+
+.text-nowrap {
+	@apply whitespace-no-wrap;
+}
+
+.text-danger {
+	@apply text-red-500;
+}
+
+.text-success {
+	@apply text-green-500;
+}
+
+.text-muted {
+	@apply text-gray-600;
+}
+
+.bg-primary {
+	@apply bg-blue-600;
+}
+
+.bg-success {
+	@apply bg-green-400;
+}
+
+.bg-danger {
+	@apply bg-red-400;
+}
+
+.bg-info {
+	@apply bg-blue-400;
+}
+
+.bg-default {
+	@apply bg-gray-500;
+}
+
+.bg-warning {
+	@apply bg-orange-400;
+}

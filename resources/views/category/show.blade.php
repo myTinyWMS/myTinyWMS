@@ -20,19 +20,9 @@
 @endsection
 
 @section('secondCol')
-    <div class="col-lg-6">
-        <div class="ibox collapsed">
-            <div class="ibox-title">
-                <h5>Logbuch</h5>
-                <div class="ibox-tools">
-                    <a class="collapse-link">
-                        <i class="fa fa-chevron-up"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="ibox-content">
-                @include('components.audit_list', $audits)
-            </div>
-        </div>
+    <div class="w-1/3 ml-4">
+        <collapse title="Logbuch">
+            @include('components.audit_list', $audits)
+        </collapse>
     </div>
 @endsection

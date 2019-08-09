@@ -11,13 +11,27 @@
 |
 */
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
+
+use Carbon\Carbon;
+use Mss\Models\User;
+use Mss\Models\Order;
+use Mss\Models\Article;
+use Mss\Models\Supplier;
+use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Mss\Models\Article::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
         'quantity' => $faker->numberBetween(1, 10),
-        'status' => 1
+        'status' => Article::STATUS_ACTIVE,
+        'cost_center' => 1
+    ];
+});
+
+$factory->define(Mss\Models\ArticleNote::class, function (Faker\Generator $faker) {
+    return [
+        'content' => $faker->sentence
     ];
 });
 
@@ -29,7 +43,8 @@ $factory->define(Mss\Models\Category::class, function (Faker\Generator $faker) {
 
 $factory->define(Mss\Models\Supplier::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->word
+        'name' => $faker->word,
+        'email' => $faker->safeEmail
     ];
 });
 
@@ -40,12 +55,10 @@ $factory->define(Mss\Models\Unit::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Mss\Models\User::class, function (Faker\Generator $faker) {
-    static $password;
-
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('password'),
+        'password' => bcrypt('password'),
         'remember_token' => str_random(10),
         'settings' => []
     ];
@@ -53,16 +66,16 @@ $factory->define(Mss\Models\User::class, function (Faker\Generator $faker) {
 
 $factory->define(Mss\Models\OrderItem::class, function (Faker\Generator $faker) {
     return [
-        'article_id' => \Mss\Models\Article::inRandomOrder()->first()->id,
+        'article_id' => Article::inRandomOrder()->first()->id,
         'price' => $faker->randomFloat(0, 500, 100000),
         'quantity' => $faker->randomFloat(0, 1, 30)
     ];
 });
 
 $factory->define(Mss\Models\Order::class, function (Faker\Generator $faker) {
-    $orderDate = \Carbon\Carbon::now()->subDays($faker->randomNumber(1));
+    $orderDate = Carbon::now()->subDays($faker->randomNumber(1));
     return [
-        'supplier_id' => \Mss\Models\Supplier::inRandomOrder()->first()->id,
+        'supplier_id' => Supplier::inRandomOrder()->first()->id,
         'internal_order_number' => $orderDate->format('ymd').$faker->randomNumber(2, true),
         'external_order_number' => $faker->randomNumber(5),
         'total_cost' => $faker->randomFloat(0, 500, 10000),
@@ -72,44 +85,14 @@ $factory->define(Mss\Models\Order::class, function (Faker\Generator $faker) {
     ];
 });
 
-/**
- * Legacy Models
- */
-
-$factory->define(Mss\Models\Legacy\Category::class, function (Faker\Generator $faker) {
+$factory->define(Mss\Models\OrderMessage::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->unique()->word,
-        'bemerkung' => $faker->sentence,
-        'anzahl' => $faker->numberBetween(1,10)
-    ];
-});
-
-$factory->define(Mss\Models\Legacy\Supplier::class, function (Faker\Generator $faker) {
-    return [
-        'company_name' => $faker->unique()->word,
-        'email' => $faker->email
-    ];
-});
-
-$factory->define(Mss\Models\Legacy\Material::class, function (Faker\Generator $faker) {
-    return [
-        'artikelbezeichnung' => $faker->unique()->word,
-        'entnahmemenge' => $faker->randomNumber(1),
-        'bestand' => $faker->randomNumber(1),
-        'mindbestand' => $faker->randomNumber(1),
-        'verbrauch' => $faker->randomNumber(1),
-        'preis' => $faker->randomNumber(1),
-    ];
-});
-
-$factory->define(Mss\Models\Legacy\MaterialLog::class, function (Faker\Generator $faker) {
-    return [
-        'material_id' => function () {
-            return factory(\Mss\Models\Legacy\Material::class)->create()->id;
-        },
-        'user_name' => $faker->userName,
-        'type' => 1,
-        'count' => $faker->randomNumber(1),
-        'ist_count' => $faker->randomNumber(1),
+        'order_id' => Order::inRandomOrder()->first()->id,
+        'received' => Carbon::now()->subDay(),
+        'sender' => [$faker->safeEmail],
+        'receiver' => ['System'],
+        'subject' => $faker->sentence,
+        'htmlbody' => $faker->paragraph,
+        'read' => 1
     ];
 });

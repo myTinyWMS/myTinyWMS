@@ -6,6 +6,8 @@ class DeliveryItem extends AuditableModel
 {
     protected $fillable = ['article_id', 'quantity'];
 
+    static $auditName = 'Lieferposition';
+
     public function article() {
         return $this->belongsTo(Article::class);
     }

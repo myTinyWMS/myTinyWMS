@@ -38,6 +38,10 @@ class SelectArticleDataTable extends ArticleDataTable
         return $datatable;
     }
 
+    public function query(Article $model) {
+        return parent::query($model)->active();
+    }
+
     protected function getHtmlParameters() {
         $parameters = [
             'paging' => false,

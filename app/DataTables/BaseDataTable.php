@@ -9,18 +9,20 @@ abstract class BaseDataTable extends DataTable
 {
     protected $pageLength = 50;
 
+    protected $dom = '<"table-toolbar"<"flex mb-4"<"#table-filter"><"table-search"f>>r<"table-toolbar-right">><"table-wrapper"<"fix-head-bg"><"table-content"t><"table-footer"<"table-footer-actions">ip>>';
+
     public function builder() {
         $builder = parent::builder();
         $builder->parameters([
-            'dom'     => 'frt<"toolbar">ilp',
+            'dom'     => $this->dom,
             'order'   => [[0, 'asc']],
-            'language' => ['url' => asset('js/datatables/German.1.10.13.json')],
+            'language' => ['url' => asset('js/datatables/German.1.10.13.json'), 'searchPlaceholder' => 'Suche'],
             'pageLength' => $this->pageLength,
 //            'stateSave' => true,
             'bAutoWidth' => false,
             'lengthMenu' => $this->getLengthMenu()
         ]);
-        $builder->setTableAttribute('class', 'table table-hover table-striped table-bordered');
+        $builder->setTableAttribute('class', 'table');
 
         return $builder;
     }

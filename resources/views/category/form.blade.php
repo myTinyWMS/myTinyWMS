@@ -1,27 +1,13 @@
 @extends('layout.app')
 
 @section('content')
-    @if (count($errors) > 0)
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="ibox">
-                <div class="ibox-title">
+    <div class="w-full flex">
+        <div class="w-1/3">
+            <div class="card">
+                <div class="card-header">
                     <h5>Details</h5>
                 </div>
-                <div class="ibox-content">
+                <div class="card-content">
                     @yield('form_start')
 
                     {{ Form::bsText('name', null, [], 'Name') }}

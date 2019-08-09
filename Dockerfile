@@ -1,4 +1,4 @@
-FROM library/php:7.1.4-fpm
+FROM library/php:7.2-fpm
 
 RUN set -e -x \
     && apt-get update \
@@ -12,10 +12,10 @@ RUN set -e -x \
         libc-client-dev libkrb5-dev \
         libpq-dev \
         libldap2-dev libxrender1 libxext6 \
-        locales git \
-        libfreetype6-dev libmcrypt-dev libpng12-dev libjpeg-dev libpng-dev \
+        locales git gnupg \
+        libfreetype6-dev libmcrypt-dev libjpeg-dev libpng-dev \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
-    && docker-php-ext-install -j$(nproc) zip pdo_mysql mcrypt intl bcmath imap pgsql iconv  \
+    && docker-php-ext-install -j$(nproc) zip pdo_mysql intl bcmath imap pgsql iconv  \
     && docker-php-ext-configure pgsql \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
@@ -33,23 +33,26 @@ RUN set -e -x \
     && sed -i '/^#.* de_DE.* /s/^#//' /etc/locale.gen \
     && locale-gen
 
-# Install nodejs-legacy and npm
+# Install wkhtmltopdf
+RUN set -e -x \
+	&& wget "https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb" -q -O /tmp/wkhtmltox_0.12.5-1.stretch_amd64.deb \
+	&& apt install -y /tmp/wkhtmltox_0.12.5-1.stretch_amd64.deb \
+	&& rm -rf /tmp/wkhtmltox_0.12.5-1.stretch_amd64.deb
+
+# Install nodejs and npm
 RUN set -e -x \
     && wget --quiet -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
-	&& printf "deb https://deb.nodesource.com/node_7.x jessie main\ndeb-src https://deb.nodesource.com/node_7.x jessie main\n" > /etc/apt/sources.list.d/nodesource.list \
+	&& printf "deb https://deb.nodesource.com/node_11.x stretch main\ndeb-src https://deb.nodesource.com/node_11.x stretch main\n" > /etc/apt/sources.list.d/nodesource.list \
 	&& apt-get update \
 	&& apt-get install -y --allow-unauthenticated nodejs \
-	&& npm update -g npm \
-	&& npm install -g bower gulp jscs jshint typescript typings \
-	&& npm rebuild node-sass --no-bin-links
+	&& npm update -g npm
 
 WORKDIR /data/www
 
 # composer
 COPY composer.* /data/www/
 RUN set -ex \
-	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
-	&& composer install --no-progress --no-suggest --no-interaction --no-scripts --no-autoloader
+	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
 # node / npm
 COPY package.json /data/www/

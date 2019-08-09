@@ -1,0 +1,90 @@
+@responsive {
+    .w-750 {
+        width: 750px;
+    }
+}
+
+.content {
+    min-width: 66.25rem;
+    width: 100%;
+}
+
+.h-header {
+    height: 3.75rem
+}
+
+.w-sidebar {
+    width: 13.75rem
+}
+
+.min-w-site {
+    min-width: 80rem;
+}
+
+.sidebar-icon {
+    margin-right: .75rem;
+    font-size: 1.5rem;
+}
+
+.pt-header {
+    padding-top: 5.75rem;
+}
+
+.footer {
+    @apply mt-8 text-center text-xs text-gray-500;
+
+    > a {
+        @apply text-xs text-gray-500;
+    }
+}
+
+.sidebar-navitem {
+    @apply cursor-pointer flex-1 items-center font-light text-white text-base no-underline;
+
+    > a {
+        @apply text-white flex items-center px-6 h-10 font-normal;
+
+        &.active {
+            @apply border-l-4 border-white font-extrabold pl-5 pr-6;
+        }
+    }
+}
+
+.topbar-nav {
+    a {
+        @apply text-gray-500;
+    }
+
+    .active {
+        @apply border-b-4 border-blue-700;
+
+        a {
+            @apply text-blue-700;
+        }
+    }
+}
+
+.notification-label {
+    top: -8px;
+    right: -12px;
+    font-size: 11px;
+    padding: 2px 6px;
+    text-align: center;
+}
+
+.row {
+    @apply flex w-full m-auto;
+}
+
+.breadcrumb {
+    @apply flex text-sm py-4;
+
+    li {
+        @apply mr-1 text-gray-600 flex;
+
+        &:not(:last-child):after {
+            @apply text-gray-600 w-4 h-4 fill-current;
+            content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" view-box="0 0 20 20"><path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"/></svg>')
+        }
+    }
+}

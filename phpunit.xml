@@ -22,12 +22,15 @@
             <directory suffix=".php">./app</directory>
         </whitelist>
     </filter>
+    <listeners>
+        <listener class="Tests\DatabaseTestListener"/>
+    </listeners>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="DB_CONNECTION" value="sqlite_testing" />
+        <env name="DB_CONNECTION" value="testdb" />
         <env name="LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT" value="" />
     </php>
 </phpunit>

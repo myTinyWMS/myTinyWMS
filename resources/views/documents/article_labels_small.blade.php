@@ -3,7 +3,7 @@
 
     div.page {
         page-break-inside: avoid;
-        padding-top: 15px;
+        padding-top: 10px;
     }
 </style>
 

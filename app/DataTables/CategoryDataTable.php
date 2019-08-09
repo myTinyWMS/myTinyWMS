@@ -49,7 +49,7 @@ class CategoryDataTable extends BaseDataTable
                 'paging' => false,
                 'order'   => [[1, 'asc']],
             ])
-            ->addAction(['title' => '', 'width' => '150px']);
+            ->addAction(['title' => 'Aktion', 'width' => '150px']);
     }
 
     /**

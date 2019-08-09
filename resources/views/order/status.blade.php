@@ -1,13 +1,18 @@
 @if ($status == \Mss\Models\Order::STATUS_NEW)
-    <span class="label label-plain">neu</span>
+    <span class="text-gray-600 font-semibold">neu</span>
 @elseif ($status == \Mss\Models\Order::STATUS_ORDERED)
-    <span class="label label-info">bestellt</span>
+    <span class="w-3 h-3 inline-block align-middle rounded-full bg-indigo-500 mr-1"></span>
+    <span class="text-indigo-600 font-semibold align-top">bestellt</span>
 @elseif($status == \Mss\Models\Order::STATUS_PARTIALLY_DELIVERED)
-    <span class="label label-warning">teilweise geliefert</span>
+    <span class="w-3 h-3 inline-block align-middle rounded-full bg-orange-500 mr-1"></span>
+    <span class="text-orange-600 font-semibold align-top">teilw. geliefert</span>
 @elseif($status == \Mss\Models\Order::STATUS_DELIVERED)
-    <span class="label label-success">geliefert</span>
+    <span class="w-3 h-3 inline-block align-middle rounded-full bg-purple-500 mr-1"></span>
+    <span class="text-purple-600 font-semibold align-top">geliefert</span>
 @elseif($status == \Mss\Models\Order::STATUS_CANCELLED)
-    <span class="label label-default">storniert</span>
+    <span class="w-3 h-3 inline-block align-middle rounded-full bg-gray-500 mr-1"></span>
+    <span class="text-gray-600 font-semibold align-top">storniert</span>
 @elseif($status == \Mss\Models\Order::STATUS_PAID)
-    <span class="label label-success">bezahlt</span>
+    <span class="w-3 h-3 inline-block align-middle rounded-full bg-green-500 mr-1"></span>
+    <span class="text-green-600 font-semibold align-top">bezahlt</span>
 @endif

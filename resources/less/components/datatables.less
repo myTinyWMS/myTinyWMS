@@ -1,0 +1,190 @@
+.dataTable {
+    @apply w-full mb-0;
+
+    thead {
+        tr {
+            th {
+                @apply font-normal text-gray-600 uppercase py-2 px-4 text-xs whitespace-no-wrap;
+                height: 40px;
+                border: 0;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            @apply text-gray-700;
+
+            &:first-child td {
+                @apply border-t-0;
+            }
+
+            .table-action {
+                @apply invisible mt-2 block;
+
+                &:first-child {
+                    @apply mt-0;
+                }
+            }
+
+            &:hover {
+                @apply bg-gray-200;
+
+                .table-action {
+                   @apply visible;
+                }
+            }
+
+            &.even {
+                @apply bg-gray-100;
+            }
+
+            &.group td {
+                @apply bg-white pt-8 font-bold text-black pl-0;
+            }
+
+            td {
+                @apply text-sm px-4 py-4 leading-tight align-middle border-gray-400;
+
+                &.action-col {
+                    @apply py-0 px-4 leading-none;
+                }
+            }
+        }
+    }
+}
+.table-condensed {
+    tbody {
+        tr {
+            td {
+                @apply px-2 py-2;
+            }
+        }
+    }
+}
+
+.dataTable.multiRow {
+    tbody:nth-child(odd) {
+        @apply bg-gray-200;
+    }
+
+    tbody {
+        tr {
+            &:nth-child(odd) {
+                @apply bg-transparent;
+            }
+
+            &:nth-child(even) {
+                @apply bg-transparent;
+            }
+        }
+    }
+}
+
+#dataTableBuilder_processing {
+    @apply py-2 px-4 bg-white rounded shadow;
+}
+
+.table-search {
+    @apply h-auto w-64 relative;
+    font-size: 0;
+
+    input {
+        @apply shadow w-64 text-gray-600 text-base;
+    }
+}
+
+.has-filter .table-search input {
+    @apply rounded-tl-none rounded-bl-none;
+}
+
+.table-wrapper {
+    @apply w-full bg-white shadow rounded-lg px-3 relative;
+}
+
+.table-header {
+    @apply py-4 px-4 flex justify-between;
+}
+
+.table-content {
+    @apply overflow-hidden relative;
+}
+
+.table-toolbar {
+    @apply flex justify-between items-start;
+}
+
+#dataTableBuilder_processing {
+    @apply text-gray-600;
+}
+
+.table-footer {
+    @apply flex py-4 px-4 justify-between items-center border-t border-gray-400;
+
+    .dataTables_info {
+        @apply text-sm text-gray-500;
+    }
+
+    .dataTables_paginate {
+        .pagination {
+            @apply flex;
+
+            li {
+                @apply border border-gray-400 text-xs p-2;
+
+                &:first-child {
+                    @apply rounded-l-lg;
+                }
+
+                &:last-child {
+                    @apply rounded-r-lg;
+                }
+
+                &.active {
+                    @apply bg-gray-300;
+                }
+            }
+        }
+    }
+}
+
+.table-toolbar-right {
+    @apply flex mb-4 items-center;
+}
+
+#header-fixed {
+    position: fixed;
+    top: 120px;
+    display:none;
+    background-color:white;
+
+    th {
+        &:extend(.dataTable thead th);
+    }
+}
+
+.fix-head-bg {
+    @apply absolute w-full rounded-lg top-0 left-0 bg-gray-100 border-b border-gray-400 rounded-b-none;
+
+    height: 40px;
+}
+
+.pagination {
+    @apply flex;
+
+    li {
+        @apply border border-gray-400 text-xs p-2;
+
+        &:first-child {
+            @apply rounded-l-lg;
+        }
+
+        &:last-child {
+            @apply rounded-r-lg;
+        }
+
+        &.active {
+            @apply bg-gray-300;
+        }
+    }
+}

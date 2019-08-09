@@ -3,6 +3,7 @@
 namespace Mss\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Mss\Models\Article;
 
 class SetArticleNumbersCommand extends Command
@@ -12,7 +13,7 @@ class SetArticleNumbersCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'articlenumbers:set';
+    protected $signature = 'articlenumbers:set {--database=} {--force}';
 
     /**
      * The console command description.
@@ -38,7 +39,11 @@ class SetArticleNumbersCommand extends Command
      */
     public function handle()
     {
-        if ($this->confirm('This will reset all article numbers - are you sure?')) {
+        if ($this->option('force') || $this->confirm('This will reset all article numbers - are you sure?')) {
+
+            $databaseConnection = $this->option('database') ?? DB::getDefaultConnection();
+            DB::setDefaultConnection($databaseConnection);
+
             $bar = $this->output->createProgressBar(Article::count());
             Article::query()->update(['article_number' => null]);
             Article::all()->each(function ($article) use ($bar) {

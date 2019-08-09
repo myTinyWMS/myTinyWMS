@@ -9,7 +9,10 @@ use Illuminate\Support\Arr;
 /**
  * Class Order
  *
+ * @property integer $id
  * @property string $internal_order_number
+ * @property integer $status
+ * @property Supplier $supplier
  * @property Collection $messages
  * @property Collection $items
  * @package Mss\Models
@@ -23,7 +26,7 @@ class Order extends AuditableModel
     const STATUS_CANCELLED = 4;
     const STATUS_PAID = 5;
 
-    const STATUSES_OPEN = [Order::STATUS_NEW, Order::STATUS_ORDERED, Order::STATUS_PARTIALLY_DELIVERED];
+    const STATES_OPEN = [Order::STATUS_NEW, Order::STATUS_ORDERED, Order::STATUS_PARTIALLY_DELIVERED];
 
     const STATUS_TEXTS = [
         self::STATUS_NEW => 'neu',
@@ -39,6 +42,7 @@ class Order extends AuditableModel
     const PAYMENT_STATUS_PAID_WITH_CREDIT_CARD = 2;
     const PAYMENT_STATUS_PAID_WITH_INVOICE = 3;
     const PAYMENT_STATUS_PAID_WITH_AUTOMATIC_DEBIT_TRANSFER = 4;
+    const PAYMENT_STATUS_PAID_WITH_PRE_PAYMENT = 5;
 
     const PAYMENT_STATUS_TEXT = [
         self::PAYMENT_STATUS_UNPAID => 'unbezahlt',
@@ -46,13 +50,17 @@ class Order extends AuditableModel
         self::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD => 'Kreditkarte',
         self::PAYMENT_STATUS_PAID_WITH_INVOICE => 'Rechnung',
         self::PAYMENT_STATUS_PAID_WITH_AUTOMATIC_DEBIT_TRANSFER => 'Bankeinzug',
+        self::PAYMENT_STATUS_PAID_WITH_PRE_PAYMENT => 'Vorkasse',
     ];
 
     protected $dates = ['order_date', 'expected_delivery'];
 
+    static $auditName = 'Bestellung';
+
     protected $ignoredAuditFields = ['supplier_id'];
 
     protected $fieldNames = [
+        'notes' => 'Bemerkungen',
         'status' => 'Status',
         'payment_status' => 'Bezahlmethode',
         'total_cost' => 'Gesamtkosten',
@@ -123,6 +131,21 @@ class Order extends AuditableModel
         );
     }
 
+    public function scopeOverdue($query) {
+        $query->whereHas('items', function ($query) {
+            $query->overdue()->notFullyDelivered();
+        });
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function getOldestOverdueDate() {
+        return $this->items->filter(function ($item) {
+            return $item->getQuantityDelivered() != $item->quantity;
+        })->min('expected_delivery');
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -148,15 +171,22 @@ class Order extends AuditableModel
     public function getAllAudits() {
         $orderItemAudits = $this->items->map(function ($item) {
             return $item->getAudits()->transform(function ($audit) use ($item) {
-                $audit['modified']->transform(function ($modified) use ($item) {
-                    $modified['name'] .= ' (#'.$item->article->article_number.')';
-                    return $modified;
-                });
+                $audit['name'] .= ' #'.$item->article->article_number;
+
+                return $audit;
+            });
+        })->flatten(1);
+
+        $orderMessageAudits = $this->messages->map(function ($message) {
+            return $message->getAudits()->where('event', 'updated')->transform(function ($audit) use ($message) {
+                $audit['name'] .= ' #'.$message->id;
+
                 return $audit;
             });
         })->flatten(1);
 
         $audits = $this->getAudits();
-        return collect($audits->toArray())->merge($orderItemAudits)->sortByDesc('timestamp');
+
+        return collect($audits->toArray())->merge($orderItemAudits)->merge($orderMessageAudits)->sortByDesc('timestamp');
     }
 }

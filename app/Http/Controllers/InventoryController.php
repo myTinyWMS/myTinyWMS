@@ -33,13 +33,13 @@ class InventoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Inventory $inventory, Request $request) {
+        $inventory->load('items.article.category', 'items.article.unit', 'items.processor');
+
         if ($inventory->isFinished()) {
-            $inventory->load('items.article.category', 'items.article.unit', 'items.processor');
             $items = $inventory->items->groupBy(function ($item) {
                 return $item->article->category->name;
             });
         } else {
-            $inventory->load('items.article.category', 'items.article.unit');
             $categories = InventoryService::getOpenCategories($inventory);
             $items = $categories->mapWithKeys(function ($category) use ($inventory) {
                 return [$category->name => InventoryService::getOpenArticles($inventory, $category)];
@@ -57,9 +57,7 @@ class InventoryController extends Controller
         $item = $inventory->items->where('article_id', $article->id)->first();
 
         if (!$item) {
-            flash('Fehler beim Speichern')->error();
-
-            return response()->redirectToRoute('inventory.show', [$inventory, 'category_id' => $article->category_id]);
+            return response()->json(false);
         }
 
         $old = $article->quantity;
@@ -75,9 +73,7 @@ class InventoryController extends Controller
         $item->processed_by = Auth::id();
         $item->save();
 
-        flash('Änderung gespeichert')->success();
-
-        return response()->redirectToRoute('inventory.show', [$inventory, 'category_id' => $article->category_id]);
+        return response()->json(true);
     }
 
     public function correct(Inventory $inventory, Article $article) {

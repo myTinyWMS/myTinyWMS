@@ -13,6 +13,7 @@ class UserSettings {
     protected $user;
 
     const SETTING_NOTIFY_ABOUT_CORRECTION_ON_CHANGE_OF_OTHER_MONTH = 'notify_about_correction_on_change_of_other_month';
+    const SETTING_NOTIFY_AFTER_NEW_DELIVERY_WITHOUT_INVOICE_RECEIVED = 'notify_after_new_delivery_without_invoice_received';
     const SETTING_NOTIFY_AFTER_NEW_DELIVERY_IF_INVOICE_RECEIVED = 'notify_after_new_delivery_if_invoice_received';
     const SETTING_NOTIFY_AFTER_NEW_DELIVERY_IN_THOSE_CATEGORIES = 'notify_after_new_delivery_in_those_categories';
     const SETTING_NOTIFY_AFTER_NEW_DELIVERY_IF_DELIVERY_QUANTITY_DIFFERS_FROM_ORDER_QUANTITY = 'notify_after_new_delivery_if_delivery_quantity_differs_from_order_quantity';
@@ -35,6 +36,10 @@ class UserSettings {
             'default' => false,
             'type' => 'boolean'
         ],
+        self::SETTING_NOTIFY_AFTER_NEW_DELIVERY_WITHOUT_INVOICE_RECEIVED => [
+            'default' => false,
+            'type' => 'boolean'
+        ],
         self::SETTING_NOTIFY_AFTER_NEW_DELIVERY_IF_DELIVERY_QUANTITY_DIFFERS_FROM_ORDER_QUANTITY => [
             'default' => false,
             'type' => 'boolean'
@@ -51,6 +56,7 @@ class UserSettings {
 
     /**
      * UserSettings constructor.
+     *
      * @param User $user
      */
     public function __construct(User $user) {

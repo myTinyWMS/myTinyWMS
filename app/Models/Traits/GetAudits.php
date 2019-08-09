@@ -12,7 +12,7 @@ trait GetAudits {
      * @return Collection
      */
     public function getAudits() {
-        $audits = $this->audits()->with('user')->orderBy('created_at', 'desc')->take($this->auditsToDisplay ?? 20)->get();
+        $audits = $this->audits()->with(['user', 'auditable'])->orderBy('created_at', 'desc')->take($this->auditsToDisplay ?? 20)->get();
         $audits->transform(function ($audit) {
             $metaData = $audit->getMetadata();
             $modified = collect($audit->getModified())
@@ -31,9 +31,13 @@ trait GetAudits {
                     }
 
                     return $modified;
-                });
+                })
+                ->forget('id');
 
+            $typeClass = ($audit->auditable_type == 'article') ? Article::class : $audit->auditable_type;
             return [
+                'name' => __($typeClass::$auditName),
+                'event' => $audit->event,
                 'timestamp' => Carbon::parse($metaData['audit_created_at']),
                 'user' => optional($audit->user)->name,
                 'modified' => $modified

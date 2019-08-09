@@ -14,13 +14,13 @@
 @section('content')
     <form method="post" action="{{ route('article.mass_update_save') }}">
         <div class="row">
-        <div class="col-lg-12">
+        <div class="w-full">
             @foreach($articles as $category => $items)
-            <div class="ibox">
-                <div class="ibox-title">
+            <div class="card">
+                <div class="card-header">
                     <h5>{{ $category }}</h5>
                 </div>
-                <div class="ibox-content">
+                <div class="card-content">
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -41,13 +41,13 @@
                                 <td>{{ $article->notes }}</td>
                                 <td>
                                     @if(empty($article->unit_id))
-                                        {{ Form::bsSelect('unit_id['.$article->id.']', $article->unit_id, $units,  '', ['placeholder' => '']) }}
+                                        {{ Form::bsSelect('unit_id['.$article->id.']', $article->unit_id, $units,  '', ['placeholder' => '', 'id' => 'unit_'.$article->id]) }}
                                     @else
                                         {{ $article->unit->name }}
                                     @endif
                                 </td>
                                 <td>
-                                    {{ Form::bsSelect('inventory['.$article->id.']', $article->inventory, \Mss\Models\Article::getInventoryTextArray(), '') }}
+                                    {{ Form::bsSelect('inventory['.$article->id.']', $article->inventory, \Mss\Models\Article::getInventoryTextArray(), '', ['id' => 'inventory_'.$article->id]) }}
                                 </td>
                             </tr>
                             @endforeach
@@ -56,10 +56,10 @@
                 </div>
             </div>
             @endforeach
-            <div class="ibox">
-                <div class="ibox-content">
+            <div class="card mt-4">
+                <div class="card-content">
                     {{ csrf_field() }}
-                    <button type="submit" class="btn btn-primary">Speichern</button>
+                    <button type="submit" class="btn btn-primary" id="submit">Speichern</button>
                 </div>
             </div>
         </div>
