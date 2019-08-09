@@ -48,14 +48,16 @@ class ArticleController extends Controller
         $article = Article::create($request->all());
 
         // tags
-        collect($request->get('tags'))->each(function ($tagValue) use ($article) {
-            if (preg_match('/^newTag_(.+)/', $tagValue, $matches)) {
-                $tag = Tag::firstOrCreate(['name' => $matches[1]]);
-                $article->tags()->attach($tag);
-            } else {
-                $article->tags()->attach($tagValue);
-            }
-        });
+        if (!empty($request->get('tags'))) {
+            collect(\GuzzleHttp\json_decode($request->get('tags'), true))->each(function ($tagValue) use ($article) {
+                if (!array_key_exists('id', $tagValue)) {
+                    $tag = Tag::firstOrCreate(['name' => $tagValue['value']]);
+                    $article->tags()->attach($tag);
+                } else {
+                    $article->tags()->attach(Tag::where('name', $tagValue['value'])->firstOrFail());
+                }
+            });
+        }
 
         // categories
         if (!empty($request->get('category'))) {
