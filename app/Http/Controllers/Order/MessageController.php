@@ -33,7 +33,7 @@ class MessageController extends Controller {
             $orgMessage = OrderMessage::find(request('answer'));
             $preSetSubject = 'RE: '.$orgMessage->subject;
             $preSetReceiver = $orgMessage->sender->contains('System') ? '' : $orgMessage->sender->implode(',');
-            $body = (empty($orgMessage->htmlBody)) ? $orgMessage->textBody : $orgMessage->htmlBody;
+            $body = (empty($orgMessage->htmlBody)) ? nl2br($orgMessage->textBody) : $orgMessage->htmlBody;
             $preSetBody = '<br/><br/>Am '.$orgMessage->received->formatLocalized('%A, %d.%B %Y, %H:%M Uhr').' schrieb '.($orgMessage->sender->contains('System') ? env('MAIL_FROM_ADDRESS') : $orgMessage->sender->first()).':<br/><blockquote style="padding: 10px 20px;margin: 5px 0 20px;border-left: 5px solid #eee;">'.$body.'</blockquote>';
         }
 
