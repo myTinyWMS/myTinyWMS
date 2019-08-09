@@ -1,18 +1,21 @@
 <template>
     <div class="dropdown-button group" ref="dropdownMenu">
-        <div class="dropdown-button-header shadow btn btn-white rounded-lg flex text-base py-4 h-10 rounded-tr-none rounded-br-none border-r" @click="isVisible = ! isVisible">
-            <div class="px-2">{{ caption }}</div>
-            <z icon="cheveron-down" class="fill-current w-4 h-4"></z>
+        <div class="dropdown-button-header" @click="isVisible = ! isVisible">
+            <slot name="trigger"></slot>
         </div>
-        <div class="dropdown-button-items left-0 flex flex-col" v-show="isVisible">
-            <slot></slot>
+        <div class="dropdown-button-items flex flex-col" :class="direction + '-0'" v-show="isVisible">
+            <slot name="content"></slot>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        props: ["content", "caption"],
+        props:{
+            direction: {
+                default: 'left'
+            }
+        },
 
         data() {
             return {

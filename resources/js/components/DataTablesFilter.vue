@@ -1,6 +1,15 @@
 <template>
-    <dropdown caption="Filter" class="hidden">
-        <slot></slot>
+    <dropdown class="hidden">
+        <template v-slot:trigger>
+            <div class="shadow btn btn-white rounded-lg flex text-base h-10 rounded-tr-none rounded-br-none border-r">
+                <div class="px-2">{{ $t('Filter') }}</div>
+                <z icon="cheveron-down" class="fill-current w-4 h-4 mt-1"></z>
+            </div>
+        </template>
+
+        <template v-slot:content>
+            <slot></slot>
+        </template>
     </dropdown>
 </template>
 
