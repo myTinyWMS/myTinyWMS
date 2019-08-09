@@ -55,9 +55,12 @@ class Order extends AuditableModel
 
     protected $dates = ['order_date', 'expected_delivery'];
 
+    static $auditName = 'Bestellung';
+
     protected $ignoredAuditFields = ['supplier_id'];
 
     protected $fieldNames = [
+        'notes' => 'Bemerkungen',
         'status' => 'Status',
         'payment_status' => 'Bezahlmethode',
         'total_cost' => 'Gesamtkosten',
@@ -168,15 +171,22 @@ class Order extends AuditableModel
     public function getAllAudits() {
         $orderItemAudits = $this->items->map(function ($item) {
             return $item->getAudits()->transform(function ($audit) use ($item) {
-                $audit['modified']->transform(function ($modified) use ($item) {
-                    $modified['name'] .= ' (#'.$item->article->article_number.')';
-                    return $modified;
-                });
+                $audit['name'] .= ' #'.$item->article->article_number;
+
+                return $audit;
+            });
+        })->flatten(1);
+
+        $orderMessageAudits = $this->messages->map(function ($message) {
+            return $message->getAudits()->where('event', 'updated')->transform(function ($audit) use ($message) {
+                $audit['name'] .= ' #'.$message->id;
+
                 return $audit;
             });
         })->flatten(1);
 
         $audits = $this->getAudits();
-        return collect($audits->toArray())->merge($orderItemAudits)->sortByDesc('timestamp');
+
+        return collect($audits->toArray())->merge($orderItemAudits)->merge($orderMessageAudits)->sortByDesc('timestamp');
     }
 }

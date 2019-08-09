@@ -12,6 +12,8 @@ class InventoryItem extends AuditableModel
 
     protected $fillable = ['article_id', 'inventory_id'];
 
+    static $auditName = 'Inventurposition';
+
     public function inventory() {
         return $this->belongsTo(Inventory::class);
     }

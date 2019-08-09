@@ -13,6 +13,8 @@ class User extends Authenticatable implements Auditable, UserResolver
 {
     use Notifiable, \OwenIt\Auditing\Auditable;
 
+    static $auditName = 'Benutzer';
+
     /**
      * {@inheritdoc}
      */

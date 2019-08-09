@@ -14,7 +14,14 @@ class OrderMessage extends AuditableModel
         'receiver' => 'array',
     ];
 
+    static $auditName = 'Nachricht';
+
     protected $dates = ['received'];
+
+    protected $fieldNames = [
+        'read' => 'gelesen',
+        'order_id' => 'Bestellung'
+    ];
 
     protected $fillable = [
         'order_id',

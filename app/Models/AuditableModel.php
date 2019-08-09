@@ -13,4 +13,5 @@ class AuditableModel extends Model implements Auditable {
     protected $auditsToDisplay = 20;
     protected $fieldNames = [];
     protected $ignoredAuditFields = ['id'];
+    static $auditName = '';
 }

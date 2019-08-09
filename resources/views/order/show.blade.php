@@ -18,7 +18,7 @@
 @section('content')
 <div class="w-full">
     <div class="row">
-        <div class="card w-2/3">
+        <div class="card w-3/5">
             <div class="card-header">
                 <div class="flex">
                     <div class="flex-1">Bestellung #{{ $order->internal_order_number }}</div>
@@ -123,14 +123,14 @@
             </div>
         </div>
 
-        <div class="w-1/3 ml-4">
+        <div class="w-2/5 ml-4">
             <collapse title="Logbuch">
                 @include('components.audit_list', $audits)
             </collapse>
         </div>
     </div>
     <div class="row mt-4">
-        <div class="card w-2/3">
+        <div class="card w-3/5">
             <div class="card-header flex">
                 <div class="w-5/12">Artikel</div>
                 <div class="w-7/12 flex justify-end">
@@ -155,7 +155,7 @@
                                 <div class="form-group">
                                     <label class="form-label">Artikel {{ $key+1 }}</label>
                                     <div class="form-control-static">
-                                        <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
+                                        <a href="{{ route('article.show', $item->article) }}" target="_blank" class="text-sm">{{ $item->article->name }}</a>
                                         <div class="text-xs my-2"># {{ $item->article->article_number }}</div>
 
                                         @if ($articleHasNewPrice)
@@ -283,7 +283,7 @@
                 </div>
             </div>
         </div>
-        <div class="card w-1/3 ml-4">
+        <div class="card w-2/5 ml-4">
             <div class="card-header flex">
                 <div class="w-5/12">Lieferungen</div>
             </div>

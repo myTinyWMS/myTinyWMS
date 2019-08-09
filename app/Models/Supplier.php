@@ -17,6 +17,8 @@ class Supplier extends AuditableModel
         'name', 'email', 'phone', 'contact_person', 'website', 'notes', 'accounts_payable_number'
     ];
 
+    static $auditName = 'Lieferant';
+
     protected $dates = ['deleted_at'];
 
     protected $fieldNames = [

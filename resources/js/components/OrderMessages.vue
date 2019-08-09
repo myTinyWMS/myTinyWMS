@@ -22,10 +22,10 @@
                     <div class="text-xs text-gray-500 flex-1">
                         <z icon="time" class="fill-current w-3 h-3 inline-block"></z> {{ messages[currentIndex].received | moment('dddd, DD.MM YYYY, HH:mm ') + 'Uhr' }}
                         <template v-if="messages[currentIndex].sender.includes('System')">
-                            von {{ messages[currentIndex].user ? messages[currentIndex].user.name : 'System' }} an {{ messages[currentIndex].receiver.join(', ') }}
+                            von {{ messages[currentIndex].user ? messages[currentIndex].user.name : 'System' }} an {{ messages[currentIndex].receiver.join(', ') }} (#{{ messages[currentIndex].id }})
                         </template>
                         <template v-else>
-                            von {{ messages[currentIndex].sender.join(', ') }}
+                            von {{ messages[currentIndex].sender.join(', ') }} (#{{ messages[currentIndex].id }})
                         </template>
                     </div>
                     <dot-menu class="order-message-menu">

@@ -21,14 +21,14 @@
 
 @section('secondCol')
     <div class="2xl:w-2/3 w-1/2 flex flex-wrap 2xl:flex-no-wrap">
-        <div class="2xl:w-1/3 w-full ml-4">
+        <div class="2xl:w-2/5 w-full ml-4">
             <div class="card">
                 <div class="card-header">
                     <div class="flex">
                         <div class="flex-1">Aktueller Lieferant</div>
 
                         <dot-menu class="ml-2" id="changeSupplierMenu">
-                            <a href="javascript:void(0)" class="btn-link" @click="$modal.show('changeSupplierModal')" id="changeSupplierLink">Lieferant ändern</a>
+                            <a href="javascript:void(0)" class="btn-link" @click="$modal.show('changeSupplierModal')" id="changeSupplierLink">Lieferoptionen ändern</a>
                         </dot-menu>
                     </div>
                 </div>
@@ -139,7 +139,7 @@
             </div>
         </div>
 
-        <div class="2xl:w-2/3 w-full ml-4">
+        <div class="2xl:w-3/5 w-full ml-4">
             <collapse title="Logbuch">
                 @include('components.audit_list', $audits)
             </collapse>

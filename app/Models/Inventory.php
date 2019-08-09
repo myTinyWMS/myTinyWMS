@@ -6,6 +6,8 @@ class Inventory extends AuditableModel
 {
     protected $fillable = ['started_by'];
 
+    static $auditName = 'Inventur';
+
     public function items() {
         return $this->hasMany(InventoryItem::class);
     }

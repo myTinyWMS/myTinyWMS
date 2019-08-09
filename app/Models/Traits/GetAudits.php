@@ -31,9 +31,13 @@ trait GetAudits {
                     }
 
                     return $modified;
-                });
+                })
+                ->forget('id');
 
+            $typeClass = ($audit->auditable_type == 'article') ? Article::class : $audit->auditable_type;
             return [
+                'name' => __($typeClass::$auditName),
+                'event' => $audit->event,
                 'timestamp' => Carbon::parse($metaData['audit_created_at']),
                 'user' => optional($audit->user)->name,
                 'modified' => $modified

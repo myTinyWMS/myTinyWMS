@@ -1,9 +1,8 @@
-<table class="dataTable multiRow audit-list">
+<table class="dataTable table-condensed multiRow text-sm">
     <thead>
         <tr>
-            <th>Zeitpunkt</th>
-            <th>Benutzer</th>
-            <th>Feld</th>
+            <th>wann / wer</th>
+            <th>was</th>
             <th>alt</th>
             <th>neu</th>
         </tr>
@@ -15,11 +14,17 @@
                 @if(!is_array($data['new']) && (!array_key_exists('old', $data) || !is_array($data['old'])))
                 <tr>
                     @if($loop->first)
-                    <td rowspan="{{ count($audit['modified']) }}">{{ $audit['timestamp']->format('d.m.Y H:i') }}</td>
-                    <td rowspan="{{ count($audit['modified']) }}">{{ $audit['user'] }}</td>
+                    <td rowspan="{{ count($audit['modified']) }}" class="whitespace-no-wrap">
+                        {{ $audit['timestamp']->format('d.m.Y H:i') }}
+                        <br>
+                        <span class="text-xs">{{ $audit['user'] }}</span>
+                    </td>
                     @endif
 
-                    <td>{{ $data['name'] }}</td>
+                    <td class="whitespace-no-wrap">
+                        {{ $data['name'] }}<br>
+                        <span class="text-xs">in {{ $audit['name'] }}</span>
+                    </td>
                     <td>{!! (array_key_exists('old', $data) && !empty($data['old'])) ? str_limit($data['old'], 50, ' (...)') : '' !!}</td>
                     <td>{!! !empty($data['new']) ? str_limit($data['new'], 50, ' (...)') : '' !!}</td>
                 </tr>

@@ -52,6 +52,8 @@ class Article extends AuditableModel
 
     protected $dates = ['deleted_at'];
 
+    static $auditName = 'Artikel';
+
     protected $fieldNames = [
         'name' => 'Name',
         'notes' => 'Bemerkungen',
