@@ -23,6 +23,11 @@ class QuantityChangelogController extends Controller
         }
 
         $all = $article->quantityChangelogs()->oldest()->whereBetween('created_at', [$dateStart, $dateEnd])->whereIn('type', [ArticleQuantityChangelog::TYPE_OUTGOING, ArticleQuantityChangelog::TYPE_INCOMING, ArticleQuantityChangelog::TYPE_INVENTORY])->get();
+        /** @var Carbon $dataStartDate */
+        /** @var Carbon $dataEndDate */
+        $dataStartDate = $all->min('created_at');
+        $dataEndDate = $all->max('created_at');
+        $dataDiffInMonths = $dataEndDate->diffInMonths($dataStartDate) + 1;
 
         $chartValues = collect();
         $chartValues->put(1, collect());
@@ -55,7 +60,7 @@ class QuantityChangelogController extends Controller
 
         $chartLabels = $chartLabels->values();
 
-        return view('article.quantity_changelog', compact('article', 'changelog', 'dateStart', 'dateEnd', 'chartLabels', 'chartValues', 'diffMonths'));
+        return view('article.quantity_changelog', compact('article', 'changelog', 'dateStart', 'dateEnd', 'chartLabels', 'chartValues', 'dataDiffInMonths'));
     }
 
     public function delete(Article $article, ArticleQuantityChangelog $changelog) {
