@@ -33,7 +33,7 @@ class DashboardController extends Controller
     }
 
     protected function getDeliveriesWithoutInvoice() {
-        return OrderItem::with(['order.supplier', 'article', 'deliveryItems'])->whereHas('order.deliveries')->where('invoice_received', 0)->get()->filter(function ($orderItem) {
+        return OrderItem::with(['order.supplier', 'article'])->whereHas('order.deliveries')->where('invoice_received', 0)->get()->filter(function ($orderItem) {
             return ($orderItem->deliveryItems->sum('quantity') && $orderItem->article->inventory == Article::INVENTORY_TYPE_CONSUMABLES);
         });
     }
