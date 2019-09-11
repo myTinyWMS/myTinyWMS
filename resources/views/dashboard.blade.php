@@ -84,6 +84,38 @@
             </div>
         @endif
 
+        @if(count($overdueOrders))
+            <div class="w-1/2 px-2 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        @lang('Überfällige Bestellungen')
+                    </div>
+                    <div class="card-content">
+                        <table class="dataTable">
+                            <thead>
+                            <tr>
+                                <th>@lang('Bestellung')</th>
+                                <th>@lang('Lieferant')</th>
+                                <th>@lang('Lieferzeitpunkt')</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($overdueOrders as $order)
+                                <tr>
+                                    <td>
+                                        <a href="{{ route('order.show', $order) }}" target="_blank">{{ $order->internal_order_number }}</a>
+                                    </td>
+                                    <td>{{ $order->supplier->name }}</td>
+                                    <td>{{ optional($order->getOldestOverdueDate())->format('d.m.Y') }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         @if(count($deliveriesWithoutInvoice))
         <div class="w-1/2 px-2 mb-4">
             <div class="card">
@@ -124,38 +156,6 @@
                                     @endif
                                 </td>
                                 <td>{!! formatPrice($item->price * $item->quantity) !!}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        @endif
-
-        @if(count($overdueOrders))
-        <div class="w-1/2 px-2 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    @lang('Überfällige Bestellungen')
-                </div>
-                <div class="card-content">
-                    <table class="dataTable">
-                        <thead>
-                        <tr>
-                            <th>@lang('Bestellung')</th>
-                            <th>@lang('Lieferant')</th>
-                            <th>@lang('Lieferzeitpunkt')</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($overdueOrders as $order)
-                            <tr>
-                                <td>
-                                    <a href="{{ route('order.show', $order) }}" target="_blank">{{ $order->internal_order_number }}</a>
-                                </td>
-                                <td>{{ $order->supplier->name }}</td>
-                                <td>{{ optional($order->getOldestOverdueDate())->format('d.m.Y') }}</td>
                             </tr>
                         @endforeach
                         </tbody>
