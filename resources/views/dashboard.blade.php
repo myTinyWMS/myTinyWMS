@@ -52,6 +52,38 @@
         </div>
         @endif
 
+        @if(count($ordersWithoutConfirmation))
+            <div class="w-1/2 px-2 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        @lang('Bestellungen ohne AB')
+                    </div>
+                    <div class="card-content">
+                        <table class="dataTable">
+                            <thead>
+                            <tr>
+                                <th>@lang('Bestellung')</th>
+                                <th>@lang('Lieferant')</th>
+                                <th>@lang('Bestellzeitpunkt')</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($ordersWithoutConfirmation as $order)
+                                <tr>
+                                    <td>
+                                        <a href="{{ route('order.show', $order) }}" target="_blank">{{ $order->internal_order_number }}</a>
+                                    </td>
+                                    <td>{{ $order->supplier->name }}</td>
+                                    <td>{{ $order->order_date->format('d.m.Y') }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         @if(count($deliveriesWithoutInvoice))
         <div class="w-1/2 px-2 mb-4">
             <div class="card">
@@ -156,38 +188,6 @@
                                 </td>
                                 <td>{{ $order->supplier->name }}</td>
                                 <td>{{ optional($order->items->max('expected_delivery'))->format('d.m.Y') }}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        @endif
-
-        @if(count($ordersWithoutConfirmation))
-        <div class="w-1/2 px-2 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    @lang('Bestellungen ohne AB')
-                </div>
-                <div class="card-content">
-                    <table class="dataTable">
-                        <thead>
-                        <tr>
-                            <th>@lang('Bestellung')</th>
-                            <th>@lang('Lieferant')</th>
-                            <th>@lang('Bestellzeitpunkt')</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($ordersWithoutConfirmation as $order)
-                            <tr>
-                                <td>
-                                    <a href="{{ route('order.show', $order) }}" target="_blank">{{ $order->internal_order_number }}</a>
-                                </td>
-                                <td>{{ $order->supplier->name }}</td>
-                                <td>{{ $order->order_date->format('d.m.Y') }}</td>
                             </tr>
                         @endforeach
                         </tbody>
