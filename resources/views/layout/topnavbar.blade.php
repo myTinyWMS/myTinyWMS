@@ -23,19 +23,19 @@
     {{-- Row 2 --}}
     <div class="flex relative shadow-md h-header bg-white px-1 lg:px-12 z-20 border-t border-gray-300 topbar-nav print:hidden">
         <div class="flex-1 flex items-center cursor-pointer">
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri(['dashboard', '/'])) }}">
+            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('/') }} {{ activeIfUri('dashboard') }}">
                 <a href="{{ url('/dashboard') }}">
                     Dashboard
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['article*'])) }}">
+            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('article*') }}">
                 <a href="{{ url('/article') }}">
                     Artikel
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['order*'])) }}">
+            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('order*') }}">
                 <a href="{{ url('/order') }}" class="flex">
                     Bestellungen
                     @if($globalPageService->getUnreadMessageCount())
@@ -44,31 +44,31 @@
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['report*'])) }}">
+            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('report*') }}">
                 <a href="{{ url('/reports') }}">
                     Reports
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['inventory*'])) }}">
+            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('inventory*') }}">
                 <a href="{{ url('/inventory') }}">
                     Inventur
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['supplier*'])) }}">
+            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('supplier*') }}">
                 <a href="{{ url('/supplier') }}">
                     Lieferanten
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['category*'])) }}">
+            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('category*') }}">
                 <a href="{{ url('/category') }}">
                     Kategorien
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ active_class(if_uri_pattern(['unit*'])) }}">
+            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('unit*') }}">
                 <a href="{{ url('/unit') }}">
                     Einheiten
                 </a>
