@@ -84,6 +84,10 @@
                 }
             });
 
+            $( "#dataTableBuilder tbody" ).on( "click", "tr", function() {
+                $(this).find('td:eq(0) .iCheck-helper').click();
+            });
+
             $('#print_small_label').click(function () {
                 $('#label_size').val('small');
                 $('#label_quantity').val(window.prompt('Wieviele Label sollen gedruckt werden?', '1'));
