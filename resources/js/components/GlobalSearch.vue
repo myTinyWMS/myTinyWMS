@@ -2,9 +2,9 @@
     <div class="relative" style="width: 24rem">
         <input type="search" placeholder="Suche" class="form-control form-input form-input-bordered w-full shadow" @keyup="changed" v-model="value">
         <div class="absolute bg-white shadow rounded left-0 z-50 border border-gray-400 mt-2 p-2 w-full" v-show="suggestions.length > 0">
-            <div v-for="(group) in suggestions">
+            <div v-for="(group, groupindex) in suggestions">
                 <div class="text-xs pl-2 border-b text-black">{{ group.name }}</div>
-                <div v-for="(item, index) in group.items" class="whitespace-no-wrap p-2 text-sm hover:bg-gray-200 cursor-pointer bg-white" :title="group.name + ' ' + item.title" :class="{ 'bg-white': selectedItem == index, 'rounded-t': index == 0, 'rounded-b': index == (suggestions.length - 1) }" @click="selected(item)">{{ item.name }}</div>
+                <div v-for="(item, index) in group.items" class="whitespace-no-wrap p-2 text-sm hover:bg-gray-200 cursor-pointer bg-white" :title="group.name + ' ' + item.title" :class="{ 'bg-gray-200': selectedItem == (1 + index + groupindex), 'rounded-t': index == 0, 'rounded-b': index == (suggestions.length - 1) }" @click="selected(item)">{{ item.name }}</div>
             </div>
         </div>
     </div>
@@ -46,8 +46,7 @@
                         query: this.value
                     }).then(function(response) {
                         that.suggestions = [];
-                        that.selectedItem = 0;
-                        console.log(response.data, typeof response.data);
+                        that.selectedItem = 1;
                         response.data.forEach(function(a) {
                             that.suggestions.push(a)
                         })
@@ -67,7 +66,15 @@
                             that.selectedItem = -1;
                         }
                     } else if (e.keyCode == 13) {
-                        that.selected(that.suggestions[that.selectedItem]);
+                        let list = [];
+                        $.each(that.suggestions, function (key, items) {
+                            list.push(items.name);
+                            $.each(items.items, function (index, item) {
+                                list.push(item);
+                            });
+                        });
+
+                        that.selected(list[that.selectedItem]);
                     }
                 }
             });
