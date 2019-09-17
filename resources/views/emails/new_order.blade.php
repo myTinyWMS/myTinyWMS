@@ -10,22 +10,22 @@
         <td align="center">
             <table width="94%" border="0" cellpadding="0" cellspacing="0" style="border: 1px solid #EEEEEE">
                 <tr>
-                    <td width="5%" align="left" bgcolor="#252525" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-right:0;">
+                    <td width="5%" align="left" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-right:0;">
                         <b>#</b>
                     </td>
-                    <td width="40%" align="left" bgcolor="#252525" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-right:0;">
+                    <td width="40%" align="left" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-right:0;">
                         <b>Artikel</b>
                     </td>
-                    <td width="20%" align="center" bgcolor="#252525" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
+                    <td width="20%" align="center" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
                         <b>Bestellnummer</b>
                     </td>
-                    <td width="10%" align="center" bgcolor="#252525" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
+                    <td width="10%" align="center" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
                         <b>Menge</b>
                     </td>
-                    <td width="10%" align="center" bgcolor="#252525" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
+                    <td width="10%" align="center" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
                         <b>Einheit</b>
                     </td>
-                    <td width="15%" align="center" bgcolor="#252525" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
+                    <td width="15%" align="center" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
                         <b>Einzel-Preis netto</b>
                     </td>
                 </tr>
