@@ -161,6 +161,7 @@
 
             {{ Form::bsTextarea('notes', $article->notes, ['rows' => 4], 'Bemerkungen') }}
             {{ Form::bsTextarea('order_notes', $article->order_notes, ['rows' => 2], 'Bestell Hinweise') }}
+            {{ Form::bsTextarea('delivery_notes', $article->delivery_notes, ['rows' => 2], 'Liefer/WE-Hinweise') }}
 
             @yield('submit')
 

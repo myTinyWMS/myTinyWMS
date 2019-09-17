@@ -67,6 +67,10 @@
                                     <a href="{{ route('article.show', $item->article) }}" target="_blank">{{ $item->article->name }}</a>
                                     <br/>
                                     <small class="p-t-8"># {{ $item->article->article_number }}</small>
+                                    @if(!empty($item->article->delivery_notes))
+                                        <br>
+                                        <span class="font-semibold text-red-500 text-xs">{{ $item->article->delivery_notes }}</span>
+                                    @endif
                                 </h4>
                             </div>
                             <div class="w-2/12">
