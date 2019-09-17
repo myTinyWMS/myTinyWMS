@@ -77,7 +77,7 @@
                 <a href="{{ route('article.index', ['category' => $article->category]) }}" class="ml-2" title="alle Artikel dieser Kategorie anzeigen" target="_blank"><i class="fa fa-filter"></i></a>
 
                 @if ($isNewArticle ?? true)
-                    {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), null, ['class' => 'form-select w-full', 'name' => 'category', 'id' => 'changeArticleCategory']) !!}
+                    {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), null, ['class' => 'form-select w-full', 'name' => 'category', 'id' => 'changeArticleCategory', 'placeholder' => 'Kategorie auswählen']) !!}
                 @else
                     {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), $article->category->id ?? null, ['class' => 'form-select w-full', 'name' => 'category', 'disabled' => 'disabled']) !!}
                     <div class="i-checks mt-2">
