@@ -65,7 +65,7 @@
                     contents: '<i class="fa fa-plus"/> Signatur',
                     tooltip: 'Signatur einfügen',
                     click: function () {
-                        that.$refs.editor.summernote('code', that.signature);
+                        that.$refs.editor.summernote('pasteHTML', '<div>' + that.signature + '</div>');
                     }
                 });
 
