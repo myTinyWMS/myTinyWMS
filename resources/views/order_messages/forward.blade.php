@@ -24,7 +24,7 @@
             </div>
             <div class="card-content">
                 {{ Form::bsText('receiver', $preSetReceiver, [], 'Empfänger (mehrere mit Komma getrennt)') }}
-                {{ Form::bsText('subject', $preSetSubject, ['disabled' => 'disabled'], 'Betreff') }}
+                {{ Form::bsText('subject', $preSetSubject, [], 'Betreff') }}
 
                 @if (!empty($message->htmlBody))
                     {{ Form::wysiwygEditor('content', $message->htmlBody, [], 'Nachricht') }}
