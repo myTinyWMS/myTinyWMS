@@ -24,6 +24,8 @@ class DashboardController extends Controller
         });
         $ordersWithoutMessages = Order::with(['items', 'supplier'])->whereDoesntHave('messages')->whereIn('status', [Order::STATUS_NEW, Order::STATUS_ORDERED])->whereHas('supplier', function ($query) {
             $query->where('email', '!=', '');
+        })->whereDoesntHave('items', function ($query) {
+            $query->where('confirmation_received', true);
         })->get();
         $ordersWithoutConfirmation = Order::with(['items', 'supplier'])->whereIn('status', [Order::STATUS_NEW, Order::STATUS_ORDERED])->whereHas('items', function ($query) {
             $query->where('confirmation_received', false);

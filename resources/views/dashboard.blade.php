@@ -73,7 +73,7 @@
                                     <td>
                                         <a href="{{ route('order.show', $order) }}" target="_blank">{{ $order->internal_order_number }}</a>
                                     </td>
-                                    <td>{{ $order->supplier->name }}</td>
+                                    <td>{{ optional($order->supplier)->name }}</td>
                                     <td>{{ $order->order_date->format('d.m.Y') }}</td>
                                 </tr>
                             @endforeach
