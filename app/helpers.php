@@ -15,3 +15,7 @@ function parsePrice($value) {
 function formatPriceValue($value) {
     return number_format($value, 2, ',', '.');
 }
+
+function activeIfUri($uri) {
+    return request()->is($uri) ? 'active' : '';
+}

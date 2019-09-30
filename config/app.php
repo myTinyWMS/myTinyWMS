@@ -187,7 +187,6 @@ return [
         Mss\Providers\AuthServiceProvider::class,
         // Mss\Providers\BroadcastServiceProvider::class,
         Mss\Providers\EventServiceProvider::class,
-        Mss\Providers\NovaServiceProvider::class,
         Mss\Providers\RouteServiceProvider::class,
         Mss\Providers\ComposerServiceProvider::class,
         Mss\Providers\FormComponentsServiceProvider::class,
