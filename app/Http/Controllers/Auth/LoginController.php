@@ -58,8 +58,8 @@ class LoginController extends Controller
     {
         $login = request()->input('login');
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        Config::set('adldap_auth.usernames.eloquent', $field);
-        Config::set('adldap_auth.ldap.authenticate', 'samaccountname');
+        Config::set('ldap_auth.identifiers.database.username_column', $field);
+        Config::set('ldap_auth.identifiers.ldap.bind_users_by', 'samaccountname');
         request()->merge([$field => $login]);
         return $field;
     }
