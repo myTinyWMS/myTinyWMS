@@ -4,6 +4,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Logging
+    |--------------------------------------------------------------------------
+    |
+    | This option enables logging all LDAP operations on all configured
+    | connections such as bind requests and CRUD operations.
+    |
+    | Log entries will be created in your default logging stack.
+    |
+    | This option is extremely helpful for debugging connectivity issues.
+    |
+    */
+
+    'logging' => env('LDAP_LOGGING', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Connections
     |--------------------------------------------------------------------------
     |
@@ -30,11 +46,11 @@ return [
             | in your application.
             |
             | If this is set to false, you **must** connect manually before running
-            | LDAP operations.
+            | LDAP operations. Otherwise, you will receive exceptions.
             |
             */
 
-            'auto_connect' => env('ADLDAP_AUTO_CONNECT', true),
+            'auto_connect' => env('LDAP_AUTO_CONNECT', true),
 
             /*
             |--------------------------------------------------------------------------
@@ -53,29 +69,6 @@ return [
 
             /*
             |--------------------------------------------------------------------------
-            | Schema
-            |--------------------------------------------------------------------------
-            |
-            | The schema class to use for retrieving attributes and generating models.
-            |
-            | You can also set this option to `null` to use the default schema class.
-            |
-            | For OpenLDAP, you must use the schema:
-            |
-            |   Adldap\Schemas\OpenLDAP::class
-            |
-            | For FreeIPA, you must use the schema:
-            |
-            |   Adldap\Schemas\FreeIPA::class
-            |
-            | Custom schema classes must implement Adldap\Schemas\SchemaInterface
-            |
-            */
-
-            'schema' => Adldap\Schemas\ActiveDirectory::class,
-
-            /*
-            |--------------------------------------------------------------------------
             | Connection Settings
             |--------------------------------------------------------------------------
             |
@@ -85,7 +78,30 @@ return [
             |
             */
 
-            'connection_settings' => [
+            'settings' => [
+
+                /*
+                |--------------------------------------------------------------------------
+                | Schema
+                |--------------------------------------------------------------------------
+                |
+                | The schema class to use for retrieving attributes and generating models.
+                |
+                | You can also set this option to `null` to use the default schema class.
+                |
+                | For OpenLDAP, you must use the schema:
+                |
+                |   Adldap\Schemas\OpenLDAP::class
+                |
+                | For FreeIPA, you must use the schema:
+                |
+                |   Adldap\Schemas\FreeIPA::class
+                |
+                | Custom schema classes must implement Adldap\Schemas\SchemaInterface
+                |
+                */
+
+                'schema' => Adldap\Schemas\ActiveDirectory::class,
 
                 /*
                 |--------------------------------------------------------------------------
@@ -94,11 +110,11 @@ return [
                 |
                 | The account prefix option is the prefix of your user accounts in LDAP directory.
                 |
-                | This string is prepended to authenticating users usernames.
+                | This string is prepended to all authenticating users usernames.
                 |
                 */
 
-                'account_prefix' => env('ADLDAP_ACCOUNT_PREFIX', ''),
+                'account_prefix' => env('LDAP_ACCOUNT_PREFIX', ''),
 
                 /*
                 |--------------------------------------------------------------------------
@@ -107,11 +123,11 @@ return [
                 |
                 | The account suffix option is the suffix of your user accounts in your LDAP directory.
                 |
-                | This string is appended to authenticating users usernames.
+                | This string is appended to all authenticating users usernames.
                 |
                 */
 
-                'account_suffix' => env('ADLDAP_ACCOUNT_SUFFIX', ''),
+                'account_suffix' => env('LDAP_ACCOUNT_SUFFIX', ''),
 
                 /*
                 |--------------------------------------------------------------------------
@@ -127,7 +143,7 @@ return [
                 |
                 */
 
-                'domain_controllers' => explode(' ', env('ADLDAP_CONTROLLERS', 'corp-dc1.corp.acme.org corp-dc2.corp.acme.org')),
+                'hosts' => explode(' ', env('LDAP_HOSTS', 'corp-dc1.corp.acme.org corp-dc2.corp.acme.org')),
 
                 /*
                 |--------------------------------------------------------------------------
@@ -138,7 +154,7 @@ return [
                 |
                 */
 
-                'port' => env('ADLDAP_PORT', 389),
+                'port' => env('LDAP_PORT', 389),
 
                 /*
                 |--------------------------------------------------------------------------
@@ -151,7 +167,7 @@ return [
                 |
                 */
 
-                'timeout' => env('ADLDAP_TIMEOUT', 5),
+                'timeout' => env('LDAP_TIMEOUT', 5),
 
                 /*
                 |--------------------------------------------------------------------------
@@ -167,27 +183,11 @@ return [
                 |
                 */
 
-                'base_dn' => env('ADLDAP_BASEDN', 'dc=corp,dc=acme,dc=org'),
+                'base_dn' => env('LDAP_BASE_DN', 'dc=corp,dc=acme,dc=org'),
 
                 /*
                 |--------------------------------------------------------------------------
-                | Administrator Account Suffix / Prefix
-                |--------------------------------------------------------------------------
-                |
-                | This option allows you to set a different account prefix and suffix
-                | for your configured administrator account upon binding.
-                |
-                | If left empty or set to `null`, your `account_prefix` and
-                | `account_suffix` options above will be used.
-                |
-                */
-
-                'admin_account_prefix' => env('ADLDAP_ADMIN_ACCOUNT_PREFIX', ''),
-                'admin_account_suffix' => env('ADLDAP_ADMIN_ACCOUNT_SUFFIX', ''),
-
-                /*
-                |--------------------------------------------------------------------------
-                | Administrator Username & Password
+                | LDAP Username & Password
                 |--------------------------------------------------------------------------
                 |
                 | When connecting to your LDAP server, a username and password is required
@@ -198,8 +198,8 @@ return [
                 |
                 */
 
-                'admin_username' => env('ADLDAP_ADMIN_USERNAME', 'username'),
-                'admin_password' => env('ADLDAP_ADMIN_PASSWORD', 'password'),
+                'username' => env('LDAP_USERNAME'),
+                'password' => env('LDAP_PASSWORD'),
 
                 /*
                 |--------------------------------------------------------------------------
@@ -225,14 +225,14 @@ return [
                 | If you need to be able to change user passwords on your server, then an
                 | SSL or TLS connection is required. All other operations are allowed
                 | on unsecured protocols.
-                | 
-                | One of these options are definitely recommended if you 
+                |
+                | One of these options are definitely recommended if you
                 | have the ability to connect to your server securely.
                 |
                 */
 
-                'use_ssl' => env('ADLDAP_USE_SSL', false),
-                'use_tls' => env('ADLDAP_USE_TLS', false),
+                'use_ssl' => env('LDAP_USE_SSL', false),
+                'use_tls' => env('LDAP_USE_TLS', false),
 
             ],
 

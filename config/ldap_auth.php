@@ -7,15 +7,13 @@ return [
     | Connection
     |--------------------------------------------------------------------------
     |
-    | The LDAP connection to use for laravel authentication.
+    | The LDAP connection to use for Laravel authentication.
     |
-    | You must specify connections in your `config/adldap.php` configuration file.
-    |
-    | This must be a string.
+    | You must specify connections in your `config/ldap.php` configuration file.
     |
     */
 
-    'connection' => env('ADLDAP_CONNECTION', 'default'),
+    'connection' => env('LDAP_CONNECTION', 'default'),
 
     /*
     |--------------------------------------------------------------------------
@@ -36,6 +34,19 @@ return [
     */
 
     'provider' => Adldap\Laravel\Auth\DatabaseUserProvider::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Model
+    |--------------------------------------------------------------------------
+    |
+    | The model to utilize for authentication and importing.
+    |
+    | This option is only applicable to the DatabaseUserProvider.
+    |
+    */
+
+    'model' => Mss\Models\User::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -81,76 +92,98 @@ return [
     'scopes' => [
 
         // Only allows users with a user principal name to authenticate.
-        // Remove this if you're using OpenLDAP.
-        Adldap\Laravel\Scopes\UpnScope::class,
+        // Suitable when using ActiveDirectory.
+         Adldap\Laravel\Scopes\UpnScope::class,
 
         // Only allows users with a uid to authenticate.
-        // Uncomment if you're using OpenLDAP.
+        // Suitable when using OpenLDAP.
         // Adldap\Laravel\Scopes\UidScope::class,
 
     ],
 
-    'usernames' => [
+    'identifiers' => [
 
         /*
         |--------------------------------------------------------------------------
         | LDAP
         |--------------------------------------------------------------------------
         |
-        | Discover:
+        | Locate Users By:
         |
-        |   The discover value is the users attribute you would
-        |   like to locate LDAP users by in your directory.
+        |   This value is the users attribute you would like to locate LDAP
+        |   users by in your directory.
         |
         |   For example, using the default configuration below, if you're
         |   authenticating users with an email address, your LDAP server
         |   will be queried for a user with the a `userprincipalname`
         |   equal to the entered email address.
         |
-        | Authenticate:
+        | Bind Users By:
         |
-        |   The authenticate value is the users attribute you would
+        |   This value is the users attribute you would
         |   like to use to bind to your LDAP server.
         |
-        |   For example, when a user is located by the above 'discover'
-        |   attribute, the users attribute you specify below will
-        |   be used as the username to bind to your LDAP server.
+        |   For example, when a user is located by the above attribute,
+        |   the users attribute you specify below will be used as
+        |   the 'username' to bind to your LDAP server.
+        |
+        |   This is usually their distinguished name.
         |
         */
 
         'ldap' => [
 
-            'discover' => 'userprincipalname',
+            'locate_users_by' => 'userprincipalname',
 
-            'authenticate' => 'userprincipalname',
+            'bind_users_by' => 'userprincipalname',
+
+        ],
+
+        'database' => [
+
+            /*
+            |--------------------------------------------------------------------------
+            | GUID Column
+            |--------------------------------------------------------------------------
+            |
+            | The value of this option is the database column that will contain the
+            | LDAP users global identifier. This column does not need to be added
+            | to the sync attributes below. It is synchronized automatically.
+            |
+            | This option is only applicable to the DatabaseUserProvider.
+            |
+            */
+
+            'guid_column' => 'objectguid',
+
+            /*
+            |--------------------------------------------------------------------------
+            | Username Column
+            |--------------------------------------------------------------------------
+            |
+            | The value of this option is the database column that contains your
+            | users login username.
+            |
+            | This column must be added to your sync attributes below to be
+            | properly synchronized.
+            |
+            | This option is only applicable to the DatabaseUserProvider.
+            |
+            */
+
+            'username_column' => 'email',
 
         ],
 
         /*
         |--------------------------------------------------------------------------
-        | Eloquent
+        | Windows Authentication Middleware (SSO)
         |--------------------------------------------------------------------------
         |
-        | The value you enter is used for locating the local
-        | database record of the authenticating user.
+        | Local Users By:
         |
-        | If you're using a `username` field instead, change this to `username`.
-        |
-        | This option is only applicable to the DatabaseUserProvider.
-        |
-        */
-
-        'eloquent' => 'email',
-
-        /*
-        |--------------------------------------------------------------------------
-        | Windows Authentication (SSO)
-        |--------------------------------------------------------------------------
-        |
-        | Discover:
-        |
-        |   The 'discover' value is the users attribute you would
-        |   like to locate LDAP users by in your directory.
+        |   This value is the users attribute you would like to locate LDAP
+        |   users by in your directory.
         |
         |   For example, if 'samaccountname' is the value, then your LDAP server is
         |   queried for a user with the 'samaccountname' equal to the value of
@@ -159,9 +192,9 @@ return [
         |   If a user is found, they are imported (if using the DatabaseUserProvider)
         |   into your local database, then logged in.
         |
-        | Key:
+        | Server Key:
         |
-        |    The 'key' value represents the 'key' of the $_SERVER
+        |    This value represents the 'key' of the $_SERVER
         |    array to pull the users account name from.
         |
         |    For example, $_SERVER['AUTH_USER'].
@@ -170,9 +203,9 @@ return [
 
         'windows' => [
 
-            'discover' => 'samaccountname',
+            'locate_users_by' => 'samaccountname',
 
-            'key' => 'AUTH_USER',
+            'server_key' => 'AUTH_USER',
 
         ],
 
@@ -187,21 +220,20 @@ return [
         |
         | The password sync option allows you to automatically synchronize users
         | LDAP passwords to your local database. These passwords are hashed
-        | natively by Laravel using the bcrypt() method.
+        | natively by Laravel using the Hash::make() method.
         |
         | Enabling this option would also allow users to login to their accounts
         | using the password last used when an LDAP connection was present.
         |
         | If this option is disabled, the local database account is applied a
-        | random 16 character hashed password upon every login, and will
+        | random 16 character hashed password upon first login, and will
         | lose access to this account upon loss of LDAP connectivity.
         |
-        | This option must be true or false and is only applicable
-        | to the DatabaseUserProvider.
+        | This option is only applicable to the DatabaseUserProvider.
         |
         */
 
-        'sync' => env('ADLDAP_PASSWORD_SYNC', false),
+        'sync' => env('LDAP_PASSWORD_SYNC', false),
 
         /*
         |--------------------------------------------------------------------------
@@ -226,17 +258,16 @@ return [
     | Login Fallback
     |--------------------------------------------------------------------------
     |
-    | The login fallback option allows you to login as a user located on the
+    | The login fallback option allows you to login as a user located in the
     | local database if active directory authentication fails.
     |
     | Set this to true if you would like to enable it.
     |
-    | This option must be true or false and is only
-    | applicable to the DatabaseUserProvider.
+    | This option is only applicable to the DatabaseUserProvider.
     |
     */
 
-    'login_fallback' => env('ADLDAP_LOGIN_FALLBACK', false),
+    'login_fallback' => env('LDAP_LOGIN_FALLBACK', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -250,15 +281,18 @@ return [
     | The array key represents the users Laravel model key, and
     | the value represents the users LDAP attribute.
     |
-    | This option must be an array and is only applicable
-    | to the DatabaseUserProvider.
+    | You **must** include the users login attribute here.
+    |
+    | This option is only applicable to the DatabaseUserProvider.
     |
     */
 
     'sync_attributes' => [
+
         'email' => 'userprincipalname',
         'username' => 'samaccountname',
         'name' => 'cn',
+
     ],
 
     /*
@@ -283,20 +317,20 @@ return [
 
     'logging' => [
 
-        'enabled' => true,
+        'enabled' => env('LDAP_LOGGING', true),
 
         'events' => [
 
-            \Adldap\Laravel\Events\Importing::class => \Adldap\Laravel\Listeners\LogImport::class,
-            \Adldap\Laravel\Events\Synchronized::class => \Adldap\Laravel\Listeners\LogSynchronized::class,
-            \Adldap\Laravel\Events\Synchronizing::class => \Adldap\Laravel\Listeners\LogSynchronizing::class,
-            \Adldap\Laravel\Events\Authenticated::class => \Adldap\Laravel\Listeners\LogAuthenticated::class,
-            \Adldap\Laravel\Events\Authenticating::class => \Adldap\Laravel\Listeners\LogAuthentication::class,
-            \Adldap\Laravel\Events\AuthenticationFailed::class => \Adldap\Laravel\Listeners\LogAuthenticationFailure::class,
-            \Adldap\Laravel\Events\AuthenticationRejected::class => \Adldap\Laravel\Listeners\LogAuthenticationRejection::class,
-            \Adldap\Laravel\Events\AuthenticationSuccessful::class => \Adldap\Laravel\Listeners\LogAuthenticationSuccess::class,
+            \Adldap\Laravel\Events\Importing::class                 => \Adldap\Laravel\Listeners\LogImport::class,
+            \Adldap\Laravel\Events\Synchronized::class              => \Adldap\Laravel\Listeners\LogSynchronized::class,
+            \Adldap\Laravel\Events\Synchronizing::class             => \Adldap\Laravel\Listeners\LogSynchronizing::class,
+            \Adldap\Laravel\Events\Authenticated::class             => \Adldap\Laravel\Listeners\LogAuthenticated::class,
+            \Adldap\Laravel\Events\Authenticating::class            => \Adldap\Laravel\Listeners\LogAuthentication::class,
+            \Adldap\Laravel\Events\AuthenticationFailed::class      => \Adldap\Laravel\Listeners\LogAuthenticationFailure::class,
+            \Adldap\Laravel\Events\AuthenticationRejected::class    => \Adldap\Laravel\Listeners\LogAuthenticationRejection::class,
+            \Adldap\Laravel\Events\AuthenticationSuccessful::class  => \Adldap\Laravel\Listeners\LogAuthenticationSuccess::class,
             \Adldap\Laravel\Events\DiscoveredWithCredentials::class => \Adldap\Laravel\Listeners\LogDiscovery::class,
-            \Adldap\Laravel\Events\AuthenticatedWithWindows::class => \Adldap\Laravel\Listeners\LogWindowsAuth::class,
+            \Adldap\Laravel\Events\AuthenticatedWithWindows::class  => \Adldap\Laravel\Listeners\LogWindowsAuth::class,
             \Adldap\Laravel\Events\AuthenticatedModelTrashed::class => \Adldap\Laravel\Listeners\LogTrashedModel::class,
 
         ],
