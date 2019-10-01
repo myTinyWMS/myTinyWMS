@@ -53,6 +53,10 @@
             <textarea class="form-textarea" rows="3" id="changelogNote" name="changelogNote"></textarea>
         </div>
 
+        <div v-if="(article.delivery_notes.length > 0 && changelogType.value == 1)">
+            <span class="font-semibold text-red-500 text-xs">{{ article.delivery_notes }}</span>
+        </div>
+
         <div class="modal-footer">
             <input type="hidden" v-bind:value="csrf" name="_token" />
             <button type="button" class="btn btn-default" @click="$modal.hide('change-quantity')">Abbrechen</button>

@@ -174,6 +174,8 @@ class OrderCreateTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $article = Article::withCurrentSupplier()->active()->inRandomOrder()->first();
             $supplierArticle = $article->getCurrentSupplierArticle();
+            $supplierArticle->delivery_time = 3;
+            $supplierArticle->save();
 
             $browser
                 ->visit('/order/create?article=' . $article->id)
