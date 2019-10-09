@@ -46,7 +46,7 @@ class SelectArticleDataTable extends ArticleDataTable
         $parameters = [
             'paging' => false,
             'deferLoading' => false,
-            'order' => [[self::SUPPLIER_COL_ID, 'asc']],
+            'order' => [[1, 'asc']],
             'rowGroup' => ['dataSrc' => 'category']
         ];
 
