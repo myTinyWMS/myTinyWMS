@@ -27,7 +27,7 @@ class QuantityChangelogController extends Controller
         /** @var Carbon $dataEndDate */
         $dataStartDate = $all->min('created_at');
         $dataEndDate = $all->max('created_at');
-        $dataDiffInMonths = $dataEndDate->diffInMonths($dataStartDate) + 1;
+        $dataDiffInMonths = $dataEndDate ? $dataEndDate->diffInMonths($dataStartDate) + 1 : 0;
 
         $chartValues = collect();
         $chartValues->put(1, collect());
