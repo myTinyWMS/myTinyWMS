@@ -77,7 +77,7 @@
                 <a href="{{ route('article.index', ['category' => $article->category]) }}" class="ml-2" title="alle Artikel dieser Kategorie anzeigen" target="_blank"><i class="fa fa-filter"></i></a>
 
                 @if ($isNewArticle ?? true)
-                    {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), null, ['class' => 'form-select w-full', 'name' => 'category', 'id' => 'changeArticleCategory', 'placeholder' => 'Kategorie auswählen']) !!}
+                    {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), null, ['class' => 'form-select w-full', 'name' => 'category', 'id' => 'changeArticleCategory', 'placeholder' => 'bitte wählen ...']) !!}
                 @else
                     {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), $article->category->id ?? null, ['class' => 'form-select w-full', 'name' => 'category', 'disabled' => 'disabled']) !!}
                     <div class="i-checks mt-2">
@@ -91,14 +91,14 @@
             </div>
 
             <div class="row">
-                <div class="w-1/2">
+                <div class="w-1/2 pr-4">
                     @if (!empty($article->unit_id))
                         <div class="form-group">
                             <label class="form-label">Einheit</label>
                             <div class="form-control-static">{{ $article->unit->name }}</div>
                         </div>
                     @else
-                        {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => '']) }}
+                        {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => 'bitte wählen ...']) }}
                     @endif
                 </div>
                 <div class="w-1/2">
@@ -107,7 +107,7 @@
             </div>
 
             <div class="row">
-                <div class="w-1/2">
+                <div class="w-1/2 pr-4">
                     @if ($isNewArticle ?? true)
                         <div class="form-group">
                             <label class="control-label">Bestand</label>
@@ -134,7 +134,7 @@
 
             <div class="row">
                 <div class="w-1/2 pr-4">
-                    {{ Form::bsSelect('inventory', $article->inventory, \Mss\Models\Article::getInventoryTextArray(),  'Inventur Typ') }}
+                    {{ Form::bsSelect('inventory', $article->inventory, \Mss\Models\Article::getInventoryTextArray(),  'Inventur Typ', ['placeholder' => 'bitte wählen ...']) }}
                 </div>
                 <div class="w-1/2">
                     {{ Form::bsText('free_lines_in_printed_list', $article->free_lines_in_printed_list ?? 1, [], 'Leere Zeilen in Lagerliste') }}
@@ -152,7 +152,7 @@
 
             <div class="row">
                 <div class="w-1/2 pr-4">
-                    {{ Form::bsSelect('packaging_category', $article->packaging_category, [null => '', \Mss\Models\Article::PACKAGING_CATEGORY_PAPER => 'Papier, Pappe, Karton', \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => 'Kunststoffe'],  'Verpackungs-Kategorie') }}
+                    {{ Form::bsSelect('packaging_category', $article->packaging_category, [\Mss\Models\Article::PACKAGING_CATEGORY_PAPER => 'Papier, Pappe, Karton', \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => 'Kunststoffe'],  'Verpackungs-Kategorie', ['placeholder' => 'bitte wählen ...']) }}
                 </div>
                 <div class="w-1/2">
                     {{ Form::bsText('weight', $article->weight ?? '', [], 'Gewicht in Gramm pro Einheit') }}

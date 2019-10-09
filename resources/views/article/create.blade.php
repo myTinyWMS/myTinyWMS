@@ -28,7 +28,7 @@
                 {{ Form::bsText('supplier_order_number', null, [], 'Bestellnummer') }}
                 {{ Form::bsText('supplier_price', null, [], 'Preis netto') }}
                 {{ Form::bsText('supplier_delivery_time', null, [], 'Lieferzeit (Wochentage)') }}
-                {{ Form::bsText('supplier_order_quantity', null, [], 'Bestellmenge') }}
+                {{ Form::bsNumber('supplier_order_quantity', null, [], 'Bestellmenge') }}
             </div>
         </div>
     </div>

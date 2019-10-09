@@ -2,6 +2,8 @@
 
 namespace Mss\Http\Controllers\Article;
 
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 use Mss\Models\Tag;
 use Mss\Models\Article;
 use Mss\Models\Supplier;
@@ -45,39 +47,48 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(NewArticleRequest $request) {
-        $article = Article::create($request->all());
+        DB::beginTransaction();
 
-        // tags
-        if (!empty($request->get('tags'))) {
-            collect(\GuzzleHttp\json_decode($request->get('tags'), true))->each(function ($tagValue) use ($article) {
-                if (!array_key_exists('id', $tagValue)) {
-                    $tag = Tag::firstOrCreate(['name' => $tagValue['value']]);
-                    $article->tags()->attach($tag);
-                } else {
-                    $article->tags()->attach(Tag::where('name', $tagValue['value'])->firstOrFail());
-                }
-            });
+        try {
+            $article = Article::create($request->all());
+
+            // tags
+            if (!empty($request->get('tags'))) {
+                collect(\GuzzleHttp\json_decode($request->get('tags'), true))->each(function ($tagValue) use ($article) {
+                    if (!array_key_exists('id', $tagValue)) {
+                        $tag = Tag::firstOrCreate(['name' => $tagValue['value']]);
+                        $article->tags()->attach($tag);
+                    } else {
+                        $article->tags()->attach(Tag::where('name', $tagValue['value'])->firstOrFail());
+                    }
+                });
+            }
+
+            // categories
+            if (!empty($request->get('category'))) {
+                $article->category()->associate($request->get('category'));
+                $article->save();
+                $article->load('category');
+
+                $article->setNewArticleNumber();
+            }
+
+            // supplier
+            ArticleSupplier::create([
+                'article_id' => $article->id,
+                'supplier_id' => $request->get('supplier_id'),
+                'order_number' => $request->get('supplier_order_number') ?? 0,
+                'delivery_time' => $request->get('supplier_delivery_time'),
+                'order_quantity' => $request->get('supplier_order_quantity'),
+                'price' => round(floatval(str_replace(',', '.', $request->get('supplier_price'))) * 100, 0)
+            ]);
+        } catch (QueryException $e) {
+            flash('Fehler beim Anlegen des Artikels')->error();
+            DB::rollBack();
+            return back()->withInput();
         }
 
-        // categories
-        if (!empty($request->get('category'))) {
-            $article->category()->associate($request->get('category'));
-            $article->save();
-            $article->load('category');
-
-            $article->setNewArticleNumber();
-        }
-
-        // supplier
-        ArticleSupplier::create([
-            'article_id' => $article->id,
-            'supplier_id' => $request->get('supplier_id'),
-            'order_number' => $request->get('supplier_order_number') ?? 0,
-            'delivery_time' => $request->get('supplier_delivery_time'),
-            'order_quantity' => $request->get('supplier_order_quantity'),
-            'price' => round(floatval(str_replace(',', '.', $request->get('supplier_price'))) * 100, 0)
-        ]);
-
+        DB::commit();
         flash('Artikel angelegt')->success();
 
         return redirect()->route('article.show', $article);
