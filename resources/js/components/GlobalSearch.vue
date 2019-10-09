@@ -1,7 +1,7 @@
 <template>
     <div class="relative" style="width: 24rem">
-        <input type="search" placeholder="Suche" class="form-control form-input form-input-bordered w-full shadow" @keyup="changed" v-model="value">
-        <div class="absolute bg-white shadow rounded left-0 z-50 border border-gray-400 mt-2 p-2 w-full" v-show="suggestions.length > 0">
+        <input type="search" placeholder="Suche" class="form-control form-input form-input-bordered w-full shadow" v-model="value">
+        <div class="absolute bg-white shadow rounded left-0 z-50 border border-gray-400 mt-2 p-2 w-full" v-show="suggestions.length > 0" id="global-search-results">
             <div v-for="(group, groupindex) in suggestions">
                 <div class="text-xs pl-2 border-b text-black">{{ group.name }}</div>
                 <div v-for="(item, index) in group.items" class="whitespace-no-wrap p-2 text-sm hover:bg-gray-200 cursor-pointer bg-white" :title="group.name + ' ' + item.title" :class="{ 'bg-gray-200': selectedItem == (1 + index + groupindex), 'rounded-t': index == 0, 'rounded-b': index == (suggestions.length - 1) }" @click="selected(item)">{{ item.name }}</div>
@@ -21,29 +21,22 @@
                 selectedItem: 0
             }
         },
+        watch: {
+            value: function(){
+                this.processSearch();
+            },
+        },
         methods: {
             selected (selected) {
                 window.location.href = selected.link;
             },
-            changed: function(event) {
-                let keycode = event.keyCode;
-                let valid =
-                    (keycode > 47 && keycode < 58) || // number keys
-                    keycode == 32 || // spacebar
-                    (keycode > 64 && keycode < 91) || // letter keys
-                    (keycode > 95 && keycode < 112) || // numpad keys
-                    (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
-                    (keycode > 218 && keycode < 223);   // [\]' (in order)
+            processSearch: function() {
+                let that = this;
 
-                if (!valid) {
-                    return false;
-                }
-
-                var that = this;
-                this.suggestions = [];
-                if (this.value.length > 3) {
+                that.suggestions = [];
+                if (that.value.length > 3) {
                     axios.post(route('global_search'), {
-                        query: this.value
+                        query: that.value
                     }).then(function(response) {
                         that.suggestions = [];
                         that.selectedItem = 1;
@@ -56,6 +49,14 @@
         },
         mounted: function() {
             let that = this;
+
+            window.addEventListener('click', function (e) {
+                if (e.target.id != 'global-search-results' && $(e.target).parents('#global-search-results').length == 0) {
+                    that.suggestions = [];
+                    that.selectedItem = 1;
+                }
+            });
+
             window.addEventListener('keyup', function(e) {
                 if (that.suggestions.length > 0){
                     if (e.keyCode == 40) {
