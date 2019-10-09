@@ -98,7 +98,7 @@
                             <div class="form-control-static">{{ $article->unit->name }}</div>
                         </div>
                     @else
-                        {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['placeholder' => 'bitte wählen ...']) }}
+                        {{ Form::bsSelect('unit_id', $article->unit_id, \Mss\Models\Unit::pluck('name', 'id'),  'Einheit', ['required' => 'required', 'placeholder' => 'bitte wählen ...']) }}
                     @endif
                 </div>
                 <div class="w-1/2">
@@ -134,7 +134,7 @@
 
             <div class="row">
                 <div class="w-1/2 pr-4">
-                    {{ Form::bsSelect('inventory', $article->inventory, \Mss\Models\Article::getInventoryTextArray(),  'Inventur Typ', ['placeholder' => 'bitte wählen ...']) }}
+                    {{ Form::bsSelect('inventory', $article->inventory, \Mss\Models\Article::getInventoryTextArray(),  'Inventur Typ', ['required' => 'required', 'placeholder' => 'bitte wählen ...']) }}
                 </div>
                 <div class="w-1/2">
                     {{ Form::bsText('free_lines_in_printed_list', $article->free_lines_in_printed_list ?? 1, [], 'Leere Zeilen in Lagerliste') }}
@@ -152,7 +152,7 @@
 
             <div class="row">
                 <div class="w-1/2 pr-4">
-                    {{ Form::bsSelect('packaging_category', $article->packaging_category, [\Mss\Models\Article::PACKAGING_CATEGORY_PAPER => 'Papier, Pappe, Karton', \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => 'Kunststoffe'],  'Verpackungs-Kategorie', ['placeholder' => 'bitte wählen ...']) }}
+                    {{ Form::bsSelect('packaging_category', $article->packaging_category, [null => '', \Mss\Models\Article::PACKAGING_CATEGORY_PAPER => 'Papier, Pappe, Karton', \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => 'Kunststoffe'],  'Verpackungs-Kategorie') }}
                 </div>
                 <div class="w-1/2">
                     {{ Form::bsText('weight', $article->weight ?? '', [], 'Gewicht in Gramm pro Einheit') }}
