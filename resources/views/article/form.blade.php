@@ -102,7 +102,7 @@
                     @endif
                 </div>
                 <div class="w-1/2">
-                    {{ Form::bsText('sort_id', $article->sort_id ?? 0, [], 'Sortierung') }}
+                    {{ Form::bsText('sort_id', $article->sort_id ?? 0, ['required' => 'required'], 'Sortierung') }}
                 </div>
             </div>
 

@@ -3,8 +3,6 @@
 namespace Mss\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Route;
 
 class NewArticleRequest extends FormRequest
 {
@@ -27,6 +25,7 @@ class NewArticleRequest extends FormRequest
             'name' => 'required',
             'quantity' => 'required|integer',
             'supplier_id' => 'required|exists:suppliers,id',
+            'sort_id' => 'required|integer',
         ];
     }
 
