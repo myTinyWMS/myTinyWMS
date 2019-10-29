@@ -24,11 +24,11 @@
         <div class="card">
             <div class="card-header">Lieferant</div>
             <div class="card-content">
-                {{ Form::bsSelect('supplier_id', null, \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'),  'Lieferant', ['placeholder' => '', 'required' => 'required']) }}
-                {{ Form::bsText('supplier_order_number', null, [], 'Bestellnummer') }}
-                {{ Form::bsText('supplier_price', null, [], 'Preis netto') }}
-                {{ Form::bsText('supplier_delivery_time', null, [], 'Lieferzeit (Wochentage)') }}
-                {{ Form::bsNumber('supplier_order_quantity', null, [], 'Bestellmenge') }}
+                {{ Form::bsSelect('supplier_id', optional($article->currentSupplierArticle)->supplier_id, \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'),  'Lieferant', ['placeholder' => '', 'required' => 'required']) }}
+                {{ Form::bsText('supplier_order_number', optional($article->currentSupplierArticle)->order_number, [], 'Bestellnummer') }}
+                {{ Form::bsText('supplier_price', optional($article->currentSupplierArticle)->price ? optional($article->currentSupplierArticle)->price / 100 : null, [], 'Preis netto') }}
+                {{ Form::bsText('supplier_delivery_time', optional($article->currentSupplierArticle)->delivery_time, [], 'Lieferzeit (Wochentage)') }}
+                {{ Form::bsNumber('supplier_order_quantity', optional($article->currentSupplierArticle)->order_quantity, [], 'Bestellmenge') }}
             </div>
         </div>
     </div>

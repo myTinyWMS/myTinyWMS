@@ -36,8 +36,18 @@ class ArticleController extends Controller
      */
     public function create() {
         $article = new Article();
+        $isNewArticle = true;
+        $isCopyOfArticle = false;
 
-        return view('article.create', compact('article'));
+        return view('article.create', compact('article', 'isNewArticle', 'isCopyOfArticle'));
+    }
+
+    public function copy(Article $article) {
+        $article = Article::withCurrentSupplier()->withCurrentSupplierArticle()->findOrFail($article->id);
+        $isNewArticle = false;
+        $isCopyOfArticle = true;
+
+        return view('article.create', compact('article', 'isNewArticle', 'isCopyOfArticle'));
     }
 
     /**

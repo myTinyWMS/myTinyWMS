@@ -43,6 +43,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('article/{article}/fix-quantity-change', 'ArticleController@fixQuantityChange')->name('article.fix_quantity_change');
 
         Route::post('article/{article}/change-supplier', 'SupplierController@store')->name('article.change_supplier');
+
+        Route::get('article/{article}/copy', 'ArticleController@copy')->name('article.copy');
     });
 
     Route::post('inventory/{inventory}/article/{article}/processed', 'InventoryController@processed')->name('inventory.processed');

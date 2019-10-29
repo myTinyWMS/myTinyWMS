@@ -104,6 +104,7 @@ create table articles
 	updated_at timestamp null,
 	deleted_at timestamp null,
 	order_notes text null,
+	delivery_notes text null,
 	files text null,
 	free_lines_in_printed_list int default 1 not null,
 	outsourcing_quantity int default 0 not null,

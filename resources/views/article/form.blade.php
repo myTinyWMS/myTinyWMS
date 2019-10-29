@@ -1,23 +1,27 @@
 @extends('layout.app')
 
 @section('content')
-@if ($isNewArticle ?? true)
+@if ($isNewArticle || $isCopyOfArticle)
     @yield('form_start')
 @endif
 <div class="flex w-full items-start">
     <div class="card 2xl:w-1/3 w-1/2">
         <div class="card-header flex">
             <div class="flex-1">Details</div>
+
+            <dot-menu class="ml-2">
+                <a href="{{ route('article.copy', $article) }}" class="btn-link" id="copyArticleLink">Artikel duplizieren</a>
+            </dot-menu>
         </div>
 
         <div class="card-content">
-            @if (!($isNewArticle ?? true))
+            @if (!$isNewArticle && !$isCopyOfArticle)
                 @yield('form_start')
             @endif
 
             <div class="w-full flex">
                 <div class="w-1/3">
-                    @if (!($isNewArticle ?? true))
+                    @if (!$isNewArticle && !$isCopyOfArticle)
                         <div class="form-group">
                             <label class="form-label">Bestand</label>
                             <div class="form-control-static" id="currentQuantity">
@@ -28,7 +32,7 @@
                 </div>
 
                 <div class="w-2/3">
-                    @if($article->openOrders()->count())
+                    @if($article->openOrders()->count() && !$isCopyOfArticle)
                         <div class="form-group">
                             <label class="form-label">Offene Bestellungen</label>
                             <div class="form-control-static text-sm">
@@ -42,7 +46,7 @@
                 </div>
             </div>
 
-            @if (!($isNewArticle ?? true) && ($article->outsourcing_quantity !== 0 || $article->replacement_delivery_quantity !== 0))
+            @if (!$isNewArticle && !$isCopyOfArticle && ($article->outsourcing_quantity !== 0 || $article->replacement_delivery_quantity !== 0))
                 <div class="row">
                     @if ($article->outsourcing_quantity !== 0)
                         <div class="w-1/3">
@@ -76,8 +80,8 @@
                 {!! Form::label('category', 'Kategorie', ['class' => 'form-label inline-block']) !!}
                 <a href="{{ route('article.index', ['category' => $article->category]) }}" class="ml-2" title="alle Artikel dieser Kategorie anzeigen" target="_blank"><i class="fa fa-filter"></i></a>
 
-                @if ($isNewArticle ?? true)
-                    {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), null, ['class' => 'form-select w-full', 'name' => 'category', 'id' => 'changeArticleCategory', 'placeholder' => 'bitte wählen ...']) !!}
+                @if ($isNewArticle || $isCopyOfArticle)
+                    {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), $isCopyOfArticle ? $article->category_id : null, ['class' => 'form-select w-full', 'name' => 'category', 'id' => 'changeArticleCategory', 'placeholder' => 'bitte wählen ...']) !!}
                 @else
                     {!! Form::select('category', \Mss\Models\Category::orderedByName()->pluck('name', 'id'), $article->category->id ?? null, ['class' => 'form-select w-full', 'name' => 'category', 'disabled' => 'disabled']) !!}
                     <div class="i-checks mt-2">
@@ -92,7 +96,7 @@
 
             <div class="row">
                 <div class="w-1/2 pr-4">
-                    @if (!empty($article->unit_id))
+                    @if (!empty($article->unit_id) && !$isCopyOfArticle)
                         <div class="form-group">
                             <label class="form-label">Einheit</label>
                             <div class="form-control-static">{{ $article->unit->name }}</div>
@@ -108,7 +112,7 @@
 
             <div class="row">
                 <div class="w-1/2 pr-4">
-                    @if ($isNewArticle ?? true)
+                    @if ($isNewArticle || $isCopyOfArticle)
                         <div class="form-group">
                             <label class="control-label">Bestand</label>
                             <div class="form-control-static text-red-600 text-sm">
@@ -165,7 +169,7 @@
 
             @yield('submit')
 
-            @if (!($isNewArticle ?? true))
+            @if (!$isNewArticle && !$isCopyOfArticle)
                 {!! Form::close() !!}
             @endif
         </div>
@@ -173,7 +177,7 @@
 
     @yield('secondCol')
 
-    @if ($isNewArticle ?? true)
+    @if ($isNewArticle || $isCopyOfArticle)
         {!! Form::close() !!}
     @endif
 </div>
@@ -187,7 +191,7 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
-        @if (!($isNewArticle ?? true))
+        @if (!$isNewArticle && !$isCopyOfArticle)
         $('#unit_id').change(function () {
             alert('Achtung. Änderung der Einheit nur in Absprache mit der Buchhaltung bzw. Geschäftsleitung!')
         });
