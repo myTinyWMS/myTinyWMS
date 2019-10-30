@@ -69,6 +69,8 @@
         function addFixedTableHeader() {
             var tableOffset = $("#dataTableBuilder").offset().top;
             var header = $("#dataTableBuilder > thead").clone();
+
+            $("#header-fixed").html('');
             var fixedHeader = $("#header-fixed").append(header);
 
             $("#dataTableBuilder th").each(function (index) {
@@ -92,7 +94,9 @@
                 checkboxClass: 'icheckbox_minimal-blue',
             });
 
-            $('<table id="header-fixed"></table>').insertAfter('#dataTableBuilder');
+            if (!$("#header-fixed").length) {
+                $('<table id="header-fixed"></table>').insertAfter('#dataTableBuilder');
+            }
 
             addFixedTableHeader();
             adjustDisabledButtons();
