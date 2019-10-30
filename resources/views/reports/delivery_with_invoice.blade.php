@@ -28,35 +28,50 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($items as $orderItemGroup)
+                                @php($grandTotal = 0)
+                                @foreach($items as $deliveriesGroup)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('order.show', $orderItemGroup->first()->order) }}" target="_blank">{{ $orderItemGroup->first()->order->internal_order_number }}</a>
+                                        <a href="{{ route('order.show', $deliveriesGroup->first()->order) }}" target="_blank">{{ $deliveriesGroup->first()->order->internal_order_number }}</a>
                                     </td>
                                     <td>
-                                        @foreach($orderItemGroup as $orderItem)
-                                        <a href="{{ route('article.show', $orderItem->article) }}" target="_blank">{{ $orderItem->article->name }}</a><br>
+                                        @foreach($deliveriesGroup as $delivery)
+                                            @foreach($delivery->items as $deliveryItem)
+                                                {{ $deliveryItem->article->name }}<br>
+                                            @endforeach
                                         @endforeach
                                     </td>
-                                    <td>{{ $orderItemGroup->first()->order->supplier->name }}</td>
+                                    <td>{{ $deliveriesGroup->first()->order->supplier->name }}</td>
                                     <td>
-                                        @foreach($orderItemGroup as $orderItem)
-                                            {{ $orderItem->deliveryItems->sortBy('delivery_date')->last()->created_at->format('d.m.Y') }}<br>
+                                        @foreach($deliveriesGroup as $delivery)
+                                            @foreach($delivery->items as $deliveryItem)
+                                                {{ $delivery->created_at->format('d.m.Y') }}<br>
+                                            @endforeach
                                         @endforeach
                                     </td>
                                     <td class="text-right">
                                         @php($total = 0)
-                                        @foreach($orderItemGroup as $orderItem)
-                                            {!! formatPrice($orderItem->price * $orderItem->quantity) !!}<br>
-                                            @php($total += $orderItem->price * $orderItem->quantity)
+                                        @php($itemCount = 0)
+                                        @foreach($deliveriesGroup as $delivery)
+                                            @foreach($delivery->items as $deliveryItem)
+                                                {!! formatPrice($deliveryItem->orderItem->price * $deliveryItem->orderItem->quantity) !!}<br>
+                                                @php($total += $deliveryItem->orderItem->price * $deliveryItem->orderItem->quantity)
+                                                @php($itemCount++)
+                                            @endforeach
                                         @endforeach
-                                        @if($orderItemGroup->count() > 1)
+                                        @if($itemCount > 1)
                                         <span class="font-bold border-black border-t-2">&sum; {!! formatPrice($total) !!}</span>
                                         @endif
+                                        @php($grandTotal += $total)
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td class="text-right" colspan="5">{!! formatPrice($grandTotal) !!}</td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Mss\Exports\ArticleUsageReport;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
+use Mss\Models\Delivery;
 use Mss\Models\Order;
 use Mss\Models\OrderItem;
 use Mss\Services\InventoryService;
@@ -49,11 +50,11 @@ class ReportsController extends Controller
         $start = Carbon::parse($month.'-01');
         $end = $start->copy()->endOfMonth();
 
-        $items = OrderItem::with(['order.supplier', 'article'])
-            ->whereHas('order.deliveries', function ($query) use ($start, $end) {
-                $query->whereBetween('delivery_date', [$start, $end]);
+        $items = Delivery::whereBetween('delivery_date', [$start, $end])
+            ->whereHas('items.orderItem', function ($query) {
+                $query->where('invoice_received', 1);
             })
-            ->where('invoice_received', 1)
+            ->with(['items.article', 'items.orderItem', 'order.supplier'])
             ->get()
             ->groupBy('order_id')
             ->sortBy(function ($items) {
