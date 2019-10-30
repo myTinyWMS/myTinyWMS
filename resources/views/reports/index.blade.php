@@ -44,6 +44,22 @@
             </div>
         </div>
 
+        <div class="w-1/2 xl:w-1/3 2xl:w-1/4 4xl:w-1/5 px-2 mb-4">
+            <div class="card h-full">
+                <div class="card-header">Wareneingänge mit Rechnung</div>
+                <div class="card-content">
+                    <small>Monat auswählen um Report zu erstellen</small>
+
+                    <form method="post" action="{{ route('reports.invoices_with_delivery') }}" id="invoices-with-delivery" class="mt-4">
+                        {{ csrf_field() }}
+                        <date-picker-input format="YYYY-MM" outputformat="YYYY-MM" type="inline" name="month" picker-class="w-auto"></date-picker-input>
+
+                        <button type="submit" class="btn btn-secondary mt-4">Report erstellen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="w-1/2 xl:w-1/3 2xl:w-1/4 4xl:w-1/5 px-2">
             <div class="flex-column">
                 <div class="card mb-4 h-40">

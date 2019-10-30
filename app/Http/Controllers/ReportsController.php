@@ -32,11 +32,35 @@ class ReportsController extends Controller
     }
 
     public function deliveriesWithoutInvoice() {
-        $openItems = OrderItem::with(['order.supplier', 'article'])->whereHas('order.deliveries')->where('invoice_received', 0)->get()->filter(function ($orderItem) {
-            return ($orderItem->deliveryItems->sum('quantity') && $orderItem->article->inventory == Article::INVENTORY_TYPE_CONSUMABLES);
-        });
+        $openItems = OrderItem::with(['order.supplier', 'article'])
+            ->whereHas('order.deliveries')
+            ->where('invoice_received', 0)
+
+            ->get()
+            ->filter(function ($orderItem) {
+                return ($orderItem->deliveryItems->sum('quantity') && $orderItem->article->inventory == Article::INVENTORY_TYPE_CONSUMABLES);
+            });
 
         return view('reports.delivery_without_invoice', compact('openItems'));
+    }
+
+    public function deliveriesWithInvoice(Request $request) {
+        $month = $request->get('month');
+        $start = Carbon::parse($month.'-01');
+        $end = $start->copy()->endOfMonth();
+
+        $items = OrderItem::with(['order.supplier', 'article'])
+            ->whereHas('order.deliveries', function ($query) use ($start, $end) {
+                $query->whereBetween('delivery_date', [$start, $end]);
+            })
+            ->where('invoice_received', 1)
+            ->get()
+            ->groupBy('order_id')
+            ->sortBy(function ($items) {
+                return $items->first()->order->internal_order_number;
+            });
+
+        return view('reports.delivery_with_invoice', compact('items', 'start'));
     }
 
     public function invoicesWithoutDelivery() {
