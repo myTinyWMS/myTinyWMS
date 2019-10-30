@@ -7,6 +7,7 @@
                 @apply font-normal text-gray-600 uppercase py-2 px-4 text-xs whitespace-no-wrap;
                 height: 40px;
                 border: 0;
+                page-break-inside: avoid;
             }
         }
     }
@@ -14,6 +15,7 @@
     tbody {
         tr {
             @apply text-gray-700;
+            page-break-inside: avoid;
 
             &:first-child td {
                 @apply border-t-0;
@@ -45,6 +47,7 @@
 
             td {
                 @apply text-sm px-4 py-4 leading-tight align-middle border-gray-400;
+                page-break-inside: avoid;
 
                 &.action-col {
                     @apply py-0 px-4 leading-none;
@@ -188,5 +191,11 @@
         &.active {
             @apply bg-gray-300;
         }
+    }
+}
+
+.table {
+    tr {
+        page-break-inside: avoid;
     }
 }

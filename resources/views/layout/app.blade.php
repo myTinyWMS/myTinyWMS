@@ -25,7 +25,7 @@
         <div class="content" id="wrapper">
             @include('layout.topnavbar')
 
-            <div class="px-12 py-12 mx-auto pt-32">
+            <div class="px-12 print:px-4 py-12 mx-auto pt-32">
                 <div>
                     <ul class="breadcrumb print:hidden">
                         @yield('breadcrumb')
