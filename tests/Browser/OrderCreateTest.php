@@ -23,23 +23,21 @@ class OrderCreateTest extends DuskTestCase
         });
     }
 
-    public function test_selecting_supplier_enables_article_change() {
+    public function test_selecting_supplier_enables_article_adding() {
         $this->browse(function (Browser $browser) {
             $supplier = Supplier::inRandomOrder()->first();
 
             $browser
                 ->visit('/order/create')
-                ->elements('.article-menu')[0]->click();
-
-            $browser
-                ->assertSee('ARTIKEL LÖSCHEN')
-                ->select('supplier', $supplier->id)
-                ->assertDontSee('Bitte zuerst einen Lieferanten auswählen!')
+                ->assertSee('Bitte zuerst einen Lieferanten auswählen!')
+                ->assertDontSee('Artikel hinzufügen')
             ;
 
-            $browser->elements('.article-menu')[0]->click();
-
-            $browser->assertSee('ARTIKEL ÄNDERN');
+            $browser
+                ->select('supplier', $supplier->id)
+                ->assertDontSee('Bitte zuerst einen Lieferanten auswählen!')
+                ->assertSee('Artikel hinzufügen')
+            ;
         });
     }
 
@@ -51,11 +49,7 @@ class OrderCreateTest extends DuskTestCase
             $browser
                 ->visit('/order/create')
                 ->select('supplier', $supplier->id)
-            ;
-
-            $browser->elements('.article-menu')[0]->click();
-            $browser->elements('.change-article')[0]->click();
-            $browser
+                ->click('#add-article')
                 ->waitUntilMissing('#dataTableBuilder_processing')
                 ->assertSee('Artikel auswählen')
                 ->assertSee('1 bis '.$articles->count().' von '.$articles->count().' Einträgen')
@@ -81,17 +75,15 @@ class OrderCreateTest extends DuskTestCase
             $browser
                 ->visit('/order/create')
                 ->select('supplier', $supplier->id)
+                ->click('#add-article')
+                ->waitUntilMissing('#dataTableBuilder_processing')
             ;
-
-            $browser->elements('.article-menu')[0]->click();
-            $browser->elements('.change-article')[0]->click();
-            $browser->waitUntilMissing('#dataTableBuilder_processing');
 
             $browser->driver->findElements(WebDriverBy::xpath('//table[@id="dataTableBuilder"]/tbody/tr[2]/td[13]/button'))[0]->click();
             $browser
                 ->waitUntilMissing('.v--modal-box')
                 ->assertDontSee('Artikel auswählen')
-                ->assertSeeIn('.order-article:nth-child(1)', $article->name)
+                ->assertSeeIn('.order-article:nth-child(1) .article-name', $article->name)
                 ->assertValue('.order-article:nth-child(1) .quantity-select', $supplierArticle->order_quantity)
                 ->assertValue('.order-article:nth-child(1) .price-select', number_format($supplierArticle->price / 100, 2, ',', '.'))
                 ->assertValue('.order-article:nth-child(1) input[name="expected_delivery[]"]', Carbon::now()->addWeekdays($supplierArticle->delivery_time)->format('Y-m-d'))
@@ -106,12 +98,11 @@ class OrderCreateTest extends DuskTestCase
             $browser
                 ->visit('/order/create')
                 ->select('supplier', $supplier->id)
+                ->click('#add-article')
+                ->waitUntilMissing('#dataTableBuilder_processing')
             ;
 
             // add article 1
-            $browser->elements('.article-menu')[0]->click();
-            $browser->elements('.change-article')[0]->click();
-            $browser->waitUntilMissing('#dataTableBuilder_processing');
             $browser->driver->findElements(WebDriverBy::xpath('//table[@id="dataTableBuilder"]/tbody/tr[2]/td[13]/button'))[0]->click();
             $browser->waitUntilMissing('.v--modal-box');
 
@@ -138,14 +129,13 @@ class OrderCreateTest extends DuskTestCase
             $browser
                 ->visit('/order/create')
                 ->select('supplier', $supplier->id)
+                ->click('#add-article')
+                ->waitUntilMissing('#dataTableBuilder_processing')
             ;
 
             $orderNumber = $browser->text('.order-number');
 
             // add article 1
-            $browser->elements('.article-menu')[0]->click();
-            $browser->elements('.change-article')[0]->click();
-            $browser->waitUntilMissing('#dataTableBuilder_processing');
             $browser->driver->findElements(WebDriverBy::xpath('//table[@id="dataTableBuilder"]/tbody/tr[2]/td[13]/button'))[0]->click();
             $browser->waitUntilMissing('.v--modal-box');
 

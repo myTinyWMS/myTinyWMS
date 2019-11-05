@@ -12,9 +12,8 @@
                                 <a @click.prevent="removeArticle(index)" class="delete-article">Artikel löschen</a>
                             </dot-menu>
                         </label>
-                        <div class="form-control-static">
+                        <div class="form-control-static article-name">
                             {{ article.name }}
-                            <div class="text-red-500" v-if="!supplier">Bitte zuerst einen Lieferanten auswählen!</div>
                         </div>
                     </div>
 
@@ -44,7 +43,8 @@
             </div>
         </div>
 
-        <button class="btn btn-secondary btn-sm" id="add-article" @click.prevent="addArticle(true)">Artikel hinzufügen</button>
+        <div class="text-red-500" v-if="!supplier">Bitte zuerst einen Lieferanten auswählen!</div>
+        <button class="btn btn-secondary btn-sm" id="add-article" v-if="supplier" @click.prevent="addArticle(true)">Artikel hinzufügen</button>
     </div>
 </template>
 
