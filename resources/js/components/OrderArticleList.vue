@@ -60,12 +60,6 @@
             }
         },
 
-        created() {
-            if (!this.articles.length) {
-                // this.addArticle(false);
-            }
-        },
-
         mounted() {
             if(this.existingArticles.length > 0) {
                 this.filterArticleList();
