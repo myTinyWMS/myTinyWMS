@@ -21,9 +21,9 @@
         <div class="card w-3/5">
             <div class="card-header">
                 <div class="flex">
-                    <div class="flex-1">Bestellung #{{ $order->internal_order_number }}</div>
+                    <div>Bestellung #{{ $order->internal_order_number }}</div>
 
-                    <dot-menu class="ml-2">
+                    <dot-menu class="ml-2 pt-1">
                         <a href="{{ route('order.edit', $order) }}">Bestellung bearbeiten</a>
                     </dot-menu>
                 </div>
