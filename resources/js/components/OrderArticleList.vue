@@ -62,12 +62,19 @@
 
         created() {
             if (!this.articles.length) {
-                this.addArticle(false);
+                // this.addArticle(false);
             }
         },
 
         mounted() {
             if(this.existingArticles.length > 0) {
+                this.filterArticleList();
+            }
+        },
+
+        watch: {
+            supplier: function () {
+                console.log(this.supplier);
                 this.filterArticleList();
             }
         },
@@ -101,12 +108,14 @@
 
             filterArticleList() {
                 let currentSupplierId = this.supplier;
-                let allArticles = _.map(this.allArticles, function (o) {
-                    if (o.supplier_id == currentSupplierId) return o;
+                console.log(this.allArticles);
+                let allArticles = _.filter(this.allArticles, function (o) {
+                    return (o.supplier_id == currentSupplierId);
                 });
+                console.log(allArticles);
                 allArticles = _.without(allArticles, undefined);
                 let notExistingIds = _.difference(_.map(allArticles, 'id'), _.map(this.articles, 'id'));
-
+                console.log(this.allArticles.length, notExistingIds.length, currentSupplierId);
                 serverBus.$emit('filterOrderArticleList', notExistingIds);
             },
 
