@@ -133,6 +133,12 @@ class ArticleController extends Controller
         /* @var $article Article */
         $article = Article::findOrFail($id);
 
+        if ($article->quantity > 0 && $article->status != Article::STATUS_INACTIVE && $request->get('status') == Article::STATUS_INACTIVE) {
+            flash('Der Status darf nicht auf deaktiviert gesetzt werden, solange der Artikel noch Bestand hat!')->error();
+
+            return back()->withInput();
+        }
+
         // save data
         $article->update($request->all());
         $article->inventory = $request->get('inventory', false);

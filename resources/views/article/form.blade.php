@@ -73,7 +73,7 @@
             @endif
 
             {{ Form::bsTextarea('name', $article->name, ['rows' => 2] , 'Name') }}
-            {{ Form::bsSelect('status', $article->status, $article->quantity > 0 ? collect(\Mss\Models\Article::getStatusTextArray())->except(\Mss\Models\Article::STATUS_INACTIVE)->toArray() : \Mss\Models\Article::getStatusTextArray(),  'Status') }}
+            {{ Form::bsSelect('status', $article->status, \Mss\Models\Article::getStatusTextArray(),  'Status') }}
             {{ Form::bsText('tags', $article->tags->pluck('name')->implode(', '), ['class' => ''], 'Tags') }}
 
             <div class="form-group">
