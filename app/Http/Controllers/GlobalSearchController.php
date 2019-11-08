@@ -22,13 +22,13 @@ class GlobalSearchController extends Controller
         } elseif (preg_match('/^[0-9]{5}$/', $phrase)) {
             $article = Article::where('article_number', $phrase)->first();
             if ($article) {
-                $this->addResult('Artikel', $article->name.' ('.$phrase.')', route('article.show', $article));
+                $this->addResult('Artikel', $article->name.' ('.$phrase.')', route('article.show', $article), $article->status);
             }
         } else {
             $articles = Article::where('name', 'like', '%'.$phrase.'%')->get();
             if ($articles) {
                 $articles->each(function ($article) {
-                    $this->addResult('Artikel', $article->name, route('article.show', $article));
+                    $this->addResult('Artikel', $article->name, route('article.show', $article), $article->status);
                 });
             }
         }
@@ -36,13 +36,13 @@ class GlobalSearchController extends Controller
         return response()->json(collect($this->results)->values());
     }
 
-    protected function addResult($group, $name, $link) {
+    protected function addResult($group, $name, $link, $status = null) {
         if (!array_key_exists($group, $this->results)) {
             $this->results[$group] = [
                 'name' => $group,
                 'items' => []
             ];
         }
-        $this->results[$group]['items'][] = ['name' => Str::limit($name, 50), 'link' => $link, 'title' => $name];
+        $this->results[$group]['items'][] = ['name' => Str::limit($name, 50), 'link' => $link, 'title' => $name, 'status' => $status];
     }
 }
