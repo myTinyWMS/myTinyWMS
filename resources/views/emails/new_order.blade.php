@@ -28,6 +28,11 @@
                     <td width="15%" align="center" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
                         <b>Einzel-Preis netto</b>
                     </td>
+                    @if($order->items->pluck('expected_delivery')->hasNonEmpty())
+                    <td width="5%" align="center" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
+                        <b>gewünschter Liefertermin</b>
+                    </td>
+                    @endif
                 </tr>
                 @foreach($order->items as $key => $item)
                 <tr>
@@ -49,6 +54,11 @@
                     <td width="15%" align="center" bgcolor="{{ $loop->index % 2 ? '#FFFFFF' : '#EEEEEE' }}" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #252525; padding:10px; padding-left:0;">
                         {!! formatPrice($item->price) !!}
                     </td>
+                    @if($order->items->pluck('expected_delivery')->hasNonEmpty())
+                    <td width="15%" align="center" bgcolor="{{ $loop->index % 2 ? '#FFFFFF' : '#EEEEEE' }}" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #252525; padding:10px; padding-left:0;">
+                        {{ !empty($item->expected_delivery) ? $item->expected_delivery->format('d.m.Y') : '' }}
+                    </td>
+                    @endif
                 </tr>
                 @endforeach
             </table>

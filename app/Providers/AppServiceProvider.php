@@ -51,6 +51,12 @@ class AppServiceProvider extends ServiceProvider
             return $this;
         });
 
+        Collection::macro('hasNonEmpty', function () {
+            return $this->filter(function ($item) {
+                return !empty($item);
+            })->isNotEmpty();
+        });
+
         if (!empty(env('HORIZON_NOTIFICATION_RECEIVER'))) {
             Horizon::routeMailNotificationsTo(env('HORIZON_NOTIFICATION_RECEIVER'));
         }
