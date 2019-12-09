@@ -59,7 +59,7 @@ class ArticleController extends Controller {
      * @return Response
      */
     public function getQuantities(Request $request) {
-        $ids = explode(',', $request->get('ids'));
+        $ids = is_array($request->get('ids')) ? $request->get('ids') : explode(',', $request->get('ids'));
         $quantities = Article::whereIn('id', $ids)->pluck('quantity', 'id');
 
         return Response::create(Json::encode($quantities));
