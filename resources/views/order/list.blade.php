@@ -28,7 +28,11 @@
         <ul>
         @foreach($assignedMessages as $message)
             <li>
+                @if ($message->order)
                 <a href="{{ route('order.show', $message->order) }}" target="_blank">{{ $message->order->internal_order_number }} bei {{ $message->order->supplier->name }}</a>
+                @else
+                {{ $message->id }}
+                @endif
             </li>
         @endforeach
         </ul>
