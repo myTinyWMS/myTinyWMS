@@ -1,6 +1,6 @@
 <template>
     <div class="relative" style="width: 24rem">
-        <input type="search" placeholder="Suche" class="form-control form-input form-input-bordered w-full shadow" v-model="value">
+        <input type="search" placeholder="Suche" class="form-control form-input w-full shadow bg-gray-800 border-gray-800 text-white" v-model="value">
         <div class="absolute bg-white shadow rounded left-0 z-50 border border-gray-400 mt-2 p-2 w-full" v-show="suggestions.length > 0" id="global-search-results">
             <div v-for="(group, groupindex) in suggestions">
                 <div class="text-xs pl-2 border-b text-black">{{ group.name }}</div>
