@@ -7,6 +7,7 @@
                         {{ getSenderName(message) }}
                     </div>
                     <div class="w-1/2 text-xs text-gray-500 text-right" :title="message.received | moment('DD.MM.YYYY HH:mm:SS')">
+                        <z icon="attachment" class="fill-current w-3 h-3 inline-block" v-if="message.attachments.length"></z>
                         {{ message.received | moment('DD.MM.YYYY') }}
                     </div>
                 </div>
@@ -43,21 +44,15 @@
 
                 <h1 class="my-2 pm-2 border-b">{{ messages[currentIndex].subject }}</h1>
 
+                <div class="border-b pb-2 flex flex-wrap" v-if="Object.keys(messages[currentIndex].attachments).length">
+                    <a v-for="(attachment, index) in messages[currentIndex].attachments" :href="route('order.message_attachment_download', [messages[currentIndex].id, attachment.fileName])" class="block border flex items-center p-4 mb-2 mr-4 hover:bg-gray-400 rounded">
+                        <z icon="document" class="fill-current w-4 h-4 mr-2"></z>
+                        <div class="text-sm">{{ attachment.orgFileName }}</div>
+                    </a>
+                </div>
+
                 <iframe seamless frameborder="0" class="w-full h-screen" :srcdoc="messages[currentIndex].htmlBody" v-if="messages[currentIndex].htmlBody != '' && messages[currentIndex].htmlBody != 0"></iframe>
                 <div class="w-full h-screen" v-else v-html="cleanTextBody(messages[currentIndex].textBody)"></div>
-
-                <div class="mt-4 border-t pt-4" v-if="Object.keys(messages[currentIndex].attachments).length">
-                    <div class="text-xs mb-4">
-                        <z icon="attachment" class="fill-current w-3 h-3 inline-block"></z> {{ Object.keys(messages[currentIndex].attachments).length }} {{ $tc('plural.attachment', messages[currentIndex].attachments.length) }}:
-                    </div>
-
-                    <div class="flex">
-                        <a v-for="(attachment, index) in messages[currentIndex].attachments" :href="route('order.message_attachment_download', [messages[currentIndex].id, attachment.fileName])" class="block border flex flex-col items-center p-4 mr-4 hover:bg-gray-400">
-                            <z icon="document" class="fill-current w-8 h-8 mb-4"></z>
-                            <div class="text-sm">{{ attachment.orgFileName }}</div>
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
