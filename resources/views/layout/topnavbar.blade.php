@@ -53,21 +53,21 @@
     </div>
 
     {{-- Row 2 --}}
-    <div class="flex relative shadow-md h-header bg-gray-700 px-1 lg:px-12 z-20 border-t border-gray-300 topbar-nav print:hidden">
-        <div class="flex-1 flex items-center cursor-pointer">
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('/') }} {{ activeIfUri('dashboard') }}">
+    <div class="flex justify-between shadow-md h-header bg-gray-700 px-1 lg:px-12 z-20 topbar-nav print:hidden">
+        <div class="flex-1 flex items-center cursor-pointer border-t border-gray-500">
+            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('/') }} {{ activeIfUri('dashboard') }}">
                 <a href="{{ url('/dashboard') }}">
                     Dashboard
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('article*') }}">
+            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('article*') }}">
                 <a href="{{ url('/article') }}">
                     Artikel
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('order*') }}">
+            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('order*') }}">
                 <a href="{{ url('/order') }}" class="flex">
                     Bestellungen
                     @if($globalPageService->getUnreadMessageCount())
@@ -76,39 +76,39 @@
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('report*') }}">
+            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('report*') }}">
                 <a href="{{ url('/reports') }}">
                     Reports
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('inventory*') }}">
+            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('inventory*') }}">
                 <a href="{{ url('/inventory') }}">
                     Inventur
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('supplier*') }}">
+            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('supplier*') }}">
                 <a href="{{ url('/supplier') }}">
                     Lieferanten
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('category*') }}">
+            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('category*') }}">
                 <a href="{{ url('/category') }}">
                     Kategorien
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 h-full pt-5 {{ activeIfUri('unit*') }}">
+            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('unit*') }}">
                 <a href="{{ url('/unit') }}">
                     Einheiten
                 </a>
             </h3>
-        </div>
 
-        <div class="absolute right-0 top-0 mt-3 mr-12 print:hidden">
-            <global-search></global-search>
+            <div class="flex-1">
+                <global-search class="print:hidden float-right"></global-search>
+            </div>
         </div>
     </div>
 </div>

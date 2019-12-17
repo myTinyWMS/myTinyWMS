@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('article/inventory-update', 'InventoryUpdateController@index')->name('article.inventory_update_form');
         Route::post('article/inventory-update', 'InventoryUpdateController@store')->name('article.inventory_update_save');
 
+        Route::get('article/{article}/file_delete/{file}', 'AttachmentController@delete')->name('article.file_delete');
         Route::post('article/{article}/file_upload', 'AttachmentController@upload')->name('article.file_upload');
         Route::get('article/{article}/file-download/{file}', 'AttachmentController@download')->name('article.file_download');
 
