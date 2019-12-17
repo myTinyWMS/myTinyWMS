@@ -2,6 +2,10 @@
 
 @section('title', 'Wareneingänge mit Rechnung - vom '.$start->monthName.' '.$start->year)
 
+@section('title_extra')
+    <a href="{{ route('reports.invoices_with_delivery_export', ['month' => $month, 'category' => $category]) }}" class="btn btn-secondary">Export als CSV</a>
+@endsection
+
 @section('breadcrumb')
     <li>
         <a href="{{ route('reports.index') }}">Reports</a>
@@ -22,6 +26,7 @@
                                 <tr>
                                     <th>Bestellung</th>
                                     <th>Artikel</th>
+                                    <th>Kategorie</th>
                                     <th>Lieferant</th>
                                     <th>Lieferzeitpunkt</th>
                                     <th>Bestellwert</th>
@@ -38,6 +43,13 @@
                                         @foreach($deliveriesGroup as $delivery)
                                             @foreach($delivery->items as $deliveryItem)
                                                 {{ $deliveryItem->article->name }}<br>
+                                            @endforeach
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach($deliveriesGroup as $delivery)
+                                            @foreach($delivery->items as $deliveryItem)
+                                                {{ $deliveryItem->article->category->name }}<br>
                                             @endforeach
                                         @endforeach
                                     </td>

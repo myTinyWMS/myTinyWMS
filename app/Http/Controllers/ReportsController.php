@@ -13,6 +13,7 @@ use Mss\Models\Order;
 use Mss\Models\OrderItem;
 use Mss\Services\InventoryService;
 use Maatwebsite\Excel\Facades\Excel;
+use Mss\Services\ReportService;
 
 class ReportsController extends Controller
 {
@@ -46,22 +47,30 @@ class ReportsController extends Controller
     }
 
     public function deliveriesWithInvoice(Request $request) {
+        $category = intval($request->get('category', 0));
         $month = $request->get('month');
         $start = Carbon::parse($month.'-01');
         $end = $start->copy()->endOfMonth();
 
-        $items = Delivery::whereBetween('delivery_date', [$start, $end])
-            ->whereHas('items.orderItem', function ($query) {
-                $query->where('invoice_received', 1);
-            })
-            ->with(['items.article', 'items.orderItem', 'order.supplier'])
-            ->get()
-            ->groupBy('order_id')
-            ->sortBy(function ($items) {
-                return $items->first()->order->internal_order_number;
-            });
+        $report = new ReportService();
+        $items = $report->getInvoicesWithDeliveries($start, $end, $category);
 
-        return view('reports.delivery_with_invoice', compact('items', 'start'));
+        return view('reports.delivery_with_invoice', compact('items', 'start', 'month', 'category'));
+    }
+
+    public function deliveriesWithInvoiceExport(Request $request) {
+        $category = intval($request->get('category', 0));
+        $month = $request->get('month');
+        $start = Carbon::parse($month.'-01');
+        $end = $start->copy()->endOfMonth();
+
+        $report = new ReportService();
+        $items = $report->getInvoicesWithDeliveries($start, $end, $category);
+
+        return response(view('reports.export.delivery_with_invoice', compact('items')), 200, [
+            'Content-Type' => 'application/octet-stream', // use your required mime type
+            'Content-Disposition' => 'attachment; filename="report.csv"',
+        ]);
     }
 
     public function invoicesWithoutDelivery() {

@@ -52,7 +52,15 @@
 
                     <form method="post" action="{{ route('reports.invoices_with_delivery') }}" id="invoices-with-delivery" class="mt-4">
                         {{ csrf_field() }}
-                        <date-picker-input format="YYYY-MM" outputformat="YYYY-MM" type="inline" name="month" picker-class="w-auto"></date-picker-input>
+                        <div class="flex flex-wrap">
+                            <div class="w-full lg:w-1/2 pr-4">
+                                {{ Form::bsSelect('category', null, \Mss\Models\Category::orderBy('name')->pluck('name', 'id'),  'Kategorie', ['placeholder' => 'alle']) }}
+                            </div>
+                            <div class="w-full lg:w-1/2">
+                                <label class="form-label">Monat</label>
+                                <date-picker-input format="YYYY-MM" outputformat="YYYY-MM" type="inline" name="month" picker-class="w-auto"></date-picker-input>
+                            </div>
+                        </div>
 
                         <button type="submit" class="btn btn-secondary mt-4">Report erstellen</button>
                     </form>
