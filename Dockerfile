@@ -5,7 +5,7 @@ RUN set -e -x \
     && apt-get install -y \
         apt-transport-https \
         nginx \
-        wget nano \
+        wget nano unzip \
         zlib1g-dev zlib1g libmcrypt-dev libicu-dev \
         supervisor \
         libpcre3-dev \

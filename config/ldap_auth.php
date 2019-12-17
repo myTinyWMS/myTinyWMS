@@ -135,7 +135,7 @@ return [
 
             'locate_users_by' => 'userprincipalname',
 
-            'bind_users_by' => 'userprincipalname',
+            'bind_users_by' => 'distinguishedname',
 
         ],
 
