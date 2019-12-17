@@ -32,4 +32,19 @@ class AttachmentController extends Controller
         $attachment = $article->files[$file];
         return response()->download(storage_path('app/article_files/'.$attachment['storageName']), $attachment['orgName'], ['Content-Type' => $attachment['mimeType']]);
     }
+
+    public function delete(Article $article, $file) {
+        $files = $article->files;
+        $attachment = $files[$file];
+        unset($files[$file]);
+
+        $article->files = array_values($files);
+        $article->save();
+
+        @unlink(storage_path('app/article_files/'.$attachment['storageName']));
+
+        flash('Datei gelöscht')->success();
+
+        return response()->redirectToRoute('article.show', [$article]);
+    }
 }

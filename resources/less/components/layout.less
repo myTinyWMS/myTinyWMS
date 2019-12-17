@@ -10,7 +10,7 @@
 }
 
 .h-header {
-    height: 3.75rem
+    height: 4.5rem
 }
 
 .w-sidebar {
@@ -52,15 +52,11 @@
 
 .topbar-nav {
     a {
-        @apply text-gray-500;
+        @apply text-white font-normal;
     }
 
-    .active {
-        @apply border-b-4 border-blue-700;
-
-        a {
-            @apply text-blue-700;
-        }
+    .active a {
+        @apply bg-gray-800 rounded-lg px-4 py-2;
     }
 }
 

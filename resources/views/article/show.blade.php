@@ -102,7 +102,10 @@
                     @if(is_array($article->files) && count($article->files))
                         <ul class="mb-4 pl-4 list-disc" id="fileList">
                             @foreach($article->files as $key => $file)
-                                <li><a href="{{ route('article.file_download', [$article, $key]) }}">{{ $file['orgName'] }}</a></li>
+                                <li class="flex justify-between">
+                                    <a href="{{ route('article.file_download', [$article, $key]) }}">{{ $file['orgName'] }}</a>
+                                    <a href="{{ route('article.file_delete', [$article, $key]) }}" onclick="return confirm('Sicher?')"><i class="fa fa-trash"></i></a>
+                                </li>
                             @endforeach
                         </ul>
                     @endif

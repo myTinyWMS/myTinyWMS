@@ -79,7 +79,7 @@
                             {{ item.note }}
                         </template>
                     </td>
-                    <td>{{ item.user.name }}</td>
+                    <td>{{ item.user ? item.user.name : '' }}</td>
                     <td>
                         <dot-menu class="ml-2">
                             <a v-if="editEnabled" href="#" @click="showChangeNoteDialog(item)">Kommentar ändern</a>
