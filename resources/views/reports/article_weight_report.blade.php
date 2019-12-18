@@ -1,13 +1,13 @@
 @extends('layout.app')
 
-@section('title', 'Verpackungs-Lizensierungs-Report für den Zeitraum '.implode(' - ', $dateRange))
+@section('title', __('Verpackungs-Lizensierungs-Report für den Zeitraum :daterange', ['daterange' => implode(' - ', $dateRange)]))
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('reports.index') }}">Reports</a>
+        <a href="{{ route('reports.index') }}">@lang('Reports')</a>
     </li>
     <li class="active">
-        <strong>Verpackungs-Lizensierungs-Report</strong>
+        <strong>@lang('Verpackungs-Lizensierungs-Report')</strong>
     </li>
 @endsection
 

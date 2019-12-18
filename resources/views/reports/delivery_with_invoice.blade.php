@@ -1,17 +1,17 @@
 @extends('layout.app')
 
-@section('title', 'Wareneingänge mit Rechnung - vom '.$start->monthName.' '.$start->year)
+@section('title', __('Wareneingänge mit Rechnung - vom :month', ['month' => $start->monthName.' '.$start->year]))
 
 @section('title_extra')
-    <a href="{{ route('reports.invoices_with_delivery_export', ['month' => $month, 'category' => $category]) }}" class="btn btn-secondary">Export als CSV</a>
+    <a href="{{ route('reports.invoices_with_delivery_export', ['month' => $month, 'category' => $category]) }}" class="btn btn-secondary">@lang('Export als CSV')</a>
 @endsection
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('reports.index') }}">Reports</a>
+        <a href="{{ route('reports.index') }}">@lang('Reports')</a>
     </li>
     <li class="active">
-        <strong>Wareneingänge mit Rechnung</strong>
+        <strong>@lang('Wareneingänge mit Rechnung')</strong>
     </li>
 @endsection
 
@@ -24,12 +24,12 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Bestellung</th>
-                                    <th>Artikel</th>
-                                    <th>Kategorie</th>
-                                    <th>Lieferant</th>
-                                    <th>Lieferzeitpunkt</th>
-                                    <th>Bestellwert</th>
+                                    <th>@lang('Bestellung')</th>
+                                    <th>@lang('Artikel')</th>
+                                    <th>@lang('Kategorie')</th>
+                                    <th>@lang('Lieferant')</th>
+                                    <th>@lang('Lieferzeitpunkt')</th>
+                                    <th>@lang('Bestellwert')</th>
                                 </tr>
                             </thead>
                             <tbody>
