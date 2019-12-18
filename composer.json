@@ -19,6 +19,7 @@
         "doctrine/dbal": "^2.6",
         "fideloper/proxy": "~4.0",
         "guzzlehttp/guzzle": "^6.3",
+        "kkomelin/laravel-translatable-string-exporter": "^1.7",
         "laracasts/flash": "^3.0",
         "laravel/framework": "^6.0",
         "laravel/horizon": "^3.0",
