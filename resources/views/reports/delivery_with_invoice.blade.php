@@ -81,7 +81,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td class="text-right" colspan="5">{!! formatPrice($grandTotal) !!}</td>
+                                    <td class="text-right" colspan="6">{!! formatPrice($grandTotal) !!}</td>
                                 </tr>
                             </tfoot>
                         </table>

@@ -22,7 +22,7 @@ class ReportService {
             ->get();
 
         if (!empty($category)) {
-            $items->transform(function ($delivery) use ($category) {
+            $items = $items->transform(function ($delivery) use ($category) {
                 $items = $delivery->items;
                 $items = $items->filter(function ($deliveryItem) use ($category) {
                     return $deliveryItem->article->category_id == $category;
