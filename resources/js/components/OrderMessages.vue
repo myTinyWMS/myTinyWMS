@@ -7,7 +7,7 @@
                         {{ getSenderName(message) }}
                     </div>
                     <div class="w-1/2 text-xs text-gray-500 text-right" :title="message.received | moment('DD.MM.YYYY HH:mm:SS')">
-                        <z icon="attachment" class="fill-current w-3 h-3 inline-block" v-if="Object.keys(messages[currentIndex].attachments).length"></z>
+                        <z icon="attachment" class="fill-current w-3 h-3 inline-block" v-if="Object.keys(message.attachments).length"></z>
                         {{ message.received | moment('DD.MM.YYYY') }}
                     </div>
                 </div>
