@@ -90,7 +90,7 @@ class ReportsController extends Controller
         $start = Carbon::parse($dateRange[0]);
         $end = Carbon::parse($dateRange[1]);
 
-        $articles = Article::withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_OUTGOING, 'usage')
+        $articles = Article::withChangelogSumInDateRange($start, $end, [ArticleQuantityChangelog::TYPE_OUTGOING, ArticleQuantityChangelog::TYPE_INVENTORY], 'usage')
             ->with(['unit'])
             ->whereNotNull('packaging_category')
             ->get()
