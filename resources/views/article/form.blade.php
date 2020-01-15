@@ -9,9 +9,11 @@
         <div class="card-header flex">
             <div class="flex-1">Details</div>
 
+            @if (!$isNewArticle && !$isCopyOfArticle)
             <dot-menu class="ml-2">
                 <a href="{{ route('article.copy', $article) }}" class="btn-link" id="copyArticleLink">Artikel duplizieren</a>
             </dot-menu>
+            @endif
         </div>
 
         <div class="card-content">
