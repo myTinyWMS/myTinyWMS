@@ -18,8 +18,11 @@ class Localization
      */
     public function handle($request, Closure $next)
     {
+        $locale = 'de';
 
-        $locale = Auth::user()->settings()->get(UserSettings::SETTINGS_LANGUAGE) ?? 'de';
+        if (Auth::check()) {
+            $locale = Auth::user()->settings()->get(UserSettings::SETTINGS_LANGUAGE) ?? 'de';
+        }
 
         app()->setLocale($locale);
         Carbon::setLocale($locale);

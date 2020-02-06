@@ -35,7 +35,7 @@
                             @endforeach
                         @else
                             <li>
-                                <div>Keine Nachrichten vorhanden</div>
+                                <div>@lang('Keine Nachrichten vorhanden')</div>
                             </li>
                         @endif
                     </template>
@@ -44,7 +44,7 @@
                 <a href="{{ route('settings.show') }}" class="dropdown-toggle mr-8 text-gray-500" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs"></i> <span class="caret"></span></a>
 
                 <a href="{{ route('logout') }}" class="text-gray-500" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fa fa-sign-out"></i> <span class="hidden lg:visible">Logout</span>
+                    <i class="fa fa-sign-out"></i> <span class="hidden lg:visible">@lang('Logout')</span>
                 </a>
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
@@ -57,19 +57,19 @@
         <div class="flex-1 flex items-center cursor-pointer border-t border-gray-500">
             <h3 class="mr-4 lg:mr-6 {{ activeIfUri('/') }} {{ activeIfUri('dashboard') }}">
                 <a href="{{ url('/dashboard') }}">
-                    Dashboard
+                    @lang('Dashboard')
                 </a>
             </h3>
 
             <h3 class="mr-4 lg:mr-6 {{ activeIfUri('article*') }}">
                 <a href="{{ url('/article') }}">
-                    Artikel
+                    @lang('Artikel')
                 </a>
             </h3>
 
             <h3 class="mr-4 lg:mr-6 {{ activeIfUri('order*') }}">
                 <a href="{{ url('/order') }}" class="flex">
-                    Bestellungen
+                    @lang('Bestellungen')
                     @if($globalPageService->getUnreadMessageCount())
                         <div class="ml-1 lg:ml-2 inline-block bg-blue-700 text-white rounded-full text-center w-6 h-6 text-sm leading-none pt-1" title="{{ $globalPageService->getUnreadMessageCount() }} ungelesene {{ trans_choice('plural.message', $globalPageService->getUnreadMessageCount()) }}">{{ $globalPageService->getUnreadMessageCount() }}</div>
                     @endif
@@ -78,31 +78,31 @@
 
             <h3 class="mr-4 lg:mr-6 {{ activeIfUri('report*') }}">
                 <a href="{{ url('/reports') }}">
-                    Reports
+                    @lang('Reports')
                 </a>
             </h3>
 
             <h3 class="mr-4 lg:mr-6 {{ activeIfUri('inventory*') }}">
                 <a href="{{ url('/inventory') }}">
-                    Inventur
+                    @lang('Inventur')
                 </a>
             </h3>
 
             <h3 class="mr-4 lg:mr-6 {{ activeIfUri('supplier*') }}">
                 <a href="{{ url('/supplier') }}">
-                    Lieferanten
+                    @lang('Lieferanten')
                 </a>
             </h3>
 
             <h3 class="mr-4 lg:mr-6 {{ activeIfUri('category*') }}">
                 <a href="{{ url('/category') }}">
-                    Kategorien
+                    @lang('Kategorien')
                 </a>
             </h3>
 
             <h3 class="mr-4 lg:mr-6 {{ activeIfUri('unit*') }}">
                 <a href="{{ url('/unit') }}">
-                    Einheiten
+                    @lang('Einheiten')
                 </a>
             </h3>
 
