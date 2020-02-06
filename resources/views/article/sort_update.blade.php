@@ -1,13 +1,13 @@
 @extends('layout.app')
 
-@section('title', 'Artikel Sortierung')
+@section('title', __('Artikel Sortierung'))
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('article.index') }}">Übersicht</a>
+        <a href="{{ route('article.index') }}">@lang('Übersicht')</a>
     </li>
     <li class="active">
-        <strong>Artikel Sortierung</strong>
+        <strong>@lang('Artikel Sortierung')</strong>
     </li>
 @endsection
 
@@ -32,9 +32,9 @@
                                     <table class="table table-striped table-hover table-condensed">
                                         <thead>
                                             <tr>
-                                                <th width="5%">Sortierung</th>
+                                                <th width="5%">@lang('Sortierung')</th>
                                                 <th>Artikel</th>
-                                                <th width="15%">Lieferant</th>
+                                                <th width="15%">@lang('Lieferant')</th>
                                             </tr>
                                         </thead>
                                         <tbody class="js-sortable-table" aria-dropeffect="move">
@@ -50,8 +50,8 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <button type="button" class="btn btn-primary save-sort m-r-md">Speichern</button>
-                                    <span class="text-success hidden">Sortierung gespeichert</span>
+                                    <button type="button" class="btn btn-primary save-sort m-r-md">@lang('Speichern')</button>
+                                    <span class="text-success hidden">@lang('Sortierung gespeichert')</span>
                                 </div>
                             </div>
                         @endforeach
@@ -66,7 +66,7 @@
     <script>
         sortable('.js-sortable-table', {
             items: "tr.js-sortable-tr",
-            placeholder: "<tr><td colspan=\"3\"><span class=\"center\">Artikel hier einsortieren</span></td></tr>",
+            placeholder: "<tr><td colspan=\"3\"><span class=\"center\">@lang('Artikel hier einsortieren')</span></td></tr>",
             forcePlaceholderSize: false
         });
 
@@ -96,7 +96,7 @@
                 $.post("{{ route('article.sort_update_form_post') }}", {list: updateList}).done(function( data ) {
                     button.parent().find('.text-success').removeClass('hidden');
                 }).fail(function() {
-                    alert('Fehler beim Speichern');
+                    alert('@lang('Fehler beim Speichern')');
                 });
             });
         });

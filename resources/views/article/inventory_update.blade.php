@@ -1,13 +1,13 @@
 @extends('layout.app')
 
-@section('title', 'Artikel-Inventur-Update')
+@section('title', __('Artikel-Inventur-Update'))
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('article.index') }}">Übersicht</a>
+        <a href="{{ route('article.index') }}">@lang('Übersicht')</a>
     </li>
     <li class="active">
-        <strong>Artikel-Inventur-Update</strong>
+        <strong>@lang('Artikel-Inventur-Update')</strong>
     </li>
 @endsection
 
@@ -15,7 +15,7 @@
     <form method="post" action="{{ route('article.inventory_update_save') }}">
         <div class="row">
             <div class="w-full">
-                <div class="alert alert-danger">Achtung, Änderungen am Bestand werden hier als Inventurbuchung gespeichert!</div>
+                <div class="alert alert-danger">@lang('Achtung, Änderungen am Bestand werden hier als Inventurbuchung gespeichert!')</div>
                 @php $tabindex = 0; @endphp
                 @foreach($articles as $category => $items)
                 <div class="card mt-6">
@@ -27,13 +27,13 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Artikel</th>
-                                    <th width="15%">Lieferant</th>
-                                    <th width="25%">Notizen</th>
-                                    <th width="10%">Inventurtyp</th>
-                                    <th width="10%">Einheit</th>
-                                    <th width="10%">aktueller Bestand</th>
-                                    <th width="10%">neuer Bestand</th>
+                                    <th>@lang('Artikel')</th>
+                                    <th width="15%">@lang('Lieferant')</th>
+                                    <th width="25%">@lang('Notizen')</th>
+                                    <th width="10%">@lang('Inventurtyp')</th>
+                                    <th width="10%">@lang('Einheit')</th>
+                                    <th width="10%">@lang('aktueller Bestand')</th>
+                                    <th width="10%">@lang('neuer Bestand')</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,7 +60,7 @@
                 <div class="card mt-4">
                     <div class="card-content">
                         {{ csrf_field() }}
-                        <button type="submit" class="btn btn-primary" id="submit">Speichern</button>
+                        <button type="submit" class="btn btn-primary" id="submit">@lang('Speichern')</button>
                     </div>
                 </div>
             </div>

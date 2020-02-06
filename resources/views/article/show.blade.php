@@ -1,13 +1,13 @@
 @extends('article.form', ['isNewArticle' => false, 'isCopyOfArticle' => false])
 
-@section('title', 'Artikel Details'.((!empty($article->article_number)) ? ' #'.$article->article_number : ''))
+@section('title', __('Artikel Details').((!empty($article->article_number)) ? ' #'.$article->article_number : ''))
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('article.index') }}">Übersicht</a>
+        <a href="{{ route('article.index') }}">@lang('Übersicht')</a>
     </li>
     <li class="active">
-        <strong>Artikel bearbeiten</strong>
+        <strong>@lang('Artikel bearbeiten')</strong>
     </li>
 @endsection
 
@@ -16,7 +16,7 @@
 @endsection
 
 @section('submit')
-    {!! Form::submit('Speichern', ['class' => 'btn btn-primary', 'id' => 'saveArticle']) !!}
+    {!! Form::submit(__('Speichern'), ['class' => 'btn btn-primary', 'id' => 'saveArticle']) !!}
 @endsection
 
 @section('secondCol')
@@ -25,10 +25,10 @@
             <div class="card">
                 <div class="card-header">
                     <div class="flex">
-                        <div class="flex-1">Aktueller Lieferant</div>
+                        <div class="flex-1">@lang('Aktueller Lieferant')</div>
 
                         <dot-menu class="ml-2" id="changeSupplierMenu">
-                            <a href="javascript:void(0)" class="btn-link" @click="$modal.show('changeSupplierModal')" id="changeSupplierLink">Lieferoptionen ändern</a>
+                            <a href="javascript:void(0)" class="btn-link" @click="$modal.show('changeSupplierModal')" id="changeSupplierLink">@lang('Lieferoptionen ändern')</a>
                         </dot-menu>
                     </div>
                 </div>
@@ -38,15 +38,15 @@
                         <div class="w-2/3">
                             <div class="form-group">
                                 <label class="form-label">
-                                    Lieferant
-                                    <a href="{{ route('article.index', ['supplier' => $article->currentSupplier]) }}" class="m-l-sm" title="alle Artikel des Lieferanten anzeigen" target="_blank"><i class="fa fa-filter"></i></a>
+                                    @lang('Lieferant')
+                                    <a href="{{ route('article.index', ['supplier' => $article->currentSupplier]) }}" class="m-l-sm" title="@lang('alle Artikel des Lieferanten anzeigen')" target="_blank"><i class="fa fa-filter"></i></a>
                                 </label>
                                 <div class="form-control-static"><a href="{{ route('supplier.show', $article->currentSupplier) }}" target="_blank">{{ $article->currentSupplier->name }}</a></div>
                             </div>
                         </div>
                         <div class="w-1/3">
                             <div class="form-group">
-                                <label class="form-label">Bestellnummer</label>
+                                <label class="form-label">@lang('Bestellnummer')</label>
                                 <div class="form-control-static">{{ $article->currentSupplierArticle->order_number }}</div>
                             </div>
                         </div>
@@ -54,21 +54,21 @@
                     <div class="row">
                         <div class="w-2/3">
                             <div class="form-group">
-                                <label class="form-label">Preis <span class="text-red-500">netto</span></label>
+                                <label class="form-label">@lang('Preis') <span class="text-red-500">@lang('netto')</span></label>
                                 <div class="form-control-static">{!! formatPrice($article->currentSupplierArticle->price / 100) !!}</div>
                             </div>
                         </div>
                         <div class="w-1/3">
                             <div class="form-group">
-                                <label class="form-label">Lieferzeit</label>
-                                <div class="form-control-static">{{ $article->currentSupplierArticle->delivery_time }} Wochentage</div>
+                                <label class="form-label">@lang('Lieferzeit')</label>
+                                <div class="form-control-static">{{ $article->currentSupplierArticle->delivery_time }} @lang('Wochentage')</div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="w-2/3">
                             <div class="form-group">
-                                <label class="form-label">Bestellmenge</label>
+                                <label class="form-label">@lang('Bestellmenge')</label>
                                 <div class="form-control-static">{{ $article->currentSupplierArticle->order_quantity }}</div>
                             </div>
                         </div>
@@ -78,17 +78,17 @@
 
             <div class="card mt-4">
                 <div class="card-header">
-                    <h5>Aktionen</h5>
+                    <h5>@lang('Aktionen')</h5>
                 </div>
                 <div class="card-content">
                     <div class="flex flex-col">
                         <div class="py-4">
-                            <a href="{{ route('order.create', ['article' => $article]) }}" class="btn btn-secondary">Neue Bestellung</a>
+                            <a href="{{ route('order.create', ['article' => $article]) }}" class="btn btn-secondary">@lang('Neue Bestellung')</a>
                         </div>
 
                         <div class="py-4">
-                            <a href="{{ route('article.print_single_label', ['article' => $article, 'size' => 'small']) }}" class="btn btn-secondary">kleines Label drucken</a>
-                            <a href="{{ route('article.print_single_label', ['article' => $article, 'size' => 'large']) }}" class="btn btn-secondary">großes Label drucken</a>
+                            <a href="{{ route('article.print_single_label', ['article' => $article, 'size' => 'small']) }}" class="btn btn-secondary">@lang('kleines Label drucken')</a>
+                            <a href="{{ route('article.print_single_label', ['article' => $article, 'size' => 'large']) }}" class="btn btn-secondary">@lang('großes Label drucken')</a>
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
 
             <div class="card mt-4">
                 <div class="card-header">
-                    <h5>Dateien</h5>
+                    <h5>@lang('Dateien')</h5>
                 </div>
                 <div class="card-content">
                     @if(is_array($article->files) && count($article->files))
@@ -109,15 +109,15 @@
                             @endforeach
                         </ul>
                     @endif
-                    {{ Form::dropzone('attachments', 'Anhänge', route('article.file_upload', $article)) }}
+                    {{ Form::dropzone('attachments', __('Anhänge'), route('article.file_upload', $article)) }}
                 </div>
             </div>
 
             <div class="card mt-4">
                 <div class="card-header">
                     <div class="flex">
-                        <h5 class="flex-1">Notizen</h5>
-                        <a href="javascript:void(0)" class="btn-link btn-xs" @click="$modal.show('newNoteModal')" id="addNote">Neue Notiz</a>
+                        <h5 class="flex-1">@lang('Notizen')</h5>
+                        <a href="javascript:void(0)" class="btn-link btn-xs" @click="$modal.show('newNoteModal')" id="addNote">@lang('Neue Notiz')</a>
                     </div>
                 </div>
                 <div class="card-content">
@@ -130,7 +130,7 @@
                                         <small class="text-gray-600">{{ $note->created_at->format('d.m.Y - H:i') }}</small>
 
                                         <dot-menu class="ml-2 notes-menu">
-                                            <a href="{{ route('article.delete_note', [$article, $note]) }}">löschen</a>
+                                            <a href="{{ route('article.delete_note', [$article, $note]) }}">@lang('löschen')</a>
                                         </dot-menu>
                                     </div>
                                 </div>
@@ -150,9 +150,9 @@
             <div class="card mt-4">
                 <div class="card-header flex">
                     <h5 class="flex-1">
-                        Bestands-Verlauf
+                        @lang('Bestands-Verlauf')
                     </h5>
-                    <a href="{{ route('article.quantity_changelog', $article) }}" class="btn-link btn-xs">mehr</a>
+                    <a href="{{ route('article.quantity_changelog', $article) }}" class="btn-link btn-xs">@lang('mehr')</a>
                 </div>
                 <div class="card-content">
                     <article-quantity-changelog :items="{{ json_encode($article->getShortChangelog()) }}" :article="{{ json_encode($article) }}" :edit-enabled="true"></article-quantity-changelog>
@@ -162,13 +162,13 @@
     </div>
 
     <modal name="changeSupplierModal" height="auto" classes="modal">
-        <h4 class="modal-title">Lieferant bearbeiten</h4>
+        <h4 class="modal-title">@lang('Lieferant bearbeiten')</h4>
 
         {!! Form::open(['route' => ['article.change_supplier', $article], 'method' => 'POST']) !!}
             <div class="row">
                 <div class="w-full">
                     <div class="form-group">
-                        <label for="supplier" class="form-label">Lieferant</label>
+                        <label for="supplier" class="form-label">@lang('Lieferant')</label>
                         {!! Form::select('supplier', \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'), $article->currentSupplier->id ?? null, ['class' => 'form-control', 'id' => 'supplier', 'name' => 'supplier', 'style' => 'width: 100%']) !!}
                     </div>
                 </div>
@@ -176,12 +176,12 @@
             <div class="row">
                 <div class="w-1/2">
                     <div class="form-group">
-                        {{ Form::bsText('order_number', $article->currentSupplierArticle->order_number, [], 'Bestellnummer') }}
+                        {{ Form::bsText('order_number', $article->currentSupplierArticle->order_number, [], __('Bestellnummer')) }}
                     </div>
                 </div>
                 <div class="w-1/2 ml-4">
                     <div class="form-group">
-                        {{ Form::bsText('price', str_replace('.', ',', $article->currentSupplierArticle->price / 100), [], 'Preis netto') }}
+                        {{ Form::bsText('price', str_replace('.', ',', $article->currentSupplierArticle->price / 100), [], __('Preis netto')) }}
                     </div>
                 </div>
 
@@ -189,18 +189,18 @@
             <div class="row">
                 <div class="w-1/2">
                     <div class="form-group">
-                        {{ Form::bsNumber('delivery_time', $article->currentSupplierArticle->delivery_time, [], 'Lieferzeit (Wochentage)') }}
+                        {{ Form::bsNumber('delivery_time', $article->currentSupplierArticle->delivery_time, [], __('Lieferzeit (Wochentage)')) }}
                     </div>
                 </div>
                 <div class="w-1/2 ml-4">
                     <div class="form-group">
-                        {{ Form::bsNumber('order_quantity', $article->currentSupplierArticle->order_quantity, [], 'Bestellmenge') }}
+                        {{ Form::bsNumber('order_quantity', $article->currentSupplierArticle->order_quantity, [], __('Bestellmenge')) }}
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" @click="$modal.hide('changeSupplierModal')">Abbrechen</button>
-                <button type="submit" class="btn btn-primary" id="saveChangeSupplier">Speichern</button>
+                <button type="button" class="btn btn-default" @click="$modal.hide('changeSupplierModal')">@lang('Abbrechen')</button>
+                <button type="submit" class="btn btn-primary" id="saveChangeSupplier">@lang('Speichern')</button>
             </div>
         {!! Form::close() !!}
     </modal>

@@ -1,1 +1,1 @@
-<button type="button" class="btn btn-primary btn-xs" onclick="selectArticle({{ $id }})" data-dismiss="modal">auswählen</button>
+<button type="button" class="btn btn-primary btn-xs" onclick="selectArticle({{ $id }})" data-dismiss="modal">@lang('auswählen')</button>

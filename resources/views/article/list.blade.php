@@ -1,21 +1,21 @@
 @extends('layout.app')
 
-@section('title', 'Artikelübersicht')
+@section('title', __('Artikelübersicht'))
 
 @section('title_extra')
     <div>
         <div class="dropdown-list group">
             <div class="flex items-center cursor-pointer text-sm text-blue-500 rounded-t-lg py-1 px-2">
-                weitere Aktionen
+                @lang('weitere Aktionen')
                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
             </div>
             <div class="dropdown-list-items">
-                <a href="{{ route('article.mass_update_form') }}">Massenupdate</a>
-                <a href="{{ route('article.inventory_update_form') }}">Inventurupdate</a>
+                <a href="{{ route('article.mass_update_form') }}">@lang('Massenupdate')</a>
+                <a href="{{ route('article.inventory_update_form') }}">@lang('Inventurupdate')</a>
                 {{--            <a href="{{ route('article.sort_update_form') }}">Sortierung</a>--}}
             </div>
         </div>
-        <a href="{{ route('article.create') }}" class="btn btn-secondary">Neuer Artikel</a>
+        <a href="{{ route('article.create') }}" class="btn btn-secondary">@lang('Neuer Artikel')</a>
     </div>
 @endsection
 
@@ -29,12 +29,12 @@
 <div class="footer_actions hidden">
     <div class="dropdown-list group">
         <div class="flex items-center cursor-pointer text-sm text-blue-500 rounded-t-lg py-1 px-2">
-            Aktion
+            @lang('Aktion')
             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
         </div>
         <div class="dropdown-list-items">
-            <a href="#" id="print_small_label">Label erstellen (klein)</a>
-            <a href="#" id="print_large_label">Label erstellen (groß)</a>
+            <a href="#" id="print_small_label">@lang('Label erstellen (klein)')</a>
+            <a href="#" id="print_large_label">@lang('Label erstellen (groß)')</a>
         </div>
         <input type="hidden" name="label_size" id="label_size" value="" />
     </div>
@@ -63,10 +63,10 @@
     </data-tables-filter-select>
 
     <data-tables-filter-select label="Status" pre-set="1" col-id="{{ \Mss\DataTables\ArticleDataTable::STATUS_COL_ID }}" id="filterStatus">
-        <option value="all">alle</option>
-        <option value="1">aktiv</option>
-        <option value="0">deaktiviert</option>
-        <option value="2">Bestellstopp</option>
+        <option value="all">@lang('alle')</option>
+        <option value="1">@lang('aktiv')</option>
+        <option value="0">@lang('deaktiviert')</option>
+        <option value="2">@lang('Bestellstopp')</option>
     </data-tables-filter-select>
 </data-tables-filter-select>
 @endsection
@@ -90,14 +90,14 @@
 
             $('#print_small_label').click(function () {
                 $('#label_size').val('small');
-                $('#label_quantity').val(window.prompt('Wieviele Label sollen gedruckt werden?', '1'));
+                $('#label_quantity').val(window.prompt('@lang('Wieviele Label sollen gedruckt werden?')', '1'));
                 $('#print_label_form').submit();
                 return false;
             });
 
             $('#print_large_label').click(function () {
                 $('#label_size').val('large');
-                $('#label_quantity').val(window.prompt('Wieviele Label sollen gedruckt werden?', '1'));
+                $('#label_quantity').val(window.prompt('@lang('Wieviele Label sollen gedruckt werden?')', '1'));
                 $('#print_label_form').submit();
                 return false;
             });
