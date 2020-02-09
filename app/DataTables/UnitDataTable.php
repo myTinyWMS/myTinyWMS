@@ -48,7 +48,7 @@ class UnitDataTable extends BaseDataTable
                 'paging' => false,
                 'order'   => [[0, 'asc']],
             ])
-            ->addAction(['title' => 'Aktion', 'width' => '150px']);
+            ->addAction(['title' => __('Aktion'), 'width' => '150px']);
     }
 
     /**
@@ -59,7 +59,7 @@ class UnitDataTable extends BaseDataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
+            ['data' => 'name', 'name' => 'name', 'title' => __('Name')],
         ];
     }
 

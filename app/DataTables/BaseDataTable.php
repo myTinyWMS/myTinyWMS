@@ -16,7 +16,7 @@ abstract class BaseDataTable extends DataTable
         $builder->parameters([
             'dom'     => $this->dom,
             'order'   => [[0, 'asc']],
-            'language' => ['url' => asset('js/datatables/German.1.10.13.json'), 'searchPlaceholder' => 'Suche'],
+            'language' => ['url' => asset('js/datatables/German.1.10.13.json'), 'searchPlaceholder' => __('Suche')],
             'pageLength' => $this->pageLength,
 //            'stateSave' => true,
             'bAutoWidth' => false,
@@ -29,7 +29,7 @@ abstract class BaseDataTable extends DataTable
 
     protected function getLengthMenu() {
         $values = [50, 100, -1];
-        $captions = [50, 100, 'Alle'];
+        $captions = [50, 100, __('Alle')];
 
         if (!in_array($this->pageLength, $values)) {
             $values = array_prepend($values, $this->pageLength);

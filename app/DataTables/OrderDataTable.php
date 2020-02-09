@@ -165,7 +165,7 @@ class OrderDataTable extends BaseDataTable
                 'order'   => [[1, 'asc']],
                 'rowGroup' => ['dataSrc' => 'supplier']
             ])
-            ->addAction(['title' => 'Aktion', 'width' => '100px', 'class' => 'action-col']);
+            ->addAction(['title' => __('Aktion'), 'width' => '100px', 'class' => 'action-col']);
     }
 
     /**
@@ -176,14 +176,14 @@ class OrderDataTable extends BaseDataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'internal_order_number', 'name' => 'internal_order_number', 'title' => 'Bestellnummer', 'width' => '160px'],
-            ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant', 'visible' => false],
-            ['data' => 'items', 'name' => 'items', 'title' => 'Artikel'],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Bestellstatus', 'width' => '150px', 'class' => 'text-center'],
-            ['data' => 'confirmation_status', 'name' => 'confirmation_status', 'title' => 'AB', 'width' => '110px', 'class' => 'text-center', 'orderable' => false],
-            ['data' => 'invoice_status', 'name' => 'invoice_status', 'title' => 'Rechnung', 'width' => '110px', 'class' => 'text-center', 'orderable' => false],
-            ['data' => 'order_date', 'name' => 'order_date', 'title' => 'Bestelldatum', 'class' => 'text-right', 'searchable' => false, 'width' => '90px'],
-            ['data' => 'expected_delivery', 'name' => 'expected_delivery', 'title' => 'Lieferdatum', 'class' => 'text-right', 'searchable' => false, 'width' => '90px'],
+            ['data' => 'internal_order_number', 'name' => 'internal_order_number', 'title' => __('Bestellnummer'), 'width' => '160px'],
+            ['data' => 'supplier', 'name' => 'supplier', 'title' => __('Lieferant'), 'visible' => false],
+            ['data' => 'items', 'name' => 'items', 'title' => __('Artikel')],
+            ['data' => 'status', 'name' => 'status', 'title' => __('Bestellstatus'), 'width' => '150px', 'class' => 'text-center'],
+            ['data' => 'confirmation_status', 'name' => 'confirmation_status', 'title' => __('AB'), 'width' => '110px', 'class' => 'text-center', 'orderable' => false],
+            ['data' => 'invoice_status', 'name' => 'invoice_status', 'title' => __('Rechnung'), 'width' => '110px', 'class' => 'text-center', 'orderable' => false],
+            ['data' => 'order_date', 'name' => 'order_date', 'title' => __('Bestelldatum'), 'class' => 'text-right', 'searchable' => false, 'width' => '90px'],
+            ['data' => 'expected_delivery', 'name' => 'expected_delivery', 'title' => __('Lieferdatum'), 'class' => 'text-right', 'searchable' => false, 'width' => '90px'],
         ];
     }
 

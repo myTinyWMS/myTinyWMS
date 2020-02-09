@@ -49,7 +49,7 @@ class CategoryDataTable extends BaseDataTable
                 'paging' => false,
                 'order'   => [[1, 'asc']],
             ])
-            ->addAction(['title' => 'Aktion', 'width' => '150px']);
+            ->addAction(['title' => __('Aktion'), 'width' => '150px']);
     }
 
     /**
@@ -61,8 +61,8 @@ class CategoryDataTable extends BaseDataTable
     {
         return [
             ['data' => 'checkbox', 'name' => 'checkbox', 'title' => '', 'width' => '10px', 'orderable' => false],
-            ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
-            ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung'],
+            ['data' => 'name', 'name' => 'name', 'title' => __('Name')],
+            ['data' => 'notes', 'name' => 'notes', 'title' => __('Bemerkung')],
         ];
     }
 

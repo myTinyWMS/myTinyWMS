@@ -59,7 +59,7 @@ class InventoryDataTable extends BaseDataTable
                 'paging' => false,
                 'order'   => [[0, 'asc']],
             ])
-            ->addAction(['title' => 'Aktion', 'width' => '170px']);
+            ->addAction(['title' => __('Aktion'), 'width' => '170px']);
     }
 
     /**
@@ -70,9 +70,9 @@ class InventoryDataTable extends BaseDataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'started', 'name' => 'started', 'title' => 'Gestartet'],
-            ['data' => 'open_categories', 'name' => 'open_categories', 'title' => 'offene Kategorien'],
-            ['data' => 'open_articles', 'name' => 'open_articles', 'title' => 'offene Artikel'],
+            ['data' => 'started', 'name' => 'started', 'title' => __('Gestartet')],
+            ['data' => 'open_categories', 'name' => 'open_categories', 'title' => __('offene Kategorien')],
+            ['data' => 'open_articles', 'name' => 'open_articles', 'title' => __('offene Artikel')],
         ];
     }
 
