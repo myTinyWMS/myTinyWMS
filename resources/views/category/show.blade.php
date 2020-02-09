@@ -1,13 +1,13 @@
 @extends('category.form')
 
-@section('title', 'Kategorie bearbeiten')
+@section('title', __('Kategorie bearbeiten'))
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('category.index') }}">Übersicht</a>
+        <a href="{{ route('category.index') }}">@lang('Übersicht')</a>
     </li>
     <li class="active">
-        <strong>Kategorie bearbeiten</strong>
+        <strong>@lang('Kategorie bearbeiten')</strong>
     </li>
 @endsection
 
@@ -16,12 +16,12 @@
 @endsection
 
 @section('submit')
-    {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
+    {!! Form::submit(__('Speichern'), ['class' => 'btn btn-primary']) !!}
 @endsection
 
 @section('secondCol')
     <div class="w-1/3 ml-4">
-        <collapse title="Logbuch">
+        <collapse title="@lang('Logbuch')">
             @include('components.audit_list', $audits)
         </collapse>
     </div>
