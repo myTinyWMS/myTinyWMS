@@ -47,10 +47,10 @@
         <table class="table @if (!$loop->last) break-after @endif" cellpadding="0" cellspacing="1">
             <thead>
                 <tr>
-                    <th style="width: 25px">Nummer</th>
-                    <th style="width: 200px">Name</th>
-                    <th style="width: 100px">Entnahme</th>
-                    <th>Ausgabe</th>
+                    <th style="width: 25px">@lang('Nummer')</th>
+                    <th style="width: 200px">@lang('Name')</th>
+                    <th style="width: 100px">@lang('Entnahme')</th>
+                    <th>@lang('Ausgabe')</th>
                 </tr>
             </thead>
             <tbody>

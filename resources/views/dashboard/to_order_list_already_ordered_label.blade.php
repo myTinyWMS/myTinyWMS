@@ -1,1 +1,1 @@
-<span class="label label-success">{{ $quantity }} bestellt</span>
+<span class="label label-success">{{ $quantity }} @lang('bestellt')</span>

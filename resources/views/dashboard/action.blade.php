@@ -1,1 +1,1 @@
-<a href="{{ route('article.show', $id) }}" class="table-action">Details</a>
+<a href="{{ route('article.show', $id) }}" class="table-action">@lang('Details')</a>
