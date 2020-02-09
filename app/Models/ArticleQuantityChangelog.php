@@ -19,6 +19,22 @@ class ArticleQuantityChangelog extends AuditableModel
 
     static $auditName = 'Artikel-Bestandsänderung';
 
+    public static function getAbbreviation($key) {
+        $abbreviations = collect([
+            self::TYPE_INCOMING => __('WE'),
+            self::TYPE_OUTGOING => __('WA'),
+            self::TYPE_CORRECTION => __('KB'),
+            self::TYPE_INVENTORY => __('INV'),
+            self::TYPE_OUTSOURCING => __('AL'),
+            self::TYPE_REPLACEMENT_DELIVERY => __('EL'),
+            self::TYPE_SALE_TO_THIRD_PARTIES => __('VaF'),
+            self::TYPE_TRANSFER => __('UB'),
+            self::TYPE_COMMENT => __('KO'),
+        ]);
+
+        return $abbreviations->get($key, __('Unbekannt'));
+    }
+
     public static function getAvailableTypes() {
         return [
             self::TYPE_START,
