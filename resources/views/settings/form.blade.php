@@ -75,8 +75,8 @@
                             <div class="mb-6">
                                 <label for="lang" class="form-label">@lang('Sprache')</label>
                                 <select class="form-input" id="lang" name="setting[{{ UserSettings::SETTINGS_LANGUAGE }}]">
-                                    <option value="de" {{ Auth::user()->settings()->get(UserSettings::SETTINGS_LANGUAGE) == 'de' ? 'selected="selected"' : '' }}>German</option>
-                                    <option value="en" {{ Auth::user()->settings()->get(UserSettings::SETTINGS_LANGUAGE) == 'en' ? 'selected="selected"' : '' }}>English</option>
+                                    <option value="de" {{ Auth::user()->settings()->get(UserSettings::SETTINGS_LANGUAGE) == 'de' ? 'selected="selected"' : '' }}>@lang('Deutsch')</option>
+                                    <option value="en" {{ Auth::user()->settings()->get(UserSettings::SETTINGS_LANGUAGE) == 'en' ? 'selected="selected"' : '' }}>@lang('Englisch')</option>
                                 </select>
                             </div>
 

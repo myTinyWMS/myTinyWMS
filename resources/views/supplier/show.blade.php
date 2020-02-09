@@ -1,13 +1,13 @@
 @extends('supplier.form')
 
-@section('title', 'Lieferant bearbeiten')
+@section('title', __('Lieferant bearbeiten'))
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('supplier.index') }}">Übersicht</a>
+        <a href="{{ route('supplier.index') }}">@lang('Übersicht')</a>
     </li>
     <li class="active">
-        <strong>Lieferant bearbeiten</strong>
+        <strong>@lang('Lieferant bearbeiten')</strong>
     </li>
 @endsection
 
@@ -16,12 +16,12 @@
 @endsection
 
 @section('submit')
-    {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
+    {!! Form::submit(__('Speichern'), ['class' => 'btn btn-primary']) !!}
 @endsection
 
 @section('secondCol')
     <div class="w-1/3 ml-4">
-        <collapse title="Logbuch">
+        <collapse title="@lang('Logbuch')">
             @include('components.audit_list', $audits)
         </collapse>
     </div>

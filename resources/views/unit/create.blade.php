@@ -1,13 +1,13 @@
 @extends('unit.form')
 
-@section('title', 'Neue Einheit')
+@section('title', __('Neue Einheit'))
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('unit.index') }}">Übersicht</a>
+        <a href="{{ route('unit.index') }}">@lang('Übersicht')</a>
     </li>
     <li class="active">
-        <strong>Neuer Einheit</strong>
+        <strong>@lang('Neue Einheit')</strong>
     </li>
 @endsection
 
@@ -16,5 +16,5 @@
 @endsection
 
 @section('submit')
-    {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
+    {!! Form::submit(__('Speichern'), ['class' => 'btn btn-primary']) !!}
 @endsection
