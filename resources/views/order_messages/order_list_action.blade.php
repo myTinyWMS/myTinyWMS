@@ -1,1 +1,1 @@
-<div class="i-checks"><label> <input type="radio" name="orderid" value="{{ $id }}"> auswählen</label></div>
+<div class="i-checks"><label> <input type="radio" name="orderid" value="{{ $id }}"> @lang('auswählen')</label></div>

@@ -21,17 +21,17 @@
             <div class="row">
                 <div class="card w-1/2">
                     <div class="card-header">
-                        <div>Bestelldetails</div>
+                        <div>@lang('Bestelldetails')</div>
                     </div>
                     <div class="card-content">
                         <div class="row">
                             <div class="w-1/2 mr-6">
                                 <div class="form-group">
-                                    <label class="form-label">interne Bestellnummer</label>
+                                    <label class="form-label">@lang('interne Bestellnummer')</label>
                                     <h2 class="form-control-static pt-0 order-number">
                                         {{ $order->internal_order_number }}
                                     </h2>
-                                    <small class="text-danger">Bitte bei der Bestellung angeben</small>
+                                    <small class="text-danger">@lang('Bitte bei der Bestellung angeben')</small>
                                 </div>
                             </div>
                             <div class="w-1/2">
@@ -41,20 +41,20 @@
 
                         <div class="row mt-2 pt-4 border-t border-gray-300">
                             <div class="w-1/2 mr-6" id="supplier_select">
-                                {{ Form::bsSelect('supplier', $order->supplier_id, \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'),  'Lieferant', ['placeholder' => '', 'v-model' => 'supplier', 'v-bind:disabled' => 'hasArticles']) }}
+                                {{ Form::bsSelect('supplier', $order->supplier_id, \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'),  __('Lieferant'), ['placeholder' => '', 'v-model' => 'supplier', 'v-bind:disabled' => 'hasArticles']) }}
                             </div>
                             <div class="w-1/2">
-                                {{ Form::bsSelect('payment_status', $order->payment_status, \Mss\Models\Order::PAYMENT_STATUS_TEXT,  'Bezahlmethode') }}
+                                {{ Form::bsSelect('payment_status', $order->payment_status, \Mss\Models\Order::PAYMENT_STATUS_TEXT,  __('Bezahlmethode')) }}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="w-1/2 mr-6">
-                                {{ Form::bsText('external_order_number', null, [], 'Bestellnummer des Lieferanten') }}
+                                {{ Form::bsText('external_order_number', null, [], __('Bestellnummer des Lieferanten')) }}
                             </div>
 
                             <div class="w-1/2">
-                                {{ Form::bsText('order_date', (!empty($order->order_date) ? $order->order_date->format('d.m.Y') : ''), ['class' => 'form-control datepicker'], 'Bestelldatum') }}
+                                {{ Form::bsText('order_date', (!empty($order->order_date) ? $order->order_date->format('d.m.Y') : ''), ['class' => 'form-control datepicker'], __('Bestelldatum')) }}
                             </div>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                 <div class="w-1/2 ml-4">
                     <div class="card">
                         <div class="card-header">
-                            <div>Bemerkungen</div>
+                            <div>@lang('Bemerkungen')</div>
                         </div>
                         <div class="card-content">
                             {{ Form::bsTextarea('notes', null, [], '') }}
@@ -77,7 +77,7 @@
                 <div class="w-full">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Bestellte Artikel</h5>
+                            <h5>@lang('Bestellte Artikel')</h5>
                         </div>
                         <div class="card-content" id="article-list">
                             <order-article-list ref="articleList" :supplier="supplier" :articles="articles" :all-articles="{{ json_encode($allArticles) }}" :existing-articles="existingArticles"></order-article-list>
@@ -123,10 +123,10 @@
         </data-tables-filter-select>
 
         <data-tables-filter-select label="Status" col-id="{{ \Mss\DataTables\SelectArticleDataTable::STATUS_COL_ID }}" pre-set="1">
-            <option value="all">alle</option>
-            <option value="1">aktiv</option>
-            <option value="0">deaktiviert</option>
-            <option value="2">Bestellstopp</option>
+            <option value="all">@lang('alle')</option>
+            <option value="1">@lang('aktiv')</option>
+            <option value="0">@lang('deaktiviert')</option>
+            <option value="2">@lang('Bestellstopp')</option>
         </data-tables-filter-select>
     </data-tables-filter>
 @endsection
