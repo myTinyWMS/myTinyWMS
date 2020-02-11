@@ -59,7 +59,12 @@ class LoginController extends Controller
         $login = request()->input('login');
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         Config::set('ldap_auth.identifiers.database.username_column', $field);
-        Config::set('ldap_auth.identifiers.ldap.bind_users_by', 'samaccountname');
+        if ($field == 'username') {
+            Config::set('ldap_auth.identifiers.ldap.locate_users_by', 'samaccountname');
+        } else {
+            Config::set('ldap_auth.identifiers.ldap.bind_users_by', 'userprincipalname');
+        }
+
         request()->merge([$field => $login]);
         return $field;
     }
