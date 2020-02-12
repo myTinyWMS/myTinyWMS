@@ -32,7 +32,7 @@ class MassUpdateController extends Controller
             $article->save();
         });
 
-        flash('Änderungen gespeichert');
+        flash(__('Änderungen gespeichert'));
 
         return response()->redirectToRoute('article.mass_update_form', 'success');
     }

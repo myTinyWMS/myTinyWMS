@@ -27,7 +27,7 @@ class InventoryUpdateController extends Controller
             }
         });
 
-        flash('Änderungen gespeichert', 'success');
+        flash(__('Änderungen gespeichert'), 'success');
 
         return response()->redirectToRoute('article.inventory_update_form');
     }

@@ -43,7 +43,7 @@ class AttachmentController extends Controller
 
         @unlink(storage_path('app/article_files/'.$attachment['storageName']));
 
-        flash('Datei gelöscht')->success();
+        flash(__('Datei gelöscht'))->success();
 
         return response()->redirectToRoute('article.show', [$article]);
     }

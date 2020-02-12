@@ -77,7 +77,7 @@ class QuantityChangelogController extends Controller
                     $order->save();
                 }
 
-                flash('Lieferung zur Bestellung '.link_to_route('order.show', $order->internal_order_number, $order).' gelöscht, da keine Artikel mehr vorhanden', 'warning');
+                flash(__('Lieferung zur Bestellung :link gelöscht, da keine Artikel mehr vorhanden', ['link' => link_to_route('order.show', $order->internal_order_number, $order)]), 'warning');
             }
         }
 
