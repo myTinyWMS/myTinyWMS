@@ -59,7 +59,7 @@ class OrderDataTable extends BaseDataTable
                 });
 
                 if ($overdueItems->count()) {
-                    $output .= '<br><span class="text-red-400 text-sm font-bold">überfällig</span>';
+                    $output .= '<br><span class="text-red-400 text-sm font-bold">'.__('überfällig').'</span>';
                 }
 
                 return $output;

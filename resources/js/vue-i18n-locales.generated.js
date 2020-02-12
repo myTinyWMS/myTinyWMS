@@ -267,7 +267,7 @@ export default {
         "Neue Nachricht an": "New message to",
         "Rollen": "Roles",
         "Bitte wählen": "Please select one",
-        "Dateien hier ablegen": "Dra&Drop files here",
+        "Dateien hier ablegen": "Drag&Drop files here",
         "ändern": "change",
         "löschen": "delete",
         "Wareneingang": "Goods receipt",
