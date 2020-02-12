@@ -66,7 +66,7 @@
     </tr>
     <tr>
         <td align="left" valign="middle" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 14px; color: #353535; padding:3%; padding-top:40px; padding-bottom:40px;">
-            Bitte bestätigen Sie uns die Bestellung unter Angabe unserer Auftragsnummer "{{ $order->internal_order_number }}".
+            @lang('Bitte bestätigen Sie uns die Bestellung unter Angabe unserer Auftragsnummer') "{{ $order->internal_order_number }}".
             <br/><br/><br/>
             {!! html_entity_decode(Auth::user()->signature) !!}
         </td>

@@ -40,7 +40,7 @@ class MessageController extends Controller {
         $sendOrder = false;
         if (request('sendorder')) {
             $preSetBody = view('emails.new_order', compact('order'))->render();
-            $preSetSubject = '['.$order->internal_order_number.'] Neue Bestellung';
+            $preSetSubject = '['.$order->internal_order_number.'] '.__('Neue Bestellung');
             $sendOrder = true;
         }
 

@@ -18,7 +18,7 @@ trait GetAudits {
             $modified = collect($audit->getModified())
                 ->forget($this->ignoredAuditFields)
                 ->transform(function ($modified, $field) {
-                    $modified['name'] = $this->fieldNames[$field] ?? $field;
+                    $modified['name'] = $this->getFieldNames()[$field] ?? $field;
 
                     if (array_key_exists($field, $this->getAuditFormatters()) && is_callable($this->getAuditFormatters()[$field])) {
                         if (array_key_exists('old', $modified)) {
