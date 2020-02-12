@@ -32,7 +32,7 @@
                             <option value="add">{{ $t('Plus') }}</option>
                             <option value="sub">{{ $t('Minus') }}</option>
                         </select>
-                        <input class="form-input w-24 ml-2" type="text" v-model="change" value="" name="changelogChange" id="changelogChange" :placeholder="$('Menge')" required>
+                        <input class="form-input w-24 ml-2" type="text" v-model="change" value="" name="changelogChange" id="changelogChange" :placeholder="$t('Menge')" required>
                     </div>
                 </div>
             </div>
@@ -90,12 +90,12 @@
         methods: {
             submit(e) {
                 if (this.changelogChangeType == 'sub' && this.change > this.article.quantity) {
-                    alert('Es ist nicht möglich mehr auszubuchen als Bestand vorhanden ist!');
+                    alert(this.$t('Es ist nicht möglich mehr auszubuchen als Bestand vorhanden ist!'));
                     e.preventDefault();
                     return false;
                 }
 
-                var message = this.$t('Du willst den Bestand um ');
+                let message = this.$t('Du willst den Bestand um ');
                 message += (this.changelogChangeType === 'sub') ? this.$t('MINUS') + ' ' : this.$t('PLUS') + ' ';
                 message += this.change + ' ' + this.$t('ändern - als') + ' ';
                 message += '"' + this.changelogType.text + '". ' + this.$t('SICHER?');

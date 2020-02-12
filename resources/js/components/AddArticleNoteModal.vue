@@ -36,7 +36,7 @@
                 let that = this;
 
                 if (that.new_note == '') {
-                    alert('Bitte einen Text eingeben!');
+                    alert(this.$t('Bitte einen Text eingeben!'));
                     e.preventDefault();
                     return false;
                 }
