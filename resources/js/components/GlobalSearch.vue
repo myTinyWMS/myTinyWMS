@@ -1,13 +1,13 @@
 <template>
     <div class="relative" style="width: 24rem">
-        <input type="search" placeholder="Suche" class="form-control form-input w-full shadow focus:bg-gray-800 bg-gray-800 border-gray-800 focus:border-gray-800 text-white" v-model="value">
+        <input type="search" :placeholder="$t('Suche')" class="form-control form-input w-full shadow focus:bg-gray-800 bg-gray-800 border-gray-800 focus:border-gray-800 text-white" v-model="value">
         <div class="absolute bg-white shadow rounded left-0 z-50 border border-gray-400 mt-2 p-2 w-full" v-show="suggestions.length > 0" id="global-search-results">
             <div v-for="(group, groupindex) in suggestions">
                 <div class="text-xs pl-2 border-b text-black">{{ group.name }}</div>
                 <div v-for="(item, index) in group.items" class="whitespace-no-wrap p-2 text-sm hover:bg-gray-200 cursor-pointer bg-white" :title="group.name + ' ' + item.title" :class="{ 'bg-gray-200': selectedItem == (1 + index + groupindex), 'rounded-t': index == 0, 'rounded-b': index == (suggestions.length - 1) }" @click="selected(item)">
-                    <div class="inline-block rounded bg-gray-600 w-2 h-2" v-if="item.status == 0" title="deaktiviert"></div>
-                    <div class="inline-block rounded bg-green-500 w-2 h-2" v-if="item.status == 1" title="aktiv"></div>
-                    <div class="inline-block rounded bg-orange-500 w-2 h-2" v-if="item.status == 2" title="Bestellstop"></div>
+                    <div class="inline-block rounded bg-gray-600 w-2 h-2" v-if="item.status == 0" :title="$t('deaktiviert')"></div>
+                    <div class="inline-block rounded bg-green-500 w-2 h-2" v-if="item.status == 1" :title="$t('aktiv')"></div>
+                    <div class="inline-block rounded bg-orange-500 w-2 h-2" v-if="item.status == 2" :title="$t('Bestellstop')"></div>
                     {{ item.name }}
                 </div>
             </div>

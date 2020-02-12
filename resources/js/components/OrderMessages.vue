@@ -13,7 +13,7 @@
                 </div>
                 <div class="text-sm mt-4">
                     {{ message.subject }}
-                    <span class="label label-primary" v-if="!message.read">NEU</span>
+                    <span class="label label-primary" v-if="!message.read">{{ $t('NEU') }}</span>
                 </div>
             </div>
         </div>
@@ -21,24 +21,24 @@
             <div class="flex flex-col py-2 pr-4 border-b">
                 <div class="flex">
                     <div class="text-xs text-gray-500 flex-1">
-                        <z icon="time" class="fill-current w-3 h-3 inline-block"></z> {{ messages[currentIndex].received | moment('dddd, DD.MM YYYY, HH:mm ') + 'Uhr' }}
+                        <z icon="time" class="fill-current w-3 h-3 inline-block"></z> {{ messages[currentIndex].received | moment('dddd, DD.MM YYYY, HH:mm ') | $t('Uhr') }}
                         <template v-if="messages[currentIndex].sender.includes('System')">
-                            von {{ messages[currentIndex].user ? messages[currentIndex].user.name : 'System' }} an {{ messages[currentIndex].receiver.join(', ') }} (#{{ messages[currentIndex].id }})
+                            {{ $t('von') }} {{ messages[currentIndex].user ? messages[currentIndex].user.name : 'System' }} {{ $t('an') }} {{ messages[currentIndex].receiver.join(', ') }} (#{{ messages[currentIndex].id }})
                         </template>
                         <template v-else>
-                            von {{ messages[currentIndex].sender.join(', ') }} (#{{ messages[currentIndex].id }})
+                            {{ $t('von') }} {{ messages[currentIndex].sender.join(', ') }} (#{{ messages[currentIndex].id }})
                         </template>
                     </div>
                     <dot-menu class="order-message-menu">
-                        <a :href="route('order.message_forward_form', [messages[currentIndex]])" title="Weiterleiten"><i class="fa fa-forward"></i> Weiterleiten</a>
+                        <a :href="route('order.message_forward_form', [messages[currentIndex]])" :title="$t('Weiterleiten')"><i class="fa fa-forward"></i> {{ $t('Weiterleiten') }}</a>
                         <template v-if="order">
-                        <a :href="route('order.message_create', {'order': order, 'answer': messages[currentIndex].id})"><i class="fa fa-reply"></i> Antworten</a>
+                        <a :href="route('order.message_create', {'order': order, 'answer': messages[currentIndex].id})"><i class="fa fa-reply"></i> {{ $t('Antworten') }}</a>
 
-                        <a :href="route('order.message_read', [order, messages[currentIndex]])" title="Als Gelesen markieren" v-if="!messages[currentIndex].read"><i class="fa fa-eye"></i> Gelesen</a>
-                        <a :href="route('order.message_unread', [order, messages[currentIndex]])" title="Als Ungelesen markieren" v-else><i class="fa fa-eye"></i> Ungelesen</a>
+                        <a :href="route('order.message_read', [order, messages[currentIndex]])" title="Als Gelesen markieren" v-if="!messages[currentIndex].read"><i class="fa fa-eye"></i> {{ $t('Gelesen') }}</a>
+                        <a :href="route('order.message_unread', [order, messages[currentIndex]])" title="Als Ungelesen markieren" v-else><i class="fa fa-eye"></i> {{ $t('Ungelesen') }}</a>
                         </template>
-                        <a title="In Bestellung verschieben" @click.prevent="$modal.show('assignOrderMessageModal', {message_id: messages[currentIndex].id })"><i class="fa fa-share"></i> Verschieben</a>
-                        <a :href="route('order.message_delete', {'message': messages[currentIndex], 'order': order})" onclick="return confirm('Wirklich löschen?')" title="Nachricht löschen"><i class="fa fa-trash-o"></i> Löschen</a>
+                        <a :title="$t('In Bestellung verschieben')" @click.prevent="$modal.show('assignOrderMessageModal', {message_id: messages[currentIndex].id })"><i class="fa fa-share"></i> {{ $t('Verschieben') }}</a>
+                        <a :href="route('order.message_delete', {'message': messages[currentIndex], 'order': order})" :onclick="'return confirm(\'' + $t('Wirklich löschen?') + '\')'" :title="$t('Nachricht löschen')"><i class="fa fa-trash-o"></i> {{ $t('Löschen') }}</a>
                     </dot-menu>
                 </div>
 
@@ -89,7 +89,7 @@
                 return (str + '').replace(/(\r\n|\n\r|\r|\n)/g, breakTag + '$1');
             },
             getSenderName(message) {
-                return message.sender.includes('System') ? 'System' : 'Lieferant'
+                return message.sender.includes('System') ? 'System' : this.$t('Lieferant')
             }
         }
     }

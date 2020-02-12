@@ -1,7 +1,7 @@
 <template>
     <div>
         <button type="button" class="btn btn-secondary border-green-600 text-green-600" @click="click()">
-            <z icon="checkmark" class="fill-current w-3 h-3 inline-block"></z> alle Rechnungen erhalten
+            <z icon="checkmark" class="fill-current w-3 h-3 inline-block"></z> {{ $t('alle Rechnungen erhalten') }}
         </button>
 
         <change-article-price-modal :order="order" :name="'changeArticlePriceAllModal'"></change-article-price-modal>

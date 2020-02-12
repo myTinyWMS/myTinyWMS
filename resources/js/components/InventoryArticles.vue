@@ -3,7 +3,7 @@
         <div class="card mb-4" v-for="(inventoryItems, category, index) in items">
             <div class="card-header flex cursor-pointer" @click="(open == index) ? open = null : open = index">
                 <template v-if="inventory.inventoryIsFinished">
-                    <div class="flex-1">{{ category }} - {{ countOpenArticles(inventoryItems) }} offene Artikel</div>
+                    <div class="flex-1">{{ category }} - {{ countOpenArticles(inventoryItems) }} {{ $t('offene Artikel') }}</div>
                 </template>
                 <template v-else>
                     <div class="flex-1">{{ category }}</div>
@@ -19,10 +19,10 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Artikel</th>
-                            <th width="25%">Notizen</th>
-                            <th class="w-16 text-nowrap">Bestand alt</th>
-                            <th class="w-64 text-nowrap text-center">Bestand aktuell</th>
+                            <th>{{ $t('Artikel') }}</th>
+                            <th width="25%">{{ $t('Notizen') }}</th>
+                            <th class="w-16 text-nowrap">{{ $t('Bestand alt') }}</th>
+                            <th class="w-64 text-nowrap text-center">{{ $t('Bestand aktuell') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,24 +51,24 @@
                                     <small>{{ item.article.unit ? item.article.unit.name : '' }}</small>
 
                                     <div class="m-t-sm" v-if="item.article.outsourcing_quantity !== 0">
-                                        <b class="text-danger">Außenlager:</b> {{ item.article.outsourcing_quantity }}
+                                        <b class="text-danger">{{ $t('Außenlager') }}:</b> {{ item.article.outsourcing_quantity }}
                                     </div>
 
                                     <div class="m-t-sm" v-if="item.article.replacement_delivery_quantity !== 0">
-                                        <b class="text-danger">Ersatzlieferung:</b> {{ item.article.replacement_delivery_quantity }}
+                                        <b class="text-danger">{{ $t('Ersatzlieferung') }}:</b> {{ item.article.replacement_delivery_quantity }}
                                     </div>
                                 </td>
                                 <td class="text-center text-nowrap">
                                     <div class="flex" v-if="finishedArticles.indexOf(item.article.id) == -1">
                                         <input type="text" class="form-input w-16 py-0" name="quantity" v-model="item.article.new_quantity">
 
-                                        <button type="button" @click="save(item.article, 'new_quantity')" class="btn btn-warning ml-2" title="Bestand ändern">
+                                        <button type="button" @click="save(item.article, 'new_quantity')" class="btn btn-warning ml-2" :title="$t('Bestand ändern')">
                                             <z icon="save-disk" class="fill-current w-4 h-4"></z>
                                         </button>
 
                                         <div class="mx-2 text-xl">|</div>
 
-                                        <button type="button" @click="save(item.article, 'quantity')" class="btn btn-success" title="Bestand stimmmt">
+                                        <button type="button" @click="save(item.article, 'quantity')" class="btn btn-success" :title="$t('Bestand stimmmt')">
                                             <z icon="checkmark" class="fill-current w-4 h-4"></z>
                                         </button>
                                     </div>
