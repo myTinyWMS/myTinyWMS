@@ -74,7 +74,7 @@ class CategoryController extends Controller
         // save data
         $category->update($request->all());
 
-        flash('Kategorie gespeichert')->success();
+        flash(__('Kategorie gespeichert'))->success();
 
         return redirect()->route('category.show', $id);
     }
@@ -88,7 +88,7 @@ class CategoryController extends Controller
     public function destroy($id) {
         Category::findOrFail($id)->delete();
 
-        flash('Kategorie gelöscht')->success();
+        flash(__('Kategorie gelöscht'))->success();
 
         return redirect()->route('category.index');
     }
@@ -97,7 +97,7 @@ class CategoryController extends Controller
         $categories = request('category');
 
         if (empty($categories) || !is_array($categories) || count($categories) == 0) {
-            flash('Bitte mind. 1 Kategorie auswählen')->error();
+            flash(__('Bitte mind. 1 Kategorie auswählen'))->error();
             return redirect()->route('category.index');
         }
 
@@ -106,6 +106,6 @@ class CategoryController extends Controller
         $pdf = App::make('snappy.pdf.wrapper');
         $pdf->setOption('margin-top', 30);
 
-        return $pdf->loadView('documents.category_article_list', compact('categories'))->download('lagerliste.pdf');
+        return $pdf->loadView('documents.category_article_list', compact('categories'))->download('list.pdf');
     }
 }

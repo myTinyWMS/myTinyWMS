@@ -30,7 +30,7 @@ class MessageAttachmentController extends Controller
         if (!file_exists($filePath)) {
             $filePath = storage_path('app/attachments/'.$attachment['fileName']);
             if (!file_exists($filePath)) {
-                return response("Datei nicht gefunden", 404);
+                return response(__("Datei nicht gefunden"), 404);
             }
         }
 

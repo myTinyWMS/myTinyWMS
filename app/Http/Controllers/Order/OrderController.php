@@ -124,7 +124,7 @@ class OrderController extends Controller
         $missingItemIds = $existingItemIds->diff($updatedItemIds);
         OrderItem::whereIn('id', $missingItemIds)->delete();
 
-        flash('Bestellung gespeichert', 'success');
+        flash(__('Bestellung gespeichert'), 'success');
         return redirect()->route('order.show', $order);
     }
 
@@ -209,7 +209,7 @@ class OrderController extends Controller
         $order->messages()->delete();
         $order->delete();
 
-        flash('Bestellung gelöscht', 'success');
+        flash(__('Bestellung gelöscht'), 'success');
         return redirect()->route('order.index');
     }
 
@@ -239,9 +239,9 @@ class OrderController extends Controller
         if (array_key_exists(intval($payment_status), Order::PAYMENT_STATUS_TEXT)) {
             $order->payment_status = intval($payment_status);
             $order->save();
-            flash('Bezahlstatus geändert.', 'success');
+            flash(__('Bezahlstatus geändert.'), 'success');
         } else {
-            flash('Bezahltstatus ungültig.', 'error');
+            flash(__('Bezahltstatus ungültig.'), 'error');
         }
 
         return redirect()->route('order.show', $order);
@@ -251,9 +251,9 @@ class OrderController extends Controller
         if (array_key_exists(intval($status), Order::STATUS_TEXTS)) {
             $order->status = intval($status);
             $order->save();
-            flash('Status geändert.', 'success');
+            flash(__('Status geändert.'), 'success');
         } else {
-            flash('Status ungültig.', 'error');
+            flash(__('Status ungültig.'), 'error');
         }
 
         return redirect()->route('order.show', $order);

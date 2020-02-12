@@ -40,7 +40,7 @@ class SupplierController extends Controller
     public function store(SupplierRequest $request) {
         Supplier::create($request->all());
 
-        flash('Lieferant angelegt')->success();
+        flash(__('Lieferant angelegt'))->success();
 
         return redirect()->route('supplier.index');
     }
@@ -72,7 +72,7 @@ class SupplierController extends Controller
         // save data
         $supplier->update($request->all());
 
-        flash('Lieferant gespeichert')->success();
+        flash(__('Lieferant gespeichert'))->success();
 
         return redirect()->route('supplier.show', $id);
     }
@@ -86,7 +86,7 @@ class SupplierController extends Controller
     public function destroy($id) {
         Supplier::findOrFail($id)->delete();
 
-        flash('Lieferant gelöscht')->success();
+        flash(__('Lieferant gelöscht'))->success();
 
         return redirect()->route('supplier.index');
     }

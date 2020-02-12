@@ -93,7 +93,7 @@ class QuantityChangelogController extends Controller
 
         $changelog->delete();
 
-        flash('Bestandsänderung gelöscht')->success();
+        flash(__('Bestandsänderung gelöscht'))->success();
 
         return redirect()->route('article.show', $article);
     }
