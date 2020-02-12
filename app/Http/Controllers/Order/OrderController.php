@@ -236,7 +236,7 @@ class OrderController extends Controller
     }
 
     public function changePaymentStatus(Order $order, $payment_status) {
-        if (array_key_exists(intval($payment_status), Order::PAYMENT_STATUS_TEXT)) {
+        if (array_key_exists(intval($payment_status), Order::getPaymentStatusText())) {
             $order->payment_status = intval($payment_status);
             $order->save();
             flash(__('Bezahlstatus geändert.'), 'success');
@@ -248,7 +248,7 @@ class OrderController extends Controller
     }
 
     public function changeStatus(Order $order, $status) {
-        if (array_key_exists(intval($status), Order::STATUS_TEXTS)) {
+        if (array_key_exists(intval($status), Order::getStatusTexts())) {
             $order->status = intval($status);
             $order->save();
             flash(__('Status geändert.'), 'success');

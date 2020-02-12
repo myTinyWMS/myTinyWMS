@@ -72,7 +72,7 @@
                             <label class="form-label">
                                 Status
                                 <dot-menu class="ml-2 normal-case order-change-status">
-                                    @foreach(\Mss\Models\Order::STATUS_TEXTS as $value => $name)
+                                    @foreach(\Mss\Models\Order::getStatusTexts() as $value => $name)
                                         <a href="{{ route('order.change_status', ['order' => $order, 'status' => $value]) }}">{{ $name }}</a>
                                     @endforeach
                                 </dot-menu>
@@ -98,9 +98,9 @@
                             </label>
                             <div class="form-control-static">
                                 @if($order->payment_status > 0)
-                                    <span class="text-success">{{ \Mss\Models\Order::PAYMENT_STATUS_TEXT[$order->payment_status] }}</span>
+                                    <span class="text-success">{{ \Mss\Models\Order::getPaymentStatusText()[$order->payment_status] }}</span>
                                 @else
-                                    <span class="text-danger">{{ \Mss\Models\Order::PAYMENT_STATUS_TEXT[$order->payment_status] }}</span>
+                                    <span class="text-danger">{{ \Mss\Models\Order::getPaymentStatusText()[$order->payment_status] }}</span>
                                 @endif
                             </div>
                         </div>

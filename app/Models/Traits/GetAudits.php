@@ -36,7 +36,7 @@ trait GetAudits {
 
             $typeClass = ($audit->auditable_type == 'article') ? Article::class : $audit->auditable_type;
             return [
-                'name' => __($typeClass::$auditName),
+                'name' => __($typeClass::getAuditName()),
                 'event' => $audit->event,
                 'timestamp' => Carbon::parse($metaData['audit_created_at']),
                 'user' => optional($audit->user)->name,

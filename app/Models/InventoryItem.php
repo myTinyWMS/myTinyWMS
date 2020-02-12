@@ -12,7 +12,13 @@ class InventoryItem extends AuditableModel
 
     protected $fillable = ['article_id', 'inventory_id'];
 
-    static $auditName = 'Inventurposition';
+    public static function getFieldNames() {
+        return [];
+    }
+
+    public static function getAuditName() {
+        return __('Inventurposition');
+    }
 
     public function inventory() {
         return $this->belongsTo(Inventory::class);

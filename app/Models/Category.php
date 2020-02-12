@@ -19,12 +19,16 @@ class Category extends AuditableModel
 
     protected $dates = ['deleted_at'];
 
-    static $auditName = 'Kategorie';
+    public static function getFieldNames() {
+        return [
+            'name' => __('Name'),
+            'notes' => __('Bemerkungen')
+        ];
+    }
 
-    protected $fieldNames = [
-        'name' => 'Name',
-        'notes' => 'Bemerkungen'
-    ];
+    public static function getAuditName() {
+        return __('Kategorie');
+    }
 
     public function articles() {
         return $this->hasMany(Article::class);

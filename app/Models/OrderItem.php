@@ -31,8 +31,6 @@ class OrderItem extends AuditableModel
 
     protected $ignoredAuditFields = ['order_id'];
 
-    static $auditName = 'Bestellposition';
-
     protected $fillable = ['article_id', 'price', 'quantity', 'expected_delivery'];
 
     protected $casts = [
@@ -41,15 +39,21 @@ class OrderItem extends AuditableModel
 
     protected $dates = ['expected_delivery'];
 
-    protected $fieldNames = [
-        'invoice_received' => 'Rechnung',
-        'confirmation_received' => 'Auftragsbestätigung',
-        'price' => 'Preis',
-        'quantity' => 'bestellte Menge',
-        'expected_delivery' => 'Liefertermin',
-        'order_id' => 'Bestellung',
-        'article_id' => 'Artikel'
-    ];
+    public static function getFieldNames() {
+        return [
+            'invoice_received' => __('Rechnung'),
+            'confirmation_received' => __('Auftragsbestätigung'),
+            'price' => __('Preis'),
+            'quantity' => __('bestellte Menge'),
+            'expected_delivery' => __('Liefertermin'),
+            'order_id' => __('Bestellung'),
+            'article_id' => __('Artikel')
+        ];
+    }
+
+    public static function getAuditName() {
+        return __('Bestellposition');
+    }
 
     /**
      * @return array

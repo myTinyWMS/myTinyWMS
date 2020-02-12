@@ -55,9 +55,9 @@ class OrderEditTest extends DuskTestCase
             $browser
                 ->visit('/order/'.$order->id)
                 ->click('.order-change-status')
-                ->clickLink(Order::STATUS_TEXTS[Order::STATUS_ORDERED])
+                ->clickLink(Order::getStatusTexts()[Order::STATUS_ORDERED])
                 ->waitForText('Status geändert.')
-                ->assertSeeIn('.order-status', Order::STATUS_TEXTS[Order::STATUS_ORDERED])
+                ->assertSeeIn('.order-status', Order::getStatusTexts()[Order::STATUS_ORDERED])
             ;
 
             $order->refresh();
@@ -73,9 +73,9 @@ class OrderEditTest extends DuskTestCase
             $browser
                 ->visit('/order/'.$order->id)
                 ->click('.order-change-payment-method')
-                ->clickLink(Order::PAYMENT_STATUS_TEXT[Order::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD])
+                ->clickLink(Order::getPaymentStatusText()[Order::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD])
                 ->waitForText('Bezahlstatus geändert.')
-                ->assertSeeIn('.payment-method', Order::PAYMENT_STATUS_TEXT[Order::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD])
+                ->assertSeeIn('.payment-method', Order::getPaymentStatusText()[Order::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD])
             ;
 
             $order->refresh();

@@ -28,15 +28,6 @@ class Order extends AuditableModel
 
     const STATES_OPEN = [Order::STATUS_NEW, Order::STATUS_ORDERED, Order::STATUS_PARTIALLY_DELIVERED];
 
-    const STATUS_TEXTS = [
-        self::STATUS_NEW => 'neu',
-        self::STATUS_ORDERED => 'bestellt',
-        self::STATUS_PARTIALLY_DELIVERED => 'teilweise geliefert',
-        self::STATUS_DELIVERED => 'geliefert',
-        self::STATUS_CANCELLED => 'storniert',
-        self::STATUS_PAID => 'bezahlt'
-    ];
-
     const PAYMENT_STATUS_UNPAID = 0;
     const PAYMENT_STATUS_PAID_WITH_PAYPAL = 1;
     const PAYMENT_STATUS_PAID_WITH_CREDIT_CARD = 2;
@@ -44,33 +35,50 @@ class Order extends AuditableModel
     const PAYMENT_STATUS_PAID_WITH_AUTOMATIC_DEBIT_TRANSFER = 4;
     const PAYMENT_STATUS_PAID_WITH_PRE_PAYMENT = 5;
 
-    const PAYMENT_STATUS_TEXT = [
-        self::PAYMENT_STATUS_UNPAID => 'unbezahlt',
-        self::PAYMENT_STATUS_PAID_WITH_PAYPAL => 'Paypal',
-        self::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD => 'Kreditkarte',
-        self::PAYMENT_STATUS_PAID_WITH_INVOICE => 'Rechnung',
-        self::PAYMENT_STATUS_PAID_WITH_AUTOMATIC_DEBIT_TRANSFER => 'Bankeinzug',
-        self::PAYMENT_STATUS_PAID_WITH_PRE_PAYMENT => 'Vorkasse',
-    ];
-
     protected $dates = ['order_date', 'expected_delivery'];
-
-    static $auditName = 'Bestellung';
 
     protected $ignoredAuditFields = ['supplier_id'];
 
-    protected $fieldNames = [
-        'notes' => 'Bemerkungen',
-        'status' => 'Status',
-        'payment_status' => 'Bezahlmethode',
-        'total_cost' => 'Gesamtkosten',
-        'shipping_cost' => 'Versandkosten',
-        'order_date' => 'Bestelldatum',
-        'expected_delivery' => 'Liefertermin',
-        'external_order_number' => 'Bestellnummer des Lieferanten',
-        'internal_order_number' => 'interne Bestellnummer',
-        'confirmation_received' => 'Auftragsbestätigung erhalten'
-    ];
+    public static function getPaymentStatusText() {
+        return [
+            self::PAYMENT_STATUS_UNPAID => __('unbezahlt'),
+            self::PAYMENT_STATUS_PAID_WITH_PAYPAL => __('Paypal'),
+            self::PAYMENT_STATUS_PAID_WITH_CREDIT_CARD => __('Kreditkarte'),
+            self::PAYMENT_STATUS_PAID_WITH_INVOICE => __('Rechnung'),
+            self::PAYMENT_STATUS_PAID_WITH_AUTOMATIC_DEBIT_TRANSFER => __('Bankeinzug'),
+            self::PAYMENT_STATUS_PAID_WITH_PRE_PAYMENT => __('Vorkasse'),
+        ];
+    }
+
+    public static function getStatusTexts() {
+        return [
+            self::STATUS_NEW => __('neu'),
+            self::STATUS_ORDERED => __('bestellt'),
+            self::STATUS_PARTIALLY_DELIVERED => __('teilweise geliefert'),
+            self::STATUS_DELIVERED => __('geliefert'),
+            self::STATUS_CANCELLED => __('storniert'),
+            self::STATUS_PAID => __('bezahlt')
+        ];
+    }
+
+    public static function getFieldNames() {
+        return [
+            'notes' => __('Bemerkungen'),
+            'status' => __('Status'),
+            'payment_status' => __('Bezahlmethode'),
+            'total_cost' => __('Gesamtkosten'),
+            'shipping_cost' => __('Versandkosten'),
+            'order_date' => __('Bestelldatum'),
+            'expected_delivery' => __('Liefertermin'),
+            'external_order_number' => __('Bestellnummer des Lieferanten'),
+            'internal_order_number' => __('interne Bestellnummer'),
+            'confirmation_received' => __('Auftragsbestätigung erhalten')
+        ];
+    }
+
+    public static function getAuditName() {
+        return __('Bestellung');
+    }
 
     public function messages() {
         return $this->hasMany(OrderMessage::class);
@@ -156,13 +164,13 @@ class Order extends AuditableModel
         }
 
         if (Arr::has($data, 'new_values.status')) {
-            $data['old_values']['status'] = (array_key_exists($this->getOriginal('status'), Order::STATUS_TEXTS)) ? Order::STATUS_TEXTS[$this->getOriginal('status')] : null;
-            $data['new_values']['status'] = Order::STATUS_TEXTS[$this->getAttribute('status')];
+            $data['old_values']['status'] = (array_key_exists($this->getOriginal('status'), Order::getStatusTexts())) ? Order::getStatusTexts()[$this->getOriginal('status')] : null;
+            $data['new_values']['status'] = Order::getStatusTexts()[$this->getAttribute('status')];
         }
 
         if (Arr::has($data, 'new_values.payment_status')) {
-            $data['old_values']['payment_status'] = (array_key_exists($this->getOriginal('payment_status'), Order::PAYMENT_STATUS_TEXT)) ? Order::PAYMENT_STATUS_TEXT[$this->getOriginal('payment_status')] : null;
-            $data['new_values']['payment_status'] = Order::PAYMENT_STATUS_TEXT[$this->getAttribute('payment_status')];
+            $data['old_values']['payment_status'] = (array_key_exists($this->getOriginal('payment_status'), Order::getPaymentStatusText())) ? Order::getPaymentStatusText()[$this->getOriginal('payment_status')] : null;
+            $data['new_values']['payment_status'] = Order::getPaymentStatusText()[$this->getAttribute('payment_status')];
         }
 
         return $data;

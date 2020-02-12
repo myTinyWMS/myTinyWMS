@@ -17,18 +17,22 @@ class Supplier extends AuditableModel
         'name', 'email', 'phone', 'contact_person', 'website', 'notes', 'accounts_payable_number'
     ];
 
-    static $auditName = 'Lieferant';
-
     protected $dates = ['deleted_at'];
 
-    protected $fieldNames = [
-        'name' => 'Name',
-        'email' => 'E-Mail',
-        'phone' => 'Telefon',
-        'contact_person' => 'Kontaktperson',
-        'website' => 'Webseite',
-        'notes' => 'Bemerkungen'
-    ];
+    public static function getFieldNames() {
+        return [
+            'name' => __('Name'),
+            'email' => __('E-Mail'),
+            'phone' => __('Telefon'),
+            'contact_person' => __('Kontaktperson'),
+            'website' => __('Webseite'),
+            'notes' => __('Bemerkungen')
+        ];
+    }
+
+    public static function getAuditName() {
+        return __('Lieferant');
+    }
 
     public function articles() {
         return $this->belongsToMany(Article::class);

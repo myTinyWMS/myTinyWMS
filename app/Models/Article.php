@@ -52,28 +52,32 @@ class Article extends AuditableModel
 
     protected $dates = ['deleted_at'];
 
-    static $auditName = 'Artikel';
+    public static function getFieldNames() {
+        return [
+            'name' => __('Name'),
+            'notes' => __('Bemerkungen'),
+            'article_number' => __('Artikelnummer'),
+            'status' => __('Status'),
+            'unit_id' => __('Einheit'),
+            'quantity' => __('Bestand'),
+            'min_quantity' => __('Mindestbestand'),
+            'issue_quantity' => __('Entnahmemenge'),
+            'order_notes' => __('Bestellhinweise'),
+            'category_id' => __('Kategorie'),
+            'sort_id' => __('Sortierung'),
+            'inventory' => __('Inventurtyp'),
+            'inventory_text' => __('Inventurtyp'),
+            'files' => __('Dateien'),
+            'cost_center' => __('Kostenstelle'),
+            'packaging_category' => __('Verpackungs-Kategorie'),
+            'free_lines_in_printed_list' => __('Leere Zeilen in Lagerliste'),
+            'delivery_notes' => __('Liefer Hinweise')
+        ];
+    }
 
-    protected $fieldNames = [
-        'name' => 'Name',
-        'notes' => 'Bemerkungen',
-        'article_number' => 'Artikelnummer',
-        'status' => 'Status',
-        'unit_id' => 'Einheit',
-        'quantity' => 'Bestand',
-        'min_quantity' => 'Mindestbestand',
-        'issue_quantity' => 'Entnahmemenge',
-        'order_notes' => 'Bestellhinweise',
-        'category_id' => 'Kategorie',
-        'sort_id' => 'Sortierung',
-        'inventory' => 'Inventurtyp',
-        'inventory_text' => 'Inventurtyp',
-        'files' => 'Dateien',
-        'cost_center' => 'Kostenstelle',
-        'packaging_category' => 'Verpackungs-Kategorie',
-        'free_lines_in_printed_list' => 'Leere Zeilen in Lagerliste',
-        'delivery_notes' => 'Liefer Hinweise'
-    ];
+    public static function getAuditName() {
+        return __('Artikel');
+    }
 
     public function quantityChangelogs() {
         return $this->hasMany(ArticleQuantityChangelog::class);
@@ -250,9 +254,9 @@ class Article extends AuditableModel
      */
     public static function getStatusTextArray() {
         return [
-            self::STATUS_ACTIVE => 'aktiv',
-            self::STATUS_INACTIVE => 'deaktiviert',
-            self::STATUS_NO_ORDERS => 'Bestellstopp'
+            self::STATUS_ACTIVE => __('aktiv'),
+            self::STATUS_INACTIVE => __('deaktiviert'),
+            self::STATUS_NO_ORDERS => __('Bestellstopp')
         ];
     }
 
@@ -261,8 +265,8 @@ class Article extends AuditableModel
      */
     public static function getInventoryTextArray() {
         return [
-            self::INVENTORY_TYPE_SPARE_PARTS => 'Ersatzteile',
-            self::INVENTORY_TYPE_CONSUMABLES => 'Verbrauchsartikel'
+            self::INVENTORY_TYPE_SPARE_PARTS => __('Ersatzteile'),
+            self::INVENTORY_TYPE_CONSUMABLES => __('Verbrauchsartikel')
         ];
     }
 
@@ -321,9 +325,9 @@ class Article extends AuditableModel
     protected function getAuditMappings() {
         return [
             'status' => [
-                0 => [0, '0', 'deaktiviert'],
-                1 => [1, '1', 'aktiv'],
-                2 => [2, '2', 'Bestellstopp']
+                0 => [0, '0', 'deaktiviert', 'disabled'],
+                1 => [1, '1', 'aktiv', 'active'],
+                2 => [2, '2', 'Bestellstopp', 'Order stop']
             ]
         ];
     }

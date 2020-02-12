@@ -16,20 +16,24 @@ class ArticleSupplier extends Pivot implements Auditable
 
     public $incrementing = true;
 
-    static $auditName = 'Lieferoptionen';
-
-    protected $fieldNames = [
-        'price' => 'Preis',
-        'delivery_time' => 'Lieferzeit',
-        'order_quantity' => 'Bestellmenge',
-        'article_id' => 'Artikel ID',
-        'supplier_id' => 'Lieferant',
-        'order_number' => 'Bestellnummer',
-    ];
-
     protected $ignoredAuditFields = [
         'id', 'article_id'
     ];
+
+    public static function getFieldNames() {
+        return [
+            'price' => __('Preis'),
+            'delivery_time' => __('Lieferzeit'),
+            'order_quantity' => __('Bestellmenge'),
+            'article_id' => __('Artikel ID'),
+            'supplier_id' => __('Lieferant'),
+            'order_number' => __('Bestellnummer'),
+        ];
+    }
+
+    public static function getAuditName() {
+        return __('Lieferoptionen');
+    }
 
     /**
      * @return array

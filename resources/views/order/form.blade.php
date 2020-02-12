@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                             <div class="w-1/2">
-                                {{ Form::bsSelect('status', $order->status, \Mss\Models\Order::STATUS_TEXTS,  'Status') }}
+                                {{ Form::bsSelect('status', $order->status, \Mss\Models\Order::getStatusTexts(),  'Status') }}
                             </div>
                         </div>
 
@@ -44,7 +44,7 @@
                                 {{ Form::bsSelect('supplier', $order->supplier_id, \Mss\Models\Supplier::orderedByName()->pluck('name', 'id'),  __('Lieferant'), ['placeholder' => '', 'v-model' => 'supplier', 'v-bind:disabled' => 'hasArticles']) }}
                             </div>
                             <div class="w-1/2">
-                                {{ Form::bsSelect('payment_status', $order->payment_status, \Mss\Models\Order::PAYMENT_STATUS_TEXT,  __('Bezahlmethode')) }}
+                                {{ Form::bsSelect('payment_status', $order->payment_status, \Mss\Models\Order::getPaymentStatusText(),  __('Bezahlmethode')) }}
                             </div>
                         </div>
 
