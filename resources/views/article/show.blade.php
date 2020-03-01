@@ -211,6 +211,10 @@
 
 @push('scripts')
 <script>
+    Dropzone.options.dropzoneForm = {
+        parallelUploads: 1
+    };
+
     $(document).ready(function () {
         $("#supplier").select2({
             theme: "bootstrap"
