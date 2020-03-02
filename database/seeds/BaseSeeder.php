@@ -11,8 +11,12 @@ class BaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(\Mss\Models\User::class, 1)->create([
-            'email' => 'admin@example.com'
+        \Mss\Models\User::create([
+            'email' => 'admin@example.com',
+            'name' => 'admin',
+            'password' => bcrypt('password'),
+            'remember_token' => str_random(10),
+            'settings' => []
         ]);
 
         \Mss\Models\Unit::create(['id' => 1, 'name' => 'Stück']);

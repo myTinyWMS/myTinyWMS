@@ -51,6 +51,9 @@ COPY . /data/www
 WORKDIR /data/www
 
 RUN set -e -x \
+	&& mkdir -p /etc/nginx/ssl \
+	&& cp docker/nginx/ssl/nginx.crt /etc/nginx/ssl/nginx.crt \
+	&& cp docker/nginx/ssl/nginx.key /etc/nginx/ssl/nginx.key \
     && cp docker/nginx/nginx.conf /etc/nginx/nginx.conf \
     && cp docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf \
     && cp docker/php-fpm/php.ini /usr/local/etc/php/php.ini \
@@ -63,7 +66,7 @@ RUN set -e -x \
 #COPY composer.* /data/www/
 RUN set -ex \
 	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
-	&& composer install \
+	&& composer install --no-dev --no-progress --no-suggest --prefer-dist --optimize-autoloader \
  	&& rm -rf /root/.composer/cache
 
 # node / npm
