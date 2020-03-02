@@ -71,7 +71,7 @@
                 <a href="{{ url('/order') }}" class="flex">
                     Bestellungen
                     @if($globalPageService->getUnreadMessageCount())
-                        <div class="ml-1 lg:ml-2 inline-block bg-blue-700 text-white rounded-full text-center w-6 h-6 text-sm leading-none pt-1" title="{{ $globalPageService->getUnreadMessageCount() }} ungelesene {{ trans_choice('plural.message', $globalPageService->getUnreadMessageCount()) }}">{{ $globalPageService->getUnreadMessageCount() }}</div>
+                        <div class="ml-1 lg:ml-2 inline-block bg-blue-700 text-white rounded-full text-center w-5 h-5 text-xs leading-none pt-1" title="{{ $globalPageService->getUnreadMessageCount() }} ungelesene {{ trans_choice('plural.message', $globalPageService->getUnreadMessageCount()) }}">{{ $globalPageService->getUnreadMessageCount() }}</div>
                     @endif
                 </a>
             </h3>
