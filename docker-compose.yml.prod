@@ -1,0 +1,28 @@
+version: '2'
+services:
+  app:
+    container_name: wms_app
+    hostname: app
+    image: eagledata/mytinywms
+    links:
+    - db
+    - redis
+    ports:
+    - 80:80
+    volumes:
+    - ./data/storage:/data/www/storage
+    - ./data/cache:/data/www/bootstrap/cache
+    command: supervisord -c /etc/supervisor/supervisord.conf
+
+  db:
+    container_name: wms_db
+    image: mariadb:10.2
+    environment:
+    - MYSQL_ROOT_PASSWORD=mss
+    - MYSQL_DATABASE=mss
+    volumes:
+    - ./data/db:/var/lib/mysql
+
+  redis:
+    container_name: wms_redis
+    image: redis
