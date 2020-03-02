@@ -47,25 +47,29 @@ RUN set -e -x \
 	&& apt-get install -y --allow-unauthenticated nodejs \
 	&& npm update -g npm
 
-WORKDIR /data/www
-
-# composer
-COPY composer.* /data/www/
-RUN set -ex \
-	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
-
-# node / npm
-COPY package.json /data/www/
-RUN set -ex \
-	&& npm install
-
 COPY . /data/www
+
+WORKDIR /data/www
 
 RUN set -e -x \
     && cp docker/nginx/nginx.conf /etc/nginx/nginx.conf \
     && cp docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf \
     && cp docker/php-fpm/php.ini /usr/local/etc/php/php.ini \
     && cp docker/supervisor/supervisord.conf /etc/supervisor/supervisord.conf \
-    && mkdir -p storage/framework/cache
+    && mkdir -p storage/framework/cache \
+    && mkdir -p storage/framework/sessions \
+    && mkdir -p storage/framework/views
+
+# composer
+#COPY composer.* /data/www/
+RUN set -ex \
+	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
+	&& composer install \
+ 	&& rm -rf /root/.composer/cache
+
+# node / npm
+#COPY package.json /data/www/
+RUN set -ex \
+	&& npm install
 
 CMD ["/data/www/docker/start.sh"]
