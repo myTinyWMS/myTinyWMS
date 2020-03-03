@@ -76,4 +76,4 @@ RUN set -ex \
 	&& npm install \
 	&& npm run prod
 
-CMD ["/data/www/docker/start.sh"]
+CMD ["supervisord -c /etc/supervisor/supervisord.conf"]

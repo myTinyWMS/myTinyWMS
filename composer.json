@@ -18,6 +18,7 @@
         "codeitnowin/barcode": "^3.0",
         "doctrine/dbal": "^2.6",
         "fideloper/proxy": "~4.0",
+        "fzaninotto/faker": "^1.9",
         "guzzlehttp/guzzle": "^6.3",
         "laracasts/flash": "^3.0",
         "laravel/framework": "^6.0",
@@ -40,7 +41,6 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
         "filp/whoops": "~2.0",
-        "fzaninotto/faker": "~1.4",
         "laravel/dusk": "^5.0",
         "mockery/mockery": "~1.0",
         "nunomaduro/collision": "^3.0",

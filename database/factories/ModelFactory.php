@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Mss\Models\Article::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->word,
+        'name' => $faker->words(rand(2,4), true),
         'quantity' => $faker->numberBetween(1, 10),
         'status' => Article::STATUS_ACTIVE,
         'cost_center' => 1
@@ -37,13 +37,13 @@ $factory->define(Mss\Models\ArticleNote::class, function (Faker\Generator $faker
 
 $factory->define(Mss\Models\Category::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->word
+        'name' => $faker->words(rand(2,4), true)
     ];
 });
 
 $factory->define(Mss\Models\Supplier::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->word,
+        'name' => $faker->company,
         'email' => $faker->safeEmail
     ];
 });
