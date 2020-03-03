@@ -3,15 +3,15 @@
 @section('content')
     @if(env('APP_DEMO'))
         <div class="w-full max-w-lg bg-white border border-red-400 shadow-md rounded-lg px-8 pt-6 pb-8 mb-12">
-            <b>DEMO MODUS</b>
+            <b>@lang('DEMO MODUS')</b>
             <br>
             <br>
-            Benutzername und Passwort sind bereits ausgefüllt.<br>
-            Loggen Sie sich einfach ein.<br>
+            @lang('Benutzername und Passwort sind bereits ausgefüllt.')<br>
+            @lang('Loggen Sie sich einfach ein.')<br>
             <br>
-            Die Demo wird alle 24h zurück gesetzt.<br>
+            @lang('Die Demo wird alle 24h zurück gesetzt.')<br>
             <br>
-            Im Demo Modus werden keine E-Mails verschickt.
+            @lang('Im Demo Modus werden keine E-Mails verschickt.')
         </div>
     @endif
 
