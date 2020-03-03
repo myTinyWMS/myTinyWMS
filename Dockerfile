@@ -60,7 +60,8 @@ RUN set -e -x \
     && cp docker/supervisor/supervisord.conf /etc/supervisor/supervisord.conf \
     && mkdir -p storage/framework/cache \
     && mkdir -p storage/framework/sessions \
-    && mkdir -p storage/framework/views
+    && mkdir -p storage/framework/views \
+    && chmod -R 777 storage
 
 # composer
 #COPY composer.* /data/www/
@@ -72,6 +73,7 @@ RUN set -ex \
 # node / npm
 #COPY package.json /data/www/
 RUN set -ex \
-	&& npm install
+	&& npm install \
+	&& npm run prod
 
 CMD ["/data/www/docker/start.sh"]
