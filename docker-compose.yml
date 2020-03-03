@@ -5,7 +5,7 @@ services:
     hostname: app
     build:
       context: .
-    image: project_mss
+    image: mytinywms
     links:
     - db
     - redis

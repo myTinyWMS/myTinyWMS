@@ -1,0 +1,8 @@
+.git
+.dockerignore
+.idea
+data/*
+vendor/*
+node_modules/*
+.env
+bootstrap/cache/*

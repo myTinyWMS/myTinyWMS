@@ -21,7 +21,6 @@ RUN set -e -x \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && docker-php-ext-configure gd \
-            --enable-gd-native-ttf \
             --with-freetype-dir=/usr/include/freetype2 \
             --with-png-dir=/usr/include \
             --with-jpeg-dir=/usr/include \
@@ -47,25 +46,33 @@ RUN set -e -x \
 	&& apt-get install -y --allow-unauthenticated nodejs \
 	&& npm update -g npm
 
-WORKDIR /data/www
-
-# composer
-COPY composer.* /data/www/
-RUN set -ex \
-	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
-
-# node / npm
-COPY package.json /data/www/
-RUN set -ex \
-	&& npm install
-
 COPY . /data/www
 
+WORKDIR /data/www
+
 RUN set -e -x \
+	&& mkdir -p /etc/nginx/ssl \
+	&& cp docker/nginx/ssl/nginx.crt /etc/nginx/ssl/nginx.crt \
+	&& cp docker/nginx/ssl/nginx.key /etc/nginx/ssl/nginx.key \
     && cp docker/nginx/nginx.conf /etc/nginx/nginx.conf \
     && cp docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf \
     && cp docker/php-fpm/php.ini /usr/local/etc/php/php.ini \
     && cp docker/supervisor/supervisord.conf /etc/supervisor/supervisord.conf \
-    && mkdir -p storage/framework/cache
+    && cp docker/docker.env /data/www/.env \
+    && mkdir -p storage/framework/cache \
+    && mkdir -p storage/framework/sessions \
+    && mkdir -p storage/framework/views \
+    && chmod -R 777 storage
 
-CMD ["/data/www/docker/start.sh"]
+# composer
+RUN set -ex \
+	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
+	&& composer install --no-dev --no-progress --no-suggest --prefer-dist --optimize-autoloader \
+ 	&& rm -rf /root/.composer/cache
+
+# node / npm
+RUN set -ex \
+	&& npm install \
+	&& npm run prod
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]

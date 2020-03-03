@@ -9,7 +9,6 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Webklex\IMAP\Facades\Client;
-use Laravel\Dusk\DuskServiceProvider;
 use Laravel\Horizon\Horizon;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,15 +20,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app->environment('local', 'testing')) {
-            $this->app->register(DuskServiceProvider::class);
-        }
-
         Paginator::useBootstrapThree();
 
         setlocale(LC_TIME, 'de_DE.utf8');
         date_default_timezone_set('Europe/Berlin');
         Carbon::setLocale('de');
+
+        if (env('APP_DEMO')) {
+            config(['mail.driver' => 'array']);
+        }
 
         if (env('APP_ENV') === 'production') {
             $this->app['url']->forceScheme('https');
@@ -72,6 +71,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        if (env('APP_ENV') === 'production') {
+            $this->app['request']->server->set('HTTPS', true);
+        }
     }
 }
