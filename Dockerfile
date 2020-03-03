@@ -58,22 +58,21 @@ RUN set -e -x \
     && cp docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf \
     && cp docker/php-fpm/php.ini /usr/local/etc/php/php.ini \
     && cp docker/supervisor/supervisord.conf /etc/supervisor/supervisord.conf \
+    && cp docker/docker.env /data/www/.env \
     && mkdir -p storage/framework/cache \
     && mkdir -p storage/framework/sessions \
     && mkdir -p storage/framework/views \
     && chmod -R 777 storage
 
 # composer
-#COPY composer.* /data/www/
 RUN set -ex \
 	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
 	&& composer install --no-dev --no-progress --no-suggest --prefer-dist --optimize-autoloader \
  	&& rm -rf /root/.composer/cache
 
 # node / npm
-#COPY package.json /data/www/
 RUN set -ex \
 	&& npm install \
 	&& npm run prod
 
-CMD ["supervisord -c /etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]

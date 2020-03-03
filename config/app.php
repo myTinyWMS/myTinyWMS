@@ -52,6 +52,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Demo Mode
+    |--------------------------------------------------------------------------
+    |
+    | When this application is set to demo mode, the default username/password
+    | will be filled into the login form and a demo note will be shown.
+    | The system will also send no email at all.
+    |
+    */
+
+    'demo' => env('APP_DEMO', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |

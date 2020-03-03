@@ -26,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
         date_default_timezone_set('Europe/Berlin');
         Carbon::setLocale('de');
 
+        if (env('APP_DEMO')) {
+            config(['mail.driver' => 'array']);
+        }
+
         if (env('APP_ENV') === 'production') {
             $this->app['url']->forceScheme('https');
         }
