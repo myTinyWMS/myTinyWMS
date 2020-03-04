@@ -9,6 +9,8 @@ services:
     - redis
     ports:
     - 80:80
+    env_file:
+  	- ./.env
     volumes:
     - ./data/storage:/data/www/storage
     - ./data/cache:/data/www/bootstrap/cache
@@ -17,9 +19,8 @@ services:
   db:
     container_name: wms_db
     image: mariadb:10.2
-    environment:
-    - MYSQL_ROOT_PASSWORD=mss
-    - MYSQL_DATABASE=mss
+    env_file:
+	- ./.env
     volumes:
     - ./data/db:/var/lib/mysql
 

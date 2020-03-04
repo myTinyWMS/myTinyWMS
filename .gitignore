@@ -11,6 +11,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 .env
+.env_docker_local
 /tests/Browser/data/*.csv
 /data
 /mss
