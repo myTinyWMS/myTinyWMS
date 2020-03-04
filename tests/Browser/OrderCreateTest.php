@@ -64,7 +64,7 @@ class OrderCreateTest extends DuskTestCase
     public function test_selecting_article() {
         $this->browse(function (Browser $browser) {
             $supplier = Supplier::inRandomOrder()->first();
-            $articles = $supplier->articles()->active()->get();
+            $articles = $supplier->articles()->active()->orderBy('article_number', 'ASC')->get();
             $article = $articles->first();
             $supplierArticle = $article->getCurrentSupplierArticle();
             $supplierArticle->order_quantity = 5;
