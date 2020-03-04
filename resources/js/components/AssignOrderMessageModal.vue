@@ -1,6 +1,6 @@
 <template>
     <modal name="assignOrderMessageModal" height="auto" width="95%" :scrollable="true" classes="modal" :clickToClose="false" @before-open="beforeOpen" @opened="opened">
-        <h4 class="modal-title font-bold text-xl">Nachricht zuordnen</h4>
+        <h4 class="modal-title font-bold text-xl">{{ $t('Nachricht zuordnen') }}</h4>
 
         <form method="post" :action="route('order.message_assign')">
             <div class="row">
@@ -12,8 +12,8 @@
             <div class="modal-footer">
                 <input type="hidden" name="_token" :value="token">
                 <input type="hidden" name="message" :value="message_id">
-                <button type="button" class="btn btn-default" @click="$modal.hide('assignOrderMessageModal')">Abbrechen</button>
-                <button type="submit" class="btn btn-primary" id="save-assign-order-message">Speichern</button>
+                <button type="button" class="btn btn-default" @click="$modal.hide('assignOrderMessageModal')">{{ $t('Abbrechen') }}</button>
+                <button type="submit" class="btn btn-primary" id="save-assign-order-message">{{ $t('Speichern') }}</button>
             </div>
         </form>
     </modal>

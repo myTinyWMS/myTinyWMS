@@ -29,7 +29,7 @@ class SettingsController extends Controller
         $user->signature = htmlentities($request->get('signature'));
         $user->save();
 
-        flash('Einstellung gespeichert', 'success');
+        flash(__('Einstellung gespeichert'), 'success');
 
         return response()->redirectToRoute('settings.show');
     }
@@ -40,7 +40,7 @@ class SettingsController extends Controller
 
     public function changePw(ChangePasswordRequest $request) {
         if (!Hash::check($request->get('old_pw'), Auth::user()->password)) {
-            flash('Das alte Passwort ist falsch', 'danger');
+            flash(__('Das alte Passwort ist falsch'), 'danger');
             return response()->redirectToRoute('settings.change_pw');
         }
 
@@ -48,7 +48,7 @@ class SettingsController extends Controller
         $user->password = Hash::make($request->get('new_pw'));
         $user->save();
 
-        flash('Passwort geändert', 'success');
+        flash(__('Passwort geändert'), 'success');
         return response()->redirectToRoute('settings.change_pw');
     }
 }

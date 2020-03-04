@@ -1,13 +1,13 @@
 @extends('order.form')
 
-@section('title', 'Neue Bestellung')
+@section('title', __('Neue Bestellung'))
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('order.index') }}">Übersicht</a>
+        <a href="{{ route('order.index') }}">@lang('Übersicht')</a>
     </li>
     <li class="active">
-        <strong>Neue Bestellung</strong>
+        <strong>@lang('Neue Bestellung')</strong>
     </li>
 @endsection
 
@@ -16,6 +16,6 @@
 @endsection
 
 @section('submit')
-    {!! Form::submit('Speichern', ['class' => 'btn btn-primary', 'id' => 'save-order']) !!}
-    <a href="{{ route('order.cancel', $order) }}" class="btn btn-danger pull-right">Abbrechen</a>
+    {!! Form::submit(__('Speichern'), ['class' => 'btn btn-primary', 'id' => 'save-order']) !!}
+    <a href="{{ route('order.cancel', $order) }}" class="btn btn-danger pull-right">@lang('Abbrechen')</a>
 @endsection

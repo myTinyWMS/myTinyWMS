@@ -1,10 +1,10 @@
 <table class="dataTable table-condensed multiRow text-sm">
     <thead>
         <tr>
-            <th>wann / wer</th>
-            <th>was</th>
-            <th>alt</th>
-            <th>neu</th>
+            <th>@lang('wann') / @lang('wer')</th>
+            <th>@lang('was')</th>
+            <th>@lang('alt')</th>
+            <th>@lang('neu')</th>
         </tr>
     </thead>
 

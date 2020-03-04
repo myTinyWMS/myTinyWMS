@@ -22,11 +22,11 @@ class ReportsController extends Controller
     }
 
     public function generateInventoryPdf() {
-        return InventoryService::generatePdf(Article::INVENTORY_TYPE_CONSUMABLES)->download('inventur_'.Carbon::now()->format('Y-m-d').'.pdf');
+        return InventoryService::generatePdf(Article::INVENTORY_TYPE_CONSUMABLES)->download('inventory_'.Carbon::now()->format('Y-m-d').'.pdf');
     }
 
     public function generateYearlyInventoryPdf() {
-        return InventoryService::generatePdf()->download('jahres_inventur_'.Carbon::now()->format('Y-m-d').'.pdf');
+        return InventoryService::generatePdf()->download('year_inventory_'.Carbon::now()->format('Y-m-d').'.pdf');
     }
 
     public function generateInventoryReport(Request $request) {

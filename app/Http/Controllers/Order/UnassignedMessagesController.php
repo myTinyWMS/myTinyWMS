@@ -22,11 +22,11 @@ class UnassignedMessagesController extends Controller
         if ($message && $order) {
             $message->order()->associate($order);
             $message->save();
-            flash('Nachricht verschoben')->success();
+            flash(__('Nachricht verschoben'))->success();
             return redirect()->route('order.show', $order);
         }
 
-        flash('Nachricht nicht verschoben')->error();
+        flash(__('Nachricht nicht verschoben'))->error();
         return redirect()->route('order.messages_unassigned');
     }
 }

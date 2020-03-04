@@ -35,7 +35,7 @@ class MessageForwardController extends Controller
             'FW '.$message->subject, $body, $message->attachments
         ));
 
-        flash('Nachricht weitergeleitet')->success();
+        flash(__('Nachricht weitergeleitet'))->success();
 
         if ($message->order) {
             return response()->redirectToRoute('order.show', $message->order);

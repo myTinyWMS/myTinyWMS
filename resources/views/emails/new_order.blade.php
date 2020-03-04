@@ -1,9 +1,9 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
     <tr>
         <td align="left" valign="middle" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 14px; color: #353535; padding:3%; padding-top:40px; padding-bottom:40px;">
-            <p>Sehr geehrte Damen und Herren,</p>
+            <p>@lang('Sehr geehrte Damen und Herren,')</p>
 
-            <p>hiermit bestellen wir folgende Artikel:</p>
+            <p>@lang('hiermit bestellen wir folgende Artikel:')</p>
         </td>
     </tr>
     <tr>
@@ -14,23 +14,23 @@
                         <b>#</b>
                     </td>
                     <td width="40%" align="left" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-right:0;">
-                        <b>Artikel</b>
+                        <b>@lang('Artikel')</b>
                     </td>
                     <td width="20%" align="center" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
-                        <b>Bestellnummer</b>
+                        <b>@lang('Bestellnummer')</b>
                     </td>
                     <td width="10%" align="center" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
-                        <b>Menge</b>
+                        <b>@lang('Menge')</b>
                     </td>
                     <td width="10%" align="center" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
-                        <b>Einheit</b>
+                        <b>@lang('Einheit')</b>
                     </td>
                     <td width="15%" align="center" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
-                        <b>Einzel-Preis netto</b>
+                        <b>@lang('Einzel-Preis netto')</b>
                     </td>
                     @if($order->items->pluck('expected_delivery')->hasNonEmpty())
                     <td width="5%" align="center" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
-                        <b>gewünschter Liefertermin</b>
+                        <b>@lang('gewünschter Liefertermin')</b>
                     </td>
                     @endif
                 </tr>
@@ -66,7 +66,7 @@
     </tr>
     <tr>
         <td align="left" valign="middle" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 14px; color: #353535; padding:3%; padding-top:40px; padding-bottom:40px;">
-            Bitte bestätigen Sie uns die Bestellung unter Angabe unserer Auftragsnummer "{{ $order->internal_order_number }}".
+            @lang('Bitte bestätigen Sie uns die Bestellung unter Angabe unserer Auftragsnummer') "{{ $order->internal_order_number }}".
             <br/><br/><br/>
             {!! html_entity_decode(Auth::user()->signature) !!}
         </td>

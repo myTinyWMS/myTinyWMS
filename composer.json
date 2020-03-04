@@ -20,6 +20,7 @@
         "fideloper/proxy": "~4.0",
         "fzaninotto/faker": "^1.9",
         "guzzlehttp/guzzle": "^6.3",
+        "kkomelin/laravel-translatable-string-exporter": "^1.7",
         "laracasts/flash": "^3.0",
         "laravel/framework": "^6.0",
         "laravel/horizon": "^3.0",

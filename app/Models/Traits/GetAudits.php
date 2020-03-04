@@ -18,7 +18,7 @@ trait GetAudits {
             $modified = collect($audit->getModified())
                 ->forget($this->ignoredAuditFields)
                 ->transform(function ($modified, $field) {
-                    $modified['name'] = $this->fieldNames[$field] ?? $field;
+                    $modified['name'] = $this->getFieldNames()[$field] ?? $field;
 
                     if (array_key_exists($field, $this->getAuditFormatters()) && is_callable($this->getAuditFormatters()[$field])) {
                         if (array_key_exists('old', $modified)) {
@@ -36,7 +36,7 @@ trait GetAudits {
 
             $typeClass = ($audit->auditable_type == 'article') ? Article::class : $audit->auditable_type;
             return [
-                'name' => __($typeClass::$auditName),
+                'name' => __($typeClass::getAuditName()),
                 'event' => $audit->event,
                 'timestamp' => Carbon::parse($metaData['audit_created_at']),
                 'user' => optional($audit->user)->name,

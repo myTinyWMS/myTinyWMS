@@ -9,7 +9,13 @@ class Unit extends AuditableModel
 {
     protected $fillable = ['name'];
 
-    static $auditName = 'Einheit';
+    public static function getFieldNames() {
+        return [];
+    }
+
+    public static function getAuditName() {
+        return __('Einheit');
+    }
 
     public function articles() {
         return $this->hasMany(Article::class);

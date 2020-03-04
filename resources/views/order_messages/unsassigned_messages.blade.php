@@ -1,13 +1,13 @@
 @extends('layout.app')
 
-@section('title', 'Neue Nachrichten')
+@section('title', __('Neue Nachrichten'))
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('order.index') }}">Bestellungen</a>
+        <a href="{{ route('order.index') }}">@lang('Bestellungen')</a>
     </li>
     <li class="active">
-        <strong>Neue Nachrichten</strong>
+        <strong>@lang('Neue Nachrichten')</strong>
     </li>
 @endsection
 
@@ -32,13 +32,13 @@
         </data-tables-filter-select>
 
         <data-tables-filter-select label="Status" col-id="3">
-            <option value="open">offen (neu, bestellt, teilweise geliefert)</option>
-            <option value="{{ \Mss\Models\Order::STATUS_NEW }}">neu</option>
-            <option value="{{ \Mss\Models\Order::STATUS_ORDERED }}">bestellt</option>
-            <option value="{{ \Mss\Models\Order::STATUS_PARTIALLY_DELIVERED }}">teilweise geliefert</option>
-            <option value="{{ \Mss\Models\Order::STATUS_DELIVERED }}">geliefert</option>
-            <option value="{{ \Mss\Models\Order::STATUS_PAID }}">bezahlt</option>
-            <option value="{{ \Mss\Models\Order::STATUS_CANCELLED }}">storniert</option>
+            <option value="open">@lang('offen (neu, bestellt, teilweise geliefert)')</option>
+            <option value="{{ \Mss\Models\Order::STATUS_NEW }}">@lang('neu')</option>
+            <option value="{{ \Mss\Models\Order::STATUS_ORDERED }}">@lang('bestellt')</option>
+            <option value="{{ \Mss\Models\Order::STATUS_PARTIALLY_DELIVERED }}">@lang('teilweise geliefert')</option>
+            <option value="{{ \Mss\Models\Order::STATUS_DELIVERED }}">@lang('geliefert')</option>
+            <option value="{{ \Mss\Models\Order::STATUS_PAID }}">@lang('bezahlt')</option>
+            <option value="{{ \Mss\Models\Order::STATUS_CANCELLED }}">@lang('storniert')</option>
         </data-tables-filter-select>
     </data-tables-filter>
 @endsection

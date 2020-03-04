@@ -40,7 +40,7 @@ class MessageController extends Controller {
         $sendOrder = false;
         if (request('sendorder')) {
             $preSetBody = view('emails.new_order', compact('order'))->render();
-            $preSetSubject = '['.$order->internal_order_number.'] Neue Bestellung';
+            $preSetSubject = '['.$order->internal_order_number.'] '.__('Neue Bestellung');
             $sendOrder = true;
         }
 
@@ -95,7 +95,7 @@ class MessageController extends Controller {
             $order->save();
         }
 
-        flash('Nachricht verschickt')->success();
+        flash(__('Nachricht verschickt'))->success();
 
         return redirect()->route('order.show', $order);
     }
@@ -103,7 +103,7 @@ class MessageController extends Controller {
     public function delete(OrderMessage $message, $order = null) {
         $message->delete();
 
-        flash('Nachricht gelöscht')->success();
+        flash(__('Nachricht gelöscht'))->success();
 
         if ($order = Order::find($order)) {
             return redirect()->route('order.show', $order);
@@ -116,7 +116,7 @@ class MessageController extends Controller {
         $message->read = false;
         $message->save();
 
-        flash('Nachricht als ungelesen markiert.')->success();
+        flash(__('Nachricht als ungelesen markiert.'))->success();
 
         return redirect()->route('order.show', $order);
     }
@@ -125,7 +125,7 @@ class MessageController extends Controller {
         $message->read = true;
         $message->save();
 
-        flash('Nachricht als gelesen markiert.')->success();
+        flash(__('Nachricht als gelesen markiert.'))->success();
 
         return redirect()->route('order.show', $order);
     }

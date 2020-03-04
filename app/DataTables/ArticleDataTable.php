@@ -46,7 +46,7 @@ class ArticleDataTable extends BaseDataTable
                 $orderNumber = optional($article->currentSupplierArticle)->order_number;
 
                 if ($article->openOrders()->count()) {
-                    $orderNumber .= '<i class="fa fa-shopping-cart pull-right" title="offene Bestellung"></i>';
+                    $orderNumber .= '<i class="fa fa-shopping-cart pull-right" title="'.__('offene Bestellung').'"></i>';
                 }
 
                 return $orderNumber;
@@ -89,13 +89,13 @@ class ArticleDataTable extends BaseDataTable
                 $diffPercent = (100 * $diff) / $article->average_usage_12;
 
                 if ($diffPercent < -30) {
-                    return $article->average_usage_12.' <i class="fa fa-angle-double-up text-danger bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 30% höher als in den letzten 12"></i>';
+                    return $article->average_usage_12.' <i class="fa fa-angle-double-up text-danger bold" style="font-size: 18px; margin-left: 5px" title="'.__('Verbrauch in den letzten 3 Monaten mind. 30% höher als in den letzten 12').'"></i>';
                 } elseif ($diffPercent < -15) {
-                    return $article->average_usage_12.' <i class="fa fa-angle-up text-danger bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 15% höher als in den letzten 12"></i>';
+                    return $article->average_usage_12.' <i class="fa fa-angle-up text-danger bold" style="font-size: 18px; margin-left: 5px" title="'.__('Verbrauch in den letzten 3 Monaten mind. 15% höher als in den letzten 12').'"></i>';
                 } elseif ($diffPercent > 30) {
-                    return $article->average_usage_12.' <i class="fa fa-angle-double-down text-success bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 30% niedriger als in den letzten 12"></i>';
+                    return $article->average_usage_12.' <i class="fa fa-angle-double-down text-success bold" style="font-size: 18px; margin-left: 5px" title="'.__('Verbrauch in den letzten 3 Monaten mind. 30% niedriger als in den letzten 12').'"></i>';
                 } elseif ($diffPercent > 15) {
-                    return $article->average_usage_12.' <i class="fa fa-angle-down text-success bold" style="font-size: 18px; margin-left: 5px" title="Verbrauch in den letzten 3 Monaten mind. 30% niedriger als in den letzten 12"></i>';
+                    return $article->average_usage_12.' <i class="fa fa-angle-down text-success bold" style="font-size: 18px; margin-left: 5px" title="'.__('Verbrauch in den letzten 3 Monaten mind. 30% niedriger als in den letzten 12').'"></i>';
                 }
 
                 return $article->average_usage_12;
@@ -137,7 +137,7 @@ class ArticleDataTable extends BaseDataTable
             ->orderColumn('supplier', 'supplier_name $1')
             ->orderColumn('last_receipt', 'last_receipt $1')
             ->addColumn('action', function ($article) {
-                return '<a href="'.route('article.show', $article).'" class="table-action" target="_blank">Details</a>';
+                return '<a href="'.route('article.show', $article).'" class="table-action" target="_blank">'.__('Details').'</a>';
             })
             ->addColumn('checkbox', function ($article) {
                 return '<div class="i-checks"><label><input type="checkbox" value="'.$article->id.'" name="article[]" /></label></div>';
@@ -169,7 +169,7 @@ class ArticleDataTable extends BaseDataTable
             ->minifiedAjax()
             ->columns($this->getColumns())
             ->parameters($this->getHtmlParameters())
-            ->addAction(['title' => 'Aktion', 'width' => '80px', 'class' => 'text-right']);
+            ->addAction(['title' => __('Aktion'), 'width' => '80px', 'class' => 'text-right']);
     }
 
     protected function getHtmlParameters() {
@@ -191,22 +191,22 @@ class ArticleDataTable extends BaseDataTable
             ['data' => 'checkbox', 'name' => 'checkbox', 'title' => '<div class="i-checks"><label><input type="checkbox" value="" id="select_all" /></label></div>', 'width' => '10px', 'orderable' => false, 'class' => 'text-center', 'searchable' => false],
             ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sort.', 'width' => '40px', 'visible' => false, 'searchable' => false],
             ['data' => 'article_number', 'name' => 'article_number', 'title' => '#'],
-            ['data' => 'name', 'name' => 'name', 'title' => 'Artikelbezeichnung'],
-            ['data' => 'order_number', 'name' => 'order_number', 'title' => 'Bestellnummer'],
-            ['data' => 'quantity', 'name' => 'quantity', 'title' => 'Bestand', 'class' => 'text-center', 'width' => '40px', 'searchable' => false],
-            ['data' => 'min_quantity', 'name' => 'min_quantity', 'title' => 'M.Bestand', 'class' => 'text-center', 'width' => '55px', 'searchable' => false],
-            ['data' => 'order_quantity', 'name' => 'order_quantity', 'title' => 'B.Menge', 'class' => 'text-center', 'width' => '55px', 'searchable' => false],
-            ['data' => 'average_usage', 'name' => 'average_usage', 'title' => '&#x00D8; Verbr.', 'class' => 'text-center', 'width' => '60px', 'searchable' => false],
-            ['data' => 'unit', 'name' => 'unit', 'title' => 'Einheit', 'searchable' => false],
-            ['data' => 'price', 'name' => 'price', 'title' => 'Preis', 'class' => 'text-right whitespace-no-wrap', 'searchable' => false],
-            ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung', 'visible' => false],
-            ['data' => 'delivery_time', 'name' => 'delivery_time', 'title' => 'Lieferzeit', 'class' => 'text-center', 'searchable' => false],
-            ['data' => 'supplier_name', 'name' => 'supplier_name', 'title' => 'Lieferant'],
-            ['data' => 'last_receipt', 'name' => 'last_receipt', 'title' => 'letzter WE', 'width' => '70px', 'class' => 'whitespace-no-wrap', 'searchable' => false],
-            ['data' => 'tags', 'name' => 'tags', 'title' => 'Tags', 'visible' => false],
-            ['data' => 'category', 'name' => 'category', 'title' => 'Kategorie', 'visible' => false],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'visible' => false],
-            ['data' => 'id', 'name' => 'id', 'title' => 'ID', 'visible' => false],
+            ['data' => 'name', 'name' => 'name', 'title' => __('Artikelbezeichnung')],
+            ['data' => 'order_number', 'name' => 'order_number', 'title' => __('Bestellnummer')],
+            ['data' => 'quantity', 'name' => 'quantity', 'title' => __('Bestand'), 'class' => 'text-center', 'width' => '40px', 'searchable' => false],
+            ['data' => 'min_quantity', 'name' => 'min_quantity', 'title' => __('M.Bestand'), 'class' => 'text-center', 'width' => '55px', 'searchable' => false],
+            ['data' => 'order_quantity', 'name' => 'order_quantity', 'title' => __('B.Menge'), 'class' => 'text-center', 'width' => '55px', 'searchable' => false],
+            ['data' => 'average_usage', 'name' => 'average_usage', 'title' => __('&#x00D8; Verbr.'), 'class' => 'text-center', 'width' => '60px', 'searchable' => false],
+            ['data' => 'unit', 'name' => 'unit', 'title' => __('Einheit'), 'searchable' => false],
+            ['data' => 'price', 'name' => 'price', 'title' => __('Preis'), 'class' => 'text-right whitespace-no-wrap', 'searchable' => false],
+            ['data' => 'notes', 'name' => 'notes', 'title' => __('Bemerkung'), 'visible' => false],
+            ['data' => 'delivery_time', 'name' => 'delivery_time', 'title' => __('Lieferzeit'), 'class' => 'text-center', 'searchable' => false],
+            ['data' => 'supplier_name', 'name' => 'supplier_name', 'title' => __('Lieferant')],
+            ['data' => 'last_receipt', 'name' => 'last_receipt', 'title' => __('letzter WE'), 'width' => '70px', 'class' => 'whitespace-no-wrap', 'searchable' => false],
+            ['data' => 'tags', 'name' => 'tags', 'title' => __('Tags'), 'visible' => false],
+            ['data' => 'category', 'name' => 'category', 'title' => __('Kategorie'), 'visible' => false],
+            ['data' => 'status', 'name' => 'status', 'title' => __('Status'), 'visible' => false],
+            ['data' => 'id', 'name' => 'id', 'title' => __('ID'), 'visible' => false],
         ];
     }
 

@@ -14,14 +14,7 @@ class OrderMessage extends AuditableModel
         'receiver' => 'array',
     ];
 
-    static $auditName = 'Nachricht';
-
     protected $dates = ['received'];
-
-    protected $fieldNames = [
-        'read' => 'gelesen',
-        'order_id' => 'Bestellung'
-    ];
 
     protected $fillable = [
         'order_id',
@@ -35,6 +28,17 @@ class OrderMessage extends AuditableModel
         'read',
         'attachments',
     ];
+
+    public static function getFieldNames() {
+        return [
+            'read' => __('gelesen'),
+            'order_id' => __('Bestellung')
+        ];
+    }
+
+    public static function getAuditName() {
+        return __('Nachricht');
+    }
 
     public function order() {
         return $this->belongsTo(Order::class);

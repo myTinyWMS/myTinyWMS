@@ -20,7 +20,7 @@ class LabelController extends Controller
             $labelService->printArticleLabels($articles, $size);
         }
 
-        flash('Label werden gedruckt', 'success');
+        flash(__('Label werden gedruckt'), 'success');
 
         return redirect()->route('article.index');
     }
@@ -35,7 +35,7 @@ class LabelController extends Controller
         $labelService = new PrintLabelService();
         $labelService->printArticleLabels(new Collection([$article]), $size);
 
-        flash('Label gedruckt', 'success');
+        flash(__('Label gedruckt'), 'success');
 
         return redirect()->route('article.show', $article);
     }

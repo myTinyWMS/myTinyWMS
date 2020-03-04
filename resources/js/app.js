@@ -9,15 +9,25 @@ require('./bootstrap');
 import VModal from 'vue-js-modal'
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
-import VueInternationalization from 'vue-i18n';
-import Locale from './vue-i18n-locales.generated';
-
-const lang = document.documentElement.lang.substr(0, 2);
+import Vuex from 'vuex';
+import vuexI18n from 'vuex-i18n';
+import Locales from './vue-i18n-locales.generated.js';
 
 window.Vue = require('vue');
 
+const store = new Vuex.Store();
+
+Vue.use(vuexI18n.plugin, store);
+
+Vue.i18n.add('en', Locales.en);
+Vue.i18n.add('de', Locales.de);
+
+const lang = document.documentElement.lang.substr(0, 2);
+
+const moment_lang = (lang == 'en') ? 'en-gb' : lang;
+
 const moment = require('moment');
-require('moment/locale/' + lang);
+require('moment/locale/' + moment_lang);
 
 Vue.use(require('vue-moment'), {
     moment
@@ -25,7 +35,6 @@ Vue.use(require('vue-moment'), {
 
 
 Vue.use(VModal);
-Vue.use(VueInternationalization);
 
 Vue.mixin({
     methods: {
@@ -37,11 +46,8 @@ export const serverBus = new Vue();
 
 
 // or however you determine your current app locale
-moment.locale(lang);
-const i18n = new VueInternationalization({
-    locale: lang,
-    messages: Locale
-});
+moment.locale(moment_lang);
+Vue.i18n.set(lang);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -81,6 +87,6 @@ Vue.component('wysiwyg-editor', require('./components/WysiwygEditor.vue'));
 Vue.component('vue-dropzone', vue2Dropzone);
 
 window.app = new Vue({
-    i18n,
+    store,
     el: '#app',
 });

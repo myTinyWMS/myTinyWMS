@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Änderungsverlauf Artikel '.((!empty($article->article_number)) ? ' #'.$article->article_number : ''))
+@section('title', __('Änderungsverlauf Artikel ').((!empty($article->article_number)) ? ' #'.$article->article_number : ''))
 
 @section('title_extra')
     <small>{{ $article->name }}</small>
@@ -8,13 +8,13 @@
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('article.index') }}">Übersicht</a>
+        <a href="{{ route('article.index') }}">@lang('Übersicht')</a>
     </li>
     <li>
-        <a href="{{ route('article.show', $article) }}">Artikel Details</a>
+        <a href="{{ route('article.show', $article) }}">@lang('Artikel Details')</a>
     </li>
     <li class="active">
-        <strong>Änderungsverlauf</strong>
+        <strong>@lang('Änderungsverlauf')</strong>
     </li>
 @endsection
 
@@ -26,7 +26,7 @@
         <div class="w-1/2">
             <div class="card">
                 <div class="card-header flex" style="min-height: 55px">
-                    <h5 class="flex-1">Änderungsverlauf</h5>
+                    <h5 class="flex-1">@lang('Änderungsverlauf')</h5>
                     <div>
                         <div id="daterange" class="pull-right bg-white cursor-pointer px-4 py-2 border border-gray-300 w-full">
                             <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
@@ -38,13 +38,13 @@
                     <table class="table dataTable">
                         <thead>
                             <tr>
-                                <th>Typ</th>
-                                <th class="text-center">Änderung</th>
-                                <th class="text-center">Bestand</th>
-                                <th class="text-center">Einheit</th>
-                                <th>Zeitpunkt</th>
-                                <th>Kommentar</th>
-                                <th>Benutzer</th>
+                                <th>@lang('Typ')</th>
+                                <th class="text-center">@lang('Änderung')</th>
+                                <th class="text-center">@lang('Bestand')</th>
+                                <th class="text-center">@lang('Einheit')</th>
+                                <th>@lang('Zeitpunkt')</th>
+                                <th>@lang('Kommentar')</th>
+                                <th>@lang('Benutzer')</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -101,7 +101,7 @@
                 {
                     type: 'bar',
                     backgroundColor: '#449D44',
-                    'label': 'Wareneingang (Ø {{ $dataDiffInMonths ? round(abs($chartValues[1]->sum() / $dataDiffInMonths), 0) : $chartValues[1]->sum() }} / Monat)',
+                    'label': '@lang('Wareneingang') (Ø {{ $dataDiffInMonths ? round(abs($chartValues[1]->sum() / $dataDiffInMonths), 0) : $chartValues[1]->sum() }} / @lang('Monat'))',
                     data: {!! $chartValues[1]->toJson() !!}
                 },
                 @endif
@@ -109,7 +109,7 @@
                 {
                     type: 'bar',
                     backgroundColor: '#ED5565',
-                    'label': 'Warenausgang (Ø {{ $dataDiffInMonths ? round(abs($chartValues[2]->sum() / $dataDiffInMonths), 0) : $chartValues[2]->sum() }} / Monat)',
+                    'label': '@lang('Warenausgang') (Ø {{ $dataDiffInMonths ? round(abs($chartValues[2]->sum() / $dataDiffInMonths), 0) : $chartValues[2]->sum() }} / @lang('Monat'))',
                     data: {!! $chartValues[2]->toJson() !!}
                 }
                 @endif
@@ -145,45 +145,45 @@
                 endDate: end,
                 opens: 'left',
                 ranges: {
-                    'Letzte 30 Tage': [moment().subtract(29, 'days'), moment()],
-                    'Dieser Monat': [moment().startOf('month'), moment().endOf('month')],
-                    'Letzter Monat': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                    'aktuelles Jahr': [moment().startOf('year'), moment()],
-                    '12 Monate': [moment().subtract(12, 'month').startOf('month'), moment()],
-                    '24 Monate': [moment().subtract(24, 'month').startOf('month'), moment()],
-                    '36 Monate': [moment().subtract(36, 'month').startOf('month'), moment()]
+                    '@lang('Letzte 30 Tage')': [moment().subtract(29, 'days'), moment()],
+                    '@lang('Dieser Monat')': [moment().startOf('month'), moment().endOf('month')],
+                    '@lang('Letzter Monat')': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                    '@lang('aktuelles Jahr')': [moment().startOf('year'), moment()],
+                    '@lang('12 Monate')': [moment().subtract(12, 'month').startOf('month'), moment()],
+                    '@lang('24 Monate')': [moment().subtract(24, 'month').startOf('month'), moment()],
+                    '@lang('36 Monate')': [moment().subtract(36, 'month').startOf('month'), moment()]
                 },
                 "locale": {
                     "format": "DD.MM.YYYY",
                     "separator": " - ",
-                    "applyLabel": "Übernehmen",
-                    "cancelLabel": "Abbrechen",
-                    "fromLabel": "Von",
-                    "toLabel": "Bis",
-                    "customRangeLabel": "Individuell",
+                    "applyLabel": "@lang('Übernehmen')",
+                    "cancelLabel": "@lang('Abbrechen')",
+                    "fromLabel": "@lang('Von')",
+                    "toLabel": "@lang('Bis')",
+                    "customRangeLabel": "@lang('Individuell')",
                     "weekLabel": "W",
                     "daysOfWeek": [
-                        "So",
-                        "Mo",
-                        "Di",
-                        "Mi",
-                        "Do",
-                        "Fr",
-                        "Sa"
+                        "@lang('So')",
+                        "@lang('Mo')",
+                        "@lang('Di')",
+                        "@lang('Mi')",
+                        "@lang('Do')",
+                        "@lang('Fr')",
+                        "@lang('Sa')"
                     ],
                     "monthNames": [
-                        "Januar",
-                        "Februar",
-                        "März",
-                        "April",
-                        "Mai",
-                        "Juni",
-                        "Juli",
-                        "August",
-                        "September",
-                        "Oktober",
-                        "November",
-                        "Dezember"
+                        "@lang('Januar')",
+                        "@lang('Februar')",
+                        "@lang('März')",
+                        "@lang('April')",
+                        "@lang('Mai')",
+                        "@lang('Juni')",
+                        "@lang('Juli')",
+                        "@lang('August')",
+                        "@lang('September')",
+                        "@lang('Oktober')",
+                        "@lang('November')",
+                        "@lang('Dezember')"
                     ],
                     "firstDay": 1
                 }

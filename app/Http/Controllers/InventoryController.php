@@ -84,12 +84,12 @@ class InventoryController extends Controller
             $item->processed_by = Auth::id();
             $item->save();
 
-            flash('Änderung gespeichert')->success();
+            flash(__('Änderung gespeichert'))->success();
 
             return response()->redirectToRoute('inventory.show', [$inventory, 'category_id' => $article->category_id]);
         }
 
-        flash('Fehler beim Speichern')->error();
+        flash(__('Fehler beim Speichern'))->error();
 
         return response()->redirectToRoute('inventory.show', [$inventory, 'category_id' => $article->category_id]);
     }
@@ -122,7 +122,7 @@ class InventoryController extends Controller
         }]);
         InventoryService::markCategoryAsDone($inventory, $category);
 
-        flash('Kategorie abgeschlossen')->success();
+        flash(__('Kategorie abgeschlossen'))->success();
 
         return response()->redirectToRoute('inventory.show', [$inventory]);
     }
@@ -136,7 +136,7 @@ class InventoryController extends Controller
             InventoryService::markCategoryAsDone($inventory, $category);
         });
 
-        flash('Inventur abgeschlossen')->success();
+        flash(__('Inventur abgeschlossen'))->success();
 
         return response()->redirectToRoute('inventory.index');
     }

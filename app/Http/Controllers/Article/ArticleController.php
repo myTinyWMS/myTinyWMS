@@ -93,13 +93,13 @@ class ArticleController extends Controller
                 'price' => round(floatval(str_replace(',', '.', $request->get('supplier_price'))) * 100, 0)
             ]);
         } catch (QueryException $e) {
-            flash('Fehler beim Anlegen des Artikels')->error();
+            flash(__('Fehler beim Anlegen des Artikels'))->error();
             DB::rollBack();
             return back()->withInput();
         }
 
         DB::commit();
-        flash('Artikel angelegt')->success();
+        flash(__('Artikel angelegt'))->success();
 
         return redirect()->route('article.show', $article);
     }
@@ -134,7 +134,7 @@ class ArticleController extends Controller
         $article = Article::findOrFail($id);
 
         if ($article->quantity > 0 && $article->status != Article::STATUS_INACTIVE && $request->get('status') == Article::STATUS_INACTIVE) {
-            flash('Der Status darf nicht auf deaktiviert gesetzt werden, solange der Artikel noch Bestand hat!')->error();
+            flash(__('Der Status darf nicht auf deaktiviert gesetzt werden, solange der Artikel noch Bestand hat!'))->error();
 
             return back()->withInput();
         }
@@ -166,7 +166,7 @@ class ArticleController extends Controller
             $article->setNewArticleNumber();
         }
 
-        flash('Artikel gespeichert')->success();
+        flash(__('Artikel gespeichert'))->success();
 
         return redirect()->route('article.show', $article);
     }
@@ -179,7 +179,7 @@ class ArticleController extends Controller
 
         $article->changeQuantity($quantity, $request->get('changelogType'), $request->get('changelogNote'), null, $request->get('changelogRelatedId'));
 
-        flash('Bestand geändert')->success();
+        flash(__('Bestand geändert'))->success();
 
         return redirect()->route('article.show', $article);
     }
@@ -192,7 +192,7 @@ class ArticleController extends Controller
 
         $article->changeQuantity($quantity, $request->get('changelogType'), $request->get('changelogNote'));
 
-        flash('Bestand geändert')->success();
+        flash(__('Bestand geändert'))->success();
 
         return redirect()->route('article.show', $article);
     }

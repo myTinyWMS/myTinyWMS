@@ -48,7 +48,7 @@ class SupplierDataTable extends BaseDataTable
                 'paging' => false,
                 'order'   => [[0, 'asc']],
             ])
-            ->addAction(['title' => 'Aktion', 'width' => '150px']);
+            ->addAction(['title' => __('Aktion'), 'width' => '150px']);
     }
 
     /**
@@ -59,13 +59,13 @@ class SupplierDataTable extends BaseDataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
-            ['data' => 'accounts_payable_number', 'name' => 'accounts_payable_number', 'title' => 'Kreditorennummer'],
-            ['data' => 'email', 'name' => 'email', 'title' => 'E-Mail'],
-            ['data' => 'phone', 'name' => 'phone', 'title' => 'Telefon'],
-            ['data' => 'contact_person', 'name' => 'contact_person', 'title' => 'Kontaktperson'],
-            ['data' => 'website', 'name' => 'website', 'title' => 'Webseite'],
-            ['data' => 'notes', 'name' => 'notes', 'title' => 'Bemerkung'],
+            ['data' => 'name', 'name' => 'name', 'title' => __('Name')],
+            ['data' => 'accounts_payable_number', 'name' => 'accounts_payable_number', 'title' => __('Kreditorennummer')],
+            ['data' => 'email', 'name' => 'email', 'title' => __('E-Mail')],
+            ['data' => 'phone', 'name' => 'phone', 'title' => __('Telefon')],
+            ['data' => 'contact_person', 'name' => 'contact_person', 'title' => __('Kontaktperson')],
+            ['data' => 'website', 'name' => 'website', 'title' => __('Webseite')],
+            ['data' => 'notes', 'name' => 'notes', 'title' => __('Bemerkung')],
         ];
     }
 

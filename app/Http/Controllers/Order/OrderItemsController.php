@@ -16,7 +16,7 @@ class OrderItemsController extends Controller
         $orderitem->confirmation_received = ($status == 1);
         $orderitem->save();
 
-        flash('Status der Auftragsbestätigung aktualisiert.')->success();
+        flash(__('Status der Auftragsbestätigung aktualisiert.'))->success();
 
         return redirect()->route('order.show', $orderitem->order);
     }
@@ -41,7 +41,7 @@ class OrderItemsController extends Controller
             Mail::to(UserSettings::getUsersWhereTrue(UserSettings::SETTING_NOTIFY_ON_INVOICE_CHECKS))->send(new InvoiceCheckMail($orderitem->order, nl2br($request->get('mail_note')), $attachments));
         }
 
-        flash('Status der Rechnung aktualisiert.')->success();
+        flash(__('Status der Rechnung aktualisiert.'))->success();
 
         return 'true';
     }

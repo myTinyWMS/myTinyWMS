@@ -1,29 +1,29 @@
 
 <template>
     <modal name="invoiceCheckModal" height="auto" classes="modal" :clickToClose="false">
-        <h4 class="modal-title font-bold text-xl">Rechnungsprüfung - Mail an Einkaufsteam</h4>
+        <h4 class="modal-title font-bold text-xl">{{ $t('Rechnungsprüfung - Mail an Einkaufsteam') }}</h4>
 
         <div class="row">
             <div class="w-full">
                 <div class="form-group">
-                    <label for="invoice_check_note" class="form-label">Bemerkungen zur Rechnung</label>
+                    <label for="invoice_check_note" class="form-label">{{ $t('Bemerkungen zur Rechnung') }}</label>
                     <textarea id="invoice_check_note" v-model="mail_note" class="form-textarea" rows="3"></textarea>
                 </div>
                 <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" :useCustomSlot="true" v-on:vdropzone-complete="uploadComplete">
                     <div class="dropzone-custom-content">
-                        <h3 class="dropzone-custom-title">Dateien hier ablegen</h3>
+                        <h3 class="dropzone-custom-title">{{ $t('Dateien hier ablegen') }}</h3>
                     </div>
                 </vue-dropzone>
             </div>
         </div>
 
         <div class="row alert alert-danger mt-4" v-show="invoiceNotificationUsersCount == 0">
-            Achtung, kein User hat die Rechnungsbenachrichtigungen aktiv!
+            {{ $t('Achtung, kein User hat die Rechnungsbenachrichtigungen aktiv!') }}
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" @click="submit(false)" id="dont-send-invoice-check-mail">Ohne Mail weiter</button>
-            <button type="button" class="btn btn-primary" @click="submit(true)" id="send-invoice-check-mail" v-show="invoiceNotificationUsersCount > 0">Mail verschicken</button>
+            <button type="button" class="btn btn-default" @click="submit(false)" id="dont-send-invoice-check-mail">{{ $t('Ohne Mail weiter') }}</button>
+            <button type="button" class="btn btn-primary" @click="submit(true)" id="send-invoice-check-mail" v-show="invoiceNotificationUsersCount > 0">{{ $t('Mail verschicken') }}</button>
         </div>
     </modal>
 

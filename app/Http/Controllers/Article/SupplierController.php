@@ -27,7 +27,7 @@ class SupplierController extends Controller
         $supplierArticle->order_quantity = $request->get('order_quantity');
         $supplierArticle->save();
 
-        flash('Lieferantendaten gespeichert', 'success');
+        flash(__('Lieferantendaten gespeichert'), 'success');
         return redirect()->route('article.show', $article);
     }
 }

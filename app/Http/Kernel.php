@@ -3,6 +3,7 @@
 namespace Mss\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Mss\Http\Middleware\Localization;
 
 class Kernel extends HttpKernel
 {
@@ -34,6 +35,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \Mss\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            Localization::class
         ],
 
         'api' => [

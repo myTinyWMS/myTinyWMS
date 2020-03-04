@@ -9,13 +9,12 @@
     import vueSummernoteLite from "vue-summernote-lite";
 
     let SignatureButton = function (context) {
-        console.log(context);
         let ui = $.summernote.ui;
 
         // create button
         let button = ui.button({
-            contents: '<i class="fa fa-plus"/> Signatur',
-            tooltip: 'Signatur einfügen',
+            contents: '<i class="fa fa-plus"/> ' + this.$t('Signatur'),
+            tooltip: this.$t('Signatur einfügen'),
             click: function () {
                 context.invoke('editor.pasteHTML', `{!! html_entity_decode(Auth::user()->signature) !!}`);
             }
@@ -62,8 +61,8 @@
                 let that = this;
 
                 let button = $.summernote.ui.button({
-                    contents: '<i class="fa fa-plus"/> Signatur',
-                    tooltip: 'Signatur einfügen',
+                    contents: '<i class="fa fa-plus"/> ' + this.$t('Signatur'),
+                    tooltip: this.$t('Signatur einfügen'),
                     click: function () {
                         that.$refs.editor.summernote('pasteHTML', '<div>' + that.signature + '</div>');
                     }
@@ -94,21 +93,6 @@
         data() {
             return {
                 localContent: this.content,
-                /*SignatureButton: function (context) {
-                    console.log('context', context);
-                    var ui = $.summernote.ui;
-
-                    // create button
-                    var button = ui.button({
-                        contents: '<i class="fa fa-plus"/> Signatur',
-                        tooltip: 'Signatur einfügen',
-                        click: function () {
-                            context.invoke('editor.pasteHTML', `{!! html_entity_decode(Auth::user()->signature) !!}`);
-                        }
-                    });
-
-                    return button.render();   // return button as jquery object
-                }*/
             }
         },
         beforeDestroy() {

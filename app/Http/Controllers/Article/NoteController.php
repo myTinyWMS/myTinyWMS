@@ -15,7 +15,7 @@ class NoteController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        flash('Notiz gespeichert')->success();
+        flash(__('Notiz gespeichert'))->success();
 
         return redirect()->route('article.show', $article);
     }
@@ -23,7 +23,7 @@ class NoteController extends Controller
     public function delete(Article $article, $note, Request $request) {
         $article->articleNotes()->where('id', $note)->delete();
 
-        flash('Notiz gelöscht')->success();
+        flash(__('Notiz gelöscht'))->success();
 
         return redirect()->route('article.show', $article);
     }

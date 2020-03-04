@@ -54,12 +54,12 @@
             <table class="table @if (!$loop->last) break-after @endif" cellpadding="0" cellspacing="1">
                 <thead>
                     <tr>
-                        <th style="width: 30px">Art. Nummer</th>
-                        <th style="width: 200px">Artikel</th>
-                        <th class="text-center" style="width: 40px">SOLL</th>
-                        <th class="text-center" style="width: 60px">IST</th>
-                        <th class="text-center" style="width: 30px">Einheit</th>
-                        <th>Bemerkung</th>
+                        <th style="width: 30px">@lang('Art. Nummer')</th>
+                        <th style="width: 200px">@lang('Artikel')</th>
+                        <th class="text-center" style="width: 40px">@lang('SOLL')</th>
+                        <th class="text-center" style="width: 60px">@lang('IST')</th>
+                        <th class="text-center" style="width: 30px">@lang('Einheit')</th>
+                        <th>@lang('Bemerkung')</th>
                     </tr>
                 </thead>
                 <tbody>

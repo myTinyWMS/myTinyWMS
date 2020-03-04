@@ -35,11 +35,11 @@
                     // minuteTip: 'Select Minute', // tip of select minute
                     // secondTip: 'Select Second', // tip of select second
                     yearSuffix: '', // suffix of head year
-                    monthsHead: 'Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember'.split('_'), // months of head
-                    months: 'Jan_Feb_Mär_Apr_Mai_Jun_Jul_Aug_Sep_Okt_Nov_Dez'.split('_'), // months of panel
-                    weeks: 'Mo_Di_Mi_Do_Fr_Sa_So'.split('_'), // weeks,
-                    cancelTip: 'abbrechen',
-                    submitTip: 'bestätigen'
+                    monthsHead: [this.$t('Januar'), this.$t('Februar'), this.$t('März'), this.$t('April'), this.$t('Mai'), this.$t('Juni'), this.$t('Juli'), this.$t('August'), this.$t('September'), this.$t('Oktober'), this.$t('November'), this.$t('Dezember')], // months of head
+                    months: [this.$t('Jan'), this.$t('Jan'), this.$t('Feb'), this.$t('Mär'), this.$t('Apr'), this.$t('Mai'), this.$t('Jun'), this.$t('Jul'), this.$t('Aug'), this.$t('Sep'), this.$t('Okt'), this.$t('Nov'), this.$t('Dez')], // months of panel
+                    weeks: [this.$t('Mo'), this.$t('Di'), this.$t('Mi'), this.$t('Do'), this.$t('Fr'), this.$t('Sa'), this.$t('So')], // weeks,
+                    cancelTip: this.$t('abbrechen'),
+                    submitTip: this.$t('bestätigen')
                 }
             }
         }

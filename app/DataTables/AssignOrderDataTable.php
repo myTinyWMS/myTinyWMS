@@ -16,10 +16,10 @@ class AssignOrderDataTable extends OrderDataTable {
     protected function getColumns()
     {
         return [
-            ['data' => 'internal_order_number', 'name' => 'internal_order_number', 'title' => 'Bestellnummer'],
-            ['data' => 'supplier', 'name' => 'supplier', 'title' => 'Lieferant', 'visible' => false],
-            ['data' => 'items', 'name' => 'items', 'title' => 'Artikel', 'searchable' => false],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Status']
+            ['data' => 'internal_order_number', 'name' => 'internal_order_number', 'title' => __('Bestellnummer')],
+            ['data' => 'supplier', 'name' => 'supplier', 'title' => __('Lieferant'), 'visible' => false],
+            ['data' => 'items', 'name' => 'items', 'title' => __('Artikel'), 'searchable' => false],
+            ['data' => 'status', 'name' => 'status', 'title' => __('Status')]
         ];
     }
 

@@ -17,7 +17,29 @@ class ArticleQuantityChangelog extends AuditableModel
 
     protected $fillable = ['created_at', 'updated_at', 'user_id', 'type', 'change', 'new_quantity', 'note', 'delivery_item_id', 'unit_id', 'article_id', 'related_id'];
 
-    static $auditName = 'Artikel-Bestandsänderung';
+    public static function getFieldNames() {
+        return [];
+    }
+
+    public static function getAuditName() {
+        return __('Artikel-Bestandsänderung');
+    }
+
+    public static function getAbbreviation($key) {
+        $abbreviations = collect([
+            self::TYPE_INCOMING => __('WE'),
+            self::TYPE_OUTGOING => __('WA'),
+            self::TYPE_CORRECTION => __('KB'),
+            self::TYPE_INVENTORY => __('INV'),
+            self::TYPE_OUTSOURCING => __('AL'),
+            self::TYPE_REPLACEMENT_DELIVERY => __('EL'),
+            self::TYPE_SALE_TO_THIRD_PARTIES => __('VaF'),
+            self::TYPE_TRANSFER => __('UB'),
+            self::TYPE_COMMENT => __('KO'),
+        ]);
+
+        return $abbreviations->get($key, __('Unbekannt'));
+    }
 
     public static function getAvailableTypes() {
         return [

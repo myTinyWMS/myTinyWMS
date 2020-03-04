@@ -17,18 +17,18 @@ class GlobalSearchController extends Controller
         if (preg_match('/^[0-9]{7,8}$/', $phrase)) {
             $order = Order::where('internal_order_number', $phrase)->first();
             if ($order) {
-                $this->addResult('Bestellung', $phrase, route('order.show', $order));
+                $this->addResult(__('Bestellung'), $phrase, route('order.show', $order));
             }
         } elseif (preg_match('/^[0-9]{5}$/', $phrase)) {
             $article = Article::where('article_number', $phrase)->first();
             if ($article) {
-                $this->addResult('Artikel', $article->name.' ('.$phrase.')', route('article.show', $article), $article->status);
+                $this->addResult(__('Artikel'), $article->name.' ('.$phrase.')', route('article.show', $article), $article->status);
             }
         } else {
             $articles = Article::where('name', 'like', '%'.$phrase.'%')->get();
             if ($articles) {
                 $articles->each(function ($article) {
-                    $this->addResult('Artikel', $article->name, route('article.show', $article), $article->status);
+                    $this->addResult(__('Artikel'), $article->name, route('article.show', $article), $article->status);
                 });
             }
         }

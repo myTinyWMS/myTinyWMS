@@ -4,7 +4,7 @@
         <div class="row">
             <div class="w-1/2">
                 <div class="form-group">
-                    <label for="changelogCurrentQuantity" class="form-label">aktueller Bestand</label>
+                    <label for="changelogCurrentQuantity" class="form-label">{{ $t('aktueller Bestand') }}</label>
                     <div class="form-control-static">
                         <span id="changelogCurrentQuantity">{{ article.quantity }}</span>
                         {{ unit }}
@@ -13,7 +13,7 @@
             </div>
             <div class="w-1/3 col-lg-offset-2">
                 <div class="form-group">
-                    <label class="form-label">Entnahmemenge</label>
+                    <label class="form-label">{{ $t('Entnahmemenge') }}</label>
                     <div class="form-control-static">
                         <span>{{ article.issue_quantity }}</span>
                         {{ unit }}
@@ -25,20 +25,20 @@
         <div class="row">
             <div class="w-1/2">
                 <div class="form-group">
-                    <label class="form-label">Veränderung</label>
+                    <label class="form-label">{{ $t('Veränderung') }}</label>
 
                     <div class="flex">
                         <select v-model="changelogChangeType" name="changelogChangeType" id="changelogChangeType">
-                            <option value="add">Plus</option>
-                            <option value="sub">Minus</option>
+                            <option value="add">{{ $t('Plus') }}</option>
+                            <option value="sub">{{ $t('Minus') }}</option>
                         </select>
-                        <input class="form-input w-24 ml-2" type="text" v-model="change" value="" name="changelogChange" id="changelogChange" placeholder="Menge" required>
+                        <input class="form-input w-24 ml-2" type="text" v-model="change" value="" name="changelogChange" id="changelogChange" :placeholder="$t('Menge')" required>
                     </div>
                 </div>
             </div>
             <div class="w-1/2">
                 <div class="form-group">
-                    <label for="changelogType" class="form-label">Typ der Änderung</label>
+                    <label for="changelogType" class="form-label">{{ $t('Typ der Änderung') }}</label>
                     <input type="hidden" name="changelogType" v-model="changelogType.value" />
                     <select id="changelogType" class="form-control" required v-model="changelogType">
                         <option value="" selected disabled></option>
@@ -49,7 +49,7 @@
         </div>
 
         <div class="form-group">
-            <label for="changelogNote" class="form-label">Bemerkung</label>
+            <label for="changelogNote" class="form-label">{{ $t('Bemerkung') }}</label>
             <textarea class="form-textarea" rows="3" id="changelogNote" name="changelogNote"></textarea>
         </div>
 
@@ -59,8 +59,8 @@
 
         <div class="modal-footer">
             <input type="hidden" v-bind:value="csrf" name="_token" />
-            <button type="button" class="btn btn-default" @click="$modal.hide('change-quantity')">Abbrechen</button>
-            <button type="submit" class="btn btn-primary" id="submitChangeQuantity">Speichern</button>
+            <button type="button" class="btn btn-default" @click="$modal.hide('change-quantity')">{{ $t('Abbrechen') }}</button>
+            <button type="submit" class="btn btn-primary" id="submitChangeQuantity">{{ $t('Speichern') }}</button>
         </div>
     </form>
 </template>
@@ -76,13 +76,13 @@
                 change: '',
                 csrf: "",
                 changeTypes: [
-                    {value: 1, text: 'Wareneingang', ifOnly: 'add'},
-                    {value: 2, text: 'Warenausgang', ifOnly: 'sub'},
-                    {value: 7, text: 'Inventur', ifOnly: ''},
-                    {value: 8, text: 'Ersatzlieferung', ifOnly: ''},
-                    {value: 9, text: 'Ein-/Auslagerung Aussenlager', ifOnly: ''},
-                    {value: 10, text: 'Verkauf an Fremdfirmen', ifOnly: 'sub'},
-                    {value: 11, text: 'Umbuchung', ifOnly: ''},
+                    {value: 1, text: this.$t('Wareneingang'), ifOnly: 'add'},
+                    {value: 2, text: this.$t('Warenausgang'), ifOnly: 'sub'},
+                    {value: 7, text: this.$t('Inventur'), ifOnly: ''},
+                    {value: 8, text: this.$t('Ersatzlieferung'), ifOnly: ''},
+                    {value: 9, text: this.$t('Ein-/Auslagerung Aussenlager'), ifOnly: ''},
+                    {value: 10, text: this.$t('Verkauf an Fremdfirmen'), ifOnly: 'sub'},
+                    {value: 11, text: this.$t('Umbuchung'), ifOnly: ''},
                 ]
             }
         },
@@ -90,15 +90,15 @@
         methods: {
             submit(e) {
                 if (this.changelogChangeType == 'sub' && this.change > this.article.quantity) {
-                    alert('Es ist nicht möglich mehr auszubuchen als Bestand vorhanden ist!');
+                    alert(this.$t('Es ist nicht möglich mehr auszubuchen als Bestand vorhanden ist!'));
                     e.preventDefault();
                     return false;
                 }
 
-                var message = 'Du willst den Bestand um ';
-                message += (this.changelogChangeType === 'sub') ? 'MINUS ' : 'PLUS ';
-                message += this.change + ' ändern - als ';
-                message += '"' + this.changelogType.text + '". SICHER?';
+                let message = this.$t('Du willst den Bestand um ');
+                message += (this.changelogChangeType === 'sub') ? this.$t('MINUS') + ' ' : this.$t('PLUS') + ' ';
+                message += this.change + ' ' + this.$t('ändern - als') + ' ';
+                message += '"' + this.changelogType.text + '". ' + this.$t('SICHER?');
 
                 if (!confirm(message)) {
                     e.preventDefault();

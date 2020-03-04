@@ -1,6 +1,6 @@
 <template>
     <modal name="selectOrderArticleModal" height="auto" width="95%" :scrollable="true" classes="modal" :clickToClose="true" @opened="opened">
-        <h4 class="modal-title font-bold text-xl">Artikel auswählen</h4>
+        <h4 class="modal-title font-bold text-xl">{{ $t('Artikel auswählen') }}</h4>
 
         <div class="row">
             <div class="w-full">

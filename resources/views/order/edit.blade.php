@@ -1,16 +1,16 @@
 @extends('order.form')
 
-@section('title', 'Bestellung bearbeiten')
+@section('title', __('Bestellung bearbeiten'))
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('order.index') }}">Übersicht</a>
+        <a href="{{ route('order.index') }}">@lang('Übersicht')</a>
     </li>
     <li>
-        <a href="{{ route('order.show', $order) }}">Bestellung #{{ $order->internal_order_number }}</a>
+        <a href="{{ route('order.show', $order) }}">@lang('Bestellung') #{{ $order->internal_order_number }}</a>
     </li>
     <li class="active">
-        <strong>Bestellung bearbeiten</strong>
+        <strong>@lang('Bestellung bearbeiten')</strong>
     </li>
 @endsection
 

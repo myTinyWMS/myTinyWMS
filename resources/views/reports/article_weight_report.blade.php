@@ -1,13 +1,13 @@
 @extends('layout.app')
 
-@section('title', 'Verpackungs-Lizensierungs-Report für den Zeitraum '.implode(' - ', $dateRange))
+@section('title', __('Verpackungs-Lizensierungs-Report für den Zeitraum :daterange', ['daterange' => implode(' - ', $dateRange)]))
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('reports.index') }}">Reports</a>
+        <a href="{{ route('reports.index') }}">@lang('Reports')</a>
     </li>
     <li class="active">
-        <strong>Verpackungs-Lizensierungs-Report</strong>
+        <strong>@lang('Verpackungs-Lizensierungs-Report')</strong>
     </li>
 @endsection
 
@@ -17,15 +17,15 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-content">
-                        @foreach([\Mss\Models\Article::PACKAGING_CATEGORY_PAPER => 'Papier, Pappe, Karton', \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => 'Kunststoffe'] as $key => $headline)
+                        @foreach([\Mss\Models\Article::PACKAGING_CATEGORY_PAPER => __('Papier, Pappe, Karton'), \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => __('Kunststoffe')] as $key => $headline)
                             <h2>{{ $headline }}</h2>
 
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr>
                                     <th>Artikel</th>
-                                    <th width="10%" class="text-right">Verbrauch</th>
-                                    <th width="10%" class="text-right">Gewicht</th>
+                                    <th width="10%" class="text-right">@lang('Verbrauch')</th>
+                                    <th width="10%" class="text-right">@lang('Gewicht')</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -41,7 +41,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="3" class="text-right font-bold">Gesamt: {{ round($total, 2) }} kg</td>
+                                        <td colspan="3" class="text-right font-bold">@lang('Gesamt'): {{ round($total, 2) }} kg</td>
                                     </tr>
                                 </tfoot>
                             </table>

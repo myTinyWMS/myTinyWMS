@@ -7,7 +7,13 @@ class Delivery extends AuditableModel
     protected $fillable = ['delivery_note_number', 'delivery_date', 'notes'];
     protected $dates = ['delivery_date'];
 
-    static $auditName = 'Lieferung';
+    public static function getFieldNames() {
+        return [];
+    }
+
+    public static function getAuditName() {
+        return __('Lieferung');
+    }
 
     public function order() {
         return $this->belongsTo(Order::class);

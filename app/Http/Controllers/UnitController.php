@@ -40,7 +40,7 @@ class UnitController extends Controller
     public function store(UnitRequest $request) {
         Unit::create($request->all());
 
-        flash('Einheit angelegt')->success();
+        flash(__('Einheit angelegt'))->success();
 
         return redirect()->route('unit.index');
     }
@@ -72,7 +72,7 @@ class UnitController extends Controller
         // save data
         $unit->update($request->all());
 
-        flash('Einheit gespeichert')->success();
+        flash(__('Einheit gespeichert'))->success();
 
         return redirect()->route('unit.show', $id);
     }
@@ -86,7 +86,7 @@ class UnitController extends Controller
     public function destroy($id) {
         Unit::findOrFail($id)->delete();
 
-        flash('Einheit gelöscht')->success();
+        flash(__('Einheit gelöscht'))->success();
 
         return redirect()->route('unit.index');
     }

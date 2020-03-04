@@ -5,18 +5,18 @@
         <div class="w-1/3">
             <div class="card">
                 <div class="card-header">
-                    <h5>Details</h5>
+                    <h5>@lang('Details')</h5>
                 </div>
                 <div class="card-content">
                     @yield('form_start')
 
-                    {{ Form::bsText('name', null, [], 'Name') }}
-                    {{ Form::bsText('email', null, [], 'E-Mail') }}
-                    {{ Form::bsText('phone', null, [], 'Telefon') }}
-                    {{ Form::bsText('contact_person', null, [], 'Kontaktperson') }}
-                    {{ Form::bsText('website', null, [], 'Webseite') }}
-                    {{ Form::bsText('accounts_payable_number', null, [], 'Kreditorennummer') }}
-                    {{ Form::bsTextarea('notes', null, [], 'Bemerkungen') }}
+                    {{ Form::bsText('name', null, [], __('Name')) }}
+                    {{ Form::bsText('email', null, [], __('E-Mail')) }}
+                    {{ Form::bsText('phone', null, [], __('Telefon')) }}
+                    {{ Form::bsText('contact_person', null, [], __('Kontaktperson')) }}
+                    {{ Form::bsText('website', null, [], __('Webseite')) }}
+                    {{ Form::bsText('accounts_payable_number', null, [], __('Kreditorennummer')) }}
+                    {{ Form::bsTextarea('notes', null, [], __('Bemerkungen')) }}
 
                     <div class="form-group">
                         @yield('submit')
