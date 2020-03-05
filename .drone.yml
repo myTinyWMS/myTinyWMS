@@ -67,3 +67,8 @@ services:
     MYSQL_PORT_3306_TCP_PORT: 3306
     MYSQL_DATABASE: mss
     MYSQL_ROOT_PASSWORD: mss
+- name: selenium
+  image: robcherry/docker-chromedriver
+  environment:
+    CHROMEDRIVER_WHITELISTED_IPS: ""
+    CHROMEDRIVER_PORT: "4444"
