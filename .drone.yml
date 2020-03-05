@@ -50,6 +50,7 @@ steps:
     MAIL_IMAP_PASSWORD: 
     AUTH_DRIVER: eloquent
   commands:
+    - sleep 180
     - php artisan
     
 image_pull_secrets:
