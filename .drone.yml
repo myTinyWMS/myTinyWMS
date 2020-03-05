@@ -16,7 +16,7 @@ steps:
 - name: test
   image: mytinywms/mytinywms
   environment:
-    APP_NAME: "myTinyWMS"
+    APP_NAME: myTinyWMS
     APP_ENV: production
     APP_DEBUG: false
     DEMO_MODE: false
