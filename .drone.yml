@@ -51,6 +51,7 @@ steps:
     AUTH_DRIVER: eloquent
   commands:
     - cd /data/www
+    - composer install
     - php artisan dusk
     
 image_pull_secrets:
