@@ -47,6 +47,7 @@ class SupplierDataTable extends BaseDataTable
             ->parameters([
                 'paging' => false,
                 'order'   => [[0, 'asc']],
+                'buttons' => []
             ])
             ->addAction(['title' => __('Aktion'), 'width' => '150px']);
     }
