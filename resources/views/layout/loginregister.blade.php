@@ -20,7 +20,7 @@
     <body class="min-w-site bg-gray-200 text-black min-h-full">
         <div class="flex min-h-screen items-center flex-col">
             <div class="my-8 text-center">
-                @if (file_exists(base_path(config('app.logo'))))
+                @if (file_exists(public_path(config('app.logo'))))
                     <img src="{{ config('app.logo') }}" alt="{{ env('APP_NAME') }}" width="280" />
                 @endif
             </div>

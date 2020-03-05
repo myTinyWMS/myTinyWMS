@@ -22,7 +22,7 @@ return [
     | Set custom Logo
     */
 
-    'logo' => env('LOGO_PATH', 'img/logo.jpg'),
+    'logo' => env('LOGO_PATH', 'img/logo.png'),
 
     /*
     |--------------------------------------------------------------------------
