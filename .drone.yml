@@ -2,25 +2,21 @@ kind: pipeline
 name: default
 
 steps:
-- name: build  
-  image: plugins/docker
-  settings:
-    registry: docker.io
-    repo: mytinywms/mytinywms
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
-    tags: latest
+#- name: build  
+#  image: plugins/docker
+#  settings:
+#    registry: docker.io
+#    repo: mytinywms/mytinywms
+#    username:
+#      from_secret: docker_username
+#    password:
+#      from_secret: docker_password
+#    tags: latest
     
 - name: test
   image: docker/compose
-  environment:
-    DOCKERHUB_PASSWORD:
-      from_secret: docker_password
-    DOCKERHUB_USERNAME:
-      from_secret: docker_password
   commands:
-    - docker login docker.io --username $${DOCKERHUB_USERNAME} --password $${DOCKERHUB_PASSWORD}
-    - docker pull mytinywms/mytinywms:latest
     - docker-compose -f docker-compose.yml.test up -d
+    
+image_pull_secrets:
+- dockerconfig
