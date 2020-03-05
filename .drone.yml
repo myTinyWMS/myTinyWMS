@@ -18,8 +18,8 @@ steps:
   environment:
     APP_NAME: myTinyWMS
     APP_ENV: production
-    APP_DEBUG: false
-    DEMO_MODE: false
+    APP_DEBUG:
+    DEMO_MODE:
     APP_KEY: base64:sgppryzAzGfrijoL5hW5a6CxXO/95IlYasKP7wDT3RE: 
     APP_URL: http://localhost/
     LOGO_PATH: 
