@@ -163,7 +163,8 @@ class OrderDataTable extends BaseDataTable
             ->parameters([
                 'paging' => $this->paging,
                 'order'   => [[1, 'asc']],
-                'rowGroup' => ['dataSrc' => 'supplier']
+                'rowGroup' => ['dataSrc' => 'supplier'],
+                'buttons' => []
             ])
             ->addAction(['title' => __('Aktion'), 'width' => '100px', 'class' => 'action-col']);
     }

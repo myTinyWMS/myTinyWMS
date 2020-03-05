@@ -48,6 +48,7 @@ class CategoryDataTable extends BaseDataTable
             ->parameters([
                 'paging' => false,
                 'order'   => [[1, 'asc']],
+                'buttons' => []
             ])
             ->addAction(['title' => __('Aktion'), 'width' => '150px']);
     }

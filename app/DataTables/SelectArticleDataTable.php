@@ -47,7 +47,8 @@ class SelectArticleDataTable extends ArticleDataTable
             'paging' => false,
             'deferLoading' => false,
             'order' => [[1, 'asc']],
-            'rowGroup' => ['dataSrc' => 'category']
+            'rowGroup' => ['dataSrc' => 'category'],
+            'buttons' => []
         ];
 
         return $parameters;

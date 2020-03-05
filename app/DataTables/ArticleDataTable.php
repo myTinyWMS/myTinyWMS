@@ -174,7 +174,10 @@ class ArticleDataTable extends BaseDataTable
 
     protected function getHtmlParameters() {
         $parameters = [
-            'order' => [[2, 'asc']]
+            'order' => [[2, 'asc']],
+            'buttons' => [
+                ['extend' => 'csv', 'className' => 'btn-secondary', 'text' => __('Export CSV')]
+            ],
         ];
 
         return $parameters;
