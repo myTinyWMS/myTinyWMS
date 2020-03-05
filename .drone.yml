@@ -17,7 +17,7 @@ steps:
   image: mytinywms/mytinywms
   environment:
     APP_NAME: myTinyWMS
-    APP_ENV: production
+    APP_ENV: loccal
     APP_DEBUG: false
     DEMO_MODE: false
     APP_KEY: base64:sgppryzAzGfrijoL5hW5a6CxXO/95IlYasKP7wDT3RE=
