@@ -1,0 +1,12 @@
+kind: pipeline
+name: default
+
+steps:
+
+  - name: build image
+    image: docker:latest
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+    commands:
+      - docker build --no-cache -t mytinywms:latest .
