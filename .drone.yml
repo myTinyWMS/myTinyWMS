@@ -16,7 +16,7 @@ steps:
 - name: test
   image: docker/compose
   commands:
-    - docker-compose -f docker-compose.yml.test up -d
+    - docker-compose -f docker-compose-test.yml up -d
     
 image_pull_secrets:
 - dockerconfig
