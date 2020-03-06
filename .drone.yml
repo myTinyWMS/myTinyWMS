@@ -67,11 +67,5 @@ services:
     MYSQL_PORT_3306_TCP_PORT: 3306
     MYSQL_DATABASE: mss_test
     MYSQL_ROOT_PASSWORD: mss
-- name: chrome
-  image: selenium/node-chrome
-  environment:
-    HUB_PORT_4444_TCP_ADDR: selenium
-    HUB_PORT_4444_TCP_PORT: 4444
-    DISPLAY: ":99.0"
 - name: selenium
-  image: selenium/hub
+  image: image: selenium/standalone-chrome
