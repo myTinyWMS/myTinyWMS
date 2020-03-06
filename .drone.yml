@@ -28,7 +28,7 @@ steps:
     INVENTORY_AUTOMATIC_RECEIVER: 
     MYSQL_PORT_3306_TCP_ADDR: db
     MYSQL_PORT_3306_TCP_PORT: 3306
-    MYSQL_DATABASE: mss
+    MYSQL_DATABASE: mss_test
     MYSQL_ROOT_PASSWORD: mss
     MYSQL_USER: root
     MYSQL_PASSWORD: mss
@@ -65,7 +65,7 @@ services:
   environment:
     MYSQL_PORT_3306_TCP_ADDR: db
     MYSQL_PORT_3306_TCP_PORT: 3306
-    MYSQL_DATABASE: mss
+    MYSQL_DATABASE: mss_test
     MYSQL_ROOT_PASSWORD: mss
 - name: selenium
   image: robcherry/docker-chromedriver
