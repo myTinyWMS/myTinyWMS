@@ -52,7 +52,7 @@ steps:
   commands:
     - cd /data/www
     - composer install
-    - php artisan dusk src/Tests/Browser/LoginTest.php
+    - php artisan dusk src/tests/Browser/LoginTest.php
     
 image_pull_secrets:
 - dockerconfig
