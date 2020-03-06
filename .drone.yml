@@ -68,7 +68,9 @@ services:
     MYSQL_DATABASE: mss_test
     MYSQL_ROOT_PASSWORD: mss
 - name: selenium
-  image: robcherry/docker-chromedriver
+  image: selenium/node-chrome
   environment:
-    CHROMEDRIVER_WHITELISTED_IPS: ""
-    CHROMEDRIVER_PORT: "4444"
+    HUB_PORT_4444_TCP_ADDR: selenium
+      HUB_PORT_4444_TCP_PORT: 4444
+      DISPLAY: ":99.0"
+      DISPLAY: ":99.0"
