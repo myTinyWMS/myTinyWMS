@@ -60,6 +60,7 @@ image_pull_secrets:
 services:
 - name: redis
   image: redis
+
 - name: db
   image: mariadb:10.2
   environment:
@@ -67,9 +68,13 @@ services:
     MYSQL_PORT_3306_TCP_PORT: 3306
     MYSQL_DATABASE: mss_test
     MYSQL_ROOT_PASSWORD: mss
-- name: selenium
-  image: selenium/node-chrome
-  environment:
-    HUB_PORT_4444_TCP_ADDR: selenium
-    HUB_PORT_4444_TCP_PORT: 4444
-    DISPLAY: ":99.0"
+
+- name: chrome:
+    image: selenium/node-chrome
+    environment:
+      HUB_PORT_4444_TCP_ADDR: selenium
+      HUB_PORT_4444_TCP_PORT: 4444
+      DISPLAY: ":99.0"
+
+- name: selenium:
+  image: selenium/hub
