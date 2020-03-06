@@ -3,7 +3,7 @@ services:
   app:
     container_name: wms_app
     hostname: app
-    image: eagledata/mytinywms
+    image: mytinywms/mytinywms
     links:
     - db
     - redis
