@@ -71,6 +71,5 @@ services:
   image: selenium/node-chrome
   environment:
     HUB_PORT_4444_TCP_ADDR: selenium
-      HUB_PORT_4444_TCP_PORT: 4444
-      DISPLAY: ":99.0"
-      DISPLAY: ":99.0"
+    HUB_PORT_4444_TCP_PORT: 4444
+    DISPLAY: ":99.0"
