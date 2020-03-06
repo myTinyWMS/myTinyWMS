@@ -68,4 +68,4 @@ services:
     MYSQL_DATABASE: mss_test
     MYSQL_ROOT_PASSWORD: mss
 - name: selenium
-  image: image: selenium/standalone-chrome
+  image: selenium/standalone-chrome
