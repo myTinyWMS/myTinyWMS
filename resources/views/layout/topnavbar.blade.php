@@ -106,6 +106,14 @@
                 </a>
             </h3>
 
+            @can('manage users')
+            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('user*') }}">
+                <a href="{{ url('/user') }}">
+                    @lang('Benutzer')
+                </a>
+            </h3>
+            @endcan
+
             <div class="flex-1">
                 <global-search class="print:hidden float-right"></global-search>
             </div>

@@ -64,6 +64,7 @@ Route::group(['middleware' => ['auth']], function () {
         'order' => 'Order\OrderController',
         'unit' => 'UnitController',
         'inventory' => 'InventoryController',
+        'user' => 'UserController',
     ]);
 
     Route::get('reports', 'ReportsController@index')->name('reports.index');
