@@ -4,6 +4,7 @@ namespace Mss\Services;
 
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Mss\Models\OrderMessage;
 
 class GlobalPageService {
@@ -13,7 +14,11 @@ class GlobalPageService {
     }
 
     public function getUnreadMessageCount() {
-        return Auth::check() ? OrderMessage::unread()->count() : 0;
+        if (!Auth::check()) return 0;
+
+        return Cache::remember('global.getUnreadMessageCount', 10, function () {
+            return OrderMessage::unread()->count();
+        });
     }
 
     public function hasMiniNavbar() {

@@ -1345,28 +1345,27 @@
         },
         {
             "name": "kkomelin/laravel-translatable-string-exporter",
-            "version": "1.9.0",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kkomelin/laravel-translatable-string-exporter.git",
-                "reference": "78d1da3bea1e891b4e97c102c1c9f4aa2d70d1f6"
+                "reference": "c40e8746f0b3303e0d26c7b5cd1603e5a4283431"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/78d1da3bea1e891b4e97c102c1c9f4aa2d70d1f6",
-                "reference": "78d1da3bea1e891b4e97c102c1c9f4aa2d70d1f6",
+                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/c40e8746f0b3303e0d26c7b5cd1603e5a4283431",
+                "reference": "c40e8746f0b3303e0d26c7b5cd1603e5a4283431",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "illuminate/support": "^5.4|^6",
-                "illuminate/translation": "^5.4|^6",
+                "illuminate/support": "^5.4|^6|^7",
+                "illuminate/translation": "^5.4|^6|^7",
                 "php": ">=5.4.0",
-                "symfony/finder": "^3.2|^4.0"
+                "symfony/finder": "^3.2|^4|^5"
             },
             "require-dev": {
-                "mockery/mockery": "^1.0",
-                "orchestra/testbench": "~3.0"
+                "orchestra/testbench": "^3.4|^4.0|^5.0"
             },
             "type": "library",
             "extra": {
@@ -1398,7 +1397,7 @@
                 "laravel",
                 "translations"
             ],
-            "time": "2020-02-11T17:24:19+00:00"
+            "time": "2020-03-04T16:26:04+00:00"
         },
         {
             "name": "knplabs/knp-snappy",
@@ -1995,16 +1994,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.64",
+            "version": "1.0.65",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "d13c43dbd4b791f815215959105a008515d1a2e0"
+                "reference": "8f17b3ba67097aafb8318cd5c553b1acf7c891c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/d13c43dbd4b791f815215959105a008515d1a2e0",
-                "reference": "d13c43dbd4b791f815215959105a008515d1a2e0",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/8f17b3ba67097aafb8318cd5c553b1acf7c891c8",
+                "reference": "8f17b3ba67097aafb8318cd5c553b1acf7c891c8",
                 "shasum": ""
             },
             "require": {
@@ -2075,7 +2074,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2020-02-05T18:14:17+00:00"
+            "time": "2020-03-08T18:53:20+00:00"
         },
         {
             "name": "maatwebsite/excel",
@@ -4006,16 +4005,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "2.3.1",
+            "version": "2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "6d736f8cefa989f6171e30e1d1bfa214f7f5ab58"
+                "reference": "b3e71feb32f1787b66a3b4fdb8686972e9c7ba94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/6d736f8cefa989f6171e30e1d1bfa214f7f5ab58",
-                "reference": "6d736f8cefa989f6171e30e1d1bfa214f7f5ab58",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/b3e71feb32f1787b66a3b4fdb8686972e9c7ba94",
+                "reference": "b3e71feb32f1787b66a3b4fdb8686972e9c7ba94",
                 "shasum": ""
             },
             "require": {
@@ -4087,7 +4086,7 @@
                 "logging",
                 "sentry"
             ],
-            "time": "2020-01-23T09:40:22+00:00"
+            "time": "2020-03-06T09:24:53+00:00"
         },
         {
             "name": "sentry/sentry-laravel",
@@ -6078,16 +6077,16 @@
         },
         {
             "name": "yajra/laravel-datatables-html",
-            "version": "v4.23.0",
+            "version": "v4.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-html.git",
-                "reference": "de1426ecfda184ea143073c08ba9cab6a9a04444"
+                "reference": "00195f383f4ecf4257c761712eda2f6510f3102d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/de1426ecfda184ea143073c08ba9cab6a9a04444",
-                "reference": "de1426ecfda184ea143073c08ba9cab6a9a04444",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/00195f383f4ecf4257c761712eda2f6510f3102d",
+                "reference": "00195f383f4ecf4257c761712eda2f6510f3102d",
                 "shasum": ""
             },
             "require": {
@@ -6134,7 +6133,7 @@
                 "jquery",
                 "laravel"
             ],
-            "time": "2020-03-03T16:34:31+00:00"
+            "time": "2020-03-07T02:47:38+00:00"
         },
         {
             "name": "yajra/laravel-datatables-oracle",
@@ -7698,16 +7697,16 @@
         },
         {
             "name": "php-webdriver/webdriver",
-            "version": "1.8.1",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-webdriver/php-webdriver.git",
-                "reference": "262ea0d209c292e0330be1041424887bbbffef04"
+                "reference": "3308a70be084d6d7fd1ee5787b4c2e6eb4b70aab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-webdriver/php-webdriver/zipball/262ea0d209c292e0330be1041424887bbbffef04",
-                "reference": "262ea0d209c292e0330be1041424887bbbffef04",
+                "url": "https://api.github.com/repos/php-webdriver/php-webdriver/zipball/3308a70be084d6d7fd1ee5787b4c2e6eb4b70aab",
+                "reference": "3308a70be084d6d7fd1ee5787b4c2e6eb4b70aab",
                 "shasum": ""
             },
             "require": {
@@ -7759,7 +7758,7 @@
                 "selenium",
                 "webdriver"
             ],
-            "time": "2020-02-17T08:14:38+00:00"
+            "time": "2020-03-04T14:40:12+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -7963,16 +7962,16 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "v1.10.2",
+            "version": "v1.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "b4400efc9d206e83138e2bb97ed7f5b14b831cd9"
+                "reference": "451c3cd1418cf640de218914901e51b064abb093"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/b4400efc9d206e83138e2bb97ed7f5b14b831cd9",
-                "reference": "b4400efc9d206e83138e2bb97ed7f5b14b831cd9",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/451c3cd1418cf640de218914901e51b064abb093",
+                "reference": "451c3cd1418cf640de218914901e51b064abb093",
                 "shasum": ""
             },
             "require": {
@@ -8022,7 +8021,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2020-01-20T15:57:02+00:00"
+            "time": "2020-03-05T15:02:03+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
