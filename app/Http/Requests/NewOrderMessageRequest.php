@@ -32,9 +32,9 @@ class NewOrderMessageRequest extends FormRequest
 
     public function attributes() {
         return [
-            'subject' => 'Betreff',
-            'receiver' => 'Empfänger',
-            'body' => 'Nachricht'
+            'subject' => __('Betreff'),
+            'receiver' => __('Empfänger'),
+            'body' => __('Nachricht')
         ];
     }
 }

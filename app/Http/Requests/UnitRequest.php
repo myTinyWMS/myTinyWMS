@@ -30,7 +30,7 @@ class UnitRequest extends FormRequest
 
     public function attributes() {
         return [
-            'name' => 'Name',
+            'name' => __('Name'),
         ];
     }
 }

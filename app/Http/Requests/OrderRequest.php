@@ -38,14 +38,14 @@ class OrderRequest extends FormRequest
 
     public function attributes() {
         return [
-            'supplier' => 'Lieferant',
-            'total_cost' => 'Gesamtkosten',
-            'shipping_cost' => 'Lieferkosten',
-            'order_date' => 'Bestelldatum',
-            'expected_delivery' => 'Liefertermin',
-            'article.*' => 'Artikel',
-            'quantity.*' => 'Menge',
-            'price.*' => 'Preis',
+            'supplier' => __('Lieferant'),
+            'total_cost' => __('Gesamtkosten'),
+            'shipping_cost' => __('Lieferkosten'),
+            'order_date' => __('Bestelldatum'),
+            'expected_delivery' => __('Liefertermin'),
+            'article.*' => __('Artikel'),
+            'quantity.*' => __('Menge'),
+            'price.*' => __('Preis'),
         ];
     }
 }

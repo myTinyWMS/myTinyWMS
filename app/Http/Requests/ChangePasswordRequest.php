@@ -32,9 +32,9 @@ class ChangePasswordRequest extends FormRequest
 
     public function attributes() {
         return [
-            'old_pw' => 'altes Passwort',
-            'new_pw' => 'neues Passwort',
-            'new_pw2' => 'neues Passwort Wiederholung',
+            'old_pw' => __('altes Passwort'),
+            'new_pw' => __('neues Passwort'),
+            'new_pw2' => __('neues Passwort Wiederholung'),
         ];
     }
 }
