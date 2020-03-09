@@ -2,70 +2,16 @@ kind: pipeline
 name: default
 
 steps:
-#- name: build  
-#  image: plugins/docker
-#  settings:
-#    registry: docker.io
-#    repo: mytinywms/mytinywms
-#    username:
-#      from_secret: docker_username
-#    password:
-#      from_secret: docker_password
-#    tags: latest
-    
-- name: test
-  image: mytinywms/mytinywms
-  environment:
-    APP_NAME: myTinyWMS
-    APP_ENV: loccal
-    APP_DEBUG: false
-    DEMO_MODE: false
-    APP_KEY: base64:sgppryzAzGfrijoL5hW5a6CxXO/95IlYasKP7wDT3RE=
-    APP_URL: http://test/
-    LOGO_PATH: 
-    HORIZON_NOTIFICATION_RECEIVER: 
-    INVENTORY_MANUAL_RECEIVER: 
-    INVENTORY_AUTOMATIC_RECEIVER: 
-    MYSQL_PORT_3306_TCP_ADDR: db
-    MYSQL_PORT_3306_TCP_PORT: 3306
-    MYSQL_DATABASE: mss_test
-    MYSQL_ROOT_PASSWORD: mss
-    MYSQL_USER: root
-    MYSQL_PASSWORD: mss
-    APP_QUEUE_DRIVER: sync
-    REDIS_PORT_6379_HOST: redis
-    REDIS_PORT_6379_PASSWORD: null
-    REDIS_PORT_6379_PORT: 6379
-    MAIL_PORT_587_TCP_ADDR: 
-    MAIL_PORT_587_TCP_PORT: 
-    MAIL_ENV_USERNAME: 
-    MAIL_ENV_PASSWORD: 
-    MAIL_ENV_ENCRYPTION: 
-    MAIL_ENV_FROM_ADDR: 
-    MAIL_ENV_FROM_NAME: 
-    MAIL_IMAP_HOST: 
-    MAIL_IMAP_PORT: 
-    MAIL_IMAP_ENCRYPTION: 
-    MAIL_IMAP_USERNAME: 
-    MAIL_IMAP_PASSWORD: 
-    AUTH_DRIVER: eloquent
-  commands:
-    - cd /data/www
-    - composer install
-    - php artisan dusk tests/Browser/LoginTest.php
-    
-image_pull_secrets:
-- dockerconfig
-
-services:
-- name: redis
-  image: redis
-- name: db
-  image: mariadb:10.2
-  environment:
-    MYSQL_PORT_3306_TCP_ADDR: db
-    MYSQL_PORT_3306_TCP_PORT: 3306
-    MYSQL_DATABASE: mss_test
-    MYSQL_ROOT_PASSWORD: mss
-- name: selenium
-  image: selenium/standalone-chrome
+- name: build
+  image: plugins/docker
+  settings:
+    registry: docker.io
+    repo: mytinywms/mytinywms
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    tags: latest
+  when:
+    branch:
+    - master
