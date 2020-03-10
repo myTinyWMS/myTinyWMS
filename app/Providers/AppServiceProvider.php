@@ -4,6 +4,7 @@ namespace Mss\Providers;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Mss\Models\Article;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
@@ -59,8 +60,9 @@ class AppServiceProvider extends ServiceProvider
         if (!empty(env('HORIZON_NOTIFICATION_RECEIVER'))) {
             Horizon::routeMailNotificationsTo(env('HORIZON_NOTIFICATION_RECEIVER'));
         }
+
         Horizon::auth(function ($request) {
-            return true;
+            return Auth::check();
         });
     }
 
