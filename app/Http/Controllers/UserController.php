@@ -2,6 +2,7 @@
 
 namespace Mss\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Mss\Models\User;
 use Illuminate\Http\Response;
 use Mss\DataTables\UserDataTable;
@@ -13,6 +14,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param UserDataTable $userDataTable
      * @return \Illuminate\Http\Response
      */
     public function index(UserDataTable $userDataTable)
@@ -38,7 +40,11 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(SupplierRequest $request) {
-        User::create($request->all());
+        $data = $request->except(['roles', 'password']);
+        $data['password'] = Hash::make($request->get('password'));
+        $user = User::create($data);
+
+        $user->syncRoles($request->get('roles'));
 
         flash(__('Benutzer angelegt'))->success();
 
@@ -66,10 +72,18 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function update(UserRequest $request, $id) {
+        /** @var User $user */
         $user = User::findOrFail($id);
 
         // save data
-        $user->update($request->all());
+        $user->update($request->except(['roles', 'password']));
+
+        if (!empty($request->get('password'))) {
+            $user->password = Hash::make($request->get('password'));
+            $user->save();
+        }
+
+        $user->syncRoles($request->get('roles'));
 
         flash(__('Benutzer gespeichert'))->success();
 

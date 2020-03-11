@@ -2,6 +2,7 @@
 
 namespace Mss\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable implements Auditable, UserResolver
 {
-    use Notifiable, \OwenIt\Auditing\Auditable, HasRoles;
+    use Notifiable, \OwenIt\Auditing\Auditable, HasRoles, SoftDeletes;
 
     const SOURCE_LOCAL = 'local';
     const SOURCE_LDAP = 'ldap';
@@ -43,7 +44,7 @@ class User extends Authenticatable implements Auditable, UserResolver
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'username',
     ];
 
     /**
@@ -85,6 +86,6 @@ class User extends Authenticatable implements Auditable, UserResolver
      * @return string
      */
     public function getSource() {
-        return (empty($this->objectguid)) ? self::SOURCE_LOCAL : self::SOURCE_LOCAL;
+        return (empty($this->objectguid)) ? self::SOURCE_LOCAL : self::SOURCE_LDAP;
     }
 }

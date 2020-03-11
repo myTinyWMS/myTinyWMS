@@ -70,7 +70,7 @@ class UserDataTable extends BaseDataTable
             ['data' => 'email', 'name' => 'email', 'title' => __('E-Mail')],
             ['data' => 'username', 'name' => 'username', 'title' => __('Benutzername')],
             ['data' => 'source', 'name' => 'source', 'title' => __('Quelle')],
-            ['data' => 'roles', 'name' => 'roles', 'title' => __('Roles')],
+            ['data' => 'roles', 'name' => 'roles', 'title' => __('Rollen')],
         ];
     }
 

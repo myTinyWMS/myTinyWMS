@@ -4,6 +4,7 @@ namespace Mss\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Route;
 
 class UserRequest extends FormRequest
@@ -25,8 +26,15 @@ class UserRequest extends FormRequest
     public function rules() {
         return [
             'name' => 'required',
-            'email' => 'unique:Mss\Models\User,email',
-            'username' => 'unique:Mss\Models\User,username'
+            'email' => [
+                'required',
+                Rule::unique('users')->ignore($this->user)
+            ],
+            'username' => [
+                'required',
+                Rule::unique('users')->ignore($this->user)
+            ],
+            'roles' => 'array|exists:roles,id'
         ];
     }
 
