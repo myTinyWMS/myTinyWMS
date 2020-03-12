@@ -56,7 +56,7 @@
                 <span class="px-1">·</span>
                 v1.1.0
                 <span class="px-1 print:hidden">·</span>
-                <span class="print:hidden">@lang('Eingeloggt als'): {{ \Illuminate\Support\Facades\Auth::user()->username }}</span>
+                <span class="print:hidden">@lang('Eingeloggt als'): {{ \Illuminate\Support\Facades\Auth::user()->username ?? \Illuminate\Support\Facades\Auth::user()->name }}</span>
             </p>
         </div>
     </div>

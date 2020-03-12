@@ -3,7 +3,7 @@ services:
   app:
     container_name: wms_app
     hostname: app
-    image: eagledata/mytinywms
+    image: mytinywms/mytinywms
     links:
     - db
     - redis
@@ -14,7 +14,6 @@ services:
     volumes:
     - ./data/storage:/data/www/storage
     - ./data/cache:/data/www/bootstrap/cache
-    command: supervisord -c /etc/supervisor/supervisord.conf
 
   db:
     container_name: wms_db

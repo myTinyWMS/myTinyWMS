@@ -31,8 +31,8 @@ class SupplierRequest extends FormRequest
 
     public function attributes() {
         return [
-            'name' => 'Name',
-            'email' => 'E-Mail'
+            'name' => __('Name'),
+            'email' => __('E-Mail')
         ];
     }
 }

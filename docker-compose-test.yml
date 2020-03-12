@@ -1,0 +1,65 @@
+version: '2'
+services:
+  app:
+    container_name: wms_app
+    hostname: app
+    image: mytinywms/mytinywms
+    links:
+    - db
+    - redis
+    ports:
+    - 80:80
+    environment:
+    - APP_NAME="myTinyWMS"
+    - APP_ENV=production
+    - APP_DEBUG=false
+    - DEMO_MODE=false
+    - APP_KEY=base64:sgppryzAzGfrijoL5hW5a6CxXO/95IlYasKP7wDT3RE=
+    - APP_URL=http://localhost/
+    - LOGO_PATH=
+    - HORIZON_NOTIFICATION_RECEIVER=
+    - INVENTORY_MANUAL_RECEIVER=
+    - INVENTORY_AUTOMATIC_RECEIVER=
+    - MYSQL_PORT_3306_TCP_ADDR=db
+    - MYSQL_PORT_3306_TCP_PORT=3306
+    - MYSQL_DATABASE=mss
+    - MYSQL_ROOT_PASSWORD=mss
+    - MYSQL_USER=root
+    - MYSQL_PASSWORD=mss
+    - APP_QUEUE_DRIVER=sync
+    - REDIS_PORT_6379_HOST=redis
+    - REDIS_PORT_6379_PASSWORD=null
+    - REDIS_PORT_6379_PORT=6379
+    - MAIL_PORT_587_TCP_ADDR=
+    - MAIL_PORT_587_TCP_PORT=
+    - MAIL_ENV_USERNAME=
+    - MAIL_ENV_PASSWORD=
+    - MAIL_ENV_ENCRYPTION=
+    - MAIL_ENV_FROM_ADDR=
+    - MAIL_ENV_FROM_NAME=
+    - MAIL_IMAP_HOST=
+    - MAIL_IMAP_PORT=
+    - MAIL_IMAP_ENCRYPTION=
+    - MAIL_IMAP_USERNAME=
+    - MAIL_IMAP_PASSWORD=
+    - AUTH_DRIVER=eloquent
+    volumes:
+    - ./data/storage:/data/www/storage
+    - ./data/cache:/data/www/bootstrap/cache
+
+  db:
+    container_name: wms_db
+    image: mariadb:10.2
+    environment:
+    - MYSQL_PORT_3306_TCP_ADDR=db
+    - MYSQL_PORT_3306_TCP_PORT=3306
+    - MYSQL_DATABASE=mss
+    - MYSQL_ROOT_PASSWORD=mss
+    - MYSQL_USER=root
+    - MYSQL_PASSWORD=mss
+    volumes:
+    - ./data/db:/var/lib/mysql
+
+  redis:
+    container_name: wms_redis
+    image: redis

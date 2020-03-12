@@ -36,7 +36,7 @@
                     // secondTip: 'Select Second', // tip of select second
                     yearSuffix: '', // suffix of head year
                     monthsHead: [this.$t('Januar'), this.$t('Februar'), this.$t('März'), this.$t('April'), this.$t('Mai'), this.$t('Juni'), this.$t('Juli'), this.$t('August'), this.$t('September'), this.$t('Oktober'), this.$t('November'), this.$t('Dezember')], // months of head
-                    months: [this.$t('Jan'), this.$t('Jan'), this.$t('Feb'), this.$t('Mär'), this.$t('Apr'), this.$t('Mai'), this.$t('Jun'), this.$t('Jul'), this.$t('Aug'), this.$t('Sep'), this.$t('Okt'), this.$t('Nov'), this.$t('Dez')], // months of panel
+                    months: [this.$t('Jan'), this.$t('Feb'), this.$t('Mär'), this.$t('Apr'), this.$t('Mai'), this.$t('Jun'), this.$t('Jul'), this.$t('Aug'), this.$t('Sep'), this.$t('Okt'), this.$t('Nov'), this.$t('Dez')], // months of panel
                     weeks: [this.$t('Mo'), this.$t('Di'), this.$t('Mi'), this.$t('Do'), this.$t('Fr'), this.$t('Sa'), this.$t('So')], // weeks,
                     cancelTip: this.$t('abbrechen'),
                     submitTip: this.$t('bestätigen')

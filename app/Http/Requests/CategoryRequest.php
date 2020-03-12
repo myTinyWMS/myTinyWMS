@@ -30,7 +30,7 @@ class CategoryRequest extends FormRequest
 
     public function attributes() {
         return [
-            'name' => 'Name',
+            'name' => __('Name'),
         ];
     }
 }

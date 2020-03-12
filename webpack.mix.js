@@ -34,6 +34,7 @@ mix
     .copy('resources/assets/vendor/datatables/English.1.10.13.json', 'public/js/datatables')
     .copy('resources/assets/vendor/iCheck/blue.png', 'public/img')
     .copy('resources/assets/vendor/iCheck/blue@2x.png', 'public/img')
+    .copy('resources/assets/logo.png', 'public/img')
     .copy('resources/assets/vendor/summernote/font', 'public/css/font')
     .combine([
         'resources/assets/vendor/iCheck/custom.css',
