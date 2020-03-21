@@ -161,15 +161,15 @@
     </script>
     @stack('scripts')
 
-    @if(env('APP_DEMO') && !empty(config('google_analytics_id')))
+    @if(env('APP_DEMO') && !empty(config('app.pgoogle_analytics_id')))
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('google_analytics_id') }}"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('app.google_analytics_id') }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        gtag('config', '{{ config('google_analytics_id') }}', {'anonymize_ip': true});
+        gtag('config', '{{ config('app.google_analytics_id') }}', {'anonymize_ip': true});
     </script>
     @endif
 </body>
