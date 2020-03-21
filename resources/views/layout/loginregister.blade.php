@@ -30,6 +30,18 @@
 
         <script src="{!! asset('js/vendor.js') !!}" type="text/javascript"></script>
         <script src="{!! asset('js/app.js') !!}" type="text/javascript"></script>
+
+        @if(env('APP_DEMO') && !empty(config('google_analytics_id')))
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('google_analytics_id') }}"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', '{{ config('google_analytics_id') }}', {'anonymize_ip': true});
+            </script>
+        @endif
     </body>
 
 </html>
