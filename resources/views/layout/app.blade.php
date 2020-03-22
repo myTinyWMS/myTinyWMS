@@ -161,7 +161,7 @@
     </script>
     @stack('scripts')
 
-    @if(env('APP_DEMO') && !empty(config('app.pgoogle_analytics_id')))
+    @if(env('APP_DEMO') && !empty(config('app.google_analytics_id')))
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('app.google_analytics_id') }}"></script>
     <script>
