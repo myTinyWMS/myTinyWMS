@@ -22,7 +22,7 @@ return [
     | Set custom Logo
     */
 
-    'logo' => env('LOGO_PATH', 'img/logo.jpg'),
+    'logo' => env('LOGO_PATH', 'img/logo.png'),
 
     /*
     |--------------------------------------------------------------------------
@@ -62,6 +62,9 @@ return [
     */
 
     'demo' => env('APP_DEMO', false),
+
+    # Google Analytics ID - only used in Demo Mode
+    'google_analytics_id' => env('GOOGLE_ANALYTICS_ID', ''),
 
     /*
     |--------------------------------------------------------------------------

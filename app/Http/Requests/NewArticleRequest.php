@@ -31,9 +31,9 @@ class NewArticleRequest extends FormRequest
 
     public function attributes() {
         return [
-            'name' => 'Name',
-            'supplier_id' => 'Lieferant',
-            'quantity' => 'Bestand',
+            'name' => __('Name'),
+            'supplier_id' => __('Lieferant'),
+            'quantity' => __('Bestand'),
         ];
     }
 }

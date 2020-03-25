@@ -56,7 +56,7 @@
                 <span class="px-1">·</span>
                 v1.1.0
                 <span class="px-1 print:hidden">·</span>
-                <span class="print:hidden">@lang('Eingeloggt als'): {{ \Illuminate\Support\Facades\Auth::user()->username }}</span>
+                <span class="print:hidden">@lang('Eingeloggt als'): {{ \Illuminate\Support\Facades\Auth::user()->username ?? \Illuminate\Support\Facades\Auth::user()->name }}</span>
             </p>
         </div>
     </div>
@@ -160,5 +160,17 @@
         }
     </script>
     @stack('scripts')
+
+    @if(env('APP_DEMO') && !empty(config('app.google_analytics_id')))
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('app.google_analytics_id') }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '{{ config('app.google_analytics_id') }}', {'anonymize_ip': true});
+    </script>
+    @endif
 </body>
 </html>

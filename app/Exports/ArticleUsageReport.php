@@ -111,21 +111,21 @@ class ArticleUsageReport implements FromCollection, WithColumnFormatting, WithEv
                 }
 
                 return [
-                    'Artikelnummer' => $article->article_number,
-                    'Artikelname' => $article->getAttributeAtDate('name', $end1),
-                    'Lieferant' => $currentSupplierArticle->supplier ? $currentSupplierArticle->supplier->name : '',
-                    'Preis' => $currentPrice ? round(($currentPrice / 100), 2) : 0,
-                    'Bestellnummer' => optional($currentSupplierArticle)->order_number,
-                    'Kategorie' => optional($article->category)->name,
-                    'Einheit' => optional($article->unit)->name,
-                    'Status' => in_array($status, array_keys(Article::getStatusTextArray())) ? Article::getStatusTextArray()[$status] : '',
-                    'Inventurtyp' => Article::getInventoryTextArray()[$article->inventory],
-                    'Inventur '.$month1 => $article->total_inventory_month1 ?? 0,
-                    'Inventur '.$month2 => $article->total_inventory_month2 ?? 0,
-                    'Warenausgang '.$month1 => $article->total_outgoing_month1 ?? 0,
-                    'Warenausgang '.$month2 => $article->total_outgoing_month2 ?? 0,
-                    'WA Eur '.$month1 => "=I$i*\$D$i",
-                    'WA Eur'.$month2 => "=J$i*\$D$i",
+                    __('Artikelnummer') => $article->article_number,
+                    __('Artikelname') => $article->getAttributeAtDate('name', $end1),
+                    __('Lieferant') => $currentSupplierArticle->supplier ? $currentSupplierArticle->supplier->name : '',
+                    __('Preis') => $currentPrice ? round(($currentPrice / 100), 2) : 0,
+                    __('Bestellnummer') => optional($currentSupplierArticle)->order_number,
+                    __('Kategorie') => optional($article->category)->name,
+                    __('Einheit') => optional($article->unit)->name,
+                    __('Status') => in_array($status, array_keys(Article::getStatusTextArray())) ? Article::getStatusTextArray()[$status] : '',
+                    __('Inventurtyp') => Article::getInventoryTextArray()[$article->inventory],
+                    __('Inventur').' '.$month1 => $article->total_inventory_month1 ?? 0,
+                    __('Inventur').' '.$month2 => $article->total_inventory_month2 ?? 0,
+                    __('Warenausgang').' '.$month1 => $article->total_outgoing_month1 ?? 0,
+                    __('Warenausgang').' '.$month2 => $article->total_outgoing_month2 ?? 0,
+                    __('WA Eur').' '.$month1 => "=I$i*\$D$i",
+                    +__('WA Eur').' '.$month2 => "=J$i*\$D$i",
                 ];
             });
 

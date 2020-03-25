@@ -20,7 +20,7 @@
     <body class="min-w-site bg-gray-200 text-black min-h-full">
         <div class="flex min-h-screen items-center flex-col">
             <div class="my-8 text-center">
-                @if (file_exists(base_path(config('app.logo'))))
+                @if (file_exists(public_path(config('app.logo'))))
                     <img src="{{ config('app.logo') }}" alt="{{ env('APP_NAME') }}" width="280" />
                 @endif
             </div>
@@ -30,6 +30,18 @@
 
         <script src="{!! asset('js/vendor.js') !!}" type="text/javascript"></script>
         <script src="{!! asset('js/app.js') !!}" type="text/javascript"></script>
+
+        @if(env('APP_DEMO') && !empty(config('app.google_analytics_id')))
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('app.google_analytics_id') }}"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', '{{ config('app.google_analytics_id') }}', {'anonymize_ip': true});
+            </script>
+        @endif
     </body>
 
 </html>

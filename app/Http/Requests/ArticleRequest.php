@@ -3,8 +3,6 @@
 namespace Mss\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Route;
 
 class ArticleRequest extends FormRequest
 {
@@ -31,8 +29,8 @@ class ArticleRequest extends FormRequest
 
     public function attributes() {
         return [
-            'name' => 'Name',
-            'cost_center' => 'Kostenstelle'
+            'name' => __('Name'),
+            'cost_center' => __('Kostenstelle')
         ];
     }
 }
