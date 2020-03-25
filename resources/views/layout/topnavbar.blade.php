@@ -41,11 +41,27 @@
                     </template>
                 </dropdown>
 
-                <a href="{{ route('settings.show') }}" class="dropdown-toggle mr-8 text-gray-500" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs"></i> <span class="caret"></span></a>
+                <dropdown direction="right">
+                    <template v-slot:trigger>
+                        <div class="flex items-center cursor-pointer mr-8 text-gray-500">
+                            <a class="relative text-gray-500" href="#">
+                                {{ \Illuminate\Support\Facades\Auth::user()->username }}
+                            </a>
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                    </template>
 
-                <a href="{{ route('logout') }}" class="text-gray-500" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fa fa-sign-out"></i> <span class="hidden lg:visible">@lang('Logout')</span>
-                </a>
+                    <template v-slot:content>
+                        <li><a href="{{ route('settings.show') }}">Profil bearbeiten</a></li>
+                        <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            @lang('Logout')
+                        </a></li>
+                    </template>
+                </dropdown>
+
+                @can(['admin'])
+                <a href="{{ route('admin.index') }}" class="text-gray-500"><i class="fa fa-cogs"></i> <span class="caret"></span></a>
+                @endcan
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
             </div>
@@ -76,9 +92,9 @@
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('report*') }}">
-                <a href="{{ url('/reports') }}">
-                    @lang('Reports')
+            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('supplier*') }}">
+                <a href="{{ url('/supplier') }}">
+                    @lang('Lieferanten')
                 </a>
             </h3>
 
@@ -88,31 +104,11 @@
                 </a>
             </h3>
 
-            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('supplier*') }}">
-                <a href="{{ url('/supplier') }}">
-                    @lang('Lieferanten')
+            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('report*') }}">
+                <a href="{{ url('/reports') }}">
+                    @lang('Reports')
                 </a>
             </h3>
-
-            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('category*') }}">
-                <a href="{{ url('/category') }}">
-                    @lang('Kategorien')
-                </a>
-            </h3>
-
-            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('unit*') }}">
-                <a href="{{ url('/unit') }}">
-                    @lang('Einheiten')
-                </a>
-            </h3>
-
-            @can('manage users')
-            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('user*') }}">
-                <a href="{{ url('/user') }}">
-                    @lang('Benutzer')
-                </a>
-            </h3>
-            @endcan
 
             <div class="flex-1">
                 <global-search class="print:hidden float-right"></global-search>

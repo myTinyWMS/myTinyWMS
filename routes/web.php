@@ -48,6 +48,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('article/{article}/copy', 'ArticleController@copy')->name('article.copy');
     });
 
+    Route::namespace('Admin')->prefix('admin')->middleware(['role:Admin'])->group(function () {
+        Route::get('/', 'StartController@index')->name('admin.index');
+    });
+
     Route::post('inventory/{inventory}/article/{article}/processed', 'InventoryController@processed')->name('inventory.processed');
     Route::get('inventory/{inventory}/article/{article}/correct', 'InventoryController@correct')->name('inventory.correct');
     Route::get('inventory/{inventory}/category/{category}/done', 'InventoryController@categoryDone')->name('inventory.category.done');
