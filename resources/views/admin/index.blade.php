@@ -5,18 +5,18 @@
 @section('content')
 
     <div class="flex -ml-6">
-        <div class="bg-white border border-t-4 border-gray-700 w-1/5 m-6 p-6 text-center rounded shadow">
-            <a href="{{ url('/unit') }}"><i class="fa fa-ruler text-6xl text-blue-700 mb-8 block"></i></a>
+        <div class="bg-white border border-t-8 border-gray-700 w-1/5 m-6 p-6 text-center rounded shadow">
+            <a href="{{ url('/admin/unit') }}"><i class="fa fa-ruler text-6xl text-blue-700 mb-8 block"></i></a>
             @lang('Einheiten')
         </div>
 
-        <div class="bg-white border border-t-4 border-gray-700 w-1/5 m-6 p-6 text-center rounded shadow">
-            <a href="{{ url('/category') }}"><i class="fa fa-grip-horizontal text-6xl text-blue-700 mb-8 block"></i></a>
+        <div class="bg-white border border-t-8 border-gray-700 w-1/5 m-6 p-6 text-center rounded shadow">
+            <a href="{{ url('/admin/category') }}"><i class="fa fa-grip-horizontal text-6xl text-blue-700 mb-8 block"></i></a>
             @lang('Kategorien')
         </div>
 
-        <div class="bg-white border border-t-4 border-gray-700 w-1/5 m-6 p-6 text-center rounded shadow">
-            <a href="{{ url('/user') }}"><i class="fa fa-users text-6xl text-blue-700 mb-8 block"></i></a>
+        <div class="bg-white border border-t-8 border-gray-700 w-1/5 m-6 p-6 text-center rounded shadow">
+            <a href="{{ url('/admin/user') }}"><i class="fa fa-users text-6xl text-blue-700 mb-8 block"></i></a>
             @lang('Benutzerverwaltung')
         </div>
     </div>

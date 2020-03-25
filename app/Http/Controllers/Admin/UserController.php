@@ -1,8 +1,9 @@
 <?php
 
-namespace Mss\Http\Controllers;
+namespace Mss\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Hash;
+use Mss\Http\Controllers\Controller;
 use Mss\Models\User;
 use Illuminate\Http\Response;
 use Mss\DataTables\UserDataTable;

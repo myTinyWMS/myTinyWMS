@@ -1,10 +1,11 @@
 <?php
 
-namespace Mss\Http\Controllers;
+namespace Mss\Http\Controllers\Admin;
 
 use Barryvdh\Snappy\Facades\SnappyPdf;
 use http\Env\Request;
 use Illuminate\Support\Facades\App;
+use Mss\Http\Controllers\Controller;
 use Mss\Models\Category;
 use Illuminate\Http\Response;
 use Mss\DataTables\CategoryDataTable;

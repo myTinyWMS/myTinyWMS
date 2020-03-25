@@ -48,8 +48,16 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('article/{article}/copy', 'ArticleController@copy')->name('article.copy');
     });
 
-    Route::namespace('Admin')->prefix('admin')->middleware(['role:Admin'])->group(function () {
+    Route::namespace('Admin')->prefix('admin')->middleware(['permission:admin'])->group(function () {
         Route::get('/', 'StartController@index')->name('admin.index');
+
+        Route::resources([
+            'category' => 'CategoryController',
+            'unit' => 'UnitController',
+            'user' => 'UserController',
+        ]);
+
+        Route::post('category/print-list', 'CategoryController@printList')->name('category.print_list');
     });
 
     Route::post('inventory/{inventory}/article/{article}/processed', 'InventoryController@processed')->name('inventory.processed');
@@ -64,11 +72,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resources([
         'article' => 'Article\ArticleController',
         'supplier' => 'SupplierController',
-        'category' => 'CategoryController',
         'order' => 'Order\OrderController',
-        'unit' => 'UnitController',
         'inventory' => 'InventoryController',
-        'user' => 'UserController',
     ]);
 
     Route::get('reports', 'ReportsController@index')->name('reports.index');
@@ -88,8 +93,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('settings', 'SettingsController@save')->name('settings.save');
     Route::get('change_pw', 'SettingsController@changePwForm')->name('settings.change_pw');
     Route::post('change_pw', 'SettingsController@changePw')->name('settings.change_pw_post');
-
-    Route::post('category/print-list', 'CategoryController@printList')->name('category.print_list');
 
     Route::post('global-search', 'GlobalSearchController@process')->name('global_search');
 

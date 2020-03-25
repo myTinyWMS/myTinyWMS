@@ -1,8 +1,9 @@
 <?php
 
-namespace Mss\Http\Controllers;
+namespace Mss\Http\Controllers\Admin;
 
 use Illuminate\Http\Response;
+use Mss\Http\Controllers\Controller;
 use Mss\Http\Requests\UnitRequest;
 use Illuminate\Http\Request;
 use Mss\DataTables\UnitDataTable;
