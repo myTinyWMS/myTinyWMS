@@ -5,9 +5,11 @@ namespace Mss\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Mss\Exports\ArticleUsageReport;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
+use Mss\Models\Category;
 use Mss\Models\Delivery;
 use Mss\Models\Order;
 use Mss\Models\OrderItem;
@@ -99,5 +101,21 @@ class ReportsController extends Controller
             });
 
         return view('reports.article_weight_report', compact('articles', 'dateRange'));
+    }
+
+    public function printCategoryList(Request $request) {
+        $categories = $request->get('category');
+
+        if (empty($categories) || !is_array($categories) || count($categories) == 0) {
+            flash(__('Bitte mind. 1 Kategorie auswählen'))->error();
+            return redirect()->route('reports.index');
+        }
+
+        $categories = Category::withActiveArticles()->orderedByName()->find($categories);
+
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->setOption('margin-top', 30);
+
+        return $pdf->loadView('documents.category_article_list', compact('categories'))->download('list.pdf');
     }
 }

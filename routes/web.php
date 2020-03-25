@@ -56,8 +56,6 @@ Route::group(['middleware' => ['auth']], function () {
             'unit' => 'UnitController',
             'user' => 'UserController',
         ]);
-
-        Route::post('category/print-list', 'CategoryController@printList')->name('category.print_list');
     });
 
     Route::post('inventory/{inventory}/article/{article}/processed', 'InventoryController@processed')->name('inventory.processed');
@@ -86,6 +84,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('reports/article-weight-report', 'ReportsController@generateArticleWeightReport')->name('reports.article_weight_report');
     Route::post('reports/deliveries-with-invoice', 'ReportsController@deliveriesWithInvoice')->name('reports.invoices_with_delivery');
     Route::get('reports/deliveries-with-invoice/export', 'ReportsController@deliveriesWithInvoiceExport')->name('reports.invoices_with_delivery_export');
+    Route::post('reports/print-category-list', 'ReportsController@printCategoryList')->name('reports.print_category_list');
 
     Route::get('notification/{id}/delete', 'NotificationController@delete');
 

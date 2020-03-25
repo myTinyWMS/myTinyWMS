@@ -93,20 +93,4 @@ class CategoryController extends Controller
 
         return redirect()->route('category.index');
     }
-
-    public function printList() {
-        $categories = request('category');
-
-        if (empty($categories) || !is_array($categories) || count($categories) == 0) {
-            flash(__('Bitte mind. 1 Kategorie auswählen'))->error();
-            return redirect()->route('category.index');
-        }
-
-        $categories = Category::withActiveArticles()->orderedByName()->find($categories);
-
-        $pdf = App::make('snappy.pdf.wrapper');
-        $pdf->setOption('margin-top', 30);
-
-        return $pdf->loadView('documents.category_article_list', compact('categories'))->download('list.pdf');
-    }
 }
