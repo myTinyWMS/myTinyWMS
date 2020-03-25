@@ -1,10 +1,13 @@
 @extends('layout.app')
 
-@section('title', __('Einheiten'))
+@section('title', __('Einheiten Übersicht'))
 
 @section('breadcrumb')
+    <li>
+        <a href="{{ route('admin.index') }}">@lang('Administrator')</a>
+    </li>
     <li class="active">
-        <strong>@lang('Übersicht')</strong>
+        <strong>@lang('Einheiten Übersicht')</strong>
     </li>
 @endsection
 

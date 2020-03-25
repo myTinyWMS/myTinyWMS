@@ -3,8 +3,11 @@
 @section('title', __('Kategorien'))
 
 @section('breadcrumb')
+    <li>
+        <a href="{{ route('admin.index') }}">@lang('Administrator')</a>
+    </li>
     <li class="active">
-        <strong>@lang('Übersicht')</strong>
+        <strong>@lang('Kategorien Übersicht')</strong>
     </li>
 @endsection
 
