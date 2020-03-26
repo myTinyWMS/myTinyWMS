@@ -15,9 +15,11 @@
         </div>
     </div>
 
+    @can('order.create')
     <div class="footer_actions hidden">
         <button class="btn btn-xs btn-secondary" type="submit" id="create_new_order">@lang('Bestellung erstellen')</button>
     </div>
+    @endcan
 
     <div class="flex flex-wrap -mx-2">
         @if(count($invoicesWithoutDelivery))

@@ -2,6 +2,7 @@
 
 namespace Mss\DataTables;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
@@ -35,6 +36,8 @@ class ToOrderDataTable extends ArticleDataTable
             }
         ])
         ->editColumn('checkbox',function (Article $article) {
+            if (!Auth::user()->hasPermissionTo('order.create')) return '';
+
             return '<div class="i-checks">
                         <label id="new_order_'.$article->id.'">
                             <input type="checkbox" value="'.$article->id.'" name="article[]" />

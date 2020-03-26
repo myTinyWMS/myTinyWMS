@@ -3,7 +3,9 @@
 @section('title', __('Bestellungen'))
 
 @section('title_extra')
+    @can('order.manage')
     <a href="{{ route('order.create') }}" class="btn btn-secondary">@lang('Neue Bestellung')</a>
+    @endcan
 @endsection
 
 @section('breadcrumb')
@@ -14,30 +16,32 @@
 
 @section('content')
 
-    @if($unassignedMessages)
-    <div class="alert alert-warning mb-6">
-        <strong>{{ $unassignedMessages }}</strong> @lang('nicht zugeordnete neue') {{ trans_choice('plural.message', $unassignedMessages) }} - <a class="alert-link" href="{{ route('order.messages_unassigned') }}">@lang('mehr') &raquo;</a>
-    </div>
-    @endif
+    @can('ordermessage.manage')
+        @if($unassignedMessages)
+        <div class="alert alert-warning mb-6">
+            <strong>{{ $unassignedMessages }}</strong> @lang('nicht zugeordnete neue') {{ trans_choice('plural.message', $unassignedMessages) }} - <a class="alert-link" href="{{ route('order.messages_unassigned') }}">@lang('mehr') &raquo;</a>
+        </div>
+        @endif
 
-    @if($assignedMessages->count())
-    <div class="alert alert-success mb-6">
-        <strong>@lang('Neue Nachrichten zu folgenden Bestellungen'):</strong>
-        <br>
-        <br>
-        <ul>
-        @foreach($assignedMessages as $message)
-            <li>
-                @if ($message->order)
-                <a href="{{ route('order.show', $message->order) }}" target="_blank">{{ $message->order->internal_order_number }} bei {{ $message->order->supplier->name }}</a>
-                @else
-                {{ $message->id }}
-                @endif
-            </li>
-        @endforeach
-        </ul>
-    </div>
-    @endif
+        @if($assignedMessages->count())
+        <div class="alert alert-success mb-6">
+            <strong>@lang('Neue Nachrichten zu folgenden Bestellungen'):</strong>
+            <br>
+            <br>
+            <ul>
+            @foreach($assignedMessages as $message)
+                <li>
+                    @if ($message->order)
+                    <a href="{{ route('order.show', $message->order) }}" target="_blank">{{ $message->order->internal_order_number }} bei {{ $message->order->supplier->name }}</a>
+                    @else
+                    {{ $message->id }}
+                    @endif
+                </li>
+            @endforeach
+            </ul>
+        </div>
+        @endif
+    @endcan
 
     {!! $dataTable->table() !!}
 

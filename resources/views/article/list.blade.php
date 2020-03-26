@@ -3,6 +3,7 @@
 @section('title', __('Artikelübersicht'))
 
 @section('title_extra')
+    @can('article.manage')
     <div>
         <div class="dropdown-list group">
             <div class="flex items-center cursor-pointer text-sm text-blue-500 rounded-t-lg py-1 px-2">
@@ -12,11 +13,11 @@
             <div class="dropdown-list-items">
                 <a href="{{ route('article.mass_update_form') }}">@lang('Massenupdate')</a>
                 <a href="{{ route('article.inventory_update_form') }}">@lang('Inventurupdate')</a>
-                {{--            <a href="{{ route('article.sort_update_form') }}">Sortierung</a>--}}
             </div>
         </div>
         <a href="{{ route('article.create') }}" class="btn btn-secondary">@lang('Neuer Artikel')</a>
     </div>
+    @endcan
 @endsection
 
 @section('content')
