@@ -11,8 +11,8 @@
 @section('content')
 
     <div class="table-toolbar-right-content hidden">
-        <a href="{{ route('inventory.create_month') }}" class="btn btn-primary mr-4">@lang('Neue Monats-Inventur starten')</a>
-        <a href="{{ route('inventory.create_year') }}" class="btn btn-primary">@lang('Neue Jahres-Inventur starten')</a>
+        <a href="{{ route('inventory.create_month') }}" class="btn btn-secondary mr-4">@lang('Neue Monats-Inventur starten')</a>
+        <a href="{{ route('inventory.create_year') }}" class="btn btn-secondary">@lang('Neue Jahres-Inventur starten')</a>
     </div>
 
     {!! $dataTable->table() !!}

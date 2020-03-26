@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="table-toolbar-right-content hidden">
-        <a href="{{ route('supplier.create') }}" class="btn btn-primary">@lang('Neuer Lieferant')</a>
+        <a href="{{ route('supplier.create') }}" class="btn btn-secondary">@lang('Neuer Lieferant')</a>
     </div>
 
     {!! $dataTable->table() !!}
