@@ -2,6 +2,7 @@
 
 namespace Mss\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Mss\Http\Controllers\Controller;
 use Mss\Models\User;
@@ -18,8 +19,7 @@ class UserController extends Controller
      * @param UserDataTable $userDataTable
      * @return \Illuminate\Http\Response
      */
-    public function index(UserDataTable $userDataTable)
-    {
+    public function index(UserDataTable $userDataTable) {
         return $userDataTable->render('user.list');
     }
 
@@ -37,10 +37,10 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  SupplierRequest  $request
+     * @param UserRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SupplierRequest $request) {
+    public function store(UserRequest $request) {
         $data = $request->except(['roles', 'password']);
         $data['password'] = Hash::make($request->get('password'));
         $user = User::create($data);
@@ -59,12 +59,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $supplier = User::findOrFail($id);
-        $context = [
-            "user" => $supplier
-        ];
+        $user = User::findOrFail($id);
 
-        return view('user.show', $context);
+        return view('user.show', compact('user'));
     }
 
     /**

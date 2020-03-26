@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
             'category' => 'CategoryController',
             'unit' => 'UnitController',
             'user' => 'UserController',
+            'role' => 'RoleController',
         ]);
     });
 
