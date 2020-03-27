@@ -19,6 +19,12 @@ class BaseSeeder extends Seeder
             'settings' => []
         ]);
 
+        $this->call([
+            RolesAndPermissionsSeeder::class
+        ]);
+
+        \Mss\Models\User::where('email', 'admin@example.com')->first()->assignRole('admin');
+
         \Mss\Models\Unit::create(['id' => 1, 'name' => 'Stück']);
         \Mss\Models\Unit::create(['id' => 2, 'name' => 'Palette']);
         \Mss\Models\Unit::create(['id' => 3, 'name' => 'Bogen']);
