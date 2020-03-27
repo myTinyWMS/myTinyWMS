@@ -2,9 +2,10 @@
 
 @section('title', __('Artikelübersicht'))
 
-@section('title_extra')
-    <div>
-        @can('article.edit')
+@section('content')
+
+<div class="table-toolbar-right-content hidden">
+    @can('article.edit')
         <div class="dropdown-list group">
             <div class="flex items-center cursor-pointer text-sm text-blue-500 rounded-t-lg py-1 px-2">
                 @lang('weitere Aktionen')
@@ -15,15 +16,11 @@
                 <a href="{{ route('article.inventory_update_form') }}">@lang('Inventurupdate')</a>
             </div>
         </div>
-        @endcan
-        @can('article.create')
+    @endcan
+    @can('article.create')
         <a href="{{ route('article.create') }}" class="btn btn-secondary">@lang('Neuer Artikel')</a>
-        @endcan
-    </div>
-
-@endsection
-
-@section('content')
+    @endcan
+</div>
 
 {!! Form::open(['route' => ['article.print_label'], 'method' => 'POST', 'id' => 'print_label_form']) !!}
 {!! $dataTable->table() !!}

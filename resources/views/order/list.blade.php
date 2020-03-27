@@ -2,12 +2,6 @@
 
 @section('title', __('Bestellungen'))
 
-@section('title_extra')
-    @can('order.create')
-    <a href="{{ route('order.create') }}" class="btn btn-secondary">@lang('Neue Bestellung')</a>
-    @endcan
-@endsection
-
 @section('breadcrumb')
     <li class="active">
         <strong>@lang('Übersicht')</strong>
@@ -15,6 +9,12 @@
 @endsection
 
 @section('content')
+
+    <div class="table-toolbar-right-content hidden">
+        @can('order.create')
+            <a href="{{ route('order.create') }}" class="btn btn-secondary">@lang('Neue Bestellung')</a>
+        @endcan
+    </div>
 
     @can('ordermessage.view')
         @if($unassignedMessages)

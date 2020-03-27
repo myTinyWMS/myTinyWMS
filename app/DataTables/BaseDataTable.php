@@ -9,7 +9,7 @@ abstract class BaseDataTable extends DataTable
 {
     protected $pageLength = 50;
 
-    protected $dom = '<"table-toolbar"<"flex mb-4"<"#table-filter"><"table-search"f>><"table-toolbar-middle"r><"table-toolbar-right">B><"table-wrapper"<"fix-head-bg"><"table-content"t><"table-footer"<"table-footer-actions">ip>>';
+    protected $dom = '<"table-toolbar"<"flex mb-4"<"#table-filter"><"table-search"f>B><"table-toolbar-middle"r><"table-toolbar-right">><"table-wrapper"<"fix-head-bg"><"table-content"t><"table-footer"<"table-footer-actions">ip>>';
 
     public function builder() {
         $builder = parent::builder();

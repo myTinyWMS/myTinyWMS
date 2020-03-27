@@ -176,7 +176,7 @@ class ArticleDataTable extends BaseDataTable
         $parameters = [
             'order' => [[2, 'asc']],
             'buttons' => [
-                ['extend' => 'csv', 'className' => 'btn-secondary', 'text' => __('Export CSV')]
+                ['extend' => 'csv', 'className' => 'btn-secondary', 'text' => '<i class="fa fa-download"></i>', 'titleAttr' => __('Export CSV')]
             ],
         ];
 
