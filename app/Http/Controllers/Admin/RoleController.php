@@ -56,7 +56,7 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $role = Role::findOrFail($id);
+        $role = Role::with('permissions')->findOrFail($id);
 
         return view('role.show', compact('role'));
     }

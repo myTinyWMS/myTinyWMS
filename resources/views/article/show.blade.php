@@ -119,7 +119,7 @@
                             @endforeach
                         </ul>
                     @endif
-                    @can('article.add.file')
+                    @can('article.create.file')
                     {{ Form::dropzone('attachments', __('Anhänge'), route('article.file_upload', $article)) }}
                     @endcan
                 </div>
@@ -129,7 +129,7 @@
                 <div class="card-header">
                     <div class="flex">
                         <h5 class="flex-1">@lang('Notizen')</h5>
-                        @can('article.add.note')
+                        @can('article.create.note')
                         <a href="javascript:void(0)" class="btn-link btn-xs" @click="$modal.show('newNoteModal')" id="addNote">@lang('Neue Notiz')</a>
                         @endcan
                     </div>
