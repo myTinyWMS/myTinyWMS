@@ -12,13 +12,13 @@
 @endsection
 
 @section('form_start')
-    @can('article.manage')
+    @can('article.edit')
     {!! Form::model($article, ['route' => ['article.update', $article], 'method' => 'PUT']) !!}
     @endcan
 @endsection
 
 @section('submit')
-    @can('article.manage')
+    @can('article.edit')
     {!! Form::submit(__('Speichern'), ['class' => 'btn btn-primary', 'id' => 'saveArticle']) !!}
     @endcan
 @endsection
@@ -31,7 +31,7 @@
                     <div class="flex">
                         <div class="flex-1">@lang('Aktueller Lieferant')</div>
 
-                        @can('article.manage')
+                        @can('article.edit')
                         <dot-menu class="ml-2" id="changeSupplierMenu">
                             <a href="javascript:void(0)" class="btn-link" @click="$modal.show('changeSupplierModal')" id="changeSupplierLink">@lang('Lieferoptionen ändern')</a>
                         </dot-menu>
@@ -88,7 +88,7 @@
                 </div>
                 <div class="card-content">
                     <div class="flex flex-col">
-                        @can('order.manage')
+                        @can('order.create')
                         <div class="py-4">
                             <a href="{{ route('order.create', ['article' => $article]) }}" class="btn btn-secondary">@lang('Neue Bestellung')</a>
                         </div>
@@ -112,12 +112,14 @@
                             @foreach($article->files as $key => $file)
                                 <li class="flex justify-between">
                                     <a href="{{ route('article.file_download', [$article, $key]) }}">{{ $file['orgName'] }}</a>
+                                    @can('article.delete.file')
                                     <a href="{{ route('article.file_delete', [$article, $key]) }}" onclick="return confirm('Sicher?')"><i class="fa fa-trash"></i></a>
+                                    @endcan
                                 </li>
                             @endforeach
                         </ul>
                     @endif
-                    @can('article.manage')
+                    @can('article.add.file')
                     {{ Form::dropzone('attachments', __('Anhänge'), route('article.file_upload', $article)) }}
                     @endcan
                 </div>
@@ -127,7 +129,7 @@
                 <div class="card-header">
                     <div class="flex">
                         <h5 class="flex-1">@lang('Notizen')</h5>
-                        @can('article.manage')
+                        @can('article.add.note')
                         <a href="javascript:void(0)" class="btn-link btn-xs" @click="$modal.show('newNoteModal')" id="addNote">@lang('Neue Notiz')</a>
                         @endcan
                     </div>
@@ -141,7 +143,7 @@
                                     <div class="flex items-baseline">
                                         <small class="text-gray-600">{{ $note->created_at->format('d.m.Y - H:i') }}</small>
 
-                                        @can('article.manage')
+                                        @can('article.delete.note')
                                         <dot-menu class="ml-2 notes-menu">
                                             <a href="{{ route('article.delete_note', [$article, $note]) }}">@lang('löschen')</a>
                                         </dot-menu>
@@ -169,7 +171,7 @@
                     <a href="{{ route('article.quantity_changelog', $article) }}" class="btn-link btn-xs">@lang('mehr')</a>
                 </div>
                 <div class="card-content">
-                    <article-quantity-changelog :items="{{ json_encode($article->getShortChangelog()) }}" :article="{{ json_encode($article) }}" :edit-enabled="{{ Auth()->user()->hasPermissionTo('article.manage') ? 'true' : 'false' }}"></article-quantity-changelog>
+                    <article-quantity-changelog :items="{{ json_encode($article->getShortChangelog()) }}" :article="{{ json_encode($article) }}" :edit-enabled="{{ Auth()->user()->hasPermissionTo('article.edit') ? 'true' : 'false' }}"></article-quantity-changelog>
                 </div>
             </div>
         </div>

@@ -42,6 +42,8 @@ class RoleController extends Controller
         $role = Role::create(['name' => $request->get('name')]);
         $role->syncPermissions($request->get('permissions'));
 
+        app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+
         flash(__('Rolle angelegt'))->success();
 
         return redirect()->route('role.index');
@@ -71,6 +73,8 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $role->update(['name' => $request->get('name')]);
         $role->syncPermissions($request->get('permissions'));
+
+        app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
 
         flash(__('Rolle gespeichert'))->success();
 

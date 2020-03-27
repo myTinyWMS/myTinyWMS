@@ -3,7 +3,7 @@
 @section('title', __('Bestellung bei ').optional($order->supplier)->name)
 
 @section('title_extra')
-    @can('order.manage')
+    @can('order.add.delivery')
     <a href="{{ route('order.create_delivery', $order) }}" class="btn btn-secondary">@lang('Wareneingang erfassen')</a>
     @endcan
 @endsection
@@ -25,7 +25,7 @@
                 <div class="flex">
                     <div>@lang('Bestellung') #{{ $order->internal_order_number }}</div>
 
-                    @can('order.manage')
+                    @can('order.edit')
                     <dot-menu class="ml-2 pt-1">
                         <a href="{{ route('order.edit', $order) }}">@lang('Bestellung bearbeiten')</a>
                     </dot-menu>
@@ -76,7 +76,7 @@
                             <label class="form-label">
                                 @lang('Status')
 
-                                @can('order.manage')
+                                @can('order.edit')
                                 <dot-menu class="ml-2 normal-case order-change-status">
                                     @foreach(\Mss\Models\Order::getStatusTexts() as $value => $name)
                                         <a href="{{ route('order.change_status', ['order' => $order, 'status' => $value]) }}">{{ $name }}</a>
@@ -95,7 +95,7 @@
                             <label class="form-label">
                                 @lang('Bezahlmethode')
 
-                                @can('order.manage')
+                                @can('order.edit')
                                 <dot-menu class="ml-2 normal-case order-change-payment-method">
                                     <a href="{{ route('order.change_payment_status', ['order' => $order, 'payment_status' => \Mss\Models\Order::PAYMENT_STATUS_UNPAID]) }}">@lang('unbezahlt')</a>
                                     <a href="{{ route('order.change_payment_status', ['order' => $order, 'payment_status' => \Mss\Models\Order::PAYMENT_STATUS_PAID_WITH_PAYPAL]) }}">@lang('Paypal')</a>
@@ -143,7 +143,7 @@
             <div class="card-header flex">
                 <div class="w-5/12">@lang('Artikel')</div>
                 <div class="w-7/12 flex justify-end">
-                    @can('order.manage')
+                    @can('order.edit')
                     <div class="mr-2">
                         {!! Form::open(['method' => 'post', 'route' => ['order.all_items_confirmation_received', $order]]) !!}
                         <button type="submit" class="btn  btn-secondary border-green-600 text-green-600"><z icon="checkmark" class="fill-current w-3 h-3 inline-block"></z> @lang('alle Auftragsbestätigungen erhalten')</button>
@@ -232,7 +232,7 @@
                                             <label class="form-label">
                                                 @lang('Auftragsbestätigung')
 
-                                                @can('order.manage')
+                                                @can('order.edit')
                                                 <dot-menu class="ml-2 normal-case">
                                                     <a href="{{ route('order.item_confirmation_received', ['orderitem' => $item, 'status' => 1]) }}">@lang('erhalten')</a>
                                                     <a href="{{ route('order.item_confirmation_received', ['orderitem' => $item, 'status' => 0]) }}">@lang('nicht erhalten')</a>
@@ -255,7 +255,7 @@
                                         <div class="form-group invoice-status">
                                             <div class="flex">
                                                 <label class="form-label">@lang('Rechnung')</label>
-                                                @can('order.manage')
+                                                @can('order.edit')
                                                 <invoice-status-change :item="{{ $item }}" :article-has-new-price="{{ $articleHasNewPrice ? 1 : 0 }}" invoice-notification-users-count="{{ $invoiceNotificationUsersCount }}"></invoice-status-change>
                                                 @endcan
                                             </div>
@@ -353,12 +353,14 @@
         <div class="card w-full">
             <div class="card-header flex">
                 <div class="flex-1">@lang('Kommunikation')</div>
-                @can('ordermessage.manage')
+                @can('ordermessage.create')
                 <a href="{{ route('order.message_new', $order) }}" class="btn btn-secondary">@lang('Neue Nachricht')</a>
                 @endcan
             </div>
             <div class="card-content">
+                @can('ordermessage.view')
                 @include('order.communications')
+                @endcan
             </div>
         </div>
     </div>

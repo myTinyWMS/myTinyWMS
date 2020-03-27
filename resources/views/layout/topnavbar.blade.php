@@ -78,12 +78,15 @@
                 </a>
             </h3>
 
+            @can('article.view')
             <h3 class="mr-4 lg:mr-6 {{ activeIfUri('article*') }}">
                 <a href="{{ url('/article') }}">
                     @lang('Artikel')
                 </a>
             </h3>
+            @endcan
 
+            @can('order.view')
             <h3 class="mr-4 lg:mr-6 {{ activeIfUri('order*') }}">
                 <a href="{{ url('/order') }}" class="flex">
                     @lang('Bestellungen')
@@ -92,24 +95,31 @@
                     @endif
                 </a>
             </h3>
+            @endcan
 
+            @can('supplier.view')
             <h3 class="mr-4 lg:mr-6 {{ activeIfUri('supplier*') }}">
                 <a href="{{ url('/supplier') }}">
                     @lang('Lieferanten')
                 </a>
             </h3>
+            @endcan
 
+            @can('inventory.view')
             <h3 class="mr-4 lg:mr-6 {{ activeIfUri('inventory*') }}">
                 <a href="{{ url('/inventory') }}">
                     @lang('Inventur')
                 </a>
             </h3>
+            @endcan
 
+            @can('reports.view')
             <h3 class="mr-4 lg:mr-6 {{ activeIfUri('report*') }}">
                 <a href="{{ url('/reports') }}">
                     @lang('Reports')
                 </a>
             </h3>
+            @endcan
 
             <div class="flex-1">
                 <global-search class="print:hidden float-right"></global-search>

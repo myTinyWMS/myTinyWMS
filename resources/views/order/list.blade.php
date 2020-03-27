@@ -3,7 +3,7 @@
 @section('title', __('Bestellungen'))
 
 @section('title_extra')
-    @can('order.manage')
+    @can('order.create')
     <a href="{{ route('order.create') }}" class="btn btn-secondary">@lang('Neue Bestellung')</a>
     @endcan
 @endsection
@@ -16,7 +16,7 @@
 
 @section('content')
 
-    @can('ordermessage.manage')
+    @can('ordermessage.view')
         @if($unassignedMessages)
         <div class="alert alert-warning mb-6">
             <strong>{{ $unassignedMessages }}</strong> @lang('nicht zugeordnete neue') {{ trans_choice('plural.message', $unassignedMessages) }} - <a class="alert-link" href="{{ route('order.messages_unassigned') }}">@lang('mehr') &raquo;</a>

@@ -9,7 +9,7 @@
         <div class="card-header flex">
             <div class="flex-1">@lang('Details')</div>
 
-            @if (!$isNewArticle && !$isCopyOfArticle && Auth::user()->can('article.manage'))
+            @if (!$isNewArticle && !$isCopyOfArticle && Auth::user()->can('article.create'))
             <dot-menu class="ml-2">
                 <a href="{{ route('article.copy', $article) }}" class="btn-link" id="copyArticleLink">@lang('Artikel duplizieren')</a>
             </dot-menu>
@@ -28,7 +28,7 @@
                             <label class="form-label">@lang('Bestand')</label>
 
                             <div class="form-control-static" id="currentQuantity">
-                                {{ $article->quantity }} @can('article.manage')<button type="button" class="btn-link btn-xs edit-quantity" @click="$modal.show('change-quantity')">@lang('ändern')</button>@endcan
+                                {{ $article->quantity }} @can('article.edit')<button type="button" class="btn-link btn-xs edit-quantity" @click="$modal.show('change-quantity')">@lang('ändern')</button>@endcan
                             </div>
                         </div>
                     @endif
