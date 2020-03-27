@@ -12,5 +12,5 @@
 @endsection
 
 @section('content')
-    <inventory-articles :items="{{ json_encode($items) }}" :inventory="{{ json_encode($inventory) }}" :inventory-is-finished="{{ json_encode($inventory->isFinished()) }}"></inventory-articles>
+    <inventory-articles :items="{{ json_encode($items) }}" :inventory="{{ json_encode($inventory) }}" :inventory-is-finished="{{ json_encode($inventory->isFinished()) }}" :edit-enabled="{{ Auth()->user()->hasPermissionTo('inventory.edit') ? 'true' : 'false' }}"></inventory-articles>
 @endsection

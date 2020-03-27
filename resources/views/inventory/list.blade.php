@@ -11,8 +11,10 @@
 @section('content')
 
     <div class="table-toolbar-right-content hidden">
+        @can('inventory.create')
         <a href="{{ route('inventory.create_month') }}" class="btn btn-secondary mr-4">@lang('Neue Monats-Inventur starten')</a>
         <a href="{{ route('inventory.create_year') }}" class="btn btn-secondary">@lang('Neue Jahres-Inventur starten')</a>
+        @endcan
     </div>
 
     {!! $dataTable->table() !!}

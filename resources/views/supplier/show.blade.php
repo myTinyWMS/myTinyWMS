@@ -12,11 +12,15 @@
 @endsection
 
 @section('form_start')
+    @can('supplier.edit')
     {!! Form::model($supplier, ['route' => ['supplier.update', $supplier], 'method' => 'PUT']) !!}
+    @endcan
 @endsection
 
 @section('submit')
+    @can('supplier.edit')
     {!! Form::submit(__('Speichern'), ['class' => 'btn btn-primary']) !!}
+    @endcan
 @endsection
 
 @section('secondCol')
