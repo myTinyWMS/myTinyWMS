@@ -7,7 +7,7 @@
         <a href="{{ route('admin.index') }}">@lang('Administrator')</a>
     </li>
     <li>
-        <a href="{{ route('unit.index') }}">@lang('Einheit Übersicht')</a>
+        <a href="{{ route('unit.index') }}">@lang('Einheiten Übersicht')</a>
     </li>
     <li class="active">
         <strong>@lang('Einheit bearbeiten')</strong>

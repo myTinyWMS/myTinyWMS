@@ -7,7 +7,7 @@
         <a href="{{ route('admin.index') }}">@lang('Administrator')</a>
     </li>
     <li>
-        <a href="{{ route('user.index') }}">@lang(' Benutzer Übersicht')</a>
+        <a href="{{ route('user.index') }}">@lang('Benutzer Übersicht')</a>
     </li>
     <li class="active">
         <strong>@lang('Neuer Benutzer')</strong>
