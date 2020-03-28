@@ -8,8 +8,8 @@ use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ArticleTest extends TestCase {
-    use DatabaseMigrations, HelperTrait;
+class AuditableModelTest extends TestCase {
+    use HelperTrait;
 
     public function test_quantity_at_date_matches_article_quantity_as_it_doesnt_has_a_changelog_entry() {
         $date = Carbon::now()->subDay();

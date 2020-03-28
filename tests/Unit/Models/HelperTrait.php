@@ -37,6 +37,7 @@ trait HelperTrait {
     protected function createArticleAudit($article, $oldValues, $newValues, $createdAt) {
         Audit::create([
             'user_id' => 1,
+            'user_type' => 'Mss\Models\User',
             'event' => 'updated',
             'auditable_type' => 'article',
             'auditable_id' => $article->id,

@@ -22,7 +22,7 @@ class ImportMailsServiceTest extends TestCase
     use DatabaseMigrations;
     use DatabaseTransactions;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         factory(Supplier::class)->create();
@@ -101,8 +101,7 @@ class ImportMailsServiceTest extends TestCase
         $service = $this->getFakeServiceWithFakeMessage('my subject5', 'html', 'text', $attachments);
         $service->process();
 
-        Storage::disk('local')->assertExists('attachments/'.OrderMessage::where('subject', 'my subject5')->first()->attachments[0]['fileName']);
-
+        $this->assertTrue(file_exists(storage_path('attachments/'.OrderMessage::where('subject', 'my subject5')->first()->attachments[0]['fileName'])));
         $this->assertEquals(1, OrderMessage::where('subject', 'my subject5')->count());
         $this->assertNull(OrderMessage::where('subject', 'my subject5')->first()->order_id);
     }
