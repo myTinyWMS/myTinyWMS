@@ -171,7 +171,7 @@
                     <a href="{{ route('article.quantity_changelog', $article) }}" class="btn-link btn-xs">@lang('mehr')</a>
                 </div>
                 <div class="card-content">
-                    <article-quantity-changelog :items="{{ json_encode($article->getShortChangelog()) }}" :article="{{ json_encode($article) }}" :edit-enabled="{{ Auth()->user()->hasPermissionTo('article.edit') ? 'true' : 'false' }}"></article-quantity-changelog>
+                    <article-quantity-changelog :items="{{ json_encode($article->getShortChangelog()) }}" :article="{{ json_encode($article) }}" :edit-enabled="{{ Auth()->user()->can('article.edit') ? 'true' : 'false' }}"></article-quantity-changelog>
                 </div>
             </div>
         </div>
