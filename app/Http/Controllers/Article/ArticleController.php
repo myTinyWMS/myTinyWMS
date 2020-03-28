@@ -18,6 +18,10 @@ use Mss\Http\Requests\FixArticleQuantityChangeRequest;
 
 class ArticleController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Article::class, 'article');
+    }
+
     public function index(ArticleDataTable $articleDataTable) {
         $preSelectedSupplier = request('supplier', null);
         $preSelectedCategory = request('category', null);

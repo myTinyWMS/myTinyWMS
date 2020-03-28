@@ -14,6 +14,7 @@
 /** @var Factory $factory */
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Mss\Models\User;
 use Mss\Models\Order;
 use Mss\Models\Article;
@@ -58,7 +59,7 @@ $factory->define(Mss\Models\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => bcrypt('password'),
+        'password' => Hash::make('password'),
         'remember_token' => str_random(10),
         'settings' => []
     ];

@@ -4,7 +4,10 @@
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('unit.index') }}">@lang('Übersicht')</a>
+        <a href="{{ route('admin.index') }}">@lang('Administrator')</a>
+    </li>
+    <li>
+        <a href="{{ route('unit.index') }}">@lang('Einheiten Übersicht')</a>
     </li>
     <li class="active">
         <strong>@lang('Neue Einheit')</strong>

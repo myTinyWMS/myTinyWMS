@@ -5,6 +5,7 @@ namespace Mss\Console;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Mss\Console\Commands\AddRoleToUserCommand;
 use Mss\Console\Commands\CleanupEmptyOrdersCommand;
 use Mss\Console\Commands\CreateTestDatabase;
 use Mss\Console\Commands\ImportMailsCommand;
@@ -23,7 +24,8 @@ class Kernel extends ConsoleKernel
         SetArticleNumbersCommand::class,
         ImportMailsCommand::class,
         SendInventoryMailCommand::class,
-        CleanupEmptyOrdersCommand::class
+        CleanupEmptyOrdersCommand::class,
+        AddRoleToUserCommand::class
     ];
 
     /**

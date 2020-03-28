@@ -81,8 +81,8 @@
                     </td>
                     <td>{{ item.user ? item.user.name : '' }}</td>
                     <td>
-                        <dot-menu class="ml-2">
-                            <a v-if="editEnabled" href="#" @click="showChangeNoteDialog(item)">{{ $t('Kommentar ändern') }}</a>
+                        <dot-menu class="ml-2" v-if="editEnabled">
+                            <a href="#" @click="showChangeNoteDialog(item)">{{ $t('Kommentar ändern') }}</a>
                             <a v-if="itemIsFromCurrentMonth(item, index)" v-bind:href="route('article.quantity_changelog.delete', [article.id, item.id])" v-bind:onclick="getDeleteOnClick(item)">{{ $t('Buchung löschen') }}</a>
                             <a v-if="item.type === CHANGELOG_TYPE_OUTGOING || item.type === CHANGELOG_TYPE_INCOMING" href="#" @click="showFixChangeNoteDialog(item)">{{ $t('Buchung korrigieren') }}</a>
                         </dot-menu>

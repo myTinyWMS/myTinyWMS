@@ -15,7 +15,7 @@
     <div class="row">
         <div class="card w-full">
             <div class="card-content">
-                <order-messages :messages="{{ $unassignedMessages }}"></order-messages>
+                <order-messages :messages="{{ $unassignedMessages }}" :edit-enabled="{{ Auth()->user()->can('ordermessage.edit') ? 'true' : 'false' }}"></order-messages>
             </div>
         </div>
     </div>

@@ -22,7 +22,7 @@
                             <th>{{ $t('Artikel') }}</th>
                             <th width="25%">{{ $t('Notizen') }}</th>
                             <th class="w-16 text-nowrap">{{ $t('Bestand alt') }}</th>
-                            <th class="w-64 text-nowrap text-center">{{ $t('Bestand aktuell') }}</th>
+                            <th class="w-64 text-nowrap text-center" v-if="editEnabled">{{ $t('Bestand aktuell') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,7 +58,7 @@
                                         <b class="text-danger">{{ $t('Ersatzlieferung') }}:</b> {{ item.article.replacement_delivery_quantity }}
                                     </div>
                                 </td>
-                                <td class="text-center text-nowrap">
+                                <td class="text-center text-nowrap" v-if="editEnabled">
                                     <div class="flex" v-if="finishedArticles.indexOf(item.article.id) == -1">
                                         <input type="text" class="form-input w-16 py-0" name="quantity" v-model="item.article.new_quantity">
 
@@ -89,7 +89,7 @@
 
 <script>
     export default {
-        props: ['items', 'inventory', 'inventoryIsFinished'],
+        props: ['items', 'inventory', 'inventoryIsFinished', 'editEnabled'],
 
         data() {
             return {

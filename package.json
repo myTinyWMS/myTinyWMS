@@ -10,7 +10,7 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.7.1",
+    "@fortawesome/fontawesome-free": "^5.13.0",
     "@kirschbaum-development/laravel-translations-loader": "^1.0.2",
     "axios": "^0.18",
     "bootstrap-sass": "^3.3.7",

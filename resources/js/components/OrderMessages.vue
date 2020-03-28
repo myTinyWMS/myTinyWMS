@@ -21,7 +21,7 @@
             <div class="flex flex-col py-2 pr-4 border-b">
                 <div class="flex">
                     <div class="text-xs text-gray-500 flex-1">
-                        <z icon="time" class="fill-current w-3 h-3 inline-block"></z> {{ messages[currentIndex].received | moment('dddd, DD.MM YYYY, HH:mm ') | $t('Uhr') }}
+                        <z icon="time" class="fill-current w-3 h-3 inline-block"></z> {{ messages[currentIndex].received | moment('dddd, DD.MM YYYY, HH:mm ') }}{{ $t('Uhr') }}
                         <template v-if="messages[currentIndex].sender.includes('System')">
                             {{ $t('von') }} {{ messages[currentIndex].user ? messages[currentIndex].user.name : 'System' }} {{ $t('an') }} {{ messages[currentIndex].receiver.join(', ') }} (#{{ messages[currentIndex].id }})
                         </template>
@@ -29,7 +29,7 @@
                             {{ $t('von') }} {{ messages[currentIndex].sender.join(', ') }} (#{{ messages[currentIndex].id }})
                         </template>
                     </div>
-                    <dot-menu class="order-message-menu">
+                    <dot-menu class="order-message-menu" v-if="editEnabled">
                         <a :href="route('order.message_forward_form', [messages[currentIndex]])" :title="$t('Weiterleiten')"><i class="fa fa-forward"></i> {{ $t('Weiterleiten') }}</a>
                         <template v-if="order">
                         <a :href="route('order.message_create', {'order': order, 'answer': messages[currentIndex].id})"><i class="fa fa-reply"></i> {{ $t('Antworten') }}</a>
@@ -61,7 +61,7 @@
 <script>
     export default {
 
-        props: ['messages', 'order'],
+        props: ['messages', 'order', 'editEnabled'],
 
         data() {
             return {

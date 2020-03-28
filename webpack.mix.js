@@ -36,12 +36,14 @@ mix
     .copy('resources/assets/vendor/iCheck/blue@2x.png', 'public/img')
     .copy('resources/assets/logo.png', 'public/img')
     .copy('resources/assets/vendor/summernote/font', 'public/css/font')
+    .copy('node_modules/@fortawesome/fontawesome-free/webfonts/', 'public/webfonts')
     .combine([
         'resources/assets/vendor/iCheck/custom.css',
         'resources/assets/vendor/select2/select2.min.css',
         'resources/assets/vendor/summernote/summernote-lite.css',
         'resources/assets/vendor/tagify/tagify.css',
         'resources/assets/vendor/daterangepicker/daterangepicker.css',
+        'node_modules/@fortawesome/fontawesome-free/css/all.min.css'
     ], 'public/css/vendor.css')
     .combine([
         'resources/assets/vendor/jquery/jquery-3.1.1.min.js',

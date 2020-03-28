@@ -40,7 +40,7 @@ class CreateTestDatabase extends Command
     public function handle()
     {
         // use dump
-        DB::unprepared(file_get_contents(database_path('mss_testdb_20190613.sql')));
+        DB::unprepared(file_get_contents(database_path('mss_testdb.sql')));
         Artisan::call('db:seed', ['--database' => 'testdb']);
         Artisan::call('articlenumbers:set', ['--database' => 'testdb', '--force' => true]);
 

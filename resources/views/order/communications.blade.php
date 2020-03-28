@@ -2,7 +2,7 @@
     <a href="{{ route('order.message_create', ['order' => $order, 'sendorder' => 1]) }}" class="btn btn-lg btn-success">@lang('Bestellung per E-Mail an Lieferant schicken')</a>
 @endif
 
-<order-messages :messages="{{ $messages }}" :order="{{ $order }}"></order-messages>
+<order-messages :messages="{{ $messages }}" :order="{{ $order }}" :edit-enabled="{{ Auth()->user()->can('ordermessage.edit') ? 'true' : 'false' }}"></order-messages>
 
 <assign-order-message-modal>{!! $dataTable->table() !!}</assign-order-message-modal>
 

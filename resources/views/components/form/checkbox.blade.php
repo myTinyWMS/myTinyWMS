@@ -1,6 +1,6 @@
-<div class="checkbox checkbox-primary {{ $parentClasses }}">
-    {!! Form::checkbox($name, $value, $checked, array_merge(['id' => $name], $attributes)) !!}
-    <label for="{{ $name }}">
+<div class="i-checks {{ $parentClasses }}">
+    <label>
+        {!! Form::checkbox($name, $value, $checked, array_merge(['id' => $name], $attributes)) !!}
         {{ $label }}
     </label>
 </div>

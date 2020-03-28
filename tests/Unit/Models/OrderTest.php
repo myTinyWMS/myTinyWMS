@@ -9,8 +9,6 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class OrderTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function test_new_order_number_is_correct_if_last_is_lower_ten() {
         Carbon::setTestNow('2018-06-01 12:00:00');
         Order::unguard();

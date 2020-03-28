@@ -9,6 +9,7 @@ use Laravel\Dusk\TestCase as BaseTestCase;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Mss\Models\User;
+use Tests\Traits\CreatesApplication;
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -56,7 +57,7 @@ abstract class DuskTestCase extends BaseTestCase
     protected function driver()
     {
         return RemoteWebDriver::create(
-            'http://selenium:4444/wd/hub', DesiredCapabilities::chrome()
+            'http://selenium:4444', DesiredCapabilities::chrome()
         );
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Models;
 
 use Carbon\Carbon;
 use Mss\Models\ArticleSupplier;
@@ -14,7 +14,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ArticleTest extends TestCase
 {
-    use DatabaseMigrations, HelperTrait;
+    use HelperTrait;
 
     public function test_quantity_at_date_before_first_change() {
         /* @var $article Article */
@@ -155,6 +155,7 @@ class ArticleTest extends TestCase
 
         Audit::create([
             'user_id' => 1,
+            'user_type' => 'Mss\Models\User',
             'event' => 'updated',
             'auditable_type' => 'Mss\Models\ArticleSupplier',
             'auditable_id' => $supplierArticle1->id,

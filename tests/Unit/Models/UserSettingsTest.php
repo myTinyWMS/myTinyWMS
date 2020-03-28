@@ -12,7 +12,6 @@ use Tests\TestCase;
 
 class UserSettingsTest extends TestCase
 {
-
     /**
      * @test
      */
