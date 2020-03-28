@@ -10,6 +10,10 @@ use Mss\Models\Supplier;
 
 class SupplierController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Supplier::class, 'supplier');
+    }
+
     /**
      * Display a listing of the resource.
      *

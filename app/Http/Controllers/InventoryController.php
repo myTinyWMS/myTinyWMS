@@ -15,6 +15,10 @@ use Mss\Services\InventoryService;
 
 class InventoryController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Inventory::class, 'inventory');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -51,6 +55,12 @@ class InventoryController extends Controller
         return view('inventory.show', compact('inventory', 'items', 'categoryToPreselect'));
     }
 
+    /**
+     * @param Inventory $inventory
+     * @param Article $article
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function processed(Inventory $inventory, Article $article, Request $request) {
         /* @var $article Article */
 
@@ -76,6 +86,11 @@ class InventoryController extends Controller
         return response()->json(true);
     }
 
+    /**
+     * @param Inventory $inventory
+     * @param Article $article
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function correct(Inventory $inventory, Article $article) {
         /* @var $article Article */
         $item = $inventory->items->where('article_id', $article->id)->first();
@@ -116,6 +131,11 @@ class InventoryController extends Controller
         return response()->redirectToRoute('inventory.show', [$inventory]);
     }
 
+    /**
+     * @param Inventory $inventory
+     * @param Category $category
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function categoryDone(Inventory $inventory, Category $category) {
         $inventory->load(['items' => function ($query) {
             $query->unprocessed()->with('article.category');
@@ -127,6 +147,10 @@ class InventoryController extends Controller
         return response()->redirectToRoute('inventory.show', [$inventory]);
     }
 
+    /**
+     * @param Inventory $inventory
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function finish(Inventory $inventory) {
         $inventory->load(['items' => function ($query) {
             $query->unprocessed()->with('article.category');

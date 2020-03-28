@@ -3,6 +3,7 @@
 namespace Mss\Http\Controllers\Order;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Mss\Models\Tag;
 use Mss\Models\Order;
 use Mss\Models\Article;
@@ -21,6 +22,10 @@ use Mss\DataTables\SelectArticleDataTable;
 
 class OrderController extends Controller
 {
+    public function __construct() {
+        $this->authorizeResource(Order::class, 'order');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -213,6 +218,9 @@ class OrderController extends Controller
         return redirect()->route('order.index');
     }
 
+    /**
+     * @return Collection
+     */
     protected function getArticleList() {
         return Article::enabled()->with(['suppliers', 'category'])->withCurrentSupplier()->withCurrentSupplierArticle()->orderBy('name')->get()
             ->filter(function ($article) {
@@ -235,6 +243,11 @@ class OrderController extends Controller
             });
     }
 
+    /**
+     * @param Order $order
+     * @param $payment_status
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function changePaymentStatus(Order $order, $payment_status) {
         if (array_key_exists(intval($payment_status), Order::getPaymentStatusText())) {
             $order->payment_status = intval($payment_status);
@@ -247,6 +260,11 @@ class OrderController extends Controller
         return redirect()->route('order.show', $order);
     }
 
+    /**
+     * @param Order $order
+     * @param $status
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function changeStatus(Order $order, $status) {
         if (array_key_exists(intval($status), Order::getStatusTexts())) {
             $order->status = intval($status);
@@ -259,6 +277,11 @@ class OrderController extends Controller
         return redirect()->route('order.show', $order);
     }
 
+    /**
+     * @param Order $order
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function uploadInvoiceCheckAttachments(Order $order, Request $request) {
         $file = $request->file('file');
 
