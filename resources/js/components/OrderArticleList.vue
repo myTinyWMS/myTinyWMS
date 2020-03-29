@@ -68,7 +68,6 @@
 
         watch: {
             supplier: function () {
-                console.log(this.supplier);
                 this.filterArticleList();
             }
         },
@@ -102,14 +101,11 @@
 
             filterArticleList() {
                 let currentSupplierId = this.supplier;
-                console.log(this.allArticles);
                 let allArticles = _.filter(this.allArticles, function (o) {
                     return (o.supplier_id == currentSupplierId);
                 });
-                console.log(allArticles);
                 allArticles = _.without(allArticles, undefined);
                 let notExistingIds = _.difference(_.map(allArticles, 'id'), _.map(this.articles, 'id'));
-                console.log(this.allArticles.length, notExistingIds.length, currentSupplierId);
                 serverBus.$emit('filterOrderArticleList', notExistingIds);
             },
 

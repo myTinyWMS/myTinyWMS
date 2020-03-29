@@ -17,6 +17,11 @@ class SelectArticleDataTable extends ArticleDataTable
     protected $sortingEnabled = true;
 
     /**
+     * @var bool
+     */
+    public $paging = false;
+
+    /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
@@ -44,7 +49,7 @@ class SelectArticleDataTable extends ArticleDataTable
 
     protected function getHtmlParameters() {
         $parameters = [
-            'paging' => false,
+            'paging' => $this->paging,
             'deferLoading' => false,
             'order' => [[1, 'asc']],
             'rowGroup' => ['dataSrc' => 'category'],

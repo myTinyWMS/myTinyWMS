@@ -80,6 +80,8 @@ Vue.component('invoice-check-modal', require('./components/InvoiceCheckModal.vue
 Vue.component('assign-order-message-modal', require('./components/AssignOrderMessageModal.vue'));
 Vue.component('select-order-article-modal', require('./components/SelectOrderArticleModal.vue'));
 
+Vue.component('article-group-article-list', require('./components/ArticleGroupArticleList.vue'));
+
 Vue.component('order-messages', require('./components/OrderMessages.vue'));
 
 Vue.component('wysiwyg-editor', require('./components/WysiwygEditor.vue'));

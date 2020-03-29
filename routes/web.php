@@ -81,6 +81,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resources([
         'article' => 'Article\ArticleController',
+        'article-group' => 'Article\ArticleGroupController',
         'supplier' => 'SupplierController',
         'order' => 'Order\OrderController',
         'inventory' => 'InventoryController',

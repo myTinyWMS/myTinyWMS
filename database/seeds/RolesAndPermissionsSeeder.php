@@ -27,6 +27,11 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'article.create.file']);
         Permission::create(['name' => 'article.delete.file']);
 
+        Permission::create(['name' => 'article-group.view']);
+        Permission::create(['name' => 'article-group.create']);
+        Permission::create(['name' => 'article-group.edit']);
+        Permission::create(['name' => 'article-group.delete']);
+
         Permission::create(['name' => 'order.view']);
         Permission::create(['name' => 'order.create']);
         Permission::create(['name' => 'order.edit']);
