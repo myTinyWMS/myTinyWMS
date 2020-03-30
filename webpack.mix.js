@@ -63,6 +63,15 @@ mix
         'resources/assets/vendor/tagify/jQuery.tagify.min.js'
     ], 'public/js/vendor.js')
     .combine([
+        'resources/assets/vendor/bootswatch/cyborg.css',
+        'resources/assets/vendor/font-awesome/css/font-awesome.css',
+        'resources/assets/vendor/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
+        'resources/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css',
+        'resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.css',
+        'resources/assets/vendor/iCheck/custom.css',
+        'resources/assets/css/handscanner.css'
+    ], 'public/css/handscanner.css')
+    .combine([
         'resources/assets/vendor/jquery/jquery-3.1.1.min.js',
         'resources/assets/vendor/bootstrap/js/bootstrap.js',
         'resources/assets/vendor/select2/select2.min.js',
