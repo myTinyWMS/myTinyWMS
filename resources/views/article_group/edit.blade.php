@@ -19,7 +19,7 @@
 
 @section('submit')
     @can('supplier-group.edit')
-    {!! Form::submit(__('Speichern'), ['class' => 'btn btn-primary']) !!}
+    {!! Form::submit(__('Speichern'), ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
     @endcan
 @endsection
 

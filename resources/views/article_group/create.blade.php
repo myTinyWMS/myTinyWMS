@@ -16,5 +16,5 @@
 @endsection
 
 @section('submit')
-    {!! Form::submit(__('Speichern'), ['class' => 'btn btn-primary']) !!}
+    {!! Form::submit(__('Speichern'), ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
 @endsection

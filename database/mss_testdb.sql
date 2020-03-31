@@ -456,6 +456,30 @@ create table users
 )
     collate=utf8mb4_unicode_ci;
 
+create table article_group_items
+(
+	id bigint unsigned auto_increment
+		primary key,
+	created_at timestamp null,
+	updated_at timestamp null,
+	article_group_id int unsigned null,
+	article_id int unsigned not null,
+	quantity int unsigned not null
+)
+collate=utf8mb4_unicode_ci;
+
+create table article_groups
+(
+	id bigint unsigned auto_increment
+		primary key,
+	created_at timestamp null,
+	updated_at timestamp null,
+	name varchar(191) not null
+)
+collate=utf8mb4_unicode_ci;
+
+
+
 
 INSERT INTO mss.migrations (id, migration, batch) VALUES (1, '2014_10_12_000000_create_users_table', 1);
 INSERT INTO mss.migrations (id, migration, batch) VALUES (2, '2014_10_12_100000_create_password_resets_table', 1);
@@ -511,3 +535,5 @@ INSERT INTO mss.migrations (id, migration, batch) VALUES (53, '2019_11_14_223030
 INSERT INTO mss.migrations (id, migration, batch) VALUES (54, '2020_02_07_141650_add_object_guid_to_users_table', 17);
 INSERT INTO mss.migrations (id, migration, batch) VALUES (55, '2020_03_08_210615_create_permission_tables', 18);
 INSERT INTO mss.migrations (id, migration, batch) VALUES (56, '2020_03_11_225711_add_soft_delete_to_users', 19);
+INSERT INTO mss.migrations (id, migration, batch) VALUES (57, '2020_03_28_221133_create_article_groups_table', 20);
+INSERT INTO mss.migrations (id, migration, batch) VALUES (58, '2020_03_28_221238_create_article_group_items_table', 20);

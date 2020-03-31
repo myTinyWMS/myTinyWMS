@@ -19,8 +19,8 @@
                 </div>
                 <div class="w-48 mr-4 text-right">
                     <div class="form-group">
-                        <label for="quantity[]" class="form-label">{{ $t('Menge') }}</label>
-                        <input class="form-input text-right quantity-select" required="required" name="quantity[]" id="quantity[]" type="text" v-model="article.quantity">
+                        <label :for="'quantity_' + index" class="form-label">{{ $t('Menge') }}</label>
+                        <input class="form-input text-right quantity-select" required="required" name="quantity[]" :id="'quantity_' + index" type="text" v-model="article.quantity">
                     </div>
                 </div>
             </div>

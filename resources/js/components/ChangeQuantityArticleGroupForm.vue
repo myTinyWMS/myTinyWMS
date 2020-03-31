@@ -50,7 +50,7 @@
                             <div class="form-group">
                                 <label class="form-label">{{ $t('Menge') }}</label>
                                 <div class="form-control-static">
-                                    <input type="text" class="form-input" v-model="item.quantity" :name="'quantity[' + item.id + ']'">
+                                    <input type="text" class="form-input" v-model="item.quantity" :id="'quantity_' + key" :name="'quantity[' + item.id + ']'">
                                 </div>
                             </div>
                         </div>

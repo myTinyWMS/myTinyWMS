@@ -26,8 +26,8 @@
                     <div>@lang('Details')</div>
 
                     @can('article-group.edit')
-                    <dot-menu class="ml-2 pt-1" direction="right">
-                        <a href="{{ route('article-group.edit', $articleGroup) }}">@lang('Artikelgruppe bearbeiten')</a>
+                    <dot-menu class="ml-2 pt-1" direction="right" id="edit-group-menu">
+                        <a href="{{ route('article-group.edit', $articleGroup) }}" id="edit-group">@lang('Artikelgruppe bearbeiten')</a>
                     </dot-menu>
                     @endcan
                 </div>
@@ -73,7 +73,7 @@
                                     <div class="w-4/12">
                                         <div class="form-group">
                                             <label class="form-label">@lang('Menge für diese Gruppe')</label>
-                                            <div class="form-control-static">
+                                            <div class="form-control-static" id="group_quantity_{{ $item->id }}">
                                                 {{ $item->quantity }}
                                             </div>
                                         </div>
@@ -81,7 +81,7 @@
                                     <div class="w-4/12">
                                         <div class="form-group">
                                             <label class="form-label">@lang('Aktueller Bestand')</label>
-                                            <div class="form-control-static">
+                                            <div class="form-control-static" id="current_quantity_{{ $item->id }}">
                                                 {{ $item->article->quantity }}
                                             </div>
                                         </div>
