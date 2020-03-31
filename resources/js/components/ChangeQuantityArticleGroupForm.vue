@@ -1,42 +1,19 @@
 <template>
-    <form method="post" v-bind:action="route('article.change_quantity', [article.id])" @submit="submit">
+    <form method="post" v-bind:action="route('article-group.change_quantity', [articleGroup.id])" @submit="submit">
         <h4 class="modal-title">{{ $t('Bestand ändern') }}</h4>
-        <div class="row">
-            <div class="w-1/2">
-                <div class="form-group">
-                    <label for="changelogCurrentQuantity" class="form-label">{{ $t('aktueller Bestand') }}</label>
-                    <div class="form-control-static">
-                        <span id="changelogCurrentQuantity">{{ article.quantity }}</span>
-                        {{ unit }}
-                    </div>
-                </div>
-            </div>
-            <div class="w-1/3 col-lg-offset-2">
-                <div class="form-group">
-                    <label class="form-label">{{ $t('Entnahmemenge') }}</label>
-                    <div class="form-control-static">
-                        <span>{{ article.issue_quantity }}</span>
-                        {{ unit }}
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="row">
-            <div class="w-1/2">
-                <div class="form-group">
+            <div class="flex">
+                <div class="form-group mr-6">
                     <label class="form-label">{{ $t('Veränderung') }}</label>
-
                     <div class="flex">
                         <select v-model="changelogChangeType" name="changelogChangeType" id="changelogChangeType">
                             <option value="add">{{ $t('Plus') }}</option>
                             <option value="sub">{{ $t('Minus') }}</option>
                         </select>
-                        <input class="form-input w-24 ml-2" type="text" v-model="change" value="" name="changelogChange" id="changelogChange" :placeholder="$t('Menge')" required>
                     </div>
                 </div>
-            </div>
-            <div class="w-1/2">
+
                 <div class="form-group">
                     <label for="changelogType" class="form-label">{{ $t('Typ der Änderung') }}</label>
                     <input type="hidden" name="changelogType" v-model="changelogType.value" />
@@ -48,13 +25,43 @@
             </div>
         </div>
 
+        <div class="rounded border border-blue-700 p-4 mb-4" v-for="(item,key) in articleGroup.items">
+            <div class="row">
+                <div class="w-8/12">
+                    <div class="form-group">
+                        <label class="form-label">{{ $t('Artikel') }} {{ key+1 }}</label>
+                        <div class="form-control-static">
+                            {{ item.article.name }}
+                            <div class="text-xs my-2"># {{ item.article.article_number }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-4/12">
+                    <div class="row">
+                        <div class="w-1/2">
+                            <div class="form-group">
+                                <label class="form-label">{{ $t('Aktueller Bestand') }}</label>
+                                <div class="form-control-static">
+                                    {{ item.article.quantity }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-1/2">
+                            <div class="form-group">
+                                <label class="form-label">{{ $t('Menge') }}</label>
+                                <div class="form-control-static">
+                                    <input type="text" class="form-input" v-model="item.quantity" :name="'quantity[' + item.id + ']'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="form-group">
             <label for="changelogNote" class="form-label">{{ $t('Bemerkung') }}</label>
             <textarea class="form-textarea" rows="3" id="changelogNote" name="changelogNote"></textarea>
-        </div>
-
-        <div v-if="(typeof article.delivery_notes == 'string' && article.delivery_notes.length > 0 && changelogType.value == 1)">
-            <span class="font-semibold text-red-500 text-xs">{{ article.delivery_notes }}</span>
         </div>
 
         <div class="modal-footer">
@@ -67,7 +74,7 @@
 
 <script>
     export default {
-        props: ['article', 'unit'],
+        props: ['articleGroup'],
 
         data() {
             return {
@@ -89,19 +96,28 @@
 
         methods: {
             submit(e) {
-                if (this.changelogChangeType == 'sub' && this.change > this.article.quantity) {
-                    alert(this.$t('Es ist nicht möglich mehr auszubuchen als Bestand vorhanden ist!'));
-                    e.preventDefault();
-                    return false;
+                let that = this;
+                if (this.changelogChangeType == 'sub') {
+                    let breakSubmit = false;
+                    _.forEach(that.articleGroup.items, function (item) {
+                        if (item.quantity > item.article.quantity) {
+                            alert(that.$t('Es ist nicht möglich mehr auszubuchen als Bestand vorhanden ist!'));
+                            breakSubmit = true;
+                            return false;
+                        }
+                    });
+
+                    if (breakSubmit) {
+                        e.preventDefault();
+                        return false;
+                    }
                 }
 
-                let message = this.$t('Du willst den Bestand um ');
-                message += (this.changelogChangeType === 'sub') ? this.$t('MINUS') + ' ' : this.$t('PLUS') + ' ';
-                message += this.change + ' ' + this.$t('ändern - als') + ' ';
-                message += '"' + this.changelogType.text + '". ' + this.$t('SICHER?');
+                let message = this.$t('Du willst den Bestand um ändern als "') + this.changelogType.text + '". ' + this.$t('SICHER?');
 
                 if (!confirm(message)) {
                     e.preventDefault();
+                    return false;
                 }
             }
         },

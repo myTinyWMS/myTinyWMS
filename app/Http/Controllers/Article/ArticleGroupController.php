@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Mss\DataTables\ArticleGroupDataTable;
 use Mss\DataTables\SelectArticleDataTable;
 use Mss\Http\Controllers\Controller;
+use Mss\Http\Requests\ArticleGroupChangeQuantityRequest;
 use Mss\Models\Article;
 use Mss\Models\ArticleGroup;
 use Mss\Models\ArticleGroupItem;
@@ -152,6 +153,31 @@ class ArticleGroupController extends Controller
     }
 
     /**
+     * @param $id
+     * @param ArticleGroupChangeQuantityRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function changeQuantity($id, ArticleGroupChangeQuantityRequest $request) {
+        $quantities = collect($request->get('quantity', []));
+
+        $articleGroup = ArticleGroup::with('items.article')->findOrFail($id);
+        $articleGroup->items->each(function ($item) use ($quantities, $request) {
+            /**@var $item ArticleGroupItem */
+            $quantity = $quantities->get($item->id, 0);
+
+            if ($request->get('changelogChangeType') === 'sub') {
+                $quantity *= -1;
+            }
+
+            $item->article->changeQuantity($quantity, $request->get('changelogType'), $request->get('changelogNote'));
+        });
+
+        flash(__('Bestand der Artikel geändert'))->success();
+
+        return redirect()->route('article-group.show', $articleGroup);
+    }
+
+    /**
      * @return Collection
      */
     protected function getArticleList() {
@@ -160,7 +186,7 @@ class ArticleGroupController extends Controller
                 return !empty($article->currentSupplierArticle);
             })
             ->transform(function ($article) {
-                /*@var $article Article */
+                /**@var $article Article */
                 $deliveryTime = intval($article->currentSupplierArticle->delivery_time);
                 $deliveryDate = Carbon::now()->addWeekdays($deliveryTime);
                 return [

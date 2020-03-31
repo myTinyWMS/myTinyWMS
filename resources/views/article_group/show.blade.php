@@ -4,7 +4,7 @@
 
 @section('title_extra')
     @can('article.edit')
-        <a href="{{ route('order.create_delivery', $articleGroup) }}" class="btn btn-secondary">@lang('Warenausgang erfassen')</a>
+        <button type="button" class="btn btn-secondary" @click="$modal.show('change-quantity')">@lang('Bestand ändern')</button>
     @endcan
 @endsection
 
@@ -93,6 +93,12 @@
                 @endforeach
             </div>
         </div>
+        <div class="w-2/5 ml-4"></div>
     </div>
 </div>
+
+<!-- Modal -->
+<modal name="change-quantity" height="auto" width="1000" classes="modal">
+    <change-quantity-article-group-form :article-group="{{ $articleGroup }}"></change-quantity-article-group-form>
+</modal>
 @endsection

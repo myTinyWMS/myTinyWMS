@@ -32,10 +32,12 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('article/{article}/change-changelog-note', 'QuantityChangelogController@changeChangelogNote')->name('article.change_changelog_note');
             Route::get('article/{article}/quantity-changelog/{changelog}/delete', 'QuantityChangelogController@delete')->name('article.quantity_changelog.delete');
 
+            Route::post('article/{article}/change-supplier', 'SupplierController@store')->name('article.change_supplier');
+        });
+
+        Route::group(['middleware' => ['permission:article.change_quantity']], function () {
             Route::post('article/{article}/change-quantity', 'ArticleController@changeQuantity')->name('article.change_quantity');
             Route::post('article/{article}/fix-quantity-change', 'ArticleController@fixQuantityChange')->name('article.fix_quantity_change');
-
-            Route::post('article/{article}/change-supplier', 'SupplierController@store')->name('article.change_supplier');
         });
 
         Route::get('article/{article}/file_delete/{file}', 'AttachmentController@delete')->middleware(['permission:article.delete.file'])->name('article.file_delete');
@@ -86,6 +88,10 @@ Route::group(['middleware' => ['auth']], function () {
         'order' => 'Order\OrderController',
         'inventory' => 'InventoryController',
     ]);
+
+    Route::group(['middleware' => ['permission:article-group.change_quantity']], function () {
+        Route::post('article-group/{article_group}/change-quantity', 'Article\ArticleGroupController@changeQuantity')->name('article-group.change_quantity');
+    });
 
     Route::group(['middleware' => ['permission:reports.view']], function () {
         Route::get('reports', 'ReportsController@index')->name('reports.index');

@@ -28,7 +28,7 @@
                             <label class="form-label">@lang('Bestand')</label>
 
                             <div class="form-control-static" id="currentQuantity">
-                                {{ $article->quantity }} @can('article.edit')<button type="button" class="btn-link btn-xs edit-quantity" @click="$modal.show('change-quantity')">@lang('ändern')</button>@endcan
+                                {{ $article->quantity }} @can('article.change_quantity')<button type="button" class="btn-link btn-xs edit-quantity" @click="$modal.show('change-quantity')">@lang('ändern')</button>@endcan
                             </div>
                         </div>
                     @endif

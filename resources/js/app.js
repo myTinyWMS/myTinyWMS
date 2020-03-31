@@ -81,6 +81,7 @@ Vue.component('assign-order-message-modal', require('./components/AssignOrderMes
 Vue.component('select-order-article-modal', require('./components/SelectOrderArticleModal.vue'));
 
 Vue.component('article-group-article-list', require('./components/ArticleGroupArticleList.vue'));
+Vue.component('change-quantity-article-group-form', require('./components/ChangeQuantityArticleGroupForm.vue'));
 
 Vue.component('order-messages', require('./components/OrderMessages.vue'));
 
