@@ -530,5 +530,8 @@
     "Ungelesen": "Unread",
     "Verschieben": "Move",
     "Signatur einfügen": "Insert signature",
-    "Signatur": "Signature"
+    "Signatur": "Signature",
+    "Gruppen Menge": "Group quantity",
+    "Wieviele Sets sollen ausgebucht werden?": "How many sets should be booked out?",
+    "Wieviele Sets sollen eingebucht werden?": "How many sets should be booked?"
 }

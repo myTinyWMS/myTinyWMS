@@ -495,6 +495,8 @@ export default {
         "Bestands-Verlauf": "Inventory history",
         "mehr": "more",
         "Lieferant bearbeiten": "Edit supplier",
+        "Version": "Version",
+        "build": "build",
         "Eingeloggt als": "Logged in as",
         "Keine Nachrichten vorhanden": "No messages available",
         "Dashboard": "Dashboard",
@@ -642,6 +644,9 @@ export default {
         "Verschieben": "Move",
         "Signatur einfügen": "Insert signature",
         "Signatur": "Signature",
+        "Gruppen Menge": "Group quantity",
+        "Wieviele Sets sollen ausgebucht werden?": "How many sets should be booked out?",
+        "Wieviele Sets sollen eingebucht werden?": "How many sets should be booked?",
         "pagination": {
             "previous": "&laquo; Previous",
             "next": "Next &raquo;"
@@ -807,6 +812,9 @@ export default {
         "Ungelesen",
         "Verschieben",
         "Signatur einfügen",
-        "Signatur"
+        "Signatur",
+        "Gruppen Menge",
+        "Wieviele Sets sollen ausgebucht werden?",
+        "Wieviele Sets sollen eingebucht werden?"
     ]
 }

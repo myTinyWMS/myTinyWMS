@@ -14,7 +14,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mr-6">
                     <label for="changelogType" class="form-label">{{ $t('Typ der Änderung') }}</label>
                     <input type="hidden" name="changelogType" v-model="changelogType.value" />
                     <select id="changelogType" class="form-control" required v-model="changelogType">
@@ -22,12 +22,17 @@
                         <option v-for="item in changeTypes" v-bind:value="item" v-if="(item.ifOnly == '' || changelogChangeType == item.ifOnly)">{{ item.text }}</option>
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <label for="set_quantity" class="form-label">{{ changelogChangeType == 'sub' ? $t('Wieviele Sets sollen ausgebucht werden?') : $t('Wieviele Sets sollen eingebucht werden?') }}</label>
+                    <input type="text" name="set_quantity" id="set_quantity" class="form-input w-24" v-model="set_quantity" v-on:change="updateQuantities" />
+                </div>
             </div>
         </div>
 
         <div class="rounded border border-blue-700 p-4 mb-4" v-for="(item,key) in articleGroup.items">
             <div class="row">
-                <div class="w-8/12">
+                <div class="w-7/12">
                     <div class="form-group">
                         <label class="form-label">{{ $t('Artikel') }} {{ key+1 }}</label>
                         <div class="form-control-static">
@@ -36,9 +41,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-4/12">
+                <div class="w-5/12">
                     <div class="row">
-                        <div class="w-1/2">
+                        <div class="w-1/3">
                             <div class="form-group">
                                 <label class="form-label">{{ $t('Aktueller Bestand') }}</label>
                                 <div class="form-control-static">
@@ -46,11 +51,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="w-1/2">
+                        <div class="w-1/3">
+                            <div class="form-group">
+                                <label class="form-label">{{ $t('Gruppen Menge') }}</label>
+                                <div class="form-control-static">
+                                    {{ item.quantity }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-1/3">
                             <div class="form-group">
                                 <label class="form-label">{{ $t('Menge') }}</label>
                                 <div class="form-control-static">
-                                    <input type="text" class="form-input" v-model="item.quantity" :id="'quantity_' + key" :name="'quantity[' + item.id + ']'">
+                                    <input type="text" class="form-input w-20" v-model="quantities[item.id]" :id="'quantity_' + key" :name="'quantity[' + item.id + ']'">
                                 </div>
                             </div>
                         </div>
@@ -78,6 +91,8 @@
 
         data() {
             return {
+                set_quantity: 1,
+                quantities: [],
                 changelogChangeType: 'sub',
                 changelogType: {value: ''},
                 change: '',
@@ -94,13 +109,25 @@
             }
         },
 
+        watch: {
+            set_quantity: function () {
+                this.updateQuantities();
+            }
+        },
+
         methods: {
+            updateQuantities() {
+                let that = this;
+                _.forEach(that.articleGroup.items, function (item) {
+                    that.quantities[item.id] = item.quantity * that.set_quantity;
+                });
+            },
             submit(e) {
                 let that = this;
                 if (this.changelogChangeType == 'sub') {
                     let breakSubmit = false;
                     _.forEach(that.articleGroup.items, function (item) {
-                        if (item.quantity > item.article.quantity) {
+                        if (that.quantities[item.id] > item.article.quantity) {
                             alert(that.$t('Es ist nicht möglich mehr auszubuchen als Bestand vorhanden ist!'));
                             breakSubmit = true;
                             return false;
@@ -124,6 +151,7 @@
 
         mounted() {
             this.csrf = document.head.querySelector('meta[name="csrf-token"]').content;
+            this.updateQuantities();
         }
     }
 </script>
