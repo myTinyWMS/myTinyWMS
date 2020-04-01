@@ -11,6 +11,7 @@ use Mss\Console\Commands\CreateTestDatabase;
 use Mss\Console\Commands\ImportMailsCommand;
 use Mss\Console\Commands\SendInventoryMailCommand;
 use Mss\Console\Commands\SetArticleNumbersCommand;
+use Mss\Console\Commands\Version;
 
 class Kernel extends ConsoleKernel
 {
@@ -25,7 +26,8 @@ class Kernel extends ConsoleKernel
         ImportMailsCommand::class,
         SendInventoryMailCommand::class,
         CleanupEmptyOrdersCommand::class,
-        AddRoleToUserCommand::class
+        AddRoleToUserCommand::class,
+        Version::class
     ];
 
     /**

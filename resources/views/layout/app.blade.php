@@ -54,7 +54,7 @@
             <p class="footer">
                 © 2019 - {{ date('Y') }} Alexander Reichardt
                 <span class="px-1">·</span>
-                v1.1.0
+                @lang('Version') {{ config('version.app_version') }} - @lang('build') {{ config('version.build_version') }} ({{ config('version.branch') }})
                 <span class="px-1 print:hidden">·</span>
                 <span class="print:hidden">@lang('Eingeloggt als'): {{ \Illuminate\Support\Facades\Auth::user()->username ?? \Illuminate\Support\Facades\Auth::user()->name }}</span>
             </p>
