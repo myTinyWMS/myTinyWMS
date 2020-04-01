@@ -51,7 +51,7 @@ class ArticleGroupEditTest extends DuskTestCase
         });
     }
 
-    public function test_article_group_edit_form_shown_correctly() {
+    public function test_article_group_edit_form() {
         $this->browse(function (Browser $browser) {
             $faker = \Faker\Factory::create();
 
