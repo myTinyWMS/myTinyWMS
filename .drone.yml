@@ -11,7 +11,7 @@ steps:
       from_secret: docker_username
     password:
       from_secret: docker_password
-    tags: latest
+    auto_tag: true
   when:
     branch:
     - master
