@@ -16,6 +16,10 @@ function formatPriceValue($value) {
     return number_format($value, 2, ',', '.');
 }
 
-function activeIfUri($uri) {
-    return request()->is($uri) ? 'active' : '';
+function activeIfUri($uri, $excludeUri = '') {
+    if (!empty($excludeUri)) {
+        return (request()->is($uri) && !request()->is($excludeUri)) ? 'active' : '';
+    } else {
+        return request()->is($uri) ? 'active' : '';
+    }
 }

@@ -65,6 +65,20 @@ $factory->define(Mss\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(Mss\Models\ArticleGroupItem::class, function (Faker\Generator $faker) {
+    $article = Article::where('quantity', '>', 1)->inRandomOrder()->first();
+    return [
+        'article_id' => $article->id,
+        'quantity' => $faker->randomFloat(0, 1, $article->quantity)
+    ];
+});
+
+$factory->define(Mss\Models\ArticleGroup::class, function (Faker\Generator $faker) {
+    return [
+        'name' => implode(' ' , $faker->words(3)).' '.$faker->randomNumber(5),
+    ];
+});
+
 $factory->define(Mss\Models\OrderItem::class, function (Faker\Generator $faker) {
     return [
         'article_id' => Article::inRandomOrder()->first()->id,

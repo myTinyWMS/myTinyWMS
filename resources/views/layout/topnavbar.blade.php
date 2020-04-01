@@ -79,7 +79,7 @@
             </h3>
 
             @can('article.view')
-            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('article*') }}">
+            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('article*', 'article-group*') }}">
                 <a href="{{ url('/article') }}">
                     @lang('Artikel')
                 </a>
@@ -93,6 +93,14 @@
                     @if($globalPageService->getUnreadMessageCount())
                         <div class="ml-1 lg:ml-2 inline-block bg-blue-700 text-white rounded-full text-center w-5 h-5 text-xs leading-none pt-1" title="{{ $globalPageService->getUnreadMessageCount() }} ungelesene {{ trans_choice('plural.message', $globalPageService->getUnreadMessageCount()) }}">{{ $globalPageService->getUnreadMessageCount() }}</div>
                     @endif
+                </a>
+            </h3>
+            @endcan
+
+            @can('article-group.view')
+            <h3 class="mr-4 lg:mr-6 {{ activeIfUri('article-group*') }}">
+                <a href="{{ url('/article-group') }}">
+                    @lang('Artikelgruppen')
                 </a>
             </h3>
             @endcan

@@ -5,10 +5,12 @@ namespace Mss\Providers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Mss\Models\Article;
+use Mss\Models\ArticleGroup;
 use Mss\Models\Inventory;
 use Mss\Models\Order;
 use Mss\Models\Supplier;
 use Mss\Models\User;
+use Mss\Policies\ArticleGroupPolicy;
 use Mss\Policies\ArticlePolicy;
 use Mss\Policies\InventoryPolicy;
 use Mss\Policies\OrderPolicy;
@@ -27,7 +29,8 @@ class AuthServiceProvider extends ServiceProvider
         Article::class => ArticlePolicy::class,
         Inventory::class => InventoryPolicy::class,
         Order::class => OrderPolicy::class,
-        Supplier::class => SupplierPolicy::class
+        Supplier::class => SupplierPolicy::class,
+        ArticleGroup::class => ArticleGroupPolicy::class
     ];
 
     /**
