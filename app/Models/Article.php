@@ -21,6 +21,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property integer id
  * @property string article_number
  * @property integer quantity
+ * @property integer min_quantity
  * @property integer outsourcing_quantity
  * @method static Builder active()
  * @method static Builder enabled()

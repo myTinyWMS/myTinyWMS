@@ -1,0 +1,891 @@
+1,"Ananas, frisch",1
+2,Artischocken,1
+3,Entenbrust,2
+4,Rinderbraten,2
+5,Bauchfleisch,2
+6,Blutwurst,2
+7,Aal,4
+9,Baguette,6
+10,Cola,7
+11,ASS-Kopfschmerzmittel,8
+12,Backpulver,9
+13,Ananas(Dose/Glas),10
+14,Anis,11
+15,Fischfutter,12
+16,Cornflakes,13
+18,Besen,15
+19,Bretzeln,16
+20,Brokkolicremsuppe,17
+21,Eiskreme,18
+22,Deodorant,19
+23,Batterien,20
+24,Erdnussbutter,21
+25,Äpfel,1
+26,Blumenkohl,1
+27,Ganzes Hähnchen,2
+28,Rinderfilet,2
+29,Bratwurst,2
+30,Bratenaufschnitt,2
+31,Forelle,4
+33,Brötchen,6
+34,Kaffee,27
+35,Augentropfen,8
+36,Brauner Zucker,9
+37,Birnen (Dose/Glas),10
+38,Basilikum,11
+39,Hundefutter,12
+40,Graupen,13
+42,Fleckentferner,15
+43,Erdnüsse,16
+44,Brühe,17
+45,Pizza,18
+46,Duschbad,19
+47,Blumen,20
+48,Fonds,21
+49,Aprikosen,1
+50,Bohnen,1
+51,Geflügelhack,2
+52,Rinderhack,2
+53,Kassler,2
+54,Fleischwurst,2
+55,Garnelen,4
+57,Croissants,6
+58,Limonade,7
+59,Hustenmittel,8
+60,Haselnüsse,9
+61,Bockwurst (Dose/Glas),10
+62,Bohnenkraut,11
+63,Katzenfutter,12
+66,Fußbodenreiniger,15
+67,Kartoffelchips,16
+68,Champignoncremsuppe,17
+69,Pommes Frites,18
+70,Flüssigseife,19
+71,Bücher,20
+72,Grillsauce,21
+73,Bananen,1
+74,Brokkoli,1
+75,Hähnchenkeule,2
+76,Rindernacken,2
+77,Kohlwurst,2
+78,Geflügelwurst,2
+79,Hering,4
+81,Körnerbrötchen,6
+82,Orangensaft,7
+83,Ibuprofen,8
+84,Keksmischung,9
+85,Bohnen (Dose/Glas),10
+86,Cayennepfeffer,11
+87,Katzenstreu,12
+88,Kochbeutelreis,13
+90,Geschirrspültabs,15
+91,Kekse,16
+92,Gemüsesuppe,17
+93,TK- Brokkoli,18
+94,Hygieneartikel,19
+95,CD,20
+97,Beeren,1
+98,Champignons,1
+99,Hähnchenschnitzel,2
+100,Rinderrippchen,2
+101,Mettwurst,2
+102,Leberwurst,2
+103,Hummer,4
+105,Kuchen,6
+106,Saft,7
+107,Magen/Darm-Präparate,8
+108,Kokosraspeln,9
+109,Eintopf (Dose/Glas),10
+110,Curry,11
+111,Vogelfutter,12
+112,Lasagnenudeln,13
+114,Glasreiniger,15
+115,Kräcker,16
+116,Hühnersuppe,17
+117,TK- Erbsen,18
+118,Körperlotion,19
+119,DVD,20
+120,Ketchup,21
+121,Birnen,1
+122,Chicorée,1
+123,Hühnerbrustfilet,2
+124,Rinderrouladen,2
+125,Rollbraten,2
+126,Salami,2
+127,Kabeljau,4
+129,Laugengebäck,6
+130,Sportgetränke,7
+131,Medikamente auf Rezept,8
+132,Krokant,9
+133,Erbsen (Dose/Glas),10
+134,Dill,11
+135,Makkaroni,13
+137,Haushaltshandschuhe,15
+138,Popcorn,16
+139,Nudelsuppe,17
+140,TK- Fisch,18
+141,Mundspülung,19
+142,Geschenk,20
+144,Datteln,1
+145,Eisbergsalat,1
+146,Hühnerflügel,2
+147,Rindersteak aus der Flanke,2
+148,Schnitzel,2
+149,Schinken,2
+150,Karpfen,4
+152,Pizzateig,9
+153,Tee,27
+154,Nasenspray,8
+155,Kuchenmischung,9
+156,Fischfilet (Dose/Glas),10
+158,Maultaschen,13
+160,Klarspüler,15
+161,Pralinen,16
+162,Tomatensuppe,17
+163,TK- Fleisch,18
+164,Mundwasser,19
+165,Gratulationskarte,20
+166,Mayonnaise,21
+167,Erdbeeren,1
+168,Erbsen,1
+169,Putenbrust,2
+170,Rinderwurst,2
+171,Schweinebraten,2
+172,Sülze,2
+173,Krabben,4
+175,Plätzchen,6
+176,Wasser,7
+177,Paracetamol,8
+178,Kuvertüre,9
+179,Gemischte Früchte (Dose/Glas),10
+180,Ingwer,11
+181,Müsli,13
+183,Lufterfrischer,15
+184,Salzstangen,16
+185,TK- Gemischtes Gemüse,18
+186,Papiertaschentücher,19
+187,Leuchtmittel,20
+188,Meerrettich,21
+189,Grapefruit,1
+190,Feldsalat,1
+191,Putenkeule,2
+192,Rinderzunge,2
+193,Schweinefilet,2
+194,Teewurst,2
+195,Lachs,4
+197,Schwarzbrot,6
+198,Pflaster,8
+199,Mandelsplitter,9
+200,Grünkohl (Dose/Glas),10
+201,Italienische Gewürze,11
+202,Nudeln,13
+204,Möbelpolitur,15
+205,Schokolade,16
+206,TK- Grünkohl,18
+207,Rasiercreme,19
+209,Nussnugatcreme,21
+210,Kirschen,1
+211,Fenchel,1
+212,Putenschnitzel,2
+213,Roastbeef,2
+214,Schweinehack,2
+215,Makrele,4
+217,Toastbrot,6
+218,Säure Hemmer,8
+219,Mehl,9
+220,Gurken (Dose/Glas),10
+221,Knoblauchpulver,11
+222,Reis,13
+224,Mopp,15
+225,Süßigkeiten,16
+226,TK- Karotten,18
+227,Rasierklingen,19
+228,Programmzeitschrift,20
+229,Oliven,21
+230,Mandarinen,1
+231,Frühlingszwiebeln,1
+232,Steak,2
+233,Schweinekotelett,2
+234,Matjes,4
+236,Torte,6
+237,Vitaminpräparate,8
+238,Natron,9
+239,Karotten (Dose/Glas),10
+240,Koriander,11
+241,Spaghetti,13
+243,Polsterreiniger,15
+245,TK- Paprika,18
+246,Seife,19
+247,Reinigung,20
+248,Olivenöl,21
+249,Maracuja,1
+250,Gemüsezwiebeln,1
+251,Schweinenacken,2
+252,Muscheln,4
+254,Vollkornbrot,6
+255,Wundsalbe,8
+256,Oblaten,9
+257,Kidneybohnen,10
+258,Kreuzkümmel,11
+259,Tortellini,13
+261,Scheuermittel,15
+262,TK- Rosenkohl,18
+263,Shampoo,19
+264,Schreibwaren,20
+265,Salatdressing,21
+266,Melonen,1
+267,Grünkohl,1
+268,Schweineschinken,2
+269,Rotbarsch,4
+271,Weißbrot,6
+272,Pfannkuchen Mischung,9
+273,Linseneintopf (Dose/Glas),10
+274,Lorbeerblätter,11
+276,Schwamm,15
+277,TK- Spinat,18
+278,Toilettenpapier,19
+279,Zeitschriften,20
+280,Senf,21
+281,Nektarinen,1
+282,Gurken,1
+283,Schweinshaxe,2
+284,Thunfisch,4
+286,Weizenbrot,6
+287,Pflanzenöl,9
+288,Mais (Dose/Glas),10
+289,Majoran,11
+290,Schulhefte,31
+291,Spülbürste,15
+292,TK- Torte,18
+293,Wattestäbchen,19
+294,Sirup,21
+295,Nüsse,1
+296,Karotten,1
+297,Speck,2
+299,Puderzucker,9
+300,Pfirsiche (Dose/Glas),10
+301,Minze,11
+303,Spülmaschinensalz,15
+304,Zahnbürste,19
+305,Soßen,21
+306,Orangen,1
+307,Kartoffeln,1
+309,Rosinen,9
+311,Muskat,11
+312,Spülmittel,15
+313,Zahnpasta,19
+314,Pfirsiche,1
+315,Knoblauch,1
+318,Rotkohl (Dose/Glas),10
+319,Nelken,11
+320,Spültuch,15
+321,Zahnseide,19
+322,Pflaumen,1
+323,Kohl,1
+325,Tortenboden,6
+326,Sauerkirschen  (Dose),10
+327,Oregano,11
+328,Teppichreiniger,15
+329,Rhabarber,1
+330,Kohlrabi,1
+331,Trockenhefe,9
+332,Sauerkraut (Dose/Glas),10
+333,Paprika-Pulver,11
+334,Trockentücher,15
+335,Wassermelone,1
+336,Kopfsalat,1
+337,Vanilleestrakt,9
+338,Schweinefleisch (Dose/Glas),10
+339,Petersilie,11
+340,Waschmittel,15
+341,Weintrauben,1
+342,Kürbis,1
+343,Vanillezucker,9
+344,Spargel  (Dose/Glas),10
+345,Pfeffer,11
+346,WC-Reiniger,15
+347,Zitronen,1
+348,Paprika,1
+349,Zucker,9
+350,Thunfisch (Dose/Glas),10
+351,Rosmarin,11
+353,Pilze,1
+354,Tomaten (Dose/Glas),10
+355,Salbei,11
+356,Porree,1
+358,Salz,11
+359,Radicchio,1
+360,Tomatenpüree,10
+361,Schnittlauch,11
+362,Radieschen,1
+363,Senfkörner,11
+364,Rosenkohl,1
+365,Sojasauce,11
+366,Rote Beete,1
+367,Thymian,11
+368,Rotkohl,1
+369,Zimt,11
+370,Schlangengurke,1
+371,Schalotten,1
+372,Sellerie,1
+373,Spargel,1
+374,Spinat,1
+375,Spitzkohl,1
+376,Tomaten,1
+377,Weißkohl,1
+378,Zucchini,1
+379,Zwiebeln,1
+382,Aufschnitt,2
+384,Backfisch,18
+387,Bodylotion,19
+388,Bratfett,21
+389,Brot,6
+390,Buch,20
+392,Chips,16
+393,Cola light,7
+394,Alster,26
+395,Bier,26
+398,Mixbier,26
+399,Obstler,26
+400,Wodka,26
+401,Wein,26
+402,Weizenbier,26
+403,Sekt,26
+404,Pumpernickel,6
+406,Speisestärke,9
+407,Süßstoff,9
+408,Haferflocken,9
+409,Fisch,4
+410,Grillfleisch,2
+411,Hackfleisch,2
+412,Würstchen,2
+413,Hähnchenbrust,2
+414,Gemüse,1
+415,Lauch,1
+416,Salat,1
+417,Salatgurken,1
+418,Malzbier,7
+420,Orangenlimonade,7
+421,Zitronenlimonade,7
+422,Mineralwasser,7
+423,Mixgetränke,7
+424,O-Saft,7
+425,Getränke,7
+426,Gewürze,11
+427,Flüssigwürze,11
+428,Würzmischung,11
+429,Heu,12
+430,Kaninchenfutter,12
+431,Kaninchenstreu,12
+432,Eistee,27
+433,"Kaffee, instant, entcof.",27
+434,Kakaopulver,27
+435,Honig,28
+436,Marmelade,28
+438,Cornichons,10
+439,Rote Beete (Dose/Glas),10
+440,Silberzwiebeln (Dose/Glas),10
+441,Alufolie,29
+442,Backpapier,29
+443,Biomüllbeutel,29
+444,Butterbrottüten,29
+445,Etiketten,29
+446,Filtertüten,29
+447,Frischhaltefolie,29
+448,Gefrierbeutel,29
+449,Gelber Sack,29
+450,Küchenkrepp,29
+451,Küchenpapier,29
+452,Müllbeutel,29
+453,Prob. Joghurtgetränk,30
+454,Aufstrich,30
+455,Bacon,30
+456,Blauschimmelkäse,30
+457,Butter,30
+458,Buttermilch,30
+459,Camembert,30
+460,Creme Fraiche,30
+461,Eier,30
+462,Fleischsalat,30
+463,Frischkäse,30
+464,Gouda am Stück,30
+465,Hefe,30
+466,H-Milch,30
+467,Joghurt,30
+468,Kartoffelsalat,30
+469,Käse,30
+470,"Käse, geraspelt",30
+471,Kräuterquark,30
+472,Margarine,30
+473,Milch,30
+474,Milchmixgetränke,30
+475,Nudelsalat,30
+476,Quark,30
+477,Sahne,30
+478,Saure Sahne,30
+479,Schafskäse,30
+480,Schinkenwürfel,30
+481,Schmand,30
+482,Schmierkäse,30
+483,Schnittkäse,30
+484,Obst,1
+485,Putzmittel,15
+486,Reinigungstücher,15
+488,Spülmaschinentabs,15
+489,Staubsaugerbeutel,15
+490,Toilettenreiniger,15
+491,Wischlappen,15
+492,Geschenkband,31
+493,Geschenkpapier,31
+494,Klebeband,31
+495,Schulhefte,31
+497,Malblock,31
+498,Klebefilm,31
+499,Cracker,16
+500,Flips,16
+501,Knabberkram,16
+502,Nachos,16
+503,Snack,16
+504,Taccos,16
+505,Kaugummi,32
+507,Schokolade,32
+508,Weingummi,32
+509,Eis,18
+510,Gefriergemüse,18
+511,Creme,19
+512,Deo,19
+513,Duschgel,19
+514,Haarspray,19
+515,Lidschatten,19
+517,Spülung,19
+518,Tampons,19
+519,Wimperntusche,19
+520,Weichspüler,19
+521,Glühbirne,20
+522,Grillkohle,20
+523,Insektenspray,20
+524,Kerzen,20
+525,Servietten,20
+526,Tischdeko,20
+527,Zahnstocher,20
+528,Mett,2
+529,Dip,21
+530,Gemüsebrühe,21
+531,Hamburger Sauce,21
+533,Tomatenmark,21
+534,Zwiebelsuppe Fix,21
+535,Wurst,2
+536,Slipeinlagen,19
+537,Klopapier,19
+538,WC-Papier,19
+539,Wattepads,19
+540,Brei m. Milch,33
+541,Brei o. Milch,33
+542,Baby Menü,33
+543,Baby Früchte,33
+544,Baby Gemüse,33
+545,Baby Dessert,33
+546,Anfangsmilch,33
+547,Folgemilch,33
+548,Kindermilch,33
+549,Kinderkekse,33
+550,Kindertee,33
+551,Kinder Früchteriegel,33
+552,Kindersaft,33
+553,Babyöl,33
+554,Babycreme,33
+555,Babypuder,33
+556,Babysonnenpflege,33
+557,Babypflegetücher,33
+558,Baby Feuchtpflege,33
+559,Windeln,33
+560,Babyshampoo,33
+561,Baby Duschgel,33
+562,Babyflasche,33
+563,Babyschnuller,33
+564,Kondome,19
+565,Empfängnisverhütung,8
+566,Apfelsaft,7
+567,Apfelschorle,7
+568,Aubergine,1
+569,Balsamico-Essig,11
+570,Becel,30
+571,Brie,30
+572,Brillenputztücher,15
+573,Cappuccino,27
+574,Zitronat,9
+575,Cognac,26
+576,Edamer-Käse,30
+577,Espresso,27
+578,Essigreiniger,15
+579,Feta-Käse,30
+580,Fischstäbchen,30
+581,Frühstückstüten,29
+582,Gebissreiniger,8
+584,Gesichtscreme,19
+585,Getrocknete Tomaten,10
+586,Haarschaum,19
+587,Haarshampoo,19
+588,Handcreme,19
+589,Handseife,19
+590,Hundekuchen,12
+591,Hustenbonbons,8
+592,Jodsalz,11
+593,Klebstoff,31
+594,Klöße,13
+595,Kochschinken,2
+596,Leinöl,21
+598,Lippenbalsam,8
+599,Make-Up Tücher,19
+600,Milchreis,30
+601,Möhren,1
+602,Mortadella,30
+603,Mozzarella,30
+604,Orangeat,9
+605,Orangenlikör,26
+606,Parmesan-Käse,30
+607,Rapsöl,21
+608,Rotwein,26
+610,Spülmaschinenreiniger,15
+611,Streichkäse,30
+612,Strumpfhose,20
+613,Tomatensaft,7
+614,"Traubensaft, rot",7
+615,"Traubensaft, weiß",7
+616,Vanilleschoten,9
+617,Watte,19
+618,Weißkraut,1
+619,Weißwein,26
+620,Wiener Würstchen,2
+622,ACE-Fruchtsaft,7
+623,After Shave,7
+624,Ahornsirup,19
+625,Alkoholfreies Bier,7
+626,Allzweckreiniger,15
+628,Apfelmus,10
+629,Asia-Suppe,17
+630,Auberginen,1
+631,Aufbackbrötchen,6
+632,Babybrei,33
+633,Backmischung Marmorkuchen,9
+634,Backmischung Schoko Split,9
+635,Badezusatz,19
+636,Badreiniger,19
+638,Bier Lemon,26
+639,Bierschinken,2
+640,Binden,19
+641,Blätterteig,9
+642,Blattspinat,1
+643,Blaubeeren,1
+644,Blaubeeren im Glas,10
+645,Blumenerde,20
+646,Bodenreiniger,15
+647,Bodenreinigungstücher,15
+649,Bohnensalat,30
+650,Bordeaux,26
+651,Bratenfond Geflügel,21
+652,Bratenfond Rind,21
+653,Bratenfond Wild,21
+654,Brathering,4
+655,Bratheringsröllchen,4
+656,Bratkartoffeln,17
+657,Brennspiritus,20
+658,Budapester-Salat,30
+659,Buschbohnen,1
+660,Butterbrotpapier,29
+661,Butterkäse,30
+662,Butterschmalz,30
+663,Cabanossi,2
+664,Cashewkerne,1
+665,Ceranfeldreiniger,15
+666,Cervelatwurst,2
+667,Champignons braun,1
+668,Champignons im Glas,10
+669,Ciabatta,6
+670,Clementinen,1
+672,Cocktailtomaten,1
+674,Collegeblock,31
+675,Colorwaschmittel,15
+676,Cordon Bleu,2
+677,Curry Ketchup,21
+678,Currywurst,30
+679,Deodorant Creme,19
+680,Deodorant Roll´on,19
+681,Deospray,19
+682,Dill,11
+683,Donauwelle,6
+684,Doppelkorn,26
+685,Dorade,4
+686,Dornfelder,26
+687,Eiersalat,30
+688,Einmalhandschuhe,19
+689,Einweckgewürz,11
+690,Eis am Stiel,18
+691,Eiscreme-Konfekt,18
+692,Emmentaler,30
+693,Energy-Drink,7
+694,Entkalker,15
+695,Erbseneintopf,17
+696,Erdbeereis,18
+697,Erdbeerjoghurt,30
+698,Erdbeermarmelade,28
+699,Erdbeermilch,30
+700,Erdbeertorte,30
+701,Essig,21
+702,Essigessenz,21
+703,Essiggurken,10
+704,Feigen,1
+705,Feinschmecker Suppen,17
+706,Fertiggerichte,17
+707,Fertigsuppen,17
+708,Feuchte Tücher,19
+709,Fischfeinkost,30
+710,Fischnuggets,18
+711,Fix Saucen,17
+712,Fladenbrot,6
+713,Flammkuchen,30
+714,Fleisch,2
+715,Fleischkäse,2
+717,Fleischspieße,2
+718,Frikadellen,30
+720,Frischer Dill,11
+722,Frischkäse Kräuter,30
+723,Frischkäse Paprika,30
+724,Fruchtbonbons,32
+725,Fußcreme,19
+726,Gans,2
+727,Garnelenspieße,18
+728,Gehacktes,2
+729,Gelatine,9
+730,Gelbe Bohnen,1
+732,Gemüsebrühe instant,21
+733,Gorgonzola,30
+734,Gouda,30
+735,Grappa,26
+736,Grieß,9
+737,Grießpudding,30
+738,Grillanzünder,20
+739,Grüne Oliven,21
+740,Grüne Peperoni,21
+741,Gulasch,2
+742,Gulasch gemischt,2
+743,Gulaschsuppe,17
+744,Gummibärchen,32
+746,Gutsherrentopf,17
+747,Haargel,19
+748,Haarspülung,19
+749,Haartönung,19
+750,Haarwaschmittel Color,19
+751,Haarwaschmittel feines Haar,19
+752,Haarwaschmittel Schuppen,19
+753,Haarwasser,19
+754,Hefe-Weißbier,26
+755,Hefezopf,6
+756,Hering in Tomatensauce,10
+757,Himbeeren,1
+758,Himbeeressig,21
+759,Himbeer-Marmelade,28
+760,Hokkaido-Kürbis,1
+761,Holzfällersteaks,2
+762,Holzkohle,20
+763,Honig flüssig,28
+764,Huhn,2
+765,Hustensaft,8
+766,Irische Butter,30
+767,Jagdwurst,2
+768,Joghurtdrink,30
+769,Johannisbeeren,1
+770,Johannisbeerlikör,26
+772,Kaffee entkoffeiniert,27
+773,Kaffeebohnen,27
+774,Kaffeefilter,29
+775,Kaffee-Latte trinkfertig,27
+776,Kaffeepads,27
+777,Kaffeesahne,27
+778,Kaffeeweißer,27
+779,Kefir,30
+781,Kinderriegel,32
+782,Kirschkonfitüre,32
+783,Kirschsaft,7
+784,Kirschtomaten,1
+785,Kiwis,1
+786,Papiertücher,29
+788,Kochkäse,30
+789,Kohlrouladen,2
+790,Kokosmilch,21
+791,Kokosnuss,1
+792,Kondensmilch,27
+794,Krakauer,2
+795,Krapfen,6
+796,Kräuter,11
+797,Kräuterbaguette,30
+798,Kräuterbutter,30
+799,Krautsalat,11
+800,Kresse,11
+801,Kroketten,18
+803,Lippenpflege-Stift,19
+804,Lachsschinken,2
+805,Lasagne,17
+806,Lauchzwiebeln,1
+807,Leberkäse,2
+808,Limetten,1
+810,Linsen,9
+812,Lutschbonbons,32
+813,Macadamia-Nüsse,1
+814,Magerquark,30
+815,Magnesium,8
+816,Mais,1
+817,Maiskolben,1
+818,Meersalz,11
+820,"Milch 1,5% Fett",30
+821,"Milch 3,5% Fett",30
+823,Minicracker,16
+824,Mix Nüsse,16
+825,Mousse au Chocolat,30
+826,Muffins,6
+827,Multivitaminsaft,7
+828,Nachtcreme,19
+829,Nackensteaks,2
+830,Nagellackentferner,19
+832,Naturjoghurt,30
+833,Nougat,9
+834,Nudelpfanne,17
+835,Ohrenstäbchen,19
+836,Orangennektar,7
+837,Packetschnur,29
+838,Paella,17
+840,Paniermehl,9
+842,Paprika gelb,1
+843,Paprika grün,1
+844,Paprika rot,1
+845,Peccorino am Stück,30
+846,Penne,13
+847,Penne Gorgonzola,17
+848,Peperoni,1
+849,Pesto,21
+850,Pesto rosso,21
+851,Pesto verde,21
+852,Pfefferkörner,11
+853,Pfefferminze,1
+854,Pfefferminzlikör,26
+855,Pfefferminztee,27
+857,Pils,26
+859,Pilze getrocknet,11
+860,Pinienkerne,11
+861,Pistazien,11
+862,Pizza Hawaii,17
+863,Pizza Salami,17
+864,Pizza Schinken,17
+865,Pizza Thunfisch,17
+866,Preiselbeeren,1
+868,Prosecco,26
+869,Pudding,9
+870,Pudding Schoko,9
+871,Pudding Vanille,9
+872,Puddingpulver,9
+873,Puszta-Salat,30
+874,Pute,2
+875,Putenfleisch,2
+876,Puten-Steaks,2
+878,Radler,26
+879,Ragout,2
+880,Rahm,30
+881,Rahmkäse-Scheiben,30
+882,Rahmsoße,17
+883,Rahmspinat,18
+885,Rasierer,19
+887,Reibekäse,30
+888,Reiswaffeln,16
+889,Remoulade,21
+890,Rettiche,1
+891,Sahnejoghurt,30
+892,Salami-Aufschnitt,2
+893,Salat gemischt,1
+894,Salatdressing in Flasche,21
+895,Schaumfestiger,19
+896,Scheibenkäse,30
+897,Scheuermilch,15
+898,Schinkenbraten,2
+899,Schinken-Fleischwurst,2
+900,Seehechtfilet,4
+901,Sekundenkleber,20
+902,Sellerie im Glas,10
+903,Selterswasser,7
+904,Semmelbrösel,9
+905,Semmelknödel,17
+906,Semmeln,6
+907,Shrimps,30
+908,Silvaner,26
+909,Smoothi,7
+910,Sojamilch,30
+911,Sonnenblumenkerne,9
+912,Sonnenblumenöl,21
+913,Sonnencreme,19
+914,Sonnenmilch,19
+915,Speckwürfel,30
+916,Speisequark,30
+917,Spekulatius,32
+918,Spezi,7
+919,Stachelbeeren,1
+920,Strauchtomaten,1
+921,Streichhölzer,20
+922,Streukäse,20
+923,Studentenfutter,16
+924,Suppe,17
+925,Suppengemüse,1
+926,Suppengrün,1
+927,Suppennudeln,13
+928,Tabak,20
+929,Tabasco,21
+930,Tagescreme,19
+931,Taschenlampe,20
+932,Taschentücher,19
+933,Teelichter,20
+935,Thunfisch in Öl,10
+936,Toast,6
+937,Tofu,30
+938,Tomatensauce,21
+939,Trauben,1
+940,Traubensaft,7
+941,Trinkschokolade,30
+942,Trockenfutter,12
+943,Trockenfutter Hund,12
+944,Trockenfutter Katze,12
+945,Truthahnbrust,2
+946,Tsatsiki,30
+947,Vanillejoghurt,30
+948,Vanillemilch,30
+949,Vogel Knabberstangen,12
+950,Vogelsand,12
+951,Vollkorntoast,6
+952,Wackelpudding,30
+953,Waffeln,6
+954,Walnüsse,1
+955,Walnusöl,21
+956,Waschpulver,15
+957,Wasser medium,7
+958,Wasser mit Apfel,7
+959,Wasser mit Himbeere,7
+960,Weichkäse,30
+962,Weinbrand,26
+963,Weinbrandessig,21
+964,Weißbier,26
+965,Weizengries,9
+966,Weizentoast,6
+967,Whisky,26
+968,Wiener Boden,6
+969,Wurst-Aufschnitt,2
+970,Wurstsalat,2
+971,Zahncreme,19
+972,Zander,4
+973,Ziegenkäse,30
+974,Zigaretten,20
+975,Zuckerrübensirup,28
+976,Zuckerschoten,1
+977,Zungenwurst,2
+978,Apfel,1
+979,Apfelsine,1
+980,Soßenbinder,21
+981,Ordner,20
+982,Kaffeemilch,27
+983,Hygienespüler,19
