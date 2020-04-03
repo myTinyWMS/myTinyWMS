@@ -44,7 +44,7 @@ class User extends Authenticatable implements Auditable, UserResolver
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username',
+        'name', 'email', 'password', 'username', 'remember_token', 'settings'
     ];
 
     /**

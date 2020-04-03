@@ -46,7 +46,7 @@ class ArticleDataTable extends BaseDataTable
                 $orderNumber = optional($article->currentSupplierArticle)->order_number;
 
                 if ($article->openOrders()->count()) {
-                    $orderNumber .= '<i class="fa fa-shopping-cart pull-right" title="'.__('offene Bestellung').'"></i>';
+                    $orderNumber .= '<i class="fa fa-shopping-cart float-right" title="'.__('offene Bestellung').'"></i>';
                 }
 
                 return $orderNumber;
