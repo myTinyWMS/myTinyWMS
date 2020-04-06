@@ -39,7 +39,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('emptyorders:clear')->hourly();
-        $schedule->command('import:mails')->everyFiveMinutes();
+
+        if(settings('imap.enabled', false)) {
+            $schedule->command('import:mails')->everyFiveMinutes();
+        }
+
         $schedule->command('send:inventory')->dailyAt('07:00')->when(function () {
             return Carbon::now()->firstOfMonth()->isToday();
         });

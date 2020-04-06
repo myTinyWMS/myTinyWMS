@@ -6,6 +6,11 @@
 
     <div class="flex -ml-6">
         <div class="bg-white border border-t-8 border-gray-700 w-1/5 m-6 p-6 text-center rounded shadow">
+            <a href="{{ url('/admin/settings') }}"><i class="fa fa-tools text-6xl text-blue-700 mb-8 block"></i></a>
+            @lang('Einstellungen')
+        </div>
+
+        <div class="bg-white border border-t-8 border-gray-700 w-1/5 m-6 p-6 text-center rounded shadow">
             <a href="{{ url('/admin/unit') }}"><i class="fa fa-ruler text-6xl text-blue-700 mb-8 block"></i></a>
             @lang('Einheiten')
         </div>
