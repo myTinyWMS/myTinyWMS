@@ -30,8 +30,8 @@ jobs:
         run: |
           docker-compose --file docker-compose-test.yml build
           docker-compose --file docker-compose-test.yml up -d
-          docker-compose --file docker-compose-test.yml --workdir=/data/www exec app ./vendor/bin/phpunit
-          docker-compose --file docker-compose-test.yml --workdir=/data/www exec app php artisan dusk
+          docker-compose --file docker-compose-test.yml exec app /bin/sh -c "cd /data/www && ./vendor/bin/phpunit"
+          docker-compose --file docker-compose-test.yml exec app /bin/sh -c "cd /data/www && artisan dusk"
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
