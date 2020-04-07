@@ -15,9 +15,8 @@ RUN set -e -x \
         locales git gnupg \
         libfreetype6-dev libmcrypt-dev libjpeg-dev libpng-dev \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
-    && docker-php-ext-install -j$(nproc) zip pdo_mysql intl bcmath imap pgsql iconv  \
-    && docker-php-ext-configure pgsql \
-    && docker-php-ext-install pdo pdo_pgsql pgsql \
+    && docker-php-ext-install -j$(nproc) zip intl bcmath imap iconv \
+    && docker-php-ext-install pdo pdo_mysql \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && docker-php-ext-configure gd \
@@ -27,7 +26,7 @@ RUN set -e -x \
     && docker-php-ext-install gd pcntl \
     && docker-php-ext-install mbstring \
     && docker-php-ext-enable opcache gd \
-    && pecl install redis-3.1.2 xdebug \
+    && pecl install redis-3.1.2 \
     && docker-php-ext-enable redis \
     && sed -i '/^#.* de_DE.* /s/^#//' /etc/locale.gen \
     && locale-gen
