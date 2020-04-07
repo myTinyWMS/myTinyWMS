@@ -89,7 +89,9 @@ class ArticleGroupController extends Controller
      * @return void
      */
     public function show($id) {
-        $articleGroup = ArticleGroup::findOrFail($id);
+        $articleGroup = ArticleGroup::with(['items.article' => function($query) {
+            $query->withCurrentSupplier();
+        }])->findOrFail($id);
         $audits = $articleGroup->getAudits();
 
         return view('article_group.show', compact('articleGroup', 'audits'));

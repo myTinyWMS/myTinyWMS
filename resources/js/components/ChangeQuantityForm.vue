@@ -48,13 +48,24 @@
             </div>
         </div>
 
+        <div class="form-group" v-if="(typeof article.delivery_notes == 'string' && article.delivery_notes.length > 0 && changelogType.value == 1)">
+            <label for="deliveryNotes" class="form-label text-red-400">{{ $t('Liefer/WE-Hinweise') }}</label>
+            <div class="form-control-static" id="deliveryNotes">{{ article.delivery_notes }}</div>
+        </div>
+
         <div class="form-group">
             <label for="changelogNote" class="form-label">{{ $t('Bemerkung') }}</label>
             <textarea class="form-textarea" rows="3" id="changelogNote" name="changelogNote"></textarea>
         </div>
 
-        <div v-if="(typeof article.delivery_notes == 'string' && article.delivery_notes.length > 0 && changelogType.value == 1)">
-            <span class="font-semibold text-red-500 text-xs">{{ article.delivery_notes }}</span>
+        <div class="text-sm text-red-500" v-if="article.article_group_items.length > 0">
+            <span v-if="article.article_group_items.length == 1">{{ $t('Dieser Artikel ist in folgender Artikelgruppe enthalten, wenn Sie den Bestand der ganzen Gruppe ändern wollen, machen Sie dies bitte direkt über die Gruppe:') }}</span>
+            <span v-if="article.article_group_items.length > 1">{{ $t('Dieser Artikel ist in folgenden Artikelgruppen enthalten, wenn Sie den Bestand der ganzen Gruppe ändern wollen, machen Sie dies bitte direkt über die Gruppe:') }}</span>
+            <ul class="list-disc pl-4 mt-2">
+                <li v-for="(groupItem, index) in article.article_group_items">
+                    <a :href="route('article-group.show', [groupItem.article_group_id])">{{ groupItem.article_group.name }}</a>
+                </li>
+            </ul>
         </div>
 
         <div class="modal-footer">

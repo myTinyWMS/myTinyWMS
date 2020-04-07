@@ -17,6 +17,11 @@
             </div>
         </div>
     @endcan
+
+    @can('article-group.view')
+        <a href="{{ route('article-group.index') }}" class="btn btn-secondary mr-2">@lang('Artikelgruppen verwalten')</a>
+    @endcan
+
     @can('article.create')
         <a href="{{ route('article.create') }}" class="btn btn-secondary">@lang('Neuer Artikel')</a>
     @endcan

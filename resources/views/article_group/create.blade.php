@@ -4,7 +4,10 @@
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('supplier.index') }}">@lang('Übersicht')</a>
+        <a href="{{ route('article.index') }}">@lang('Artikel')</a>
+    </li>
+    <li>
+        <a href="{{ route('article-group.index') }}">@lang('Artikelgruppen verwalten')</a>
     </li>
     <li class="active">
         <strong>@lang('Neue Artikelgruppe')</strong>
