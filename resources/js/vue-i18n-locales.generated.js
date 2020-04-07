@@ -422,6 +422,7 @@ export default {
         "weitere Aktionen": "further initiatives",
         "Massenupdate": "Mass update",
         "Inventurupdate": "Inventory update",
+        "Artikelgruppen verwalten": "Manage article groups",
         "Neuer Artikel": "New Article",
         "Label erstellen (klein)": "Create label (small)",
         "Label erstellen (groß)": "Create label (large)",
@@ -500,16 +501,17 @@ export default {
         "Eingeloggt als": "Logged in as",
         "Keine Nachrichten vorhanden": "No messages available",
         "Dashboard": "Dashboard",
-        "Artikelgruppen": "Article groups",
         "Lieferanten": "Suppliers",
         "Neuer Lieferant": "New supplier",
         "Neue Korrektur zu Buchung aus anderem Monat": "New correction for booking from another month",
         "Neue Lieferung zu vorhandener Rechnung": "New delivery for existing invoice",
         "Einheiten": "Units",
         "Benutzerverwaltung": "user management",
+        "Artikelgruppen": "Article groups",
         "Neue Artikelgruppe": "New article group",
         "Artikelgruppe bearbeiten": "Edit article group",
-        "Bestand ändern": "Change stock",
+        "Artikelgruppe anzeigen": "Display article group",
+        "Bestand der Artikel ändern": "Change stock of the articles",
         "Menge für diese Gruppe": "Quantity for this group",
         "Aktueller Bestand": "Current stock",
         "Nummer": "Number",
@@ -578,6 +580,7 @@ export default {
         "Einheiten Übersicht": "Unit overview",
         "Neue Einheit": "New unit",
         "Einheit bearbeiten": "Edit unit",
+        "Bestand ändern": "Change stock",
         "Notiz": "Note",
         "abbrechen": "cancel",
         "bestätigen": "confirm",
@@ -647,6 +650,8 @@ export default {
         "Gruppen Menge": "Group quantity",
         "Wieviele Sets sollen ausgebucht werden?": "How many sets should be booked out?",
         "Wieviele Sets sollen eingebucht werden?": "How many sets should be booked?",
+        "Dieser Artikel ist in folgenden Artikelgruppen enthalten, wenn Sie den Bestand der ganzen Gruppe ändern wollen, machen Sie dies bitte direkt über die Gruppe:": "This article is included in the following article groups, if you want to change the stock of the whole group, please do this directly via the group:",
+        "Dieser Artikel ist in folgender Artikelgruppe enthalten, wenn Sie den Bestand der ganzen Gruppe ändern wollen, machen Sie dies bitte direkt über die Gruppe:": "This article is included in the following article group, if you want to change the stock of the whole group, please do this directly via the group:",
         "pagination": {
             "previous": "&laquo; Previous",
             "next": "Next &raquo;"
@@ -815,6 +820,8 @@ export default {
         "Signatur",
         "Gruppen Menge",
         "Wieviele Sets sollen ausgebucht werden?",
-        "Wieviele Sets sollen eingebucht werden?"
+        "Wieviele Sets sollen eingebucht werden?",
+        "Dieser Artikel ist in folgenden Artikelgruppen enthalten, wenn Sie den Bestand der ganzen Gruppe ändern wollen, machen Sie dies bitte direkt über die Gruppe:",
+        "Dieser Artikel ist in folgender Artikelgruppe enthalten, wenn Sie den Bestand der ganzen Gruppe ändern wollen, machen Sie dies bitte direkt über die Gruppe:"
     ]
 }
