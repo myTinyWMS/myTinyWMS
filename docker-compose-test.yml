@@ -4,6 +4,8 @@ services:
     container_name: wms_app
     hostname: app
     image: mytinywms/mytinywms
+    build:
+      context: .
     links:
     - db
     - redis
