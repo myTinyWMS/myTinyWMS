@@ -54,13 +54,19 @@ class TestDataSeeder extends Seeder
         $this->command->getOutput()->writeln('orders created');
 
         $this->command->getOutput()->writeln('creating changelogs');
-        $bar = $this->command->getOutput()->createProgressBar(Article::count());
-        $bar->start();
-        Article::all()->each(function ($article) use ($bar) {
-            $this->buildChangelogForArticle($article);
-            $bar->advance();
-        });
-        $bar->finish();
+        if (config('app.demo')) {
+            $bar = $this->command->getOutput()->createProgressBar(Article::count());
+            $bar->start();
+            Article::all()->each(function ($article) use ($bar) {
+                $this->buildChangelogForArticle($article);
+                $bar->advance();
+            });
+            $bar->finish();
+        } else {
+            Article::inRandomOrder()->take(10)->each(function ($article) {
+                $this->buildChangelogForArticle($article);
+            });
+        }
 
         $this->command->getOutput()->writeln('creating articles for dashboard');
 

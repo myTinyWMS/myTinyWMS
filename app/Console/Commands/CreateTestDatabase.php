@@ -40,8 +40,8 @@ class CreateTestDatabase extends Command
     public function handle()
     {
         // use dump
-        DB::unprepared(file_get_contents(database_path('mss_testdb.sql')));
-        Artisan::call('db:seed', ['--database' => 'testdb']);
+        DB::connection('testdb')->unprepared(file_get_contents(database_path('mss_testdb.sql')));
+        Artisan::call('db:seed', ['--database' => 'testdb', '--force' => true]);
         Artisan::call('articlenumbers:set', ['--database' => 'testdb', '--force' => true]);
 
         /*// create from scratch

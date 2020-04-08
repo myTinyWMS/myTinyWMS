@@ -9,12 +9,10 @@ services:
     links:
     - db
     - redis
-    ports:
-    - 80:80
     environment:
     - APP_NAME="myTinyWMS"
-    - APP_ENV=production
-    - APP_DEBUG=false
+    - APP_ENV=local
+    - APP_DEBUG=true
     - DEMO_MODE=false
     - APP_KEY=base64:sgppryzAzGfrijoL5hW5a6CxXO/95IlYasKP7wDT3RE=
     - APP_URL=http://localhost/
