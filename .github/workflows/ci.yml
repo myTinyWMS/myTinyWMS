@@ -31,7 +31,7 @@ jobs:
           docker-compose --file docker-compose-test.yml up -d
           sleep 10
           docker ps -a
-          docker logs db
+          docker logs wms_db
           docker exec -w /data/www wms_app composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
           docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
 #          docker-compose --file docker-compose-test.yml build         
