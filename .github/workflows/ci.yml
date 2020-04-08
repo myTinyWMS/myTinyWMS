@@ -29,6 +29,8 @@ jobs:
       - name: Run tests
         run: |
           docker-compose --file docker-compose-test.yml up -d
+          docker ps
+          docker exec -w /data/www wms_app ping -c3 db
           docker exec -w /data/www wms_app composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
           docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
 #          docker-compose --file docker-compose-test.yml build         
