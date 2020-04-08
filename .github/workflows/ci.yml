@@ -31,9 +31,9 @@ jobs:
           docker-compose --file docker-compose-test.yml up -d
           sleep 10
           docker exec -w /data/www wms_app composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
-          docker exec -w /data/www wms_app php artisan migrate
-          docker exec -w /data/www wms_app php artisan db:seed --class=BaseSeeder
-          docker exec -w /data/www wms_app php artisan db:seed --class=TestDataSeeder
+          docker exec -w /data/www wms_app php artisan migrate --force
+          docker exec -w /data/www wms_app php artisan db:seed --class=BaseSeeder --force
+          docker exec -w /data/www wms_app php artisan db:seed --class=TestDataSeeder --force
           docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
 #          docker-compose --file docker-compose-test.yml build         
 #           docker-compose --file docker-compose-test.yml exec -T app /bin/sh -c "cd /data/www && artisan dusk"
