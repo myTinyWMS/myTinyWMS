@@ -31,7 +31,8 @@ jobs:
           docker-compose --file docker-compose-test.yml up -d
           sleep 10
           docker exec -w /data/www wms_app mkdir /data/www/storage/attachments
-          docker exec -w /data/www wms_app chmod -R 777 /data/www/storage 
+          docker exec -w /data/www wms_app chmod -R 777 /data/www/storage
+          docker exec -w /data/www wms_app chmod -R 777 /data/www/tests/Browser/screenshots
           docker exec -w /data/www wms_app composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
           docker exec -w /data/www wms_app php artisan dusk tests/Browser/LoginTest.php
 #          docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit          
