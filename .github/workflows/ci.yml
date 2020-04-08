@@ -40,7 +40,7 @@ jobs:
       - name: Run tests
         if: always()
         run: |
-          docker-compose logs app --tail=200
+          docker-compose logs --tail=200 app
           docker exec -w /data/www wms_app ls -alh /data/www/tests/Browser/screenshots
           
       - name: Upload Screenshots
