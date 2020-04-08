@@ -33,9 +33,14 @@ jobs:
           docker exec -w /data/www wms_app mkdir /data/www/storage/attachments
           docker exec -w /data/www wms_app chmod -R 777 /data/www/storage 
           docker exec -w /data/www wms_app composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
-          docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
           docker exec -w /data/www wms_app php artisan dusk
-          exit 1
+#          docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit          
+          
+      - uses: actions/upload-artifact@v1
+        with:
+          name: dusk-screenshots
+          path: /data/www/tests/Browser/screenshots
+#          exit 1
 #          docker-compose --file docker-compose-test.yml build         
 
   # Push image to GitHub Packages.
