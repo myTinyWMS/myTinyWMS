@@ -44,9 +44,9 @@ services:
     - MAIL_IMAP_USERNAME=
     - MAIL_IMAP_PASSWORD=
     - AUTH_DRIVER=eloquent
-    volumes:
-    - ./data/storage:/data/www/storage
-    - ./data/cache:/data/www/bootstrap/cache
+    #volumes:
+    #- ./data/storage:/data/www/storage
+    #- ./data/cache:/data/www/bootstrap/cache
 
   db:
     container_name: wms_db
