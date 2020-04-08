@@ -35,9 +35,13 @@ jobs:
           docker exec -w /data/www wms_app chmod -R 777 /data/www/tests/Browser/screenshots
           docker exec -w /data/www wms_app composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
           docker exec -w /data/www wms_app php artisan dusk tests/Browser/LoginTest.php
+#          docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit          
+          
+      - name: Run tests
+        if: always()
+        run: |
           docker-compose logs app --tail=200
           docker exec -w /data/www wms_app ls -alh /data/www/tests/Browser/screenshots
-#          docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit          
           
       - name: Upload Screenshots
         uses: actions/upload-artifact@v1
