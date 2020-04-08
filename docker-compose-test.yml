@@ -60,3 +60,18 @@ services:
   redis:
     container_name: wms_redis
     image: redis
+
+  selenium:
+    container_name: mss_selenium
+    image: robcherry/docker-chromedriver
+    environment:
+      CHROMEDRIVER_WHITELISTED_IPS: ""
+      CHROMEDRIVER_PORT: "4444"
+    depends_on:
+      - app
+    links:
+      - app:mss.test
+    volumes:
+      - /dev/shm:/dev/shm
+    cap_add:
+      - "SYS_ADMIN"
