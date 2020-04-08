@@ -34,7 +34,7 @@ jobs:
           docker exec -w /data/www wms_app chmod -R 777 /data/www/storage 
           docker exec -w /data/www wms_app composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
           docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
-          docker-compose --file docker-compose-test.yml exec -T app /bin/sh -c "cd /data/www && artisan dusk"
+          docker exec -w /data/www wms_app php artisan dusk
           exit 1
 #          docker-compose --file docker-compose-test.yml build         
 
