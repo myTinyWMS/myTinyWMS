@@ -26,6 +26,8 @@ services:
     - MYSQL_USER=root
     - MYSQL_PASSWORD=mss
     - APP_QUEUE_DRIVER=sync
+    - APP_CACHE_DRIVER=redis
+    - APP_SESSION_DRIVER=redis
     - REDIS_PORT_6379_HOST=redis
     - REDIS_PORT_6379_PASSWORD=null
     - REDIS_PORT_6379_PORT=6379
