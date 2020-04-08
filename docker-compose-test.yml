@@ -24,7 +24,7 @@ services:
     - INVENTORY_AUTOMATIC_RECEIVER=
     - MYSQL_PORT_3306_TCP_ADDR=db
     - MYSQL_PORT_3306_TCP_PORT=3306
-    - MYSQL_DATABASE=mss
+    - MYSQL_DATABASE=mss_test
     - MYSQL_USER=root
     - MYSQL_PASSWORD=mss
     - APP_QUEUE_DRIVER=sync
@@ -52,7 +52,7 @@ services:
     container_name: wms_db
     image: mariadb:10.2
     environment:
-    - MYSQL_DATABASE=mss
+    - MYSQL_DATABASE=mss_test
     - MYSQL_ROOT_PASSWORD=mss
     - MYSQL_USER=mss
     - MYSQL_PASSWORD=mss
