@@ -25,7 +25,6 @@ services:
     - MYSQL_PORT_3306_TCP_ADDR=db
     - MYSQL_PORT_3306_TCP_PORT=3306
     - MYSQL_DATABASE=mss
-    - MYSQL_ROOT_PASSWORD=mss
     - MYSQL_USER=root
     - MYSQL_PASSWORD=mss
     - APP_QUEUE_DRIVER=sync
@@ -53,11 +52,9 @@ services:
     container_name: wms_db
     image: mariadb:10.2
     environment:
-    - MYSQL_PORT_3306_TCP_ADDR=db
-    - MYSQL_PORT_3306_TCP_PORT=3306
     - MYSQL_DATABASE=mss
     - MYSQL_ROOT_PASSWORD=mss
-    - MYSQL_USER=root
+    - MYSQL_USER=mss
     - MYSQL_PASSWORD=mss
     volumes:
     - ./data/db:/var/lib/mysql
