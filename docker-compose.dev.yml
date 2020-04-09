@@ -5,7 +5,7 @@ services:
     hostname: app
     build:
       context: .
-    image: mytinywms
+    image: mytinywms/mytinywms
     links:
     - db
     - redis
@@ -13,6 +13,8 @@ services:
     ports:
     - 3080:80
     - 30443:443
+    env_file:
+    - ./.env
     volumes:
     - .:/data/www
     - ./data/storage:/data/www/storage
@@ -22,21 +24,18 @@ services:
     - ./docker/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
     - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini
     - ./docker/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf
-    environment:
-    - DEBUG=1
-    - DB_PASSWORD=mss
-    # for debugging
-    - TERM=xterm
-    tmpfs:
-    - /ramdisk:rw,noexec,nosuid,size=50M
-    command: supervisord -c /etc/supervisor/supervisord.conf
 
   db:
     container_name: mss_db
-    image: mariadb:10.2
+    build:
+      context: .
+      dockerfile: Dockerfile-DB
+    image: project_mss_db
     environment:
-    - MYSQL_ROOT_PASSWORD=mss
-    - MYSQL_DATABASE=mss
+    - MYSQL_DATABASE=${DB_DATABASE}
+    - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+    - MYSQL_USER=${DB_USERNAME}
+    - MYSQL_PASSWORD=${DB_PASSWORD}
     volumes:
     - ./data/db:/var/lib/mysql
     ports:

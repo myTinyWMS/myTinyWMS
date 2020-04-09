@@ -10,7 +10,7 @@ services:
     ports:
     - 80:80
     env_file:
-  	- ./.env
+    - ./.env
     volumes:
     - ./data/storage:/data/www/storage
     - ./data/cache:/data/www/bootstrap/cache
@@ -19,7 +19,7 @@ services:
     container_name: wms_db
     image: mariadb:10.2
     env_file:
-	- ./.env
+    - ./.env
     volumes:
     - ./data/db:/var/lib/mysql
 

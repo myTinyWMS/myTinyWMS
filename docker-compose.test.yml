@@ -13,40 +13,38 @@ services:
     - APP_NAME="myTinyWMS"
     - APP_ENV=local
     - APP_DEBUG=true
-    - DEMO_MODE=false
+    - APP_DEMO=false
     - APP_KEY=base64:sgppryzAzGfrijoL5hW5a6CxXO/95IlYasKP7wDT3RE=
     - APP_URL=http://localhost/
     - LOGO_PATH=
     - HORIZON_NOTIFICATION_RECEIVER=
     - INVENTORY_MANUAL_RECEIVER=
     - INVENTORY_AUTOMATIC_RECEIVER=
-    - MYSQL_PORT_3306_TCP_ADDR=db
-    - MYSQL_PORT_3306_TCP_PORT=3306
-    - MYSQL_DATABASE=mss_test
-    - MYSQL_USER=root
-    - MYSQL_PASSWORD=mss
-    - APP_QUEUE_DRIVER=sync
-    - APP_CACHE_DRIVER=redis
-    - APP_SESSION_DRIVER=redis
-    - REDIS_PORT_6379_HOST=redis
-    - REDIS_PORT_6379_PASSWORD=null
-    - REDIS_PORT_6379_PORT=6379
-    - MAIL_PORT_587_TCP_ADDR=
-    - MAIL_PORT_587_TCP_PORT=
-    - MAIL_ENV_USERNAME=
-    - MAIL_ENV_PASSWORD=
-    - MAIL_ENV_ENCRYPTION=
-    - MAIL_ENV_FROM_ADDR=
-    - MAIL_ENV_FROM_NAME=
-    - MAIL_IMAP_HOST=
-    - MAIL_IMAP_PORT=
-    - MAIL_IMAP_ENCRYPTION=
-    - MAIL_IMAP_USERNAME=
-    - MAIL_IMAP_PASSWORD=
+    - DB_HOST=db
+    - DB_PORT=3306
+    - DB_DATABASE=mss_test
+    - DB_USERNAME=root
+    - DB_PASSWORD=mss
+    - QUEUE_DRIVER=sync
+    - CACHE_DRIVER=array
+    - SESSION_DRIVER=redis
+    - REDIS_HOST=redis
+    - REDIS_PASSWORD=null
+    - REDIS_PORT=6379
+    - MAIL_DRIVER=smtp
+    - MAIL_HOST=
+    - MAIL_PORT=
+    - MAIL_USERNAME=
+    - MAIL_PASSWORD=
+    - MAIL_ENCRYPTION=
+    - MAIL_FROM_ADDRESS=
+    - MAIL_FROM_NAME=
+    - IMAP_HOST=
+    - IMAP_PORT=
+    - IMAP_ENCRYPTION=
+    - IMAP_USERNAME=
+    - IMAP_PASSWORD=
     - AUTH_DRIVER=eloquent
-    #volumes:
-    #- ./data/storage:/data/www/storage
-    #- ./data/cache:/data/www/bootstrap/cache
 
   db:
     container_name: wms_db

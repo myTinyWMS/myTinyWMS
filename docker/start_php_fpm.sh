@@ -16,10 +16,4 @@ if [ ! -d "vendor" ]; then
     composer install
 fi
 
-# no .env file present, copy the example one and generate a new key
-if [ ! -f ".env" ]; then
-    cp .env.example .env
-    php artisan key:generate
-fi
-
 php-fpm
