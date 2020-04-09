@@ -13,6 +13,7 @@ services:
     - APP_NAME="myTinyWMS"
     - APP_ENV=local
     - APP_DEBUG=true
+    - DEBUGBAR_ENABLED=false
     - APP_DEMO=false
     - APP_KEY=base64:sgppryzAzGfrijoL5hW5a6CxXO/95IlYasKP7wDT3RE=
     - APP_URL=http://localhost/
