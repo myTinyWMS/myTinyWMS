@@ -40,13 +40,13 @@ jobs:
           
       - name: Run tests
         run: |
+          docker exec -w /data/www wms_app php artisan dusk tests/Browser/LoginTest.php
           docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
-#          docker exec -w /data/www wms_app php artisan dusk tests/Browser/LoginTest.php
 
       - name: debug
         if: always()
         run: |
-          docker-compose logs --tail=200 app
+          docker-compose --file docker-compose.test.yml logs --tail=200 app
           docker exec -w /data/www wms_app ls -alh /data/www/tests/Browser/screenshots
           
       - name: Upload Screenshots
