@@ -16,4 +16,9 @@ if [ ! -d "vendor" ]; then
     composer install
 fi
 
+# no .env file present, create blank one
+if [ ! -f ".env" ]; then
+    touch .env
+fi
+
 php-fpm
