@@ -4,7 +4,7 @@ php artisan down
 # refresh database
 php artisan migrate:fresh --force
 php artisan db:seed --class=BaseSeeder --force
-php artisan db:seed --class=TestDataSeeder --force
+php artisan db:seed --class=DemoDataSeeder --force
 php artisan articlenumbers:set --force
 
 # clear file storage

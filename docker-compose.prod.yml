@@ -9,9 +9,8 @@ services:
     - redis
     ports:
     - 80:80
-    env_file:
-    - ./.env
     volumes:
+    - ./.env
     - ./data/storage:/data/www/storage
     - ./data/cache:/data/www/bootstrap/cache
 
