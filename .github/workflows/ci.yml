@@ -40,7 +40,7 @@ jobs:
           
       - name: Run tests
         run: |
-          docker exec -w /data/www wms_app php artisan dusk tests/Browser/LoginTest.php
+          docker exec -w /data/www wms_app php artisan dusk
           docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
 
       - name: debug
