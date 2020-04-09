@@ -28,7 +28,8 @@ jobs:
 
       - name: Prepare environment
         run: |
-          docker-compose --file docker-compose.test.yml up -d --build
+          docker-compose --file docker-compose-test.yml build
+          docker-compose --file docker-compose.test.yml up -d
           sleep 10
           docker exec -w /data/www wms_app mkdir /data/www/storage/attachments
           docker exec -w /data/www wms_app mkdir -p /data/www/storage/framework/cache/data
