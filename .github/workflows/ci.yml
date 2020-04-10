@@ -47,18 +47,23 @@ jobs:
           docker exec -w /data/www wms_app php artisan dusk
 
       - name: debug
-        if: always()
+        if: failure()
         run: |
           docker-compose --file docker-compose.test.yml logs --tail=200 app
-          docker exec -w /data/www wms_app ls -alh /data/www/tests/Browser/screenshots
-          ls -alh data/screenshots
-          
+
       - name: Upload Screenshots
         uses: actions/upload-artifact@v1
-        if: always()
+        if: failure()
         with:
           name: screenshots
           path: data/screenshots
+
+      - name: Upload console log
+        uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: console
+          path: data/console
 #          exit 1
 #          docker-compose --file docker-compose-test.yml build         
 

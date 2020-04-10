@@ -49,6 +49,7 @@ services:
     - AUTH_DRIVER=eloquent
     volumes:
     - ./data/screenshots:/data/www/tests/Browser/screenshots
+    - ./data/console:/data/www/tests/Browser/console
     - ./data/storage:/data/www/storage
     - ./data/cache:/data/www/bootstrap/cache
 
