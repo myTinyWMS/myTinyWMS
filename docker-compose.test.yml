@@ -46,6 +46,10 @@ services:
     - IMAP_USERNAME=
     - IMAP_PASSWORD=
     - AUTH_DRIVER=eloquent
+    volumes:	
+    - ./data/screenshots:/data/www/tests/Browser/screenshots
+    - ./data/storage:/data/www/storage	
+    - ./data/cache:/data/www/bootstrap/cache
 
   db:
     container_name: wms_db
