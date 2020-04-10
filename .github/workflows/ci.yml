@@ -51,13 +51,14 @@ jobs:
         run: |
           docker-compose --file docker-compose.test.yml logs --tail=200 app
           docker exec -w /data/www wms_app ls -alh /data/www/tests/Browser/screenshots
+          ls -alh data/screenshots
           
       - name: Upload Screenshots
         uses: actions/upload-artifact@v1
         if: always()
         with:
           name: screenshots
-          path: tests/Browser/screenshots
+          path: data/screenshots
 #          exit 1
 #          docker-compose --file docker-compose-test.yml build         
 
