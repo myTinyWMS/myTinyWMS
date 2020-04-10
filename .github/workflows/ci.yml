@@ -25,10 +25,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
+        
+#          docker-compose --file docker-compose.test.yml build
       - name: Prepare environment
         run: |
-          docker-compose --file docker-compose.test.yml build
           docker-compose --file docker-compose.test.yml up -d
           sleep 10
           docker exec -w /data/www wms_app mkdir /data/www/storage/attachments
@@ -40,7 +40,7 @@ jobs:
           
       - name: Run unit tests
         run: |
-          docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
+#          docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
 
       - name: Run dusk tests
         run: |
