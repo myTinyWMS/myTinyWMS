@@ -9,6 +9,7 @@ services:
     links:
     - db
     - redis
+    - mailhog
     environment:
     - APP_NAME="myTinyWMS"
     - APP_ENV=local
@@ -33,11 +34,11 @@ services:
     - REDIS_PASSWORD=null
     - REDIS_PORT=6379
     - MAIL_DRIVER=smtp
-    - MAIL_HOST=
-    - MAIL_PORT=
-    - MAIL_USERNAME=
-    - MAIL_PASSWORD=
-    - MAIL_ENCRYPTION=
+    - MAIL_HOST=mailhog
+    - MAIL_PORT=1025
+    - MAIL_USERNAME=null
+    - MAIL_PASSWORD=null
+    - MAIL_ENCRYPTION=null
     - MAIL_FROM_ADDRESS=
     - MAIL_FROM_NAME=
     - IMAP_HOST=
@@ -65,6 +66,13 @@ services:
   redis:
     container_name: wms_redis
     image: redis
+
+  mailhog:
+    container_name: mss_mailhog
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
 
   selenium:
     container_name: mss_selenium
