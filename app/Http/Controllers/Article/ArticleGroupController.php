@@ -115,6 +115,7 @@ class ArticleGroupController extends Controller
         $preSetArticles->transform(function ($item) use ($articleGroup) {
             return [
                 'id' => $item->article->id,
+                'article_number' => $item->article->article_number,
                 'article_group_item_id' => $item->id,
                 'name' => $item->article->name,
                 'quantity' => $item->quantity
