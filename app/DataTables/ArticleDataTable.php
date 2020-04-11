@@ -26,7 +26,7 @@ class ArticleDataTable extends BaseDataTable
     public function dataTable($query)
     {
         return datatables($query)
-            ->setRowId('id')
+            ->setRowId('article_{{$id}}')
             ->editColumn('article_number', function (Article $article) {
                 return (empty($article->article_number)) ? '('.$article->id.')' : $article->article_number;
             })

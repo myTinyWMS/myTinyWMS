@@ -194,6 +194,7 @@ class ArticleGroupController extends Controller
                 $deliveryDate = Carbon::now()->addWeekdays($deliveryTime);
                 return [
                     'id' => $article->id,
+                    'article_number' => $article->article_number,
                     'name' => $article->name/*.(!empty($article->unit) ? ' ('.$article->unit->name.')' : '')*/,
                     'supplier_id' => $article->currentSupplier->id,
                     'category' => $article->category->name ?? '',

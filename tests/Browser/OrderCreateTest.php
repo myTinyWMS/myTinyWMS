@@ -55,7 +55,7 @@ class OrderCreateTest extends DuskTestCase
                 ->assertSee('1 bis '.$articles->count().' von '.$articles->count().' Einträgen')
             ;
             foreach($articles as $article) {
-                $browser->assertPresent('#'.$article->id);
+                $browser->assertPresent('#article_'.$article->id);
             }
 
         });

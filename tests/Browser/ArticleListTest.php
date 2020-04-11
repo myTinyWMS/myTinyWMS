@@ -91,7 +91,7 @@ class ArticleListTest extends DuskTestCase
                 ->waitForLink('Details')
                 ->assertDontSee($article->article_number)
                 ->type('.dataTables_filter input', $article->name)
-                ->waitUntilMissing('#dataTableBuilder_processing')
+                ->waitUntilMissingText('Bitte warten')
                 ->assertSee($article->article_number);
         });
     }

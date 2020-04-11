@@ -139,7 +139,7 @@ class OrderListTest extends DuskTestCase
                 ->assertSee($order2->internal_order_number)
                 ->type('#dataTableBuilder_filter input', $order1->internal_order_number)
                 ->waitUntilMissing('#dataTableBuilder_processing')
-                ->waitForText('gefiltert von')
+                ->waitUntilMissingText('Bitte warten')
                 ->assertSee($order1->internal_order_number)
                 ->assertDontSee($order2->internal_order_number)
             ;
