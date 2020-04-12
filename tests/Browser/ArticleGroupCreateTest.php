@@ -38,9 +38,6 @@ class ArticleGroupCreateTest extends DuskTestCase
             $article2->update(['quantity' => 15]);
             $quantity2 = $faker->numberBetween(1, 5);
 
-            dump('article1: '.$article1->name.' - '.$article1->article_number);
-            dump('article2: '.$article2->name.' - '.$article2->article_number);
-
             $browser
                 ->visit('/article-group/create')
                 ->assertSee('Neue Artikelgruppe')
