@@ -1,19 +1,16 @@
 @extends('layout.app')
 
-@section('title', __('Artikelgruppe'))
-
-@section('title_extra')
-    @can('article.edit')
-        <button type="button" class="btn btn-secondary" @click="$modal.show('change-quantity')">@lang('Bestand ändern')</button>
-    @endcan
-@endsection
+@section('title', __('Artikelgruppe').' "'.$articleGroup->name.'"')
 
 @section('breadcrumb')
     <li>
-        <a href="{{ route('article-group.index') }}">@lang('Übersicht')</a>
+        <a href="{{ route('article.index') }}">@lang('Artikel')</a>
+    </li>
+    <li>
+        <a href="{{ route('article-group.index') }}">@lang('Artikelgruppen verwalten')</a>
     </li>
     <li class="active">
-        <strong>@lang('Artikelgruppe')</strong>
+        <strong>@lang('Artikelgruppe anzeigen')</strong>
     </li>
 @endsection
 
@@ -53,7 +50,11 @@
     <div class="row mt-4">
         <div class="card w-3/5">
             <div class="card-header flex">
-                <div class="w-full">@lang('Artikel')</div>
+                <div class="flex-1">@lang('Artikel')</div>
+
+                @can('article.edit')
+                    <button type="button" class="btn btn-secondary" @click="$modal.show('change-quantity')">@lang('Bestand der Artikel ändern')</button>
+                @endcan
             </div>
             <div class="card-content">
                 @foreach($articleGroup->items as $key => $item)
@@ -70,6 +71,14 @@
                             </div>
                             <div class="w-7/12">
                                 <div class="row">
+                                    <div class="w-4/12">
+                                        <div class="form-group">
+                                            <label class="form-label">@lang('Lieferant')</label>
+                                            <div class="form-control-static" id="supplier_{{ $item->id }}">
+                                                {{ $item->article->currentSupplier->name }}
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="w-4/12">
                                         <div class="form-group">
                                             <label class="form-label">@lang('Menge für diese Gruppe')</label>

@@ -80,6 +80,7 @@ class ArticleGroupEditTest extends DuskTestCase
                 ->waitUntilMissing('#dataTableBuilder_processing')
                 ->type('.dataTables_filter input', $newArticle->article_number)
                 ->waitUntilMissing('#dataTableBuilder_processing')
+                ->pause(1000)
                 ->press('auswählen')
                 ->waitUntilMissingText('Artikel auswählen')
                 ->assertSee($newArticle->name)

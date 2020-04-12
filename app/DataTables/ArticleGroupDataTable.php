@@ -29,7 +29,7 @@ class ArticleGroupDataTable extends BaseDataTable
                 return view('article_group.list_items', compact('articleGroup'))->render();
             })
             ->editColumn('name', function (ArticleGroup $articleGroup) {
-                return link_to_route('article-group.show', $articleGroup->name, ['article_group' => $articleGroup]);
+                return link_to_route('article-group.show', $articleGroup->name, ['article_group' => $articleGroup], ['target' => '_blank']);
             })
             ->addColumn('action', $this->actionView)
             ->rawColumns(['action', 'items']);

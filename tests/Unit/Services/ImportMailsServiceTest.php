@@ -19,9 +19,6 @@ use Webklex\IMAP\Message;
 
 class ImportMailsServiceTest extends TestCase
 {
-    use DatabaseMigrations;
-    use DatabaseTransactions;
-
     public function setUp(): void
     {
         parent::setUp();

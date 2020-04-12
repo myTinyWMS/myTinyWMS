@@ -55,7 +55,7 @@ class OrderCreateTest extends DuskTestCase
                 ->assertSee('1 bis '.$articles->count().' von '.$articles->count().' Einträgen')
             ;
             foreach($articles as $article) {
-                $browser->assertPresent('#'.$article->id);
+                $browser->assertPresent('#article_'.$article->id);
             }
 
         });
@@ -104,13 +104,13 @@ class OrderCreateTest extends DuskTestCase
 
             // add article 1
             $browser->driver->findElements(WebDriverBy::xpath('//table[@id="dataTableBuilder"]/tbody/tr[2]/td[13]/button'))[0]->click();
-            $browser->waitUntilMissing('.v--modal-box');
+            $browser->waitUntilMissing('.v--modal-overlay');
 
             // add article 2
             $browser->click('#add-article');
             $browser->waitUntilMissing('#dataTableBuilder_processing');
             $browser->driver->findElements(WebDriverBy::xpath('//table[@id="dataTableBuilder"]/tbody/tr[2]/td[13]/button'))[0]->click();
-            $browser->waitUntilMissing('.v--modal-box');
+            $browser->waitUntilMissing('.v--modal-overlay');
 
             $this->assertEquals(2, count($browser->elements('.order-article')));
 
@@ -137,13 +137,13 @@ class OrderCreateTest extends DuskTestCase
 
             // add article 1
             $browser->driver->findElements(WebDriverBy::xpath('//table[@id="dataTableBuilder"]/tbody/tr[2]/td[13]/button'))[0]->click();
-            $browser->waitUntilMissing('.v--modal-box');
+            $browser->waitUntilMissing('.v--modal-overlay');
 
             // add article 2
             $browser->click('#add-article');
             $browser->waitUntilMissing('#dataTableBuilder_processing');
             $browser->driver->findElements(WebDriverBy::xpath('//table[@id="dataTableBuilder"]/tbody/tr[2]/td[13]/button'))[0]->click();
-            $browser->waitUntilMissing('.v--modal-box');
+            $browser->waitUntilMissing('.v--modal-overlay');
             foreach($browser->elements('.quantity-select') as $element) {
                 $element->sendKeys(1);
             }

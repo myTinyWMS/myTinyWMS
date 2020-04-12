@@ -1,0 +1,75 @@
+name: continuous integration
+
+on:
+  push:
+    # Publish `master` as Docker `latest` image.
+    branches:
+      - master
+
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*
+
+  # Run tests for any PRs.
+  pull_request:
+
+jobs:
+  # Run tests.
+  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: Prepare test environment
+        run: |
+          docker-compose --file docker-compose.test.yml up -d
+          sleep 10
+          docker exec -w /data/www wms_app mkdir /data/www/storage/attachments
+          docker exec -w /data/www wms_app mkdir -p /data/www/storage/framework/cache/data
+          docker exec -w /data/www wms_app chmod -R 777 /data/www/storage
+          docker exec -w /data/www wms_app chmod -R 777 /data/www/storage/framework/cache/data
+          docker exec -w /data/www wms_app chmod -R 777 /data/www/tests/Browser/screenshots
+          docker exec -w /data/www wms_app composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+          
+      - name: Run unit tests
+        run: |
+          docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
+
+      - name: Run dusk tests
+        run: |
+          docker exec -w /data/www wms_app php artisan dusk
+
+      - name: Upload dusk screenshots
+        uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: screenshots
+          path: data/screenshots
+
+      - name: Upload dusk console log
+        uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: console
+          path: data/console
+
+  # Push image to GitHub Packages.
+  # See also https://docs.docker.com/docker-hub/builds/
+  push:
+    # Ensure test job passes before pushing image.
+    needs: test
+
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+        - uses: actions/checkout@master
+        - name: Publish to Registry
+          uses: elgohr/Publish-Docker-Github-Action@master
+          with:
+            name: mytinywms/mytinywms
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
+            tag_semver: true

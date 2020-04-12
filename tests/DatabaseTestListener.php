@@ -19,6 +19,5 @@ class DatabaseTestListener implements TestListener
         chdir(__DIR__ . '/..');
 
         shell_exec('php artisan create:testdb');
-        dump('db created'); // Log doesn't work here
     }
 }

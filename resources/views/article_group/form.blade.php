@@ -13,7 +13,9 @@
                 </div>
             </div>
         </div>
-        @yield('secondCol')
+        <div class="w-1/2">
+            @yield('secondCol')
+        </div>
     </div>
 
     <div class="w-full flex mt-4">

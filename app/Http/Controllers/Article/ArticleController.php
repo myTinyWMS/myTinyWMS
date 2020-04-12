@@ -116,7 +116,7 @@ class ArticleController extends Controller
      */
     public function show($id) {
         /** @var Article $article */
-        $article = Article::withCurrentSupplier()->withCurrentSupplierArticle()->findOrFail($id);
+        $article = Article::withCurrentSupplier()->withCurrentSupplierArticle()->with('articleGroupItems.articleGroup')->findOrFail($id);
 
         $context = [
             "article" => $article,

@@ -89,7 +89,9 @@ class ArticleGroupController extends Controller
      * @return void
      */
     public function show($id) {
-        $articleGroup = ArticleGroup::findOrFail($id);
+        $articleGroup = ArticleGroup::with(['items.article' => function($query) {
+            $query->withCurrentSupplier();
+        }])->findOrFail($id);
         $audits = $articleGroup->getAudits();
 
         return view('article_group.show', compact('articleGroup', 'audits'));
@@ -113,6 +115,7 @@ class ArticleGroupController extends Controller
         $preSetArticles->transform(function ($item) use ($articleGroup) {
             return [
                 'id' => $item->article->id,
+                'article_number' => $item->article->article_number,
                 'article_group_item_id' => $item->id,
                 'name' => $item->article->name,
                 'quantity' => $item->quantity
@@ -191,6 +194,7 @@ class ArticleGroupController extends Controller
                 $deliveryDate = Carbon::now()->addWeekdays($deliveryTime);
                 return [
                     'id' => $article->id,
+                    'article_number' => $article->article_number,
                     'name' => $article->name/*.(!empty($article->unit) ? ' ('.$article->unit->name.')' : '')*/,
                     'supplier_id' => $article->currentSupplier->id,
                     'category' => $article->category->name ?? '',

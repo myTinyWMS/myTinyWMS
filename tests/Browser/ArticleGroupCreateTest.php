@@ -30,11 +30,11 @@ class ArticleGroupCreateTest extends DuskTestCase
 
             $name = implode(' ' , $faker->words(3)).' '.$faker->randomNumber(5);
 
-            $article1 = Article::inRandomOrder()->first();
+            $article1 = Article::active()->inRandomOrder()->first();
             $article1->update(['quantity' => 10]);
             $quantity1 = $faker->numberBetween(1, 5);
 
-            $article2 = Article::where('id', '!=', $article1->id)->inRandomOrder()->first();
+            $article2 = Article::where('id', '!=', $article1->id)->active()->inRandomOrder()->first();
             $article2->update(['quantity' => 15]);
             $quantity2 = $faker->numberBetween(1, 5);
 
@@ -47,16 +47,24 @@ class ArticleGroupCreateTest extends DuskTestCase
                 ->waitUntilMissing('#dataTableBuilder_processing')
                 ->type('.dataTables_filter input', $article1->article_number)
                 ->waitUntilMissing('#dataTableBuilder_processing')
+                ->pause(1000)
+                ->assertSee($article1->article_number)
                 ->press('auswählen')
-                ->waitUntilMissingText('Artikel auswählen')
+                ->waitFor('#quantity_0')
+                ->pause(1000)
+                ->assertSee($article1->article_number)
                 ->assertSee($article1->name)
                 // add article 2
                 ->click('#add-article')
                 ->waitUntilMissing('#dataTableBuilder_processing')
                 ->type('.dataTables_filter input', $article2->article_number)
                 ->waitUntilMissing('#dataTableBuilder_processing')
+                ->pause(1000)
+                ->assertSee($article2->article_number)
                 ->press('auswählen')
-                ->waitUntilMissingText('Artikel auswählen')
+                ->waitFor('#quantity_1')
+                ->pause(1000)
+                ->assertSee($article2->article_number)
                 ->assertSee($article2->name)
                 ->assertSee($article1->name)    // should still be visible
                 ->type('#quantity_0', $quantity1)

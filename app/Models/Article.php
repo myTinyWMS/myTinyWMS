@@ -80,6 +80,10 @@ class Article extends AuditableModel
         return __('Artikel');
     }
 
+    public function articleGroupItems() {
+        return $this->hasMany(ArticleGroupItem::class);
+    }
+
     public function quantityChangelogs() {
         return $this->hasMany(ArticleQuantityChangelog::class);
     }

@@ -3,8 +3,11 @@
 @section('title', __('Artikelgruppen'))
 
 @section('breadcrumb')
+    <li>
+        <a href="{{ route('article.index') }}">@lang('Artikel')</a>
+    </li>
     <li class="active">
-        <strong>@lang('Übersicht')</strong>
+        <strong>@lang('Artikelgruppen verwalten')</strong>
     </li>
 @endsection
 
