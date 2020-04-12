@@ -62,6 +62,8 @@ class ArticleGroupCreateTest extends DuskTestCase
                 ->waitUntilMissing('#dataTableBuilder_processing')
                 ->type('.dataTables_filter input', $article2->article_number)
                 ->waitUntilMissing('#dataTableBuilder_processing')
+                ->pause(1000)
+                ->assertSee($article2->article_number)
                 ->press('auswählen')
                 ->waitFor('#quantity_1')
                 ->pause(1000)
