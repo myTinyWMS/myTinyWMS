@@ -26,8 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         
-#          docker-compose --file docker-compose.test.yml build
-      - name: Prepare environment
+      - name: Prepare test environment
         run: |
           docker-compose --file docker-compose.test.yml up -d
           sleep 10
@@ -40,32 +39,25 @@ jobs:
           
       - name: Run unit tests
         run: |
-#          docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
+          docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
 
       - name: Run dusk tests
         run: |
           docker exec -w /data/www wms_app php artisan dusk
 
-      - name: debug
-        if: failure()
-        run: |
-          docker-compose --file docker-compose.test.yml logs --tail=200 app
-
-      - name: Upload Screenshots
+      - name: Upload dusk screenshots
         uses: actions/upload-artifact@v1
         if: failure()
         with:
           name: screenshots
           path: data/screenshots
 
-      - name: Upload console log
+      - name: Upload dusk console log
         uses: actions/upload-artifact@v1
         if: failure()
         with:
           name: console
           path: data/console
-#          exit 1
-#          docker-compose --file docker-compose-test.yml build         
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
@@ -77,32 +69,11 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Build image
-        run: docker build . --file Dockerfile --tag image
-
-      - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-
-      - name: Push image
-        run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
-          
-          # Change all uppercase to lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
-          # Use Docker `latest` tag convention
-          [ "$VERSION" == "master" ] && VERSION=latest
-
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
-
-          docker tag image $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
+        - uses: actions/checkout@master
+        - name: Publish to Registry
+          uses: elgohr/Publish-Docker-Github-Action@master
+          with:
+            name: mytinywms/mytinywms
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
+            tag_semver: true
