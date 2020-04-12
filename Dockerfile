@@ -1,4 +1,4 @@
-FROM mytinywms/mytinywms-base:1.0
+FROM mytinywms/mytinywms-base:1.1
 
 COPY . /data/www
 

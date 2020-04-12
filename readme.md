@@ -1,3 +1,5 @@
+![Docker](https://github.com/alex-LE/myTinyWMS/workflows/Docker/badge.svg)
+
 ## MyTinyWMS - Open Source Warehouse Management System
 
 MyTinyWMS is a free warehouse management system software. It helps small and medium-sized companies with inventory management and the organisation of purchasing.

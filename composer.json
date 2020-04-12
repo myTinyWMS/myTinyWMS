@@ -32,6 +32,7 @@
         "predis/predis": "^1.1",
         "reinink/advanced-eloquent": "^0.2.0",
         "sentry/sentry-laravel": "1.2.1",
+        "spatie/laravel-backup": "^6.8",
         "spatie/laravel-permission": "^3.11",
         "tightenco/ziggy": "^0.8",
         "webklex/laravel-imap": "1.0.4.1",
