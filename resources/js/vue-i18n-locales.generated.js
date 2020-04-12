@@ -219,6 +219,8 @@ export default {
         "Benutzer angelegt": "User created",
         "Benutzer gespeichert": "User saved",
         "Benutzer gelöscht": "User deleted",
+        "IMAP Zugangsdaten sind ungültig!": "IMAP credentials are invalid!",
+        "SMTP Zugangsdaten sind ungültig!": "SMTP credentials are invalid!",
         "Rolle angelegt": "Role created",
         "Rolle gespeichert": "Role saved",
         "Rolle gelöscht": "Role deleted",
@@ -507,6 +509,22 @@ export default {
         "Neue Lieferung zu vorhandener Rechnung": "New delivery for existing invoice",
         "Einheiten": "Units",
         "Benutzerverwaltung": "user management",
+        "Ausgehende E-Mails": "Outgoing emails",
+        "Definieren Sie hier den SMTP Server der für ausgehende E-Mails verwendet werden soll.": "Here you define the SMTP server to be used for outgoing e-mails.",
+        "Host": "Host",
+        "Port": "Port",
+        "Username": "Username",
+        "Passwort": "Password",
+        "TLS": "TLS",
+        "SSL": "SSL",
+        "Verschlüsselung": "Encryption",
+        "Keine": "None",
+        "Absender-Adresse": "Sender's address",
+        "Absender-Name": "Sender name",
+        "Import eingehender E-Mails für Bestellungen": "Import of incoming e-mails for orders",
+        "myTinyWMS kann eingehende E-Mails automatisch importieren und Bestellungen zuweisen. Wenn Sie dieses Feature nutzen wollen, geben Sie bitte nachfolgende die IMAP Zugangsdaten ein.": "myTinyWMS can automatically import incoming emails and assign orders. If you want to use this feature, please enter the following IMAP access data.",
+        "E-Mails automatisch importieren": "Import emails automatically",
+        "E-Mails nach dem Import vom Server löschen": "Delete e-mails from the server after import",
         "Artikelgruppen": "Article groups",
         "Neue Artikelgruppe": "New article group",
         "Artikelgruppe bearbeiten": "Edit article group",
@@ -527,7 +545,6 @@ export default {
         "Im Demo Modus werden keine E-Mails verschickt.": "No e-mails are sent in demo mode.",
         "Willkommen bei": "Welcome at",
         "Benutzername / E-Mail": "Username / E-Mail",
-        "Passwort": "Password",
         "Login": "Login",
         "Passwort vergessen?": "Lost password?",
         "offen": "open",
@@ -652,6 +669,8 @@ export default {
         "Wieviele Sets sollen eingebucht werden?": "How many sets should be booked?",
         "Dieser Artikel ist in folgenden Artikelgruppen enthalten, wenn Sie den Bestand der ganzen Gruppe ändern wollen, machen Sie dies bitte direkt über die Gruppe:": "This article is included in the following article groups, if you want to change the stock of the whole group, please do this directly via the group:",
         "Dieser Artikel ist in folgender Artikelgruppe enthalten, wenn Sie den Bestand der ganzen Gruppe ändern wollen, machen Sie dies bitte direkt über die Gruppe:": "This article is included in the following article group, if you want to change the stock of the whole group, please do this directly via the group:",
+        "Passwort anzeigen": "Show password",
+        "Passwort verbergen": "Hide password",
         "pagination": {
             "previous": "&laquo; Previous",
             "next": "Next &raquo;"
@@ -822,6 +841,8 @@ export default {
         "Wieviele Sets sollen ausgebucht werden?",
         "Wieviele Sets sollen eingebucht werden?",
         "Dieser Artikel ist in folgenden Artikelgruppen enthalten, wenn Sie den Bestand der ganzen Gruppe ändern wollen, machen Sie dies bitte direkt über die Gruppe:",
-        "Dieser Artikel ist in folgender Artikelgruppe enthalten, wenn Sie den Bestand der ganzen Gruppe ändern wollen, machen Sie dies bitte direkt über die Gruppe:"
+        "Dieser Artikel ist in folgender Artikelgruppe enthalten, wenn Sie den Bestand der ganzen Gruppe ändern wollen, machen Sie dies bitte direkt über die Gruppe:",
+        "Passwort anzeigen",
+        "Passwort verbergen"
     ]
 }
