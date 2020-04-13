@@ -41,6 +41,8 @@ class SettingsController extends Controller
             }
 
             settings()->set([
+                'imap.enabled' => ($request->get('imap_enabled') == 1),
+                'imap.delete' => ($request->get('imap_delete') == 1),
                 'imap.host' => $request->get('imap_host'),
                 'imap.port' => $request->get('imap_port'),
                 'imap.username' => encrypt($request->get('imap_username')),
@@ -92,6 +94,8 @@ class SettingsController extends Controller
     }
 
     protected function imapSettingsAreValid(AdminSettingsRequest $request) {
+        if (env('APP_ENV') != 'production') return true;
+
         try {
             $oClient = new Client([
                 'host' => $request->get('imap_host'),
@@ -115,6 +119,8 @@ class SettingsController extends Controller
      * @return bool
      */
     protected function smtpSettingsAreValid(AdminSettingsRequest $request) {
+        if (env('APP_ENV') != 'production') return true;
+
         try {
             $transport = new \Swift_SmtpTransport($request->get('smtp_host'), $request->get('smtp_port'), $request->get('smtp_encryption'));
             $transport->setUsername($request->get('smtp_username'));

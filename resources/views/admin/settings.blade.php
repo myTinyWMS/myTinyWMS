@@ -56,13 +56,21 @@
                 <div class="w-1/2 pt-4">
                     <div class="text-lg pb-2">@lang('Import eingehender E-Mails für Bestellungen')</div>
                     <p class="text-sm text-gray-700 pr-20">
-                        @lang('myTinyWMS kann eingehende E-Mails automatisch importieren und Bestellungen zuweisen. Wenn Sie dieses Feature nutzen wollen, geben Sie bitte nachfolgende die IMAP Zugangsdaten ein.')
+                        @lang('myTinyWMS kann eingehende E-Mails automatisch importieren und Bestellungen zuweisen. Wenn Sie dieses Feature nutzen wollen, geben Sie bitte nachfolgend die IMAP Zugangsdaten ein.')
                     </p>
                 </div>
                 <div class="w-1/2 pt-4">
                     <div class="row">
                         <div class="w-full pb-4">
-                            {{ Form::bsCheckbox('imap_enabled', settings('imap.enabled', false), __('E-Mails automatisch importieren')) }}
+                            {{ Form::bsCheckbox('imap_enabled', 1, __('E-Mails automatisch importieren'), settings('imap.enabled', false)) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="w-2/3 pr-4">
+                            {{ Form::bsText('imap_host', settings('imap.host'), [], __('Host')) }}
+                        </div>
+                        <div class="w-1/3 pr-4">
+                            {{ Form::bsText('imap_port', settings('imap.port'), [], __('Port')) }}
                         </div>
                     </div>
                     <div class="row">
@@ -83,7 +91,7 @@
                     </div>
                     <div class="row">
                         <div class="w-full pb-4">
-                            {{ Form::bsCheckbox('imap_delete', settings('imap.delete', false), __('E-Mails nach dem Import vom Server löschen')) }}
+                            {{ Form::bsCheckbox('imap_delete', 1, __('E-Mails nach dem Import vom Server löschen'), settings('imap.delete', false)) }}
                         </div>
                     </div>
                 </div>

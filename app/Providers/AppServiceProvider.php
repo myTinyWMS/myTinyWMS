@@ -35,27 +35,6 @@ class AppServiceProvider extends ServiceProvider
             $this->app['url']->forceScheme('https');
         }
 
-        // set config only if not during docker build - there is no DB connection at this time and this fails
-        if (!env('DOCKER_BUILD', false) && env('APP_ENV') != 'testing') {
-            config([
-                'mail.host' => settings('smtp.host'),
-                'mail.port' => settings('smtp.port'),
-                'mail.encryption' => settings('smtp.encryption'),
-                'mail.username' => !empty(settings('smtp.username')) ? decrypt(settings('smtp.username')) : null,
-                'mail.password' => !empty(settings('smtp.password')) ? decrypt(settings('smtp.password')) : null,
-                'mail.from.address' => settings('smtp.from_address'),
-                'mail.from.name' => settings('smtp.from_name')
-            ]);
-
-            config([
-                'imap.accounts.default.host' => settings('imap.host'),
-                'imap.accounts.default.port' => settings('imap.port'),
-                'imap.accounts.default.encryption' => settings('imap.encryption'),
-                'imap.accounts.default.username' => !empty(settings('imap.username')) ? decrypt(settings('imap.username')) : null,
-                'imap.accounts.default.password' => !empty(settings('imap.password')) ? decrypt(settings('imap.password')) : null,
-            ]);
-        }
-
         Relation::morphMap([
             'article' => Article::class,
         ]);
