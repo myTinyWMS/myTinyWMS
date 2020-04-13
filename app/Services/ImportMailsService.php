@@ -19,17 +19,11 @@ class ImportMailsService {
 
     /**
      * ImportMailsService constructor.
+     *
+     * @param Client $client
      */
-    public function __construct() {
-        $this->client = new Client([
-            'host'          => settings('imap.host'),
-            'port'          => settings('imap.port'),
-            'encryption'    => settings('imap.encryption'),
-            'validate_cert' => true,
-            'username'      => decrypt(settings('imap.username')),
-            'password'      => decrypt(settings('imap.password')),
-            'protocol'      => 'imap'
-        ]);
+    public function __construct(Client $client) {
+        $this->client = $client;
     }
 
     public function process() {
