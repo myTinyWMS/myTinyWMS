@@ -225,7 +225,7 @@ class ArticleEditTest extends DuskTestCase
 
     public function test_deleting_notes_from_article() {
         $this->browse(function (Browser $browser) {
-            $article = Article::active()->inRandomOrder()->first();
+            $article = Article::active()->doesntHave('articleNotes')->inRandomOrder()->first();
             $note = $article->articleNotes()->save(factory(ArticleNote::class)->make(['user_id' => User::first()->id, 'article_id' => $article->id]));
 
             $this->assertEquals(1, $article->articleNotes()->count());
