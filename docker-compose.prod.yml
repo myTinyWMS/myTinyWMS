@@ -10,7 +10,7 @@ services:
     ports:
     - 80:80
     volumes:
-    - ./.env
+    - ./.env:/data/www/.env
     - ./data/storage:/data/www/storage
     - ./data/cache:/data/www/bootstrap/cache
 

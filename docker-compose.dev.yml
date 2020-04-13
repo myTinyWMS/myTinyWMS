@@ -15,7 +15,6 @@ services:
     - 30443:443
     volumes:
     - .:/data/www
-    - .env:/data/www/env
     - ./data/storage:/data/www/storage
     - ./data/cache:/data/www/bootstrap/cache
     - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf

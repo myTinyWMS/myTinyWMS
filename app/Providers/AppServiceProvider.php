@@ -41,8 +41,8 @@ class AppServiceProvider extends ServiceProvider
                 'mail.host' => settings('smtp.host'),
                 'mail.port' => settings('smtp.port'),
                 'mail.encryption' => settings('smtp.encryption'),
-                'mail.username' => decrypt(settings('smtp.username')),
-                'mail.password' => decrypt(settings('smtp.password')),
+                'mail.username' => !empty(settings('smtp.username')) ? decrypt(settings('smtp.username')) : null,
+                'mail.password' => !empty(settings('smtp.password')) ? decrypt(settings('smtp.password')) : null,
                 'mail.from.address' => settings('smtp.from_address'),
                 'mail.from.name' => settings('smtp.from_name')
             ]);
@@ -51,8 +51,8 @@ class AppServiceProvider extends ServiceProvider
                 'imap.accounts.default.host' => settings('imap.host'),
                 'imap.accounts.default.port' => settings('imap.port'),
                 'imap.accounts.default.encryption' => settings('imap.encryption'),
-                'imap.accounts.default.username' => decrypt(settings('imap.username')),
-                'imap.accounts.default.password' => decrypt(settings('imap.password')),
+                'imap.accounts.default.username' => !empty(settings('imap.username')) ? decrypt(settings('imap.username')) : null,
+                'imap.accounts.default.password' => !empty(settings('imap.password')) ? decrypt(settings('imap.password')) : null,
             ]);
         }
 
