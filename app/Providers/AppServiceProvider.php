@@ -39,12 +39,8 @@ class AppServiceProvider extends ServiceProvider
             'article' => Article::class,
         ]);
 
-        $this->app->bind('\Webklex\IMAP\Client', function ($app) {
-            return Client::account('default');
-        });
-
         Collection::macro('ksort', function(){
-            //macros callbacks are bound to collection so we can safely access
+            // macros callbacks are bound to collection so we can safely access
             // protected Collection::items
             ksort($this->items);
 
@@ -62,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Horizon::auth(function ($request) {
-            return Auth::check();
+            return Auth::check() && Auth::user()->can('admin');
         });
     }
 

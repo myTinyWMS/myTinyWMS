@@ -2,13 +2,13 @@
 
 namespace Mss\Services;
 
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Support\Facades\Storage;
 use Mss\Models\Order;
-use Mss\Models\OrderMessage;
-use Webklex\IMAP\Facades\Client;
-use Webklex\IMAP\Message;
+use Webklex\IMAP\Client;
+use Webklex\IMAP\Folder;
 use Webpatser\Uuid\Uuid;
+use Webklex\IMAP\Message;
+use Mss\Models\OrderMessage;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class ImportMailsService {
 
@@ -20,20 +20,20 @@ class ImportMailsService {
     /**
      * ImportMailsService constructor.
      *
-     * @param \Webklex\IMAP\Client $client
+     * @param Client $client
      */
-    public function __construct(\Webklex\IMAP\Client $client) {
+    public function __construct(Client $client) {
         $this->client = $client;
     }
 
     public function process() {
         $this->client->connect();
 
-        /** @var \Webklex\IMAP\Folder $oFolder */
+        /** @var Folder $oFolder */
         $oFolder = $this->client->getFolder('INBOX');
 
         //Get all Messages
-        /** @var \Webklex\IMAP\Message $message */
+        /** @var Message $message */
         foreach($oFolder->getMessages('UNSEEN') as $message) {
             $order = $this->getOrderFromMessage($message);
 
@@ -43,7 +43,12 @@ class ImportMailsService {
                 OrderMessage::create($this->getOrderMessageData($message));
             }
 
-            $message->setFlag('SEEN');
+            if (settings('imap.delete', false)) {
+                $message->delete();
+            } else {
+                $message->setFlag('SEEN');
+            }
+
         }
     }
 

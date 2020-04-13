@@ -57,6 +57,7 @@ Vue.i18n.set(lang);
 
 Vue.component('z', require('./components/zondicon.vue'));
 Vue.component('collapse', require('./components/Collapse.vue'));
+Vue.component('password-field', require('./components/Shared/PasswordField.vue'));
 Vue.component('dot-menu', require('./components/DotMenu.vue'));
 Vue.component('article-quantity-changelog', require('./components/ArticelQuantityChangelog.vue'));
 Vue.component('change-quantity-form', require('./components/ChangeQuantityForm.vue'));

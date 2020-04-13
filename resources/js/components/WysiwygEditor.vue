@@ -41,6 +41,7 @@
                     lang: 'de-DE',
                     placeholder: '',
                     height: 800,
+                    width: 800,
                     fontNames: [
                         'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
                         'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande',

@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 let mix = require('laravel-mix');
 
 /*
@@ -12,6 +13,13 @@ let mix = require('laravel-mix');
  */
 
 var tailwindcss = require('tailwindcss');
+
+mix.webpackConfig({
+    plugins: [
+        new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|de)$/)
+    ]
+});
+
 
 mix
     .less('resources/less/app.less', 'public/css')

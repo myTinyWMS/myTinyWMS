@@ -208,6 +208,7 @@ return [
         Mss\Providers\FormComponentsServiceProvider::class,
         Mss\Providers\ValidatorServiceProvider::class,
         Mss\Providers\DatabaseServiceProvider::class,
+        Mss\Providers\ConfigServiceProvider::class
     ],
 
     /*

@@ -59,6 +59,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::namespace('Admin')->prefix('admin')->middleware(['permission:admin'])->group(function () {
         Route::get('/', 'StartController@index')->name('admin.index');
 
+        Route::get('/settings', 'SettingsController@show')->name('admin.settings.show');
+        Route::post('/settings', 'SettingsController@save')->name('admin.settings.save');
+
         Route::resources([
             'category' => 'CategoryController',
             'unit' => 'UnitController',

@@ -74,7 +74,7 @@
                 <div class="card-content">
                     <form method="post" action="{{ route('reports.print_category_list') }}" class="form-inline">
                         @csrf
-                        {{ Form::bsSelect('category[]', null, \Mss\Models\Category::orderBy('name')->pluck('name', 'id'),  __('Kategorien auswählen'), ['multiple', 'size' => 12]) }}
+                        {{ Form::bsSelect('category[]', null, \Mss\Models\Category::orderBy('name')->pluck('name', 'id'),  __('Kategorien auswählen'), ['multiple', 'size' => 12, 'class' => 'form-select h-auto']) }}
                         <div class="text-gray-600 text-xs mb-6">@lang('Mehrfachwauswahl durch gedrückt halten von Strg (Mac: Cmd)')</div>
                         <button type="submit" class="btn btn-secondary pb-2"><i class="fa fa-download"></i> @lang('PDF herunterladen') </button>
                     </form>
