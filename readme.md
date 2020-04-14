@@ -1,4 +1,4 @@
-![Docker](https://github.com/alex-LE/myTinyWMS/workflows/Docker/badge.svg)
+![continuous integration](https://github.com/alex-LE/myTinyWMS/workflows/continuous%20integration/badge.svg)
 
 ## MyTinyWMS - Open Source Warehouse Management System
 
