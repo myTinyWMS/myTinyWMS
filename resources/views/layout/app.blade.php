@@ -98,6 +98,14 @@
                 $('<table id="header-fixed"></table>').insertAfter('#dataTableBuilder');
             }
 
+            if ($('.table-footer-actions').length && $('.footer_actions').length) {
+                $('.table-footer-actions').html($('.footer_actions').html());
+            }
+
+            if ($('.table-toolbar-right').length && $('.table-toolbar-right-content').length) {
+                $('.table-toolbar-right').html($('.table-toolbar-right-content').html());
+            }
+
             addFixedTableHeader();
             adjustDisabledButtons();
 
@@ -135,14 +143,6 @@
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_minimal-blue',
             });
-
-            if ($('.table-footer-actions').length && $('.footer_actions').length) {
-                $('.table-footer-actions').html($('.footer_actions').html());
-            }
-
-            if ($('.table-toolbar-right').length && $('.table-toolbar-right-content').length) {
-                $('.table-toolbar-right').html($('.table-toolbar-right-content').html());
-            }
 
             $('.btn:disabled, .btn-link:disabled').addClass('btn-disabled');
             $('input:disabled, textarea:disabled, select:disabled').addClass('form-disabled');
