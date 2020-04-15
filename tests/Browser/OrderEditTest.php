@@ -172,7 +172,7 @@ class OrderEditTest extends DuskTestCase
                 ->waitForText('Neuer Wareneingang')
                 ->type('#delivery_note_number', 'foo123')
                 ->type('#notes', 'lorem ipsum')
-                ->click('.set-full-quantity:nth-child(1)')
+                ->click('@set-full-quantity-'.$order->items->first()->id)
                 ->assertValue('input[name="quantities['.$order->items->first()->article->id.']"]', $order->items->first()->quantity)
                 ->click('#save-delivery')
                 ->waitForText('Lieferung gespeichert.');
@@ -196,7 +196,7 @@ class OrderEditTest extends DuskTestCase
                 ->waitForText('Neuer Wareneingang')
                 ->type('#delivery_note_number', 'foo123')
                 ->type('#notes', 'lorem ipsum')
-                ->click('.set-full-quantity:nth-child(1)')
+                ->click('@set-full-quantity-'.$order->items->first()->id)
                 ->assertValue('input[name="quantities['.$order->items->first()->article->id.']"]', $order->items->first()->quantity)
                 ->click('#save-delivery')
                 ->waitForText('Lieferung gespeichert.');
@@ -220,8 +220,8 @@ class OrderEditTest extends DuskTestCase
                 ->waitForText('Neuer Wareneingang')
                 ->type('#delivery_note_number', 'foo123')
                 ->type('#notes', 'lorem ipsum')
-                ->click('.set-full-quantity:nth-child(1)')
-                ->click('.set-full-quantity:nth-child(2)')
+                ->click('@set-full-quantity-'.$order->items->get(0)->id)
+                ->click('@set-full-quantity-'.$order->items->get(1)->id)
                 ->assertValue('input[name="quantities['.$order->items->get(0)->article->id.']"]', $order->items->get(0)->quantity)
                 ->assertValue('input[name="quantities['.$order->items->get(1)->article->id.']"]', $order->items->get(1)->quantity)
                 ->click('#save-delivery')

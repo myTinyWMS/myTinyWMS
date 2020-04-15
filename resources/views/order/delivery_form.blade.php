@@ -90,7 +90,7 @@
                                 <div class="mt-2 flex">
                                     <input class="form-input mr-2" type="text" name="quantities[{{ $item->article->id }}]">
                                     <div class="">
-                                        <button type="button" class="btn btn-success set-full-quantity" data-quantity="{{ ($item->quantity - $item->getQuantityDelivered() > 0) ? ($item->quantity - $item->getQuantityDelivered()) : 0 }}" title="alles"><i class="fa fa-check"></i></button>
+                                        <button type="button" class="btn btn-success set-full-quantity" dusk="set-full-quantity-{{ $item->id }}" data-quantity="{{ ($item->quantity - $item->getQuantityDelivered() > 0) ? ($item->quantity - $item->getQuantityDelivered()) : 0 }}" title="alles"><i class="fa fa-check"></i></button>
                                     </div>
                                 </div>
                             </div>

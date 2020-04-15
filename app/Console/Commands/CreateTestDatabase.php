@@ -44,14 +44,12 @@ class CreateTestDatabase extends Command
         Artisan::call('db:seed', ['--database' => 'testdb', '--force' => true]);
         Artisan::call('articlenumbers:set', ['--database' => 'testdb', '--force' => true]);
 
-        /*// create from scratch
-        DB::statement("drop database if exists mss_test");
-        DB::statement("create database mss_test");
-
-        DB::purge('testdb');
-
-        Artisan::call('migrate:refresh', ['--database' => 'testdb']);
-        Artisan::call('db:seed', ['--database' => 'testdb']);
-        Artisan::call('articlenumbers:set', ['--database' => 'testdb', '--force' => true]);*/
+        settings()->set([
+            'smtp.host' => 'mailhog',
+            'smtp.port' => '1025',
+            'smtp.username' => encrypt(null),
+            'smtp.password' => encrypt(null),
+            'smtp.from_address' => 'mail@example.com'
+        ]);
     }
 }
