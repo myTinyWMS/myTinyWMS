@@ -15,6 +15,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\User;
 use Mss\Models\Order;
 use Mss\Models\Article;
@@ -76,6 +77,24 @@ $factory->define(Mss\Models\ArticleGroupItem::class, function (Faker\Generator $
 $factory->define(Mss\Models\ArticleGroup::class, function (Faker\Generator $faker) {
     return [
         'name' => implode(' ' , $faker->words(3)).' '.$faker->randomNumber(5),
+    ];
+});
+
+$factory->define(Mss\Models\ArticleQuantityChangelog::class, function (Faker\Generator $faker) {
+    $article = Article::where('quantity', '>', 1)->inRandomOrder()->first();
+    return [
+        'article_id' => $article->id,
+        'user_id' => 1,
+        'type' => ArticleQuantityChangelog::TYPE_INCOMING,
+        'change' => 1,
+        'new_quantity' => $article->quantity
+    ];
+});
+
+$factory->define(Mss\Models\Delivery::class, function (Faker\Generator $faker) {
+    return [
+        'delivery_date' => now(),
+        'delivery_note_number' => $faker->randomNumber(5)
     ];
 });
 

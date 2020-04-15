@@ -2,6 +2,16 @@
 
 namespace Mss\Models;
 
+/**
+ * Class ArticleQuantityChangelog
+ *
+ * @property integer id
+ * @property integer type
+ * @property integer change
+ * @property Article $article
+ * @property DeliveryItem $deliveryItem
+ * @package Mss\Models
+ */
 class ArticleQuantityChangelog extends AuditableModel
 {
     const TYPE_START = 0;
@@ -16,6 +26,26 @@ class ArticleQuantityChangelog extends AuditableModel
     const TYPE_TRANSFER = 11;
 
     protected $fillable = ['created_at', 'updated_at', 'user_id', 'type', 'change', 'new_quantity', 'note', 'delivery_item_id', 'unit_id', 'article_id', 'related_id'];
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($changelog) {
+            /** @var ArticleQuantityChangelog $changelog */
+
+            if ($changelog->deliveryItem) {
+                $changelog->deliveryItem->delete();
+            }
+
+            $changelog->article->resetQuantityFromChangelog($changelog);
+        });
+    }
 
     public static function getFieldNames() {
         return [];

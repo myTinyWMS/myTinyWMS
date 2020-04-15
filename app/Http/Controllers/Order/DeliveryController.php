@@ -9,6 +9,7 @@ use Mss\Events\DeliverySaved;
 use Mss\Http\Controllers\Controller;
 use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\Delivery;
+use Mss\Models\DeliveryItem;
 use Mss\Models\Order;
 use Mss\Models\OrderItem;
 use Mss\Services\PrintLabelService;
@@ -71,6 +72,17 @@ class DeliveryController extends Controller
         }
 
         flash(__('Lieferung gespeichert.'))->success();
+
+        return redirect()->route('order.show', $order);
+    }
+
+    public function delete(Order $order, Delivery $delivery) {
+        $delivery->items->each(function ($deliveryItem) {
+            /** @var DeliveryItem $deliveryItem */
+            $deliveryItem->articleChangeLog->delete();
+        });
+
+        flash(__('Lieferung gelöscht'))->success();
 
         return redirect()->route('order.show', $order);
     }

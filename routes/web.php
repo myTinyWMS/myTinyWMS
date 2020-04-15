@@ -133,12 +133,13 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::group(['middleware' => ['permission:order.create']], function () {
             Route::post('order/create', 'OrderController@create')->name('order.create_post');
-            Route::get('order/{order}/cancel', 'OrderController@cancel')->name('order.cancel');
         });
 
-        Route::group(['middleware' => ['permission:order.create']], function () {
+        Route::group(['middleware' => ['permission:order.edit']], function () {
+            Route::get('order/{order}/cancel', 'OrderController@cancel')->name('order.cancel');
             Route::get('order/{order}/create-delivery', 'DeliveryController@create')->name('order.create_delivery');
             Route::post('order/{order}/store-delivery', 'DeliveryController@store')->name('order.store_delivery');
+            Route::delete('order/{order}/delivery/{delivery}', 'DeliveryController@delete')->name('order.delete_delivery');
         });
 
         Route::group(['middleware' => ['permission:ordermessage.create']], function () {

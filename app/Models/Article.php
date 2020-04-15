@@ -23,6 +23,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property integer quantity
  * @property integer min_quantity
  * @property integer outsourcing_quantity
+ * @property integer replacement_delivery_quantity
  * @method static Builder active()
  * @method static Builder enabled()
  * @method static Builder withCurrentSupplierArticle()
@@ -219,6 +220,18 @@ class Article extends AuditableModel
             'related_id' => $relatedId
         ]);
 
+        $this->save();
+    }
+
+    public function resetQuantityFromChangelog(ArticleQuantityChangelog $articleQuantityChangelog) {
+        if (!in_array($articleQuantityChangelog->type, [ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY, ArticleQuantityChangelog::TYPE_OUTSOURCING])) {
+            $change = $articleQuantityChangelog->change * -1;
+            $this->quantity += $change;
+        } elseif($articleQuantityChangelog->type == ArticleQuantityChangelog::TYPE_OUTSOURCING) {
+            $this->outsourcing_quantity += $articleQuantityChangelog->change;
+        } elseif($articleQuantityChangelog->type == ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY) {
+            $this->replacement_delivery_quantity += $articleQuantityChangelog->change;
+        }
         $this->save();
     }
 

@@ -3,6 +3,8 @@
 namespace Tests\Unit\Services;
 
 use Carbon\Carbon;
+use Mss\Models\Delivery;
+use Mss\Models\OrderItem;
 use Tests\TestCase;
 use Mss\Models\Order;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -65,5 +67,49 @@ class OrderTest extends TestCase
         ]);
 
         $this->assertEquals('18060113', $order->getNextInternalOrderNumber());
+    }
+
+    public function test_fully_delivered_order() {
+        /** @var Order $order */
+        $order = factory(Order::class)->create();
+        $order->items()->createMany(
+            factory(OrderItem::class, 2)->make()->toArray()
+        );
+
+        /** @var Delivery $delivery */
+        $delivery = factory(Delivery::class)->create([
+            'order_id' => $order->id
+        ]);
+
+        $order->items->each(function ($orderItem) use ($delivery) {
+            $delivery->items()->create([
+                'article_id' => $orderItem->article_id,
+                'quantity' => $orderItem->quantity
+            ]);
+        });
+
+        $this->assertTrue($order->isFullyDelivered());
+        $this->assertFalse($order->isPartiallyDelivered());
+    }
+
+    public function test_partially_delivered_order() {
+        /** @var Order $order */
+        $order = factory(Order::class)->create();
+        $order->items()->createMany(
+            factory(OrderItem::class, 2)->make()->toArray()
+        );
+
+        /** @var Delivery $delivery */
+        $delivery = factory(Delivery::class)->create([
+            'order_id' => $order->id
+        ]);
+
+        $delivery->items()->create([
+            'article_id' => $order->items->first()->article_id,
+            'quantity' => $order->items->first()->quantity
+        ]);
+
+        $this->assertTrue($order->isPartiallyDelivered());
+        $this->assertFalse($order->isFullyDelivered());
     }
 }

@@ -129,6 +129,15 @@ class Order extends AuditableModel
         })->count() === 0;
     }
 
+    public function isPartiallyDelivered() {
+        $this->fresh();
+
+        $isPartiallyDelivery = $this->items->reject(function ($item) {
+            return ($item->getQuantityDelivered() >= $item->quantity);
+        })->count() < $this->items->count();
+        return $isPartiallyDelivery && !$this->isFullyDelivered();
+    }
+
     public function scopeStatusOpen($query) {
         $query->whereIn('status', [Order::STATUS_NEW, Order::STATUS_ORDERED, Order::STATUS_PARTIALLY_DELIVERED]);
     }

@@ -64,33 +64,6 @@ class QuantityChangelogController extends Controller
     }
 
     public function delete(Article $article, ArticleQuantityChangelog $changelog) {
-        if ($changelog->deliveryItem) {
-            $delivery = $changelog->deliveryItem->delivery;
-            $changelog->deliveryItem->delete();
-
-            if ($delivery && $delivery->items()->count() == 0) {
-                $order = $delivery->order;
-                $delivery->delete();
-
-                if ($order->status == Order::STATUS_DELIVERED && $order->items()->count() > 1) {
-                    $order->status = Order::STATUS_PARTIALLY_DELIVERED;
-                    $order->save();
-                }
-
-                flash(__('Lieferung zur Bestellung :link gelöscht, da keine Artikel mehr vorhanden', ['link' => link_to_route('order.show', $order->internal_order_number, $order)]), 'warning');
-            }
-        }
-
-        if (!in_array($changelog->type, [ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY, ArticleQuantityChangelog::TYPE_OUTSOURCING])) {
-            $change = $changelog->change * -1;
-            $article->quantity += $change;
-        } elseif($changelog->type == ArticleQuantityChangelog::TYPE_OUTSOURCING) {
-            $article->outsourcing_quantity += $changelog->change;
-        } elseif($changelog->type == ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY) {
-            $article->replacement_delivery_quantity += $changelog->change;
-        }
-        $article->save();
-
         $changelog->delete();
 
         flash(__('Bestandsänderung gelöscht'))->success();

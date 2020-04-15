@@ -312,11 +312,20 @@
                                     <div class="form-control-static">{{ $delivery->delivery_date ? $delivery->delivery_date->format('d.m.Y') : '-' }}</div>
                                 </div>
                             </div>
-                            <div class="w-8/12">
+                            <div class="w-7/12">
                                 <div class="form-group">
                                     <label class="form-label">@lang('Bemerkung')</label>
                                     <div class="form-control-static">{{ $delivery->notes }}</div>
                                 </div>
+                            </div>
+                            <div class="w-1/12 text-right">
+                                <dot-menu>
+                                    <form action="{{ route('order.delete_delivery', [$order, $delivery]) }}" method="POST">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="link" onclick="return confirm('@lang('Sicher?')')">@lang('Löschen')</button>
+                                    </form>
+                                </dot-menu>
                             </div>
                         </div>
                         <div class="row">

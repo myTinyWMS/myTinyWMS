@@ -171,4 +171,72 @@ class ArticleTest extends TestCase
         $this->assertEquals(1, $article->getSupplierArticleAtDate(now()->subWeeks(1)->subDay())->getAttributeAtDate('price', now()->subWeeks(1)->subDay()));
         $this->assertEquals(3, $article->getSupplierArticleAtDate(now()->subDays(3))->getAttributeAtDate('price', now()->subDays(3)));
     }
+
+    public function test_quantity_is_being_reset_on_deleting_incoming_changelog() {
+        $article = factory(Article::class)->create(['quantity' => 13]);
+
+        $changelog = factory(ArticleQuantityChangelog::class)->create([
+            'article_id' => $article->id,
+            'change' => 3,
+            'type' => ArticleQuantityChangelog::TYPE_INCOMING
+        ]);
+
+        $changelog->delete();
+
+        $article->refresh();
+        $this->assertEquals(10, $article->quantity);
+    }
+
+    public function test_quantity_is_being_reset_on_deleting_outgoing_changelog() {
+        $article = factory(Article::class)->create(['quantity' => 10]);
+
+        $changelog = factory(ArticleQuantityChangelog::class)->create([
+            'article_id' => $article->id,
+            'change' => -3,
+            'type' => ArticleQuantityChangelog::TYPE_OUTGOING
+        ]);
+
+        $changelog->delete();
+
+        $article->refresh();
+        $this->assertEquals(13, $article->quantity);
+    }
+
+    public function test_quantity_not_is_being_reset_on_deleting_outsourcing_changelog() {
+        $article = factory(Article::class)->create([
+            'quantity' => 10,
+            'outsourcing_quantity' => 5
+        ]);
+
+        $changelog = factory(ArticleQuantityChangelog::class)->create([
+            'article_id' => $article->id,
+            'change' => -5,
+            'type' => ArticleQuantityChangelog::TYPE_OUTSOURCING
+        ]);
+
+        $changelog->delete();
+
+        $article->refresh();
+        $this->assertEquals(10, $article->quantity);
+        $this->assertEquals(0, $article->outsourcing_quantity);
+    }
+
+    public function test_quantity_not_is_being_reset_on_deleting_replacement_changelog() {
+        $article = factory(Article::class)->create([
+            'quantity' => 10,
+            'replacement_delivery_quantity' => 5
+        ]);
+
+        $changelog = factory(ArticleQuantityChangelog::class)->create([
+            'article_id' => $article->id,
+            'change' => -5,
+            'type' => ArticleQuantityChangelog::TYPE_REPLACEMENT_DELIVERY
+        ]);
+
+        $changelog->delete();
+
+        $article->refresh();
+        $this->assertEquals(10, $article->quantity);
+        $this->assertEquals(0, $article->replacement_delivery_quantity);
+    }
 }

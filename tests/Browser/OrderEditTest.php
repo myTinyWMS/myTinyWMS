@@ -183,4 +183,55 @@ class OrderEditTest extends DuskTestCase
             $this->assertEquals(Order::STATUS_DELIVERED, $order->status);
         });
     }
+
+    public function test_creating_delivery_for_some_items_sets_correct_order_status() {
+        $this->browse(function (Browser $browser) {
+            /** @var Order $order */
+            $order = Order::has('items', '>', 1)->inRandomOrder()->first();
+            $order->status = Order::STATUS_ORDERED;
+            $order->save();
+
+            $browser
+                ->visit('/order/'.$order->id.'/create-delivery')
+                ->waitForText('Neuer Wareneingang')
+                ->type('#delivery_note_number', 'foo123')
+                ->type('#notes', 'lorem ipsum')
+                ->click('.set-full-quantity:nth-child(1)')
+                ->assertValue('input[name="quantities['.$order->items->first()->article->id.']"]', $order->items->first()->quantity)
+                ->click('#save-delivery')
+                ->waitForText('Lieferung gespeichert.');
+
+            $order->refresh();
+            $this->assertEquals(1, $order->deliveries()->count());
+            $this->assertEquals($order->items->first()->quantity, $order->deliveries->first()->items->first()->quantity);
+            $this->assertEquals(Order::STATUS_PARTIALLY_DELIVERED, $order->status);
+        });
+    }
+
+    public function test_deleting_delivery_resets_order_status() {
+        $this->browse(function (Browser $browser) {
+            /** @var Order $order */
+            $order = Order::has('items', '=', 2)->inRandomOrder()->first();
+            $order->status = Order::STATUS_ORDERED;
+            $order->save();
+
+            $browser
+                ->visit('/order/'.$order->id.'/create-delivery')
+                ->waitForText('Neuer Wareneingang')
+                ->type('#delivery_note_number', 'foo123')
+                ->type('#notes', 'lorem ipsum')
+                ->click('.set-full-quantity:nth-child(1)')
+                ->click('.set-full-quantity:nth-child(2)')
+                ->assertValue('input[name="quantities['.$order->items->get(0)->article->id.']"]', $order->items->get(0)->quantity)
+                ->assertValue('input[name="quantities['.$order->items->get(1)->article->id.']"]', $order->items->get(1)->quantity)
+                ->click('#save-delivery')
+                ->waitForText('Lieferung gespeichert.');
+
+            $order->refresh();
+            $this->assertEquals(Order::STATUS_DELIVERED, $order->status);
+
+            $browser
+                ->visit('/order/'.$order->id);
+        });
+    }
 }
