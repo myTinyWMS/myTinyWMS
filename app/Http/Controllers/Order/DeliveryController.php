@@ -25,6 +25,17 @@ class DeliveryController extends Controller
     }
 
     public function store(Order $order, Request $request) {
+        $quantities = collect($request->get('quantities'));
+        $nonEmptyQuantitiesCount = $quantities->filter(function ($value) {
+            return !empty($value);
+        })->count();
+
+        if ($nonEmptyQuantitiesCount == 0) {
+            flash(__('Sie müssen mindestens eine Artikelmenge angeben!'))->error();
+
+            return redirect()->back()->withInput();
+        }
+
         /* @var Delivery $delivery */
         $delivery = $order->deliveries()->create([
             'delivery_date' => Carbon::parse($request->get('delivery_date')),
@@ -33,7 +44,6 @@ class DeliveryController extends Controller
         ]);
 
         $articlesToPrint = new Collection();
-        $quantities = collect($request->get('quantities'));
         $order->items->each(function ($orderItem) use ($quantities, $delivery, $order, $request, &$articlesToPrint) {
             /* @var OrderItem $orderItem */
             $quantity = intval($quantities->get($orderItem->article->id));
