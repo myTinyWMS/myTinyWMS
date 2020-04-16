@@ -160,6 +160,6 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('order/message/{message}/attachment-download/{attachment}', 'MessageAttachmentController@download')->name('order.message_attachment_download');
 
-        Route::get('order/message/unassigned', 'UnassignedMessagesController@index')->middleware(['permission:ordermessage.show'])->name('order.messages_unassigned');
+        Route::get('order/message/unassigned', 'UnassignedMessagesController@index')->middleware(['permission:ordermessage.view'])->name('order.messages_unassigned');
     });
 });
