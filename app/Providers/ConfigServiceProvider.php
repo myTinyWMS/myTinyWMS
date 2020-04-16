@@ -3,6 +3,7 @@
 namespace Mss\Providers;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Mss\Services\ConfigService;
@@ -25,8 +26,7 @@ class ConfigServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot() {
-        // set config only if not during docker build - there is no DB connection at this time and this fails
-        if (!env('DOCKER_BUILD', false) && !App::environment('testing')) {
+        if (DB::table('settings')->exists()) {
             ConfigService::setConfigFromSettings();
         }
     }

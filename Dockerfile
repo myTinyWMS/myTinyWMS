@@ -20,7 +20,7 @@ RUN set -e -x \
 
 # composer
 RUN set -ex \
-	&& DOCKER_BUILD=true composer install --no-dev --no-progress --no-suggest --prefer-dist --optimize-autoloader \
+	&& composer install --no-dev --no-progress --no-suggest --prefer-dist --optimize-autoloader \
  	&& rm -rf /root/.composer/cache
 
 # node / npm

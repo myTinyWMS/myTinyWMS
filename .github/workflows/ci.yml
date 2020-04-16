@@ -31,16 +31,16 @@ jobs:
           docker exec -w /data/www wms_app chmod -R 777 /data/www/storage
           docker exec -w /data/www wms_app chmod -R 777 /data/www/storage/framework/cache/data
           docker exec -w /data/www wms_app chmod -R 777 /data/www/tests/Browser/screenshots
-          docker exec -e DOCKER_BUILD=true -w /data/www wms_app composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+          docker exec -w /data/www wms_app composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
           
       - name: Run unit tests
         run: |
-          docker exec -e DOCKER_BUILD=true -w /data/www wms_app php artisan create:testdb
+          docker exec -w /data/www wms_app php artisan create:testdb
           docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
 
       - name: Run dusk tests
         run: |
-          docker exec -e DOCKER_BUILD=true -w /data/www wms_app php artisan create:testdb
+          docker exec -w /data/www wms_app php artisan create:testdb
           docker exec -w /data/www wms_app php artisan dusk
 
       - name: Upload dusk screenshots
