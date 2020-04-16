@@ -211,7 +211,7 @@ class OrderEditTest extends DuskTestCase
     public function test_deleting_delivery_resets_order_status() {
         $this->browse(function (Browser $browser) {
             /** @var Order $order */
-            $order = Order::has('items', '=', 2)->inRandomOrder()->first();
+            $order = Order::has('items', '=', 2)->doesntHave('deliveries')->inRandomOrder()->first();
             $order->status = Order::STATUS_ORDERED;
             $order->save();
 
