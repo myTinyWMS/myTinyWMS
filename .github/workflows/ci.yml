@@ -35,12 +35,12 @@ jobs:
           
       - name: Run unit tests
         run: |
-          docker exec -w /data/www wms_app php artisan create:testdb
+          docker exec -e DOCKER_BUILD=true -w /data/www wms_app php artisan create:testdb
           docker exec -w /data/www wms_app /data/www/vendor/bin/phpunit
 
       - name: Run dusk tests
         run: |
-          docker exec -w /data/www wms_app php artisan create:testdb
+          docker exec -e DOCKER_BUILD=true -w /data/www wms_app php artisan create:testdb
           docker exec -w /data/www wms_app php artisan dusk
 
       - name: Upload dusk screenshots
