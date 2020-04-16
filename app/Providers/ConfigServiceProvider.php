@@ -2,9 +2,7 @@
 
 namespace Mss\Providers;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Mss\Services\ConfigService;
 
@@ -26,7 +24,7 @@ class ConfigServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot() {
-        if (DB::connection()->getDatabaseName() && DB::table('settings')->exists()) {
+        if (Schema::hasTable('settings')) {
             ConfigService::setConfigFromSettings();
         }
     }
