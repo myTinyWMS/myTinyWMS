@@ -34,10 +34,13 @@ class TestDataSeeder extends Seeder
 
         factory(Order::class, 10)->create()->each(function ($order, $key) use ($faker) {
             $itemCount = ($key == 0) ? 1 : $faker->randomFloat(0, 1, 5);    // we need at least one order with only one item
-            factory(OrderItem::class, $itemCount)->create()->each(function ($orderItem) use ($order, $faker) {
-                $orderItem->article_id = Article::whereHas('suppliers', function ($query) use ($order) {
-                    $query->where('supplier_id', $order->supplier_id);
-                })->inRandomOrder()->first()->id;
+
+            $articles = Article::whereHas('suppliers', function ($query) use ($order) {
+                $query->where('supplier_id', $order->supplier_id);
+            })->inRandomOrder()->take($itemCount)->get();
+
+            factory(OrderItem::class, $itemCount)->create()->each(function ($orderItem, $index) use ($order, $faker, $articles) {
+                $orderItem->article_id = $articles->get($index)->id;
                 $orderItem->expected_delivery = Carbon::now()->addDays(rand(5, 20));
                 $orderItem->order()->associate($order);
                 $orderItem->save();

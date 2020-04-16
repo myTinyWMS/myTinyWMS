@@ -17,11 +17,10 @@ RUN set -e -x \
     && mkdir -p storage/framework/views \
     && chmod -R 777 storage
 
-ENV DOCKER_BUILD=true
 
 # composer
 RUN set -ex \
-	&& composer install --no-dev --no-progress --no-suggest --prefer-dist --optimize-autoloader \
+	&& DOCKER_BUILD=true composer install --no-dev --no-progress --no-suggest --prefer-dist --optimize-autoloader \
  	&& rm -rf /root/.composer/cache
 
 # node / npm

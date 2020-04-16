@@ -47,8 +47,8 @@ class CreateTestDatabase extends Command
         settings()->set([
             'smtp.host' => 'mailhog',
             'smtp.port' => '1025',
-            'smtp.username' => encrypt(null),
-            'smtp.password' => encrypt(null),
+            'smtp.username' => null,
+            'smtp.password' => null,
             'smtp.from_address' => 'mail@example.com'
         ]);
     }

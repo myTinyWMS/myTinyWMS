@@ -208,10 +208,10 @@ class OrderEditTest extends DuskTestCase
         });
     }
 
-    public function test_deleting_delivery_resets_order_status() {
+    public function test_creating_delivery_for_all_items_sets_correct_order_status() {
         $this->browse(function (Browser $browser) {
             /** @var Order $order */
-            $order = Order::has('items', '=', 2)->doesntHave('deliveries')->inRandomOrder()->first();
+            $order = Order::has('items', '>', 1)->doesntHave('deliveries')->inRandomOrder()->first();
             $order->status = Order::STATUS_ORDERED;
             $order->save();
 
@@ -219,11 +219,15 @@ class OrderEditTest extends DuskTestCase
                 ->visit('/order/'.$order->id.'/create-delivery')
                 ->waitForText('Neuer Wareneingang')
                 ->type('#delivery_note_number', 'foo123')
-                ->type('#notes', 'lorem ipsum')
-                ->click('@set-full-quantity-'.$order->items->get(0)->id)
-                ->click('@set-full-quantity-'.$order->items->get(1)->id)
-                ->assertValue('input[name="quantities['.$order->items->get(0)->article->id.']"]', $order->items->get(0)->quantity)
-                ->assertValue('input[name="quantities['.$order->items->get(1)->article->id.']"]', $order->items->get(1)->quantity)
+                ->type('#notes', 'lorem ipsum');
+
+            $order->items->each(function ($item) use ($browser) {
+                $browser
+                    ->click('@set-full-quantity-'.$item->id)
+                    ->assertValue('input[name="quantities['.$item->article->id.']"]', $item->quantity);
+            });
+
+            $browser
                 ->click('#save-delivery')
                 ->waitForText('Lieferung gespeichert.');
 
