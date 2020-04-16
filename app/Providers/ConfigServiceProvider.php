@@ -24,7 +24,7 @@ class ConfigServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot() {
-        if (Schema::hasTable('settings')) {
+        if (!env('DOCKER_BUILD', false) && Schema::hasTable('settings')) {
             ConfigService::setConfigFromSettings();
         }
     }
