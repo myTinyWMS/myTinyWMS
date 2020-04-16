@@ -40,13 +40,15 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('emptyorders:clear')->hourly();
 
-        if(settings('imap.enabled', false)) {
+        if(settings('imap.enabled', false) && !env('APP_DEMO')) {
             $schedule->command('import:mails')->everyFiveMinutes();
         }
 
-        $schedule->command('send:inventory')->dailyAt('07:00')->when(function () {
-            return Carbon::now()->firstOfMonth()->isToday();
-        });
+        if (!env('APP_DEMO')) {
+            $schedule->command('send:inventory')->dailyAt('07:00')->when(function () {
+                return Carbon::now()->firstOfMonth()->isToday();
+            });
+        }
 
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }

@@ -17,8 +17,11 @@ services:
   db:
     container_name: wms_db
     image: mariadb:10.2
-    env_file:
-    - ./.env
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
     volumes:
     - ./data/db:/var/lib/mysql
 

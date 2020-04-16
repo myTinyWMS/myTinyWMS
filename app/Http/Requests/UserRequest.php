@@ -5,6 +5,7 @@ namespace Mss\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Mss\Models\User;
 use Route;
 
 class UserRequest extends FormRequest
@@ -27,11 +28,19 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => [
-                'required',
+                Rule::requiredIf(function () {
+                    if (request()->user && $user = User::find(request()->user)) {
+                        return $user->getSource() == User::SOURCE_LOCAL;
+                    }
+                }),
                 Rule::unique('users')->ignore($this->user)
             ],
             'username' => [
-                'required',
+                Rule::requiredIf(function () {
+                    if (request()->user && $user = User::find(request()->user)) {
+                        return $user->getSource() == User::SOURCE_LOCAL;
+                    }
+                }),
                 Rule::unique('users')->ignore($this->user)
             ],
             'roles' => 'array|exists:roles,id'

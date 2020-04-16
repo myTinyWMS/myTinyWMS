@@ -74,7 +74,11 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         // save data
-        $user->update($request->except(['roles', 'password']));
+        if ($user->getSource() == User::SOURCE_LDAP) {
+            $user->update($request->except(['roles', 'password', 'username', 'email']));
+        } else {
+            $user->update($request->except(['roles', 'password']));
+        }
 
         if (!empty($request->get('password'))) {
             $user->password = Hash::make($request->get('password'));
