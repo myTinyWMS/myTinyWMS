@@ -26,6 +26,12 @@ abstract class DuskTestCase extends BaseTestCase
 
     }
 
+    public static function setUpBeforeClass() {
+        chdir(__DIR__ . '/..');
+
+        shell_exec('php artisan create:testdb');
+    }
+
     /**
      * Boot the testing helper traits.
      *

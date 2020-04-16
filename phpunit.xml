@@ -22,9 +22,6 @@
             <directory suffix=".php">./app</directory>
         </whitelist>
     </filter>
-    <listeners>
-        <listener class="Tests\DatabaseTestListener"/>
-    </listeners>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
