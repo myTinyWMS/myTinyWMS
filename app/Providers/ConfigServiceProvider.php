@@ -26,7 +26,7 @@ class ConfigServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot() {
-        if (DB::table('settings')->exists()) {
+        if (DB::connection()->getDatabaseName() && DB::table('settings')->exists()) {
             ConfigService::setConfigFromSettings();
         }
     }
