@@ -22,16 +22,15 @@ use Mss\DataTables\SelectArticleDataTable;
 
 class OrderController extends Controller
 {
-    public function __construct() {
-        $this->authorizeResource(Order::class, 'order');
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(OrderDataTable $orderDataTable) {
+        $this->authorize('order.view', Order::class);
+
         $unassignedMessages = OrderMessage::unassigned()->unread()->count();
         $assignedMessages = OrderMessage::assigned()->unread()->with('order.supplier')->get();
         $supplier = Supplier::orderedByName()->get();
@@ -43,8 +42,11 @@ class OrderController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create(Request $request, SelectArticleDataTable $selectArticleDataTable) {
+        $this->authorize('order.create', Order::class);
+
         if (!$request->has('draw')) {
             $allArticles = $this->getArticleList();
             $categories = Category::orderedByName()->get();
@@ -83,10 +85,13 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(OrderRequest $request) {
+        $this->authorize('order.create', Order::class);
+
         /* @var $order Order */
         $order = Order::findOrFail($request->get('order_id'));
 
@@ -133,7 +138,14 @@ class OrderController extends Controller
         return redirect()->route('order.show', $order);
     }
 
+    /**
+     * @param Order $order
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function cancel(Order $order) {
+        $this->authorize('order.delete', Order::class);
+
         $order->delete();
 
         return redirect()->route('order.index');
@@ -145,8 +157,11 @@ class OrderController extends Controller
      * @param int $id
      * @param AssignOrderDataTable $assignOrderDataTable
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id, AssignOrderDataTable $assignOrderDataTable) {
+        $this->authorize('order.view', Order::class);
+
         $order = Order::with('items.order.items')->findOrFail($id);
         $audits = $order->getAllAudits();
         $messages = $order->messages()->with('user')->latest('received')->get();
@@ -161,10 +176,13 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit($id, SelectArticleDataTable $selectArticleDataTable) {
+        $this->authorize('order.edit', Order::class);
+
         $allArticles = $this->getArticleList();
         $order = Order::with(['items.article' => function($query) {
             $query->withCurrentSupplierArticle();
@@ -205,10 +223,13 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id) {
+        $this->authorize('order.delete', Order::class);
+
         $order = Order::findOrFail($id);
         $order->items()->delete();
         $order->messages()->delete();
@@ -247,8 +268,11 @@ class OrderController extends Controller
      * @param Order $order
      * @param $payment_status
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function changePaymentStatus(Order $order, $payment_status) {
+        $this->authorize('order.edit', Order::class);
+
         if (array_key_exists(intval($payment_status), Order::getPaymentStatusText())) {
             $order->payment_status = intval($payment_status);
             $order->save();
@@ -264,8 +288,11 @@ class OrderController extends Controller
      * @param Order $order
      * @param $status
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function changeStatus(Order $order, $status) {
+        $this->authorize('order.edit', Order::class);
+
         if (array_key_exists(intval($status), Order::getStatusTexts())) {
             $order->status = intval($status);
             $order->save();
@@ -281,8 +308,11 @@ class OrderController extends Controller
      * @param Order $order
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function uploadInvoiceCheckAttachments(Order $order, Request $request) {
+        $this->authorize('order.edit', Order::class);
+
         $file = $request->file('file');
 
         /**

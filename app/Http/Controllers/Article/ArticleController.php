@@ -18,11 +18,14 @@ use Mss\Http\Requests\FixArticleQuantityChangeRequest;
 
 class ArticleController extends Controller
 {
-    public function __construct() {
-        $this->authorizeResource(Article::class, 'article');
-    }
-
+    /**
+     * @param ArticleDataTable $articleDataTable
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function index(ArticleDataTable $articleDataTable) {
+        $this->authorize('article.view', Article::class);
+
         $preSelectedSupplier = request('supplier', null);
         $preSelectedCategory = request('category', null);
 
@@ -37,8 +40,11 @@ class ArticleController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create() {
+        $this->authorize('article.create', Article::class);
+
         $article = new Article();
         $isNewArticle = true;
         $isCopyOfArticle = false;
@@ -46,7 +52,14 @@ class ArticleController extends Controller
         return view('article.create', compact('article', 'isNewArticle', 'isCopyOfArticle'));
     }
 
+    /**
+     * @param Article $article
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function copy(Article $article) {
+        $this->authorize('article.create', Article::class);
+
         $article = Article::withCurrentSupplier()->withCurrentSupplierArticle()->findOrFail($article->id);
         $isNewArticle = false;
         $isCopyOfArticle = true;
@@ -57,10 +70,13 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(NewArticleRequest $request) {
+        $this->authorize('article.create', Article::class);
+
         DB::beginTransaction();
 
         try {
@@ -111,10 +127,13 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id) {
+        $this->authorize('article.show', Article::class);
+
         /** @var Article $article */
         $article = Article::withCurrentSupplier()->withCurrentSupplierArticle()->with('articleGroupItems.articleGroup')->findOrFail($id);
 
@@ -129,11 +148,14 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  ArticleRequest  $request
-     * @param  int  $id
+     * @param ArticleRequest $request
+     * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(ArticleRequest $request, $id) {
+        $this->authorize('article.edit', Article::class);
+
         /* @var $article Article */
         $article = Article::findOrFail($id);
 
@@ -175,7 +197,15 @@ class ArticleController extends Controller
         return redirect()->route('article.show', $article);
     }
 
+    /**
+     * @param Article $article
+     * @param FixArticleQuantityChangeRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function fixQuantityChange(Article $article, FixArticleQuantityChangeRequest $request) {
+        $this->authorize('article.edit', Article::class);
+
         $quantity = $request->get('changelogChange');
         if ($request->get('changelogChangeType') === 'sub') {
             $quantity *= -1;
@@ -188,7 +218,15 @@ class ArticleController extends Controller
         return redirect()->route('article.show', $article);
     }
 
+    /**
+     * @param Article $article
+     * @param ChangeArticleQuantityRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function changeQuantity(Article $article, ChangeArticleQuantityRequest $request) {
+        $this->authorize('article.edit', Article::class);
+
         $quantity = $request->get('changelogChange');
         if ($request->get('changelogChangeType') === 'sub') {
             $quantity *= -1;
