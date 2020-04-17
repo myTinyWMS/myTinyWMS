@@ -95,7 +95,7 @@ class ArticleGroupController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id) {
-        $this->authorize('article-group.show', ArticleGroup::class);
+        $this->authorize('article-group.view', ArticleGroup::class);
 
         $articleGroup = ArticleGroup::with(['items.article' => function($query) {
             $query->withCurrentSupplier();

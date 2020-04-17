@@ -132,7 +132,7 @@ class ArticleController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id) {
-        $this->authorize('article.show', Article::class);
+        $this->authorize('article.view', Article::class);
 
         /** @var Article $article */
         $article = Article::withCurrentSupplier()->withCurrentSupplierArticle()->with('articleGroupItems.articleGroup')->findOrFail($id);
