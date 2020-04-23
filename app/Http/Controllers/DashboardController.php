@@ -19,7 +19,7 @@ class DashboardController extends Controller
 
         $deliveriesWithoutInvoice = $this->getDeliveriesWithoutInvoice();
         $invoicesWithoutDelivery = $this->getInvoicesWithoutDelivery();
-        $overdueOrders = Order::with(['items.order.deliveries', 'supplier'])->where('status', '!=', Order::STATUS_CANCELLED)->overdue()->get()->sortBy(function ($order) {
+        $overdueOrders = Order::with(['items.order.deliveries', 'supplier'])->whereNotIn('status', [Order::STATUS_CANCELLED, Order::STATUS_DELIVERED])->overdue()->get()->sortBy(function ($order) {
             return $order->getOldestOverdueDate();
         });
         $ordersWithoutMessages = Order::with(['items', 'supplier'])->whereDoesntHave('messages')->whereIn('status', [Order::STATUS_NEW, Order::STATUS_ORDERED])->whereHas('supplier', function ($query) {
