@@ -15,16 +15,15 @@ use Mss\Services\InventoryService;
 
 class InventoryController extends Controller
 {
-    public function __construct() {
-        $this->authorizeResource(Inventory::class, 'inventory');
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(InventoryDataTable $inventoryDataTable) {
+        $this->authorize('inventory.view', Inventory::class);
+
         $closedInventories = Inventory::finished()->with('items.article.category')->get();
 
         return $inventoryDataTable->render('inventory.list', compact('closedInventories'));
@@ -35,8 +34,11 @@ class InventoryController extends Controller
      *
      * @param Inventory $inventory
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Inventory $inventory, Request $request) {
+        $this->authorize('inventory.view', Inventory::class);
+
         $inventory->load('items.article.category', 'items.article.unit', 'items.processor');
 
         if ($inventory->isFinished()) {
@@ -60,8 +62,11 @@ class InventoryController extends Controller
      * @param Article $article
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function processed(Inventory $inventory, Article $article, Request $request) {
+        $this->authorize('inventory.edit', Inventory::class);
+
         /* @var $article Article */
 
         $item = $inventory->items->where('article_id', $article->id)->first();
@@ -90,8 +95,11 @@ class InventoryController extends Controller
      * @param Inventory $inventory
      * @param Article $article
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function correct(Inventory $inventory, Article $article) {
+        $this->authorize('inventory.edit', Inventory::class);
+
         /* @var $article Article */
         $item = $inventory->items->where('article_id', $article->id)->first();
         if ($item) {
@@ -110,22 +118,24 @@ class InventoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function createMonth() {
+        $this->authorize('inventory.create', Inventory::class);
+
         $inventory = InventoryService::createNewMonthInventory();
 
         return response()->redirectToRoute('inventory.show', [$inventory]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function createYear() {
+        $this->authorize('inventory.create', Inventory::class);
+
         $inventory = InventoryService::createNewYearInventory();
 
         return response()->redirectToRoute('inventory.show', [$inventory]);
@@ -135,8 +145,11 @@ class InventoryController extends Controller
      * @param Inventory $inventory
      * @param Category $category
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function categoryDone(Inventory $inventory, Category $category) {
+        $this->authorize('inventory.edit', Inventory::class);
+
         $inventory->load(['items' => function ($query) {
             $query->unprocessed()->with('article.category');
         }]);
@@ -150,8 +163,11 @@ class InventoryController extends Controller
     /**
      * @param Inventory $inventory
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function finish(Inventory $inventory) {
+        $this->authorize('inventory.edit', Inventory::class);
+
         $inventory->load(['items' => function ($query) {
             $query->unprocessed()->with('article.category');
         }]);

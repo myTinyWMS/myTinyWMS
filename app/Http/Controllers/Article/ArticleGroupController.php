@@ -15,16 +15,15 @@ use Mss\Models\ArticleGroupItem;
 
 class ArticleGroupController extends Controller
 {
-    public function __construct() {
-        $this->authorizeResource(ArticleGroup::class, 'article-group');
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(ArticleGroupDataTable $articleGroupDataTable) {
+        $this->authorize('article-group.view', ArticleGroup::class);
+
         return $articleGroupDataTable->render('article_group.list');
     }
 
@@ -32,8 +31,11 @@ class ArticleGroupController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create(SelectArticleDataTable $selectArticleDataTable) {
+        $this->authorize('article-group.create', ArticleGroup::class);
+
         $articleGroup = new ArticleGroup();
         $allArticles = $this->getArticleList();
         $preSetArticles = collect();
@@ -45,10 +47,13 @@ class ArticleGroupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request) {
+        $this->authorize('article-group.create', ArticleGroup::class);
+
         if ($request->has('id')) {
             $articleGroup = ArticleGroup::findOrFail($request->get('id'));
             $articleGroup->name = $request->get('name');
@@ -87,8 +92,11 @@ class ArticleGroupController extends Controller
      *
      * @param int $id
      * @return void
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id) {
+        $this->authorize('article-group.view', ArticleGroup::class);
+
         $articleGroup = ArticleGroup::with(['items.article' => function($query) {
             $query->withCurrentSupplier();
         }])->findOrFail($id);
@@ -103,8 +111,11 @@ class ArticleGroupController extends Controller
      * @param int $id
      * @param SelectArticleDataTable $selectArticleDataTable
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit($id, SelectArticleDataTable $selectArticleDataTable) {
+        $this->authorize('article-group.edit', ArticleGroup::class);
+
         $articleGroup = ArticleGroup::findOrFail($id);
         $audits = $articleGroup->getAudits();
         $allArticles = $this->getArticleList();
@@ -128,12 +139,14 @@ class ArticleGroupController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
+        $this->authorize('article-group.edit', ArticleGroup::class);
+
         $request->merge(['id' => $id]);
         return $this->store($request);
     }
@@ -141,11 +154,13 @@ class ArticleGroupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
+        $this->authorize('article-group.delete', ArticleGroup::class);
+
         $articleGroup = ArticleGroup::findOrFail($id);
         $articleGroup->items()->delete();
         $articleGroup->delete();
@@ -159,8 +174,11 @@ class ArticleGroupController extends Controller
      * @param $id
      * @param ArticleGroupChangeQuantityRequest $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function changeQuantity($id, ArticleGroupChangeQuantityRequest $request) {
+        $this->authorize('article-group.edit', ArticleGroup::class);
+
         $quantities = collect($request->get('quantity', []));
 
         $articleGroup = ArticleGroup::with('items.article')->findOrFail($id);
