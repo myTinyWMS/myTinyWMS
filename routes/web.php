@@ -129,6 +129,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('order/{order}/payment-status/{payment_status}', 'OrderController@changePaymentStatus')->name('order.change_payment_status');
             Route::get('order/{order}/status/{status}', 'OrderController@changeStatus')->name('order.change_status');
             Route::post('order/{order}/invoicecheck/upload', 'OrderController@uploadInvoiceCheckAttachments')->name('order.invoice_check_upload');
+            Route::post('order/{order}/set-invoice-number', 'OrderController@setInvoiceNumber')->name('order.set_invoice_number');
         });
 
         Route::group(['middleware' => ['permission:order.create']], function () {

@@ -11,6 +11,8 @@ use Illuminate\Support\Arr;
  *
  * @property integer $id
  * @property string $internal_order_number
+ * @property string $external_order_number
+ * @property string $external_invoice_number
  * @property integer $status
  * @property Supplier $supplier
  * @property Collection $messages

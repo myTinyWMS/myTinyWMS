@@ -83,6 +83,27 @@ class OrderEditTest extends DuskTestCase
         });
     }
 
+    public function test_setting_invoice_number() {
+        $this->browse(function (Browser $browser) {
+            /** @var Order $order */
+            $order = Order::inRandomOrder()->first();
+
+            $browser
+                ->visit('/order/'.$order->id)
+                ->click('.order-change-invoice-number')
+                ->click('#changeInvoiceNumberLink')
+                ->waitForText('Rechnungsnummer eintragen')
+                ->type('external_invoice_number', '123456')
+                ->click('#saveInvoiceNumber')
+                ->waitForText('Rechnungsnummer gespeichert')
+                ->assertSeeIn('@external_invoice_number', '123456')
+            ;
+
+            $order->refresh();
+            $this->assertEquals('123456', $order->external_invoice_number);
+        });
+    }
+
     public function test_changing_confirmation_status() {
         $this->browse(function (Browser $browser) {
             /** @var Order $order */

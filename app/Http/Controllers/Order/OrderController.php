@@ -326,4 +326,13 @@ class OrderController extends Controller
             return response()->json('error', 400);
         }
     }
+
+    public function setInvoiceNumber(Order $order, Request $request) {
+        $order->external_invoice_number = $request->get('external_invoice_number');
+        $order->save();
+
+        flash(__('Rechnungsnummer gespeichert'))->success();
+
+        return redirect()->route('order.show', $order);
+    }
 }

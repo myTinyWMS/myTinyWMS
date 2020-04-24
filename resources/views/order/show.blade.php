@@ -48,18 +48,6 @@
                         </div>
                     </div>
 
-                    <div class="w-1/2">
-                        <div class="form-group">
-                            <label class="form-label">@lang('Lieferant')</label>
-                            <div class="form-control-static">
-                                <a href="{{ route('supplier.show', $order->supplier) }}" target="_blank" title="@lang('Lieferant aufrufen')">{{ optional($order->supplier)->name }}</a>
-                                <a href="{{ route('article.index', ['supplier' => $order->supplier->id]) }}" title="@lang('Artikel des Lieferanten aufrufen')"><i class="fa fa-filter"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-2 pt-4 border-t border-gray-300">
                     <div class="w-1/4">
                         <div class="form-group">
                             <label class="form-label">@lang('Bestelldatum')</label>
@@ -68,7 +56,31 @@
                     </div>
 
                     <div class="w-1/4">
+                        <div class="form-group">
+                            <label class="form-label">
+                                @lang('Rechnungsnummer')
 
+                                @can('order.edit')
+                                    <dot-menu class="ml-2 normal-case order-change-invoice-number">
+                                        <a href="javascript:void(0)" class="btn-link" @click="$modal.show('changeInvoiceNumberModal')" id="changeInvoiceNumberLink">@lang('ändern')</a>
+                                    </dot-menu>
+                                @endcan
+                            </label>
+                            <div class="form-control-static" dusk="external_invoice_number">{{ $order->external_invoice_number }}</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mt-2 pt-4 border-t border-gray-300">
+                    <div class="w-1/2">
+                        <div class="form-group">
+                            <label class="form-label">@lang('Lieferant')</label>
+                            <div class="form-control-static">
+                                <a href="{{ route('supplier.show', $order->supplier) }}" target="_blank" title="@lang('Lieferant aufrufen')">{{ optional($order->supplier)->name }}</a>
+                                <a href="{{ route('article.index', ['supplier' => $order->supplier->id]) }}" title="@lang('Artikel des Lieferanten aufrufen')"><i class="fa fa-filter"></i></a>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="w-1/4">
@@ -374,4 +386,23 @@
         </div>
     </div>
 </div>
+
+<modal name="changeInvoiceNumberModal" height="auto" classes="modal">
+    <h4 class="modal-title">@lang('Rechnungsnummer eintragen')</h4>
+
+    {!! Form::open(['route' => ['order.set_invoice_number', $order], 'method' => 'POST']) !!}
+        <div class="row">
+            <div class="w-1/2">
+                <div class="form-group">
+                    {{ Form::bsText('external_invoice_number', $order->external_invoice_number, [], __('Rechnungsnummer')) }}
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" @click="$modal.hide('changeInvoiceNumberModal')">@lang('Abbrechen')</button>
+            <button type="submit" class="btn btn-primary" id="saveInvoiceNumber">@lang('Speichern')</button>
+        </div>
+    {!! Form::close() !!}
+</modal>
+
 @endsection

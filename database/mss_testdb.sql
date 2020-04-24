@@ -322,6 +322,7 @@ create table orders
 	updated_at timestamp null,
 	internal_order_number varchar(191) not null,
 	external_order_number varchar(191) null,
+	external_invoice_number varchar(191) null,
 	status tinyint unsigned default 0 not null,
 	supplier_id int unsigned null,
 	total_cost int unsigned default 0 not null,
