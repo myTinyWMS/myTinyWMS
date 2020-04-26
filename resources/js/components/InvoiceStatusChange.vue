@@ -5,7 +5,7 @@
         <a href="javascript:void(0)" @click="setStatus(0)">{{ $t('nicht erhalten') }}</a>
 
         <change-article-price-modal :status="1" :orderitem="item.id" :name="'changeArticlePriceSingleModal'"></change-article-price-modal>
-        <invoice-check-modal :status="2" :orderitem="item" :invoice-notification-users-count="invoiceNotificationUsersCount"></invoice-check-modal>
+        <invoice-check-modal :status="2" :orderitem="item" :invoice-notification-users-count="invoiceNotificationUsersCount" :demo="demo"></invoice-check-modal>
     </dot-menu>
 </template>
 
@@ -13,7 +13,7 @@
     import axios from 'axios';
 
     export default {
-        props: ['item', 'articleHasNewPrice', 'invoiceNotificationUsersCount'],
+        props: ['item', 'articleHasNewPrice', 'invoiceNotificationUsersCount', 'demo'],
 
         methods: {
             sendInvoiceCheckMail() {

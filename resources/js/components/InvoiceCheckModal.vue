@@ -9,7 +9,7 @@
                     <label for="invoice_check_note" class="form-label">{{ $t('Bemerkungen zur Rechnung') }}</label>
                     <textarea id="invoice_check_note" v-model="mail_note" class="form-textarea" rows="3"></textarea>
                 </div>
-                <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" :useCustomSlot="true" v-on:vdropzone-complete="uploadComplete">
+                <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" :useCustomSlot="true" v-if="demo == 1" v-on:vdropzone-complete="uploadComplete">
                     <div class="dropzone-custom-content">
                         <h3 class="dropzone-custom-title">{{ $t('Dateien hier ablegen') }}</h3>
                     </div>
@@ -33,7 +33,7 @@
     import axios from 'axios';
 
     export default {
-        props: ['status', 'orderitem', 'invoiceNotificationUsersCount'],
+        props: ['status', 'orderitem', 'invoiceNotificationUsersCount', 'demo'],
 
         data() {
             return {

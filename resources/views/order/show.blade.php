@@ -268,7 +268,7 @@
                                             <div class="flex">
                                                 <label class="form-label">@lang('Rechnung')</label>
                                                 @can('order.edit')
-                                                <invoice-status-change :item="{{ $item }}" :article-has-new-price="{{ $articleHasNewPrice ? 1 : 0 }}" invoice-notification-users-count="{{ $invoiceNotificationUsersCount }}"></invoice-status-change>
+                                                <invoice-status-change :item="{{ $item }}" :article-has-new-price="{{ $articleHasNewPrice ? 1 : 0 }}" invoice-notification-users-count="{{ $invoiceNotificationUsersCount }}" demo="{{ config('app.demo') ? 1 : 0 }}"></invoice-status-change>
                                                 @endcan
                                             </div>
                                             <div class="form-control-static">

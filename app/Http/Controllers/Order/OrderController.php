@@ -311,6 +311,10 @@ class OrderController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function uploadInvoiceCheckAttachments(Order $order, Request $request) {
+        if (config('app.demo')) {
+            return response()->json('error', 400);
+        }
+
         $this->authorize('order.edit', Order::class);
 
         $file = $request->file('file');
