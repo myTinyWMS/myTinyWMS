@@ -10,6 +10,10 @@ use Mss\Http\Controllers\Controller;
 class AttachmentController extends Controller
 {
     public function upload(Article $article, Request $request) {
+        if (config('app.demo')) {
+            return response()->json('error', 400);
+        }
+
         $file = $request->file('file');
         $filename = $article->id.'_'.Uuid::generate(4)->string;
         $upload_success = $file->storeAs('article_files', $filename);

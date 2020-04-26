@@ -44,7 +44,9 @@
                 <h5>@lang('Anhänge')</h5>
             </div>
             <div class="card-content">
-                {{ Form::dropzone('attachments', __('Anhänge'), route('order.message_upload', $order)) }}
+                @if(!config('app.demo'))
+                    {{ Form::dropzone('attachments', __('Anhänge'), route('order.message_upload', $order)) }}
+                @endif
             </div>
         </div>
     </div>

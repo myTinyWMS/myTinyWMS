@@ -11,6 +11,10 @@ use Webpatser\Uuid\Uuid;
 class MessageAttachmentController extends Controller
 {
     public function upload(Order $order, Request $request) {
+        if (config('app.demo')) {
+            return response()->json('error', 400);
+        }
+
         $file = $request->file('file');
 
         /**

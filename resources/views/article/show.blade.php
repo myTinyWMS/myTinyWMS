@@ -119,9 +119,11 @@
                             @endforeach
                         </ul>
                     @endif
-                    @can('article.create.file')
-                    {{ Form::dropzone('attachments', __('Anhänge'), route('article.file_upload', $article)) }}
-                    @endcan
+                    @if(!config('app.demo'))
+                        @can('article.create.file')
+                        {{ Form::dropzone('attachments', __('Anhänge'), route('article.file_upload', $article)) }}
+                        @endcan
+                    @endif
                 </div>
             </div>
 
