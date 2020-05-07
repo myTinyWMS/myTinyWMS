@@ -24,6 +24,7 @@
         "laracasts/flash": "^3.0",
         "laravel/framework": "^6.0",
         "laravel/horizon": "^3.0",
+        "laravel/sanctum": "^2.3",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^6.0",
         "maatwebsite/excel": "^3.0",

@@ -125,6 +125,46 @@
         </div>
     </div>
 
+    <div class="card 3xl:w-2/3 w-full mb-6">
+        <div class="card-content flex">
+            <div class="w-1/3 pt-4">
+                <div class="text-lg pb-2">@lang('API Tokens')</div>
+                <p class="text-sm text-gray-700 pr-20">
+
+                </p>
+            </div>
+            <div class="w-2/3 pt-4">
+                <table class="dataTable">
+                    <thead>
+                        <tr>
+                            <th>@lang('Name')</th>
+                            <th>@lang('Berechtigungen')</th>
+                            <th>@lang('Erstellt')</th>
+                            <th>@lang('Zuletzt benutzt')</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse(\Illuminate\Support\Facades\Auth::user()->tokens as $token)
+                            <tr class="{{ ($loop->even) ? 'even' : ''}}">
+                                <td>{{ $token->name }}</td>
+                                <td>{{ implode(', ', $token->abilities) }}</td>
+                                <td>{{ $token->created_at->format('d.m.Y H:i') }}</td>
+                                <td>{{ optional($token->last_used_at)->format('d.m.Y H:i') }}</td>
+                                <td><a href="{{ route('settings.remove_token', $token) }}">@lang('Token löschen')</a></td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-left">@lang('Keine Tokens vorhanden')</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+                <button type="button" @click="$modal.show('newTokenModal')" class="btn btn-secondary ml-4 mt-8">@lang('Token erstellen')</button>
+            </div>
+        </div>
+    </div>
+
     <div class="card 3xl:w-2/3 w-full">
         <div class="card-content">
             @csrf
@@ -132,6 +172,31 @@
         </div>
     </div>
 </form>
+
+<modal name="newTokenModal" height="auto" classes="modal" @opened="renderIChecks()">
+    <h4 class="modal-title">@lang('Neuen Token erstellen')</h4>
+
+    {!! Form::open(['route' => ['settings.create_token'], 'method' => 'POST']) !!}
+    <div class="row">
+        <div class="w-1/2">
+            <div class="form-group">
+                {{ Form::bsText('name', '', [], __('Name')) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="w-full">
+            <label class="form-label">@lang('Berechtigungen')</label>
+                {{ Form::bsCheckbox('abilities[]', \Mss\Models\User::API_ABILITY_ARTICLE_GET, __('Artikel abrufen')) }}
+                {{ Form::bsCheckbox('abilities[]', \Mss\Models\User::API_ABILITY_ARTICLE_EDIT, __('Artikel ändern')) }}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" @click="$modal.hide('newTokenModal')">@lang('Abbrechen')</button>
+        <button type="submit" class="btn btn-primary" id="saveNewToken">@lang('Speichern')</button>
+    </div>
+    {!! Form::close() !!}
+</modal>
 @endsection
 
 @push('scripts')

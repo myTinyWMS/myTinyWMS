@@ -2,18 +2,16 @@
 
 namespace Mss\Http\Controllers\Api;
 
+use Mss\Models\User;
 use Validator;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
-use Mss\Http\Controllers\Controller;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
-use Mss\Models\Legacy\Material;
 use Illuminate\Http\Request;
 use Psy\Util\Json;
 
-class ArticleController extends Controller {
+class ArticleController extends ApiController {
     /**
      * Display the specified resource.
      *
@@ -21,15 +19,19 @@ class ArticleController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(Article $article) {
+        $this->authorize(User::API_ABILITY_ARTICLE_GET);
+
         return response()->json($article);
     }
 
     /**
      * @param Article $article
-     * @param ChangeArticleQuantityRequest $request
+     * @param Request $request
      * @return Response
      */
     public function changeQuantity(Article $article, Request $request) {
+        $this->authorize(User::API_ABILITY_ARTICLE_EDIT);
+
         $validator = Validator::make($request->all(), [
             'change' => 'required|integer',
             'type' => [
@@ -59,6 +61,8 @@ class ArticleController extends Controller {
      * @return Response
      */
     public function getQuantities(Request $request) {
+        $this->authorize(User::API_ABILITY_ARTICLE_GET);
+
         $ids = is_array($request->get('ids')) ? $request->get('ids') : explode(',', $request->get('ids'));
         $quantities = Article::whereIn('id', $ids)->pluck('quantity', 'id');
 

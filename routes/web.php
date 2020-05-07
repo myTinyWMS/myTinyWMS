@@ -116,6 +116,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('settings', 'SettingsController@save')->name('settings.save');
     Route::get('change_pw', 'SettingsController@changePwForm')->name('settings.change_pw');
     Route::post('change_pw', 'SettingsController@changePw')->name('settings.change_pw_post');
+    Route::post('create_token', 'SettingsController@createToken')->name('settings.create_token');
+    Route::get('remove_token/{token}', 'SettingsController@removeToken')->name('settings.remove_token');
 
     Route::post('global-search', 'GlobalSearchController@process')->name('global_search');
 

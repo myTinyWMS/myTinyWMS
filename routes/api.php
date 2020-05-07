@@ -14,11 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth.basic.stateless'])->namespace('Api')->group(function () {
-    /*Route::get('/user', function (Request $request) {
-        return $request->user();
-    });*/
-
+Route::middleware(['auth:sanctum'])->namespace('Api')->group(function () {
     Route::get('/article/{article}', 'ArticleController@show');
     Route::post('/article/getQuantities', 'ArticleController@getQuantities');
     Route::post('/article/{article}/changeQuantity', 'ArticleController@changeQuantity');

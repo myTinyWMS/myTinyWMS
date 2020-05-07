@@ -38,7 +38,12 @@ Vue.use(VModal);
 
 Vue.mixin({
     methods: {
-        route: route
+        route: route,
+        renderIChecks() {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+            });
+        }
     }
 });
 
