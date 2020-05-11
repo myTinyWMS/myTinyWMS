@@ -15,7 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum'])->namespace('Api')->group(function () {
-    Route::get('/article/{article}', 'ArticleController@show');
-    Route::post('/article/getQuantities', 'ArticleController@getQuantities');
-    Route::post('/article/{article}/changeQuantity', 'ArticleController@changeQuantity');
+    Route::prefix('/v1')->group(function () {
+        Route::get('/article', 'ArticleController@index');
+        Route::get('/article/{article}', 'ArticleController@show');
+        Route::post('/article/getQuantities', 'ArticleController@getQuantities');
+        Route::post('/article/{article}/changeQuantity', 'ArticleController@changeQuantity');
+    });
 });
