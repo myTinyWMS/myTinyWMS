@@ -36,6 +36,7 @@
         "sentry/sentry-laravel": "1.2.1",
         "spatie/laravel-backup": "^6.8",
         "spatie/laravel-permission": "^3.11",
+        "spatie/laravel-query-builder": "^2.8",
         "tightenco/ziggy": "^0.8",
         "webklex/laravel-imap": "1.0.4.1",
         "webpatser/laravel-uuid": "^3.0",
