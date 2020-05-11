@@ -54,7 +54,7 @@ class SettingsController extends Controller
         $abilities = $request->get('abilities', ['*']);
         $token = Auth::user()->createToken($request->get('name'), $abilities)->plainTextToken;
 
-        flash(__('Neuer Token erstellt. Bitte notieren Sie sich diesen, er wird nur einmal angezeigt!<br><br>'.$token), 'success');
+        flash(__('Neuer Token erstellt. Bitte notieren Sie sich diesen, er wird nur einmal angezeigt!<br><br>:token', ['token' => $token]), 'success');
 
         return response()->redirectToRoute('settings.show');
     }
