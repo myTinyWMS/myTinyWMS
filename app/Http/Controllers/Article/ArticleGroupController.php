@@ -126,7 +126,7 @@ class ArticleGroupController extends Controller
         $preSetArticles->transform(function ($item) use ($articleGroup) {
             return [
                 'id' => $item->article->id,
-                'article_number' => $item->article->article_number,
+                'internal_article_number' => $item->article->internal_article_number,
                 'article_group_item_id' => $item->id,
                 'name' => $item->article->name,
                 'quantity' => $item->quantity
@@ -212,7 +212,7 @@ class ArticleGroupController extends Controller
                 $deliveryDate = Carbon::now()->addWeekdays($deliveryTime);
                 return [
                     'id' => $article->id,
-                    'article_number' => $article->article_number,
+                    'internal_article_number' => $article->internal_article_number,
                     'name' => $article->name/*.(!empty($article->unit) ? ' ('.$article->unit->name.')' : '')*/,
                     'supplier_id' => $article->currentSupplier->id,
                     'category' => $article->category->name ?? '',

@@ -40,7 +40,7 @@ class PrintLabelService {
     public function printArticleLabels(Collection $articles, $labelSize = 'small') {
         $barcodes = [];
         $articles->each(function ($article) use (&$barcodes, $labelSize) {
-            $barcodes[$article->id] = ($labelSize == 'large') ? $this->generateQrLarge($article->article_number ?? '#'.$article->id) : $this->generateQrSmall($article->article_number ?? '#'.$article->id);
+            $barcodes[$article->id] = ($labelSize == 'large') ? $this->generateQrLarge($article->internal_article_number ?? '#'.$article->id) : $this->generateQrSmall($article->internal_article_number ?? '#'.$article->id);
         });
 
         /**

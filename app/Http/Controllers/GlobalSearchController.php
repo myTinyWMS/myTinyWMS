@@ -20,7 +20,7 @@ class GlobalSearchController extends Controller
                 $this->addResult(__('Bestellung'), $phrase, route('order.show', $order));
             }
         } elseif (preg_match('/^[0-9]{5}$/', $phrase)) {
-            $article = Article::where('article_number', $phrase)->first();
+            $article = Article::where('internal_article_number', $phrase)->first();
             if ($article) {
                 $this->addResult(__('Artikel'), $article->name.' ('.$phrase.')', route('article.show', $article), $article->status);
             }

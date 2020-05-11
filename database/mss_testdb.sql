@@ -111,7 +111,7 @@ create table articles
 	id int unsigned auto_increment
 		primary key,
 	name text not null,
-	article_number varchar(191) null,
+	internal_article_number varchar(191) null,
 	unit_id int unsigned null,
 	category_id int unsigned null,
 	status int default 0 not null,

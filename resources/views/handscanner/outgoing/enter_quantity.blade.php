@@ -21,7 +21,7 @@
                 <div class="row text-left">
                     <div class="col">
                         <div class="label">Nummer:</div>
-                        <h5>{{ $article->article_number }}</h5>
+                        <h5>{{ $article->internal_article_number }}</h5>
                     </div>
 
                     <div class="col">

@@ -10,7 +10,7 @@ Route::namespace('Handscanner')->group(function () {
 
         Route::prefix('outgoing')->group(function () {
             Route::get('/start', 'OutgoingController@start')->name('handscanner.outgoing.start');
-            Route::get('/process/{article_number}', 'OutgoingController@process')->name('handscanner.outgoing.process');
+            Route::get('/process/{internal_article_number}', 'OutgoingController@process')->name('handscanner.outgoing.process');
             Route::post('/save/{article}', 'OutgoingController@save')->name('handscanner.outgoing.save');
         });
 
@@ -21,7 +21,7 @@ Route::namespace('Handscanner')->group(function () {
             Route::get('/{inventory}/select-category', 'InventoryController@selectCategory')->name('handscanner.inventory.select_category');
             Route::get('/{inventory}/category/{category}/select-article', 'InventoryController@selectArticle')->name('handscanner.inventory.select_article');
             Route::post('/{inventory}/category/{category}/processed', 'InventoryController@categoryProcessed')->name('handscanner.inventory.category_processed');
-            Route::get('/{inventory}/category/{category}/article/process/{article_number}', 'InventoryController@process')->name('handscanner.inventory.process');
+            Route::get('/{inventory}/category/{category}/article/process/{internal_article_number}', 'InventoryController@process')->name('handscanner.inventory.process');
             Route::post('/{inventory}/article/{article}/processed', 'InventoryController@processed')->name('handscanner.inventory.processed');
 
             Route::get('/step1', 'InventoryController@step1')->name('handscanner.inventory.step1');

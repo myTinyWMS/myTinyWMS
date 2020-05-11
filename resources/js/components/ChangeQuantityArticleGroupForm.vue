@@ -37,7 +37,7 @@
                         <label class="form-label">{{ $t('Artikel') }} {{ key+1 }}</label>
                         <div class="form-control-static">
                             {{ item.article.name }}
-                            <div class="text-xs my-2"># {{ item.article.article_number }}</div>
+                            <div class="text-xs my-2"># {{ item.article.internal_article_number }}</div>
                         </div>
                     </div>
                 </div>

@@ -35,7 +35,7 @@
                         <tbody>
                             @foreach($items as $article)
                             <tr>
-                                <td>{{ $article->article_number }}</td>
+                                <td>{{ $article->internal_article_number }}</td>
                                 <td><a href="{{ route('article.show', $article) }}">{{ $article->name }}</a></td>
                                 <td>{{ $article->supplier_name }}</td>
                                 <td>{{ $article->notes }}</td>

@@ -65,7 +65,7 @@
                 <tbody>
                 @foreach($articles as $article)
                     <tr>
-                        <td class="text-center">{{ $article->article_number }}</td>
+                        <td class="text-center">{{ $article->internal_article_number }}</td>
                         <td>{{ $article->name }}</td>
                         <td class="text-center">{{ $article->quantity }}</td>
                         <td></td>

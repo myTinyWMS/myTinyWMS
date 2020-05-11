@@ -27,8 +27,8 @@ class ArticleDataTable extends BaseDataTable
     {
         return datatables($query)
             ->setRowId('article_{{$id}}')
-            ->editColumn('article_number', function (Article $article) {
-                return (empty($article->article_number)) ? '('.$article->id.')' : $article->article_number;
+            ->editColumn('internal_article_number', function (Article $article) {
+                return (empty($article->internal_article_number)) ? '('.$article->id.')' : $article->internal_article_number;
             })
             ->editColumn('quantity', function (Article $article) {
                 return $article->quantity;
@@ -193,7 +193,7 @@ class ArticleDataTable extends BaseDataTable
         return [
             ['data' => 'checkbox', 'name' => 'checkbox', 'title' => '<div class="i-checks"><label><input type="checkbox" value="" id="select_all" /></label></div>', 'width' => '10px', 'orderable' => false, 'class' => 'text-center', 'searchable' => false],
             ['data' => 'sort_id', 'name' => 'sort_id', 'title' => 'Sort.', 'width' => '40px', 'visible' => false, 'searchable' => false],
-            ['data' => 'article_number', 'name' => 'article_number', 'title' => '#'],
+            ['data' => 'internal_article_number', 'name' => 'internal_article_number', 'title' => '#'],
             ['data' => 'name', 'name' => 'name', 'title' => __('Artikelbezeichnung')],
             ['data' => 'order_number', 'name' => 'order_number', 'title' => __('Bestellnummer')],
             ['data' => 'quantity', 'name' => 'quantity', 'title' => __('Bestand'), 'class' => 'text-center', 'width' => '40px', 'searchable' => false],

@@ -65,7 +65,7 @@
                                     <label class="form-label">@lang('Artikel') {{ $key+1 }}</label>
                                     <div class="form-control-static">
                                         <a href="{{ route('article.show', $item->article) }}" target="_blank" class="text-sm">{{ $item->article->name }}</a>
-                                        <div class="text-xs my-2"># {{ $item->article->article_number }}</div>
+                                        <div class="text-xs my-2"># {{ $item->article->internal_article_number }}</div>
                                     </div>
                                 </div>
                             </div>

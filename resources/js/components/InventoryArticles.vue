@@ -27,7 +27,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item, itemkey, articleindex) in inventoryItems">
-                            <td>{{ item.article.article_number }}</td>
+                            <td>{{ item.article.internal_article_number }}</td>
                             <td>
                                 <a v-bind:href="route('article.show', [item.article])">{{ item.article.name }}</a>
                                 <small>{{ item.article.supplier_name }}</small>

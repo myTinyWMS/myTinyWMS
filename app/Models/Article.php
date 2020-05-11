@@ -19,7 +19,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * Class Article
  *
  * @property integer id
- * @property string article_number
+ * @property string internal_article_number
  * @property integer quantity
  * @property integer min_quantity
  * @property integer outsourcing_quantity
@@ -46,7 +46,7 @@ class Article extends AuditableModel
     const PACKAGING_CATEGORY_PAPER = 'paper';
     const PACKAGING_CATEGORY_PLASTIC = 'plastic';
 
-    protected $fillable = ['name', 'article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes', 'free_lines_in_printed_list', 'cost_center', 'weight', 'packaging_category', 'delivery_notes'];
+    protected $fillable = ['name', 'internal_article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes', 'free_lines_in_printed_list', 'cost_center', 'weight', 'packaging_category', 'delivery_notes'];
 
     protected $casts = [
         'files' => 'array'
@@ -58,7 +58,8 @@ class Article extends AuditableModel
         return [
             'name' => __('Name'),
             'notes' => __('Bemerkungen'),
-            'article_number' => __('Artikelnummer'),
+            'internal_article_number' => __('Interne Artikelnummer'),
+            'article_number' => __('Interne Artikelnummer'),    // for the old column name
             'status' => __('Status'),
             'unit_id' => __('Einheit'),
             'quantity' => __('Bestand'),
@@ -161,11 +162,11 @@ class Article extends AuditableModel
             return false;
         }
 
-        $this->article_number = null;
+        $this->internal_article_number = null;
         $this->save();
 
         $categoryPart = $this->category->id + 10;
-        $latestArticleNumber = Article::where('article_number', 'like', $categoryPart.'%')->max('article_number');
+        $latestArticleNumber = Article::where('internal_article_number', 'like', $categoryPart.'%')->max('internal_article_number');
         if ($latestArticleNumber) {
             $number = intval(substr($latestArticleNumber, strlen($categoryPart)));
             $newNumber = ++$number;
@@ -173,7 +174,7 @@ class Article extends AuditableModel
             $newNumber = 1;
         }
 
-        $this->article_number = $categoryPart.sprintf('%03d', $newNumber);
+        $this->internal_article_number = $categoryPart.sprintf('%03d', $newNumber);
         $this->save();
     }
 
@@ -264,7 +265,7 @@ class Article extends AuditableModel
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOrderedByArticleNumber($query) {
-        return $query->orderBy('article_number');
+        return $query->orderBy('internal_article_number');
     }
 
     /**

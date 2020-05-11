@@ -12,8 +12,8 @@ class OutgoingController extends Controller
         return view('handscanner.outgoing.start');
     }
 
-    public function process($article_number) {
-        $article = Article::where('article_number', $article_number)->firstOrFail();
+    public function process($internal_article_number) {
+        $article = Article::where('internal_article_number', $internal_article_number)->firstOrFail();
 
         return view('handscanner.outgoing.enter_quantity', compact('article'));
     }
@@ -29,7 +29,7 @@ class OutgoingController extends Controller
         } else {
             flash('Menge ungültig')->danger();
 
-            return response()->redirectToRoute('handscanner.outgoing.process', ['article_number' => $article->article_number]);
+            return response()->redirectToRoute('handscanner.outgoing.process', ['internal_article_number' => $article->internal_article_number]);
         }
     }
 }

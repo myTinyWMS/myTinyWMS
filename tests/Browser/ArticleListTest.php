@@ -23,7 +23,7 @@ class ArticleListTest extends DuskTestCase
 
     public function test_article_lists_shows_first_5_active_articles_from_db()
     {
-        $articles = Article::enabled()->orderBy('article_number')->take(5)->get();
+        $articles = Article::enabled()->orderBy('internal_article_number')->take(5)->get();
 
         $this->browse(function (Browser $browser) use ($articles) {
             $browser
@@ -38,7 +38,7 @@ class ArticleListTest extends DuskTestCase
     }
 
     public function test_article_list_shows_disabled_articles() {
-        $articles = Article::active()->orderByDesc('article_number')->take(5)->get();
+        $articles = Article::active()->orderByDesc('internal_article_number')->take(5)->get();
         $articles->each(function ($article) {
             $article->status = Article::STATUS_INACTIVE;
             $article->save();
@@ -60,7 +60,7 @@ class ArticleListTest extends DuskTestCase
     }
 
     public function test_article_list_shows_articles_with_order_stop() {
-        $articles = Article::active()->orderByDesc('article_number')->take(5)->get();
+        $articles = Article::active()->orderByDesc('internal_article_number')->take(5)->get();
         $articles->each(function ($article) {
             $article->status = Article::STATUS_NO_ORDERS;
             $article->save();
@@ -82,50 +82,50 @@ class ArticleListTest extends DuskTestCase
     }
 
     public function test_article_list_search() {
-        $article = Article::active()->orderByDesc('article_number')->first();
+        $article = Article::active()->orderByDesc('internal_article_number')->first();
 
         $this->browse(function (Browser $browser) use ($article) {
             $browser
                 ->visit('/article')
                 ->assertSee('Artikelübersicht')
                 ->waitForLink('Details')
-                ->assertDontSee($article->article_number)
+                ->assertDontSee($article->internal_article_number)
                 ->type('.dataTables_filter input', $article->name)
                 ->waitUntilMissingText('Bitte warten')
                 ->pause(1000)
-                ->assertSee($article->article_number);
+                ->assertSee($article->internal_article_number);
         });
     }
 
     public function test_article_list_filter_category() {
-        $article = Article::active()->orderByDesc('article_number')->first();
+        $article = Article::active()->orderByDesc('internal_article_number')->first();
 
         $this->browse(function (Browser $browser) use ($article) {
             $browser
                 ->visit('/article')
                 ->assertSee('Artikelübersicht')
                 ->waitForLink('Details')
-                ->assertDontSee($article->article_number)
+                ->assertDontSee($article->internal_article_number)
                 ->click('#table-filter')
                 ->select('#filterCategory', $article->category_id)
                 ->waitUntilMissing('#dataTableBuilder_processing')
-                ->assertSee($article->article_number);
+                ->assertSee($article->internal_article_number);
         });
     }
 
     public function test_article_list_filter_supplier() {
-        $article = Article::active()->withCurrentSupplier()->orderByDesc('article_number')->first();
+        $article = Article::active()->withCurrentSupplier()->orderByDesc('internal_article_number')->first();
 
         $this->browse(function (Browser $browser) use ($article) {
             $browser
                 ->visit('/article')
                 ->assertSee('Artikelübersicht')
                 ->waitForLink('Details')
-                ->assertDontSee($article->article_number)
+                ->assertDontSee($article->internal_article_number)
                 ->click('#table-filter')
                 ->select('#filterSupplier', $article->currentSupplier->id)
                 ->waitUntilMissing('#dataTableBuilder_processing')
-                ->assertSee($article->article_number);
+                ->assertSee($article->internal_article_number);
         });
     }
 }
