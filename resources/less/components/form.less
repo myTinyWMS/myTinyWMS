@@ -27,9 +27,6 @@ label.search {
 
   input {
   	@apply relative pl-8;
-	&::placeholder {
-		@apply text-gray-600;
-	}
   }
 }
 
@@ -62,9 +59,9 @@ select {
 .form-input {
 	@apply appearance-none block w-full bg-white border border-gray-400 text-gray-800 rounded-lg h-9 px-2 leading-tight;
 
-  &:focus {
-  	@apply outline-none bg-white border-gray-500;
-  }
+	&:focus {
+		@apply outline-none bg-white border-gray-500;
+	}
 }
 
 .datepicker > input.form-input {
