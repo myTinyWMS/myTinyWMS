@@ -2,8 +2,16 @@
 
 namespace Mss\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
+/**
+ * Class ArticleGroupItem
+ *
+ * @property integer id
+ * @property integer article_group_id
+ * @property integer article_id
+ * @property integer quantity
+ * @property Article article
+ * @package Mss\Models
+ */
 class ArticleGroupItem extends AuditableModel
 {
     protected $fillable = ['article_id', 'quantity'];

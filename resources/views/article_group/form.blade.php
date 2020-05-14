@@ -10,6 +10,7 @@
                 </div>
                 <div class="card-content">
                     {{ Form::bsText('name', null, [], __('Name')) }}
+                    {{ Form::bsText('external_article_number', null, [], __('Externe Artikelnummer')) }}
                 </div>
             </div>
         </div>

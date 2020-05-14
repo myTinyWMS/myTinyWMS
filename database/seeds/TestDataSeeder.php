@@ -3,6 +3,8 @@
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Mss\Models\Article;
+use Mss\Models\ArticleGroup;
+use Mss\Models\ArticleGroupItem;
 use Mss\Models\ArticleQuantityChangelog;
 use Mss\Models\Category;
 use Mss\Models\Order;
@@ -31,6 +33,16 @@ class TestDataSeeder extends Seeder
             $article->unit()->associate($units->random());
             $article->save();
         });
+
+        factory(ArticleGroup::class, 3)
+            ->create()
+            ->each(function ($group) {
+                // pre select articles to prevent duplicates
+                $articleIds = Article::inRandomOrder()->take(3)->pluck('id');
+                $group->items()->save(factory(ArticleGroupItem::class)->make(['article_id' => $articleIds[0]]));
+                $group->items()->save(factory(ArticleGroupItem::class)->make(['article_id' => $articleIds[1]]));
+                $group->items()->save(factory(ArticleGroupItem::class)->make(['article_id' => $articleIds[2]]));
+            });
 
         factory(Order::class, 10)->create()->each(function ($order, $key) use ($faker) {
             $itemCount = ($key == 0) ? 1 : $faker->randomFloat(0, 1, 5);    // we need at least one order with only one item

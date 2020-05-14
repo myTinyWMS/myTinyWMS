@@ -16,6 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
  * Class User
  * @package Mss\Models
  * @property string $objectguid
+ * @method static User first()
  */
 class User extends Authenticatable implements Auditable, UserResolver
 {
@@ -26,6 +27,8 @@ class User extends Authenticatable implements Auditable, UserResolver
 
     const API_ABILITY_ARTICLE_GET = 'article.get';
     const API_ABILITY_ARTICLE_EDIT = 'article.edit';
+    const API_ABILITY_ARTICLE_GROUP_GET = 'article_group.get';
+    const API_ABILITY_ARTICLE_GROUP_EDIT = 'article_group.edit';
 
     public static function getAllApiAbilities() {
         return [

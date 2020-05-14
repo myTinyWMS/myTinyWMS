@@ -57,9 +57,13 @@ class ArticleGroupController extends Controller
         if ($request->has('id')) {
             $articleGroup = ArticleGroup::findOrFail($request->get('id'));
             $articleGroup->name = $request->get('name');
+            $articleGroup->external_article_number = $request->get('external_article_number');
             $articleGroup->save();
         } else {
-            $articleGroup = ArticleGroup::create(['name' => $request->get('name')]);
+            $articleGroup = ArticleGroup::create([
+                'name' => $request->get('name'),
+                'external_article_number' => $request->get('external_article_number'),
+            ]);
         }
 
         // save order items
@@ -171,17 +175,18 @@ class ArticleGroupController extends Controller
     }
 
     /**
-     * @param $id
+     * @param ArticleGroup $articleGroup
      * @param ArticleGroupChangeQuantityRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function changeQuantity($id, ArticleGroupChangeQuantityRequest $request) {
+    public function changeQuantity(ArticleGroup $articleGroup, ArticleGroupChangeQuantityRequest $request) {
         $this->authorize('article-group.edit', ArticleGroup::class);
 
         $quantities = collect($request->get('quantity', []));
 
-        $articleGroup = ArticleGroup::with('items.article')->findOrFail($id);
+        $articleGroup = $articleGroup->load('items.article');
+
         $articleGroup->items->each(function ($item) use ($quantities, $request) {
             /**@var $item ArticleGroupItem */
             $quantity = $quantities->get($item->id, 0);

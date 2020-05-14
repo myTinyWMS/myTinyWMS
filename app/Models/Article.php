@@ -3,6 +3,7 @@
 namespace Mss\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
@@ -20,14 +21,19 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @property integer id
  * @property string internal_article_number
+ * @property string external_article_number
  * @property integer quantity
  * @property integer min_quantity
+ * @property integer category_id
  * @property integer outsourcing_quantity
  * @property integer replacement_delivery_quantity
+ * @property Category category
+ * @property ArticleQuantityChangelog[]|Collection quantityChangelogs
  * @method static Builder active()
  * @method static Builder enabled()
  * @method static Builder withCurrentSupplierArticle()
  * @method static Builder withCurrentSupplier()
+ * @method static Article first()
  * @package Mss\Models
  */
 class Article extends AuditableModel
@@ -54,10 +60,13 @@ class Article extends AuditableModel
 
     protected $dates = ['deleted_at'];
 
+    protected $hidden = ['files'];
+
     public static function getFieldNames() {
         return [
             'name' => __('Name'),
             'notes' => __('Bemerkungen'),
+            'external_article_number' => __('Externe Artikelnummer'),
             'internal_article_number' => __('Interne Artikelnummer'),
             'article_number' => __('Interne Artikelnummer'),    // for the old column name
             'status' => __('Status'),
