@@ -27,7 +27,7 @@
                         <div class="form-group">
                             <label class="form-label">@lang('Interne Artikelnummer')</label>
 
-                            <div class="form-control-static" id="currentQuantity">
+                            <div class="form-control-static">
                                 {{ $article->internal_article_number }}
                             </div>
                         </div>
