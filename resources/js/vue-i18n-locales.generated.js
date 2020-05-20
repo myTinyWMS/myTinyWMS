@@ -340,7 +340,7 @@ export default {
         "Sehr geehrte Damen und Herren,": "Dear Sir or Madam,",
         "hiermit bestellen wir folgende Artikel:": "We hereby order the following articles:",
         "Einzel-Preis netto": "Single price net",
-        "gewünschter Liefertermin": "requested delivery date",
+        "Lieferung bis": "delivery until",
         "Bitte bestätigen Sie uns die Bestellung unter Angabe unserer Auftragsnummer": "Please confirm the order by indicating our order number",
         "Reports": "Reports",
         "Inventurauswertung": "Inventory analysis",

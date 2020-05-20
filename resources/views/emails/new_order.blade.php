@@ -30,7 +30,7 @@
                     </td>
                     @if($order->items->pluck('expected_delivery')->hasNonEmpty())
                     <td width="5%" align="center" bgcolor="#aaaaaaa" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #EEEEEE; padding:10px; padding-left:0;">
-                        <b>@lang('gewünschter Liefertermin')</b>
+                        <b>@lang('Lieferung bis')</b>
                     </td>
                     @endif
                 </tr>
