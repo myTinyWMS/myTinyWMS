@@ -24,6 +24,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property integer min_quantity
  * @property integer outsourcing_quantity
  * @property integer replacement_delivery_quantity
+ * @property ArticleSupplier currentSupplierArticle
  * @method static Builder active()
  * @method static Builder enabled()
  * @method static Builder withCurrentSupplierArticle()
@@ -124,6 +125,9 @@ class Article extends AuditableModel
         )->with('currentSupplier');
     }
 
+    /**
+     * @return ArticleSupplier
+     */
     public function currentSupplierArticle() {
         return $this->hasOne(ArticleSupplier::class, 'id', 'current_supplier_article_id');
     }
