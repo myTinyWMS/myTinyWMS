@@ -17,6 +17,13 @@ class DashboardController extends Controller
             return response()->redirectToRoute('login');
         }
 
+        $stats = [
+            'article_count' => Article::sum('quantity'),
+            'total_value' => Article::withCurrentSupplierArticle()->get()->sum(function (Article $article) {
+                return $article->currentSupplierArticle ? ($article->quantity * ($article->currentSupplierArticle->price / 100)) : 0;
+            })
+        ];
+
         $deliveriesWithoutInvoice = $this->getDeliveriesWithoutInvoice();
         $invoicesWithoutDelivery = $this->getInvoicesWithoutDelivery();
         $overdueOrders = Order::with(['items.order.deliveries', 'supplier'])->whereNotIn('status', [Order::STATUS_CANCELLED, Order::STATUS_DELIVERED])->overdue()->get()->sortBy(function ($order) {
@@ -31,7 +38,7 @@ class DashboardController extends Controller
             $query->where('confirmation_received', false);
         })->orderBy('order_date')->get();
 
-        return $toOrderDataTable->render('dashboard', compact('deliveriesWithoutInvoice', 'invoicesWithoutDelivery', 'overdueOrders', 'ordersWithoutMessages', 'ordersWithoutConfirmation'));
+        return $toOrderDataTable->render('dashboard', compact('deliveriesWithoutInvoice', 'invoicesWithoutDelivery', 'overdueOrders', 'ordersWithoutMessages', 'ordersWithoutConfirmation', 'stats'));
     }
 
     protected function getDeliveriesWithoutInvoice() {

@@ -4,6 +4,18 @@
 
 @section('content')
 
+    <div class="flex">
+        <div class="card w-1/5 p-4 mb-8">
+            <div class="text-sm text-gray-500 font-bold tracking-wide">@lang('Anzahl Artikel')</div>
+            <div class="text-3xl font-bold text-black">{{ $stats['article_count'] }}</div>
+        </div>
+
+        <div class="card w-1/5 p-4 mb-8 ml-4">
+            <div class="text-sm text-gray-500 font-bold tracking-wide">@lang('Summe Warenbestand')</div>
+            <div class="text-3xl font-bold text-black">{!! formatPrice($stats['total_value']) !!}</div>
+        </div>
+    </div>
+
     <div class="card mb-4">
         <div class="card-header">
             @lang('zu Bestellen')
