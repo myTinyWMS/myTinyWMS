@@ -41,7 +41,7 @@ return [
     |
     */
     'resolver' => [
-        'user'       => OwenIt\Auditing\Resolvers\UserResolver::class,
+        'user'       => \Mss\Resolvers\UserResolver::class,                     // use custom resolver to resolve user for Web and API - due Sanctum
         'ip_address' => OwenIt\Auditing\Resolvers\IpAddressResolver::class,
         'user_agent' => OwenIt\Auditing\Resolvers\UserAgentResolver::class,
         'url'        => OwenIt\Auditing\Resolvers\UrlResolver::class,

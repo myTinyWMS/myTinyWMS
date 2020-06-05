@@ -76,6 +76,7 @@ class ArticleGroupDataTable extends BaseDataTable
     {
         return [
             ['data' => 'name', 'name' => 'name', 'title' => __('Name')],
+            ['data' => 'external_article_number', 'name' => 'external_article_number', 'title' => __('Externe Artikelnummer')],
             ['data' => 'items', 'name' => 'items', 'title' => __('Artikel')],
         ];
     }

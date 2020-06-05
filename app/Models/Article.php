@@ -52,7 +52,7 @@ class Article extends AuditableModel
     const PACKAGING_CATEGORY_PAPER = 'paper';
     const PACKAGING_CATEGORY_PLASTIC = 'plastic';
 
-    protected $fillable = ['name', 'internal_article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes', 'free_lines_in_printed_list', 'cost_center', 'weight', 'packaging_category', 'delivery_notes'];
+    protected $fillable = ['name', 'internal_article_number', 'external_article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes', 'free_lines_in_printed_list', 'cost_center', 'weight', 'packaging_category', 'delivery_notes'];
 
     protected $casts = [
         'files' => 'array'

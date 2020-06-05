@@ -60,6 +60,11 @@ class AppServiceProvider extends ServiceProvider
         Horizon::auth(function ($request) {
             return Auth::check() && Auth::user()->can('admin');
         });
+
+        if ($this->app->isLocal()) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**

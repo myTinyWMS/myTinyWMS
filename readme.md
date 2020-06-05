@@ -28,6 +28,14 @@ The easiest way to install it right now is using docker and docker-compose:
 
 -----
 
+### Development
+
+... todo: fill this stuff ...
+- run `composer install`
+- run `php artisan telescope:publish`
+
+-----
+
 ### Security
 
 To report a security vulnerability, please email security@mytinywms.com instead of using the issue tracker. 

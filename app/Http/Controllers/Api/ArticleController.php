@@ -65,7 +65,7 @@ class ArticleController extends ApiController {
      * @param Request $request
      * @return Response
      */
-    public function changeQuantity(Article $article, Request $request) {
+    public function changeQuantity(Request $request, Article $article) {
         $this->authorize(User::API_ABILITY_ARTICLE_EDIT);
 
         $validator = Validator::make($request->all(), [
