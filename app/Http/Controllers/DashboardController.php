@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $stats = [
             'article_count' => Article::sum('quantity'),
             'total_value' => Article::withCurrentSupplierArticle()->get()->sum(function (Article $article) {
-                return $article->currentSupplierArticle ? ($article->quantity * $article->currentSupplierArticle->price) : 0;
+                return $article->currentSupplierArticle ? ($article->quantity * ($article->currentSupplierArticle->price / 100)) : 0;
             })
         ];
 
