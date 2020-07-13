@@ -189,6 +189,8 @@
             <label class="form-label">@lang('Berechtigungen')</label>
                 {{ Form::bsCheckbox('abilities[]', \Mss\Models\User::API_ABILITY_ARTICLE_GET, __('Artikel abrufen')) }}
                 {{ Form::bsCheckbox('abilities[]', \Mss\Models\User::API_ABILITY_ARTICLE_EDIT, __('Artikel ändern')) }}
+                {{ Form::bsCheckbox('abilities[]', \Mss\Models\User::API_ABILITY_ARTICLE_GROUP_GET, __('Artikelgruppe abrufen')) }}
+                {{ Form::bsCheckbox('abilities[]', \Mss\Models\User::API_ABILITY_ARTICLE_GROUP_EDIT, __('Artikelgruppe ändern')) }}
         </div>
     </div>
     <div class="modal-footer">

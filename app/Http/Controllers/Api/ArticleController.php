@@ -27,6 +27,8 @@ class ArticleController extends ApiController {
      * @return \Illuminate\Http\JsonResponse
      */
     public function index() {
+        $this->authorize(User::API_ABILITY_ARTICLE_GET);
+
         $allowedFields = (new \ReflectionClass(Article::class))->getDefaultProperties()['fillable'];
         $allowedFields[] = 'id';
 
