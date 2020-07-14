@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Models;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
