@@ -26,7 +26,7 @@
                 @foreach($articles as $article)
                     <tr>
                         <td width="10%" align="center" bgcolor="{{ $loop->index % 2 ? '#FFFFFF' : '#EEEEEE' }}" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #252525; padding:10px; padding-right:0;">
-                            {{ $article->article_number }}
+                            {{ $article->internal_article_number }}
                         </td>
                         <td width="50%" align="left" bgcolor="{{ $loop->index % 2 ? '#FFFFFF' : '#EEEEEE' }}" style="font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: 12px; color: #252525; padding:10px; padding-right:0;">
                             {{ $article->name }}

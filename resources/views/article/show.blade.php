@@ -1,6 +1,6 @@
 @extends('article.form', ['isNewArticle' => false, 'isCopyOfArticle' => false])
 
-@section('title', __('Artikel Details').((!empty($article->article_number)) ? ' #'.$article->article_number : ''))
+@section('title', __('Artikel Details').((!empty($article->internal_article_number)) ? ' #'.$article->internal_article_number : ''))
 
 @section('breadcrumb')
     <li>

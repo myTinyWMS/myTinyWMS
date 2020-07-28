@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Models;
 
 use Carbon\Carbon;
 use Mss\Models\Delivery;

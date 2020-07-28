@@ -21,6 +21,24 @@
                 @yield('form_start')
             @endif
 
+            <div class="w-full flex pb-4">
+                <div class="w-1/3">
+                    @if (!$isNewArticle && !$isCopyOfArticle)
+                        <div class="form-group">
+                            <label class="form-label">@lang('Interne Artikelnummer')</label>
+
+                            <div class="form-control-static">
+                                {{ $article->internal_article_number }}
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="w-2/3">
+                    {{ Form::bsText('external_article_number', $article->external_article_number, ['placeholder' => __('Shop Artikelnummer, SKU, EAN, ...')], __('Externe Artikelnummer')) }}
+                </div>
+            </div>
+
             <div class="w-full flex">
                 <div class="w-1/3">
                     @if (!$isNewArticle && !$isCopyOfArticle)

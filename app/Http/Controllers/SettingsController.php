@@ -7,9 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Mss\Events\DeliverySaved;
 use Mss\Http\Requests\ChangePasswordRequest;
-use Mss\Models\Delivery;
-use Mss\Models\User;
-use Mss\Models\UserSettings;
+use Mss\Http\Requests\CreateTokenRequest;
 
 class SettingsController extends Controller
 {
@@ -50,5 +48,27 @@ class SettingsController extends Controller
 
         flash(__('Passwort geändert'), 'success');
         return response()->redirectToRoute('settings.change_pw');
+    }
+
+    public function createToken(CreateTokenRequest $request) {
+        $abilities = $request->get('abilities', ['*']);
+        $token = Auth::user()->createToken($request->get('name'), $abilities)->plainTextToken;
+
+        flash(__('Neuer Token erstellt. Bitte notieren Sie sich diesen, er wird nur einmal angezeigt!<br><br>:token', ['token' => $token]), 'success');
+
+        return response()->redirectToRoute('settings.show');
+    }
+
+    public function removeToken($token) {
+        $token = Auth::user()->tokens->where('id', $token)->first();
+        if (!$token) {
+            abort(404);
+        }
+
+        $token->delete();
+
+        flash(__('Token gelöscht'), 'success');
+
+        return response()->redirectToRoute('settings.show');
     }
 }

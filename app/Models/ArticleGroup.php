@@ -2,9 +2,22 @@
 
 namespace Mss\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+
+/**
+ * Class ArticleGroup
+ *
+ * @property integer id
+ * @property string name
+ * @property string external_article_number
+ * @property ArticleGroupItem[]|Collection items
+ * @method static ArticleGroup first()
+ * @package Mss\Models
+ */
 class ArticleGroup extends AuditableModel
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'external_article_number'];
 
     public function items() {
         return $this->hasMany(ArticleGroupItem::class);

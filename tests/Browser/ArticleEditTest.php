@@ -71,7 +71,7 @@ class ArticleEditTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($article) {
             $browser
                 ->visit('/article/' . $article->id)
-                ->assertSee($article->article_number)
+                ->assertSee($article->internal_article_number)
                 ->select('#status', Article::STATUS_NO_ORDERS)
                 ->type('#name', 'test article 2')
                 ->type('#sort_id', 2)
@@ -110,12 +110,12 @@ class ArticleEditTest extends DuskTestCase
         $oldCategory = $article->category;
         $newCategory = Category::where('id', '!=', $oldCategory->id)->inRandomOrder()->first();
 
-        $oldArticleNumber = $article->article_number;
+        $oldArticleNumber = $article->internal_article_number;
 
         $this->browse(function (Browser $browser) use ($article, $newCategory, $oldArticleNumber) {
             $browser
                 ->visit('/article/' . $article->id)
-                ->assertSee($article->article_number)
+                ->assertSee($article->internal_article_number)
                 ->click('#enableChangeCategory ~ ins')
                 ->select('#category', $newCategory->id)
                 ->click('#saveArticle')
@@ -124,8 +124,8 @@ class ArticleEditTest extends DuskTestCase
             ;
 
             $article->refresh();
-            $browser->assertSee($article->article_number);
-            $this->assertNotEquals($oldArticleNumber, $article->article_number);
+            $browser->assertSee($article->internal_article_number);
+            $this->assertNotEquals($oldArticleNumber, $article->internal_article_number);
         });
     }
 
@@ -142,7 +142,7 @@ class ArticleEditTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($article, $currentSupplierArticle) {
             $browser
                 ->visit('/article/' . $article->id)
-                ->assertSee($article->article_number)
+                ->assertSee($article->internal_article_number)
                 ->click('#changeSupplierMenu')
                 ->click('#changeSupplierLink')
                 ->waitForText('Lieferant bearbeiten')
@@ -170,7 +170,7 @@ class ArticleEditTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($article, $newSupplier) {
             $browser
                 ->visit('/article/' . $article->id)
-                ->assertSee($article->article_number)
+                ->assertSee($article->internal_article_number)
                 ->click('#changeSupplierMenu')
                 ->click('#changeSupplierLink')
                 ->waitForText('Lieferant bearbeiten')
@@ -190,7 +190,7 @@ class ArticleEditTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($article) {
             $browser
                 ->visit('/article/' . $article->id)
-                ->assertSee($article->article_number)
+                ->assertSee($article->internal_article_number)
                 ->attach('input.dz-hidden-input', '/data/www/tests/Browser/test.png')
                 ->waitFor('.dz-success-mark')
                 ->refresh()
@@ -214,7 +214,7 @@ class ArticleEditTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($article, $note) {
             $browser
                 ->visit('/article/' . $article->id)
-                ->assertSee($article->article_number)
+                ->assertSee($article->internal_article_number)
                 ->click('#addNote')
                 ->type('#new_note', $note)
                 ->click('#addNoteSubmit')
@@ -257,7 +257,7 @@ class ArticleEditTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($article, $note, $changeType, $changelogTypeIndex, $changeQuantity, $expectedQuantity) {
             $browser
                 ->visit('/article/'.$article->id)
-                ->assertSee($article->article_number)
+                ->assertSee($article->internal_article_number)
                 ->click('.edit-quantity')
                 ->select('#changelogChangeType', $changeType)
                 ->type('changelogChange', $changeQuantity)

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\HasApiTokens;
 use Mss\Notifications\ResetPassword;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Contracts\UserResolver;
@@ -15,13 +16,28 @@ use Spatie\Permission\Traits\HasRoles;
  * Class User
  * @package Mss\Models
  * @property string $objectguid
+ * @method static User first()
  */
 class User extends Authenticatable implements Auditable, UserResolver
 {
-    use Notifiable, \OwenIt\Auditing\Auditable, HasRoles, SoftDeletes;
+    use Notifiable, \OwenIt\Auditing\Auditable, HasRoles, SoftDeletes, HasApiTokens;
 
     const SOURCE_LOCAL = 'local';
     const SOURCE_LDAP = 'ldap';
+
+    const API_ABILITY_ARTICLE_GET = 'article.get';
+    const API_ABILITY_ARTICLE_EDIT = 'article.edit';
+    const API_ABILITY_ARTICLE_GROUP_GET = 'article_group.get';
+    const API_ABILITY_ARTICLE_GROUP_EDIT = 'article_group.edit';
+
+    public static function getAllApiAbilities() {
+        return [
+            self::API_ABILITY_ARTICLE_GET,
+            self::API_ABILITY_ARTICLE_EDIT,
+            self::API_ABILITY_ARTICLE_GROUP_GET,
+            self::API_ABILITY_ARTICLE_GROUP_EDIT
+        ];
+    }
 
     public static function getFieldNames() {
         return [];

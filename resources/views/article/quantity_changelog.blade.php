@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', __('Änderungsverlauf Artikel ').((!empty($article->article_number)) ? ' #'.$article->article_number : ''))
+@section('title', __('Änderungsverlauf Artikel ').((!empty($article->internal_article_number)) ? ' #'.$article->internal_article_number : ''))
 
 @section('title_extra')
     <small>{{ $article->name }}</small>

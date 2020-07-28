@@ -14,7 +14,7 @@
                         </label>
                         <div class="form-control-static article-name">
                             {{ article.name }}
-                            <div class="text-xs my-2"># {{ article.article_number }}</div>
+                            <div class="text-xs my-2"># {{ article.internal_article_number }}</div>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                     id: null,
                     article_group_item_id: null,
                     name: null,
-                    article_number: null,
+                    internal_article_number: null,
                     quantity: '',
                 });
 
@@ -88,7 +88,7 @@
                 let article = _.find(this.allArticles, _.matchesProperty('id', id));
                 console.log(id, this.allArticles, article);
                 this.articles[this.currentIndex].id = article.id;
-                this.articles[this.currentIndex].article_number = article.article_number;
+                this.articles[this.currentIndex].internal_article_number = article.internal_article_number;
                 this.articles[this.currentIndex].article_group_item_id = null;
                 this.articles[this.currentIndex].name = article.name;
                 this.articles[this.currentIndex].quantity = article.usage_quantity;

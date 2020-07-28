@@ -111,7 +111,7 @@ class ArticleUsageReport implements FromCollection, WithColumnFormatting, WithEv
                 }
 
                 return [
-                    __('Artikelnummer') => $article->article_number,
+                    __('Interne Artikelnummer') => $article->internal_article_number,
                     __('Artikelname') => $article->getAttributeAtDate('name', $end1),
                     __('Lieferant') => $currentSupplierArticle->supplier ? $currentSupplierArticle->supplier->name : '',
                     __('Preis') => $currentPrice ? round(($currentPrice / 100), 2) : 0,

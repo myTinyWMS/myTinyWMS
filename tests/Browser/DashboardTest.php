@@ -129,7 +129,7 @@ class DashboardTest extends DuskTestCase
     }
 
     public function test_create_order_from_dashboard() {
-        $article = Article::active()->whereNotNull('article_number')->first();
+        $article = Article::active()->whereNotNull('internal_article_number')->first();
         $article->quantity = 10;
         $article->min_quantity = 20;
         $article->save();

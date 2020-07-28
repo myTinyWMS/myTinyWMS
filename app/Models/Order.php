@@ -190,7 +190,7 @@ class Order extends AuditableModel
     public function getAllAudits() {
         $orderItemAudits = $this->items->map(function ($item) {
             return $item->getAudits()->transform(function ($audit) use ($item) {
-                $audit['name'] .= ' #'.$item->article->article_number;
+                $audit['name'] .= ' #'.$item->article->internal_article_number;
 
                 return $audit;
             });

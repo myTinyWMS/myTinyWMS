@@ -31,10 +31,16 @@
             </div>
             <div class="card-content">
                 <div class="row">
-                    <div class="w-1/4">
+                    <div class="w-1/2">
                         <div class="form-group">
                             <label class="form-label">@lang('Name')</label>
                             <div class="form-control-static">{{ $articleGroup->name }}</div>
+                        </div>
+                    </div>
+                    <div class="w-1/2">
+                        <div class="form-group">
+                            <label class="form-label">@lang('Externe Artikelnummer')</label>
+                            <div class="form-control-static">{{ $articleGroup->external_article_number }}</div>
                         </div>
                     </div>
                 </div>
@@ -65,7 +71,7 @@
                                     <label class="form-label">@lang('Artikel') {{ $key+1 }}</label>
                                     <div class="form-control-static">
                                         <a href="{{ route('article.show', $item->article) }}" target="_blank" class="text-sm">{{ $item->article->name }}</a>
-                                        <div class="text-xs my-2"># {{ $item->article->article_number }}</div>
+                                        <div class="text-xs my-2"># {{ $item->article->internal_article_number }}</div>
                                     </div>
                                 </div>
                             </div>

@@ -85,7 +85,7 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
                 return [
                     __('Kategorie') => optional($article->category)->name,
                     __('Artikelname') => $article->name,
-                    __('Artikelnummer') => $article->article_number,
+                    __('Interne Artikelnummer') => $article->internal_article_number,
                     __('Bestand') => $quantity,
                     __('Einheit') => optional($article->unit)->name,
                     __('aktueller Preis') => $currentPrice ? round(($currentPrice / 100), 2) : 0,

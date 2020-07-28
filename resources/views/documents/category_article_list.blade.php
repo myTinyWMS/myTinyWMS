@@ -56,7 +56,7 @@
             <tbody>
                 @foreach($category->articles as $article)
                 <tr>
-                    <td style="vertical-align: top">{{ $article->article_number }}</td>
+                    <td style="vertical-align: top">{{ $article->internal_article_number }}</td>
                     <td style="vertical-align: top">{{ $article->name }}</td>
                     <td style="vertical-align: top">{{ $article->issue_quantity }} {{ optional($article->unit)->name }}</td>
                     <td>

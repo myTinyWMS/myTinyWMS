@@ -8,6 +8,7 @@ namespace Mss\Models;
  * @property integer id
  * @property integer type
  * @property integer change
+ * @property string note
  * @property Article $article
  * @property DeliveryItem $deliveryItem
  * @package Mss\Models

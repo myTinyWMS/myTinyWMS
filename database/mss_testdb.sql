@@ -51,7 +51,8 @@ create table article_groups
 		primary key,
 	created_at timestamp null,
 	updated_at timestamp null,
-	name varchar(191) not null
+	name varchar(191) not null,
+    external_article_number varchar(191) null
 )
 collate=utf8mb4_unicode_ci;
 
@@ -111,7 +112,8 @@ create table articles
 	id int unsigned auto_increment
 		primary key,
 	name text not null,
-	article_number varchar(191) null,
+	internal_article_number varchar(191) null,
+	external_article_number varchar(191) null,
 	unit_id int unsigned null,
 	category_id int unsigned null,
 	status int default 0 not null,

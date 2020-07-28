@@ -45,7 +45,7 @@ class SetArticleNumbersCommand extends Command
             DB::setDefaultConnection($databaseConnection);
 
             $bar = $this->output->createProgressBar(Article::count());
-            Article::query()->update(['article_number' => null]);
+            Article::query()->update(['internal_article_number' => null]);
             Article::all()->each(function ($article) use ($bar) {
                 /* @var $article \Mss\Models\Article */
                 $article->setNewArticleNumber();
