@@ -9,7 +9,7 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void {
         chdir(__DIR__ . '/..');
 
         shell_exec('php artisan create:testdb');

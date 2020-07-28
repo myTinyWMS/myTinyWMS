@@ -20,6 +20,7 @@ use Mss\Models\User;
 use Mss\Models\Order;
 use Mss\Models\Article;
 use Mss\Models\Supplier;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Mss\Models\Article::class, function (Faker\Generator $faker) {
@@ -61,7 +62,7 @@ $factory->define(Mss\Models\User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => Hash::make('password'),
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
         'settings' => []
     ];
 });

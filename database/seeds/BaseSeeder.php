@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
 class BaseSeeder extends Seeder
@@ -16,7 +17,7 @@ class BaseSeeder extends Seeder
             'name' => 'admin',
             'username' => 'admin',
             'password' => bcrypt('password'),
-            'remember_token' => str_random(10),
+            'remember_token' => Str::random(10),
             'settings' => []
         ]);
 
