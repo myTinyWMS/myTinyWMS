@@ -33,7 +33,9 @@ class User extends Authenticatable implements Auditable, UserResolver
     public static function getAllApiAbilities() {
         return [
             self::API_ABILITY_ARTICLE_GET,
-            self::API_ABILITY_ARTICLE_EDIT
+            self::API_ABILITY_ARTICLE_EDIT,
+            self::API_ABILITY_ARTICLE_GROUP_GET,
+            self::API_ABILITY_ARTICLE_GROUP_EDIT
         ];
     }
 
