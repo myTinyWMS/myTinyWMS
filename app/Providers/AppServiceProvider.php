@@ -61,7 +61,7 @@ class AppServiceProvider extends ServiceProvider
             return Auth::check() && Auth::user()->can('admin');
         });
 
-        if ($this->app->isLocal()) {
+        if ($this->app->isLocal() && config('app.debug')) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
         }
     }

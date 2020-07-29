@@ -49,7 +49,7 @@ class TestDataSeeder extends Seeder
 
             $articles = Article::whereHas('suppliers', function ($query) use ($order) {
                 $query->where('supplier_id', $order->supplier_id);
-            })->inRandomOrder()->take($itemCount)->get();
+            })->inRandomOrder()->get();
 
             factory(OrderItem::class, $itemCount)->create()->each(function ($orderItem, $index) use ($order, $faker, $articles) {
                 $orderItem->article_id = $articles->get($index)->id;
