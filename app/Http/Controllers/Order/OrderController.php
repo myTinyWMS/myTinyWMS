@@ -77,9 +77,11 @@ class OrderController extends Controller
                     ];
                 });
             }
+
+            return $selectArticleDataTable->render('order.create', compact('order', 'allArticles', 'tags', 'categories', 'preSetArticles'));
         }
 
-        return $selectArticleDataTable->render('order.create', compact('order', 'allArticles', 'tags', 'categories', 'preSetArticles'));
+        return $selectArticleDataTable->render('order.create');
     }
 
     /**
