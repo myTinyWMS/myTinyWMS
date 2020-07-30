@@ -19,10 +19,15 @@ use Webklex\IMAP\Message;
 
 class ImportMailsServiceTest extends TestCase
 {
-    public function setUp(): void
-    {
+    /**
+     * @var \Faker\Generator
+     */
+    protected $faker;
+
+    public function setUp(): void {
         parent::setUp();
         factory(Supplier::class)->create();
+        $this->faker = \Faker\Factory::create();
     }
 
     /**
@@ -52,35 +57,38 @@ class ImportMailsServiceTest extends TestCase
      * @test
      */
     public function is_creating_assigned_order_message_with_number_in_html() {
+        $subject = $this->faker->text(30);
         $order = factory(Order::class)->create();
-        $service = $this->getFakeServiceWithFakeMessage('my subject2', 'html '.$order->internal_order_number.' html');
+        $service = $this->getFakeServiceWithFakeMessage($subject, 'html '.$order->internal_order_number.' html');
         $service->process();
 
-        $this->assertEquals(1, OrderMessage::where('subject', 'my subject2')->count());
-        $this->assertEquals($order->id, OrderMessage::where('subject', 'my subject2')->first()->order_id);
+        $this->assertEquals(1, OrderMessage::where('subject', $subject)->count());
+        $this->assertEquals($order->id, OrderMessage::where('subject', $subject)->first()->order_id);
     }
 
     /**
      * @test
      */
     public function is_creating_assigned_order_message_with_number_in_text() {
+        $subject = $this->faker->text(30);
         $order = factory(Order::class)->create();
-        $service = $this->getFakeServiceWithFakeMessage('my subject3', 'html', 'text '.$order->internal_order_number.' text');
+        $service = $this->getFakeServiceWithFakeMessage($subject, 'html', 'text '.$order->internal_order_number.' text');
         $service->process();
 
-        $this->assertEquals(1, OrderMessage::where('subject', 'my subject3')->count());
-        $this->assertEquals($order->id, OrderMessage::where('subject', 'my subject3')->first()->order_id);
+        $this->assertEquals(1, OrderMessage::where('subject', $subject)->count());
+        $this->assertEquals($order->id, OrderMessage::where('subject', $subject)->first()->order_id);
     }
 
     /**
      * @test
      */
     public function is_creating_unassigned_order_message_with_no_number() {
-        $service = $this->getFakeServiceWithFakeMessage('my subject4');
+        $subject = $this->faker->text(30);
+        $service = $this->getFakeServiceWithFakeMessage($subject);
         $service->process();
 
-        $this->assertEquals(1, OrderMessage::where('subject', 'my subject4')->count());
-        $this->assertNull(OrderMessage::where('subject', 'my subject4')->first()->order_id);
+        $this->assertEquals(1, OrderMessage::where('subject', $subject)->count());
+        $this->assertNull(OrderMessage::where('subject', $subject)->first()->order_id);
     }
 
     /**

@@ -2,12 +2,10 @@
 
 namespace Tests\Unit\Models;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Arr;
 use Mss\Exceptions\InvalidParameterException;
 use Mss\Models\User;
 use Mss\Models\UserSettings;
-use Mss\Services\ImportFromOnpService;
 use Tests\TestCase;
 
 class UserSettingsTest extends TestCase
@@ -30,7 +28,7 @@ class UserSettingsTest extends TestCase
         $user = factory(User::class)->make();
         $model = new UserSettings($user);
 
-        $key = array_first(array_keys(UserSettings::SETTINGS));
+        $key = Arr::first(array_keys(UserSettings::SETTINGS));
         $this->assertEquals(UserSettings::SETTINGS[$key]['default'], $model->get($key));
     }
 

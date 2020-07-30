@@ -25,8 +25,8 @@
                         {{ $data['name'] }}<br>
                         <span class="text-xs">in {{ $audit['name'] }}</span>
                     </td>
-                    <td>{!! (array_key_exists('old', $data) && !empty($data['old'])) ? str_limit($data['old'], 50, ' (...)') : '' !!}</td>
-                    <td>{!! !empty($data['new']) ? str_limit($data['new'], 50, ' (...)') : '' !!}</td>
+                    <td>{!! (array_key_exists('old', $data) && !empty($data['old'])) ? Illuminate\Support\Str::limit($data['old'], 50, ' (...)') : '' !!}</td>
+                    <td>{!! !empty($data['new']) ? Illuminate\Support\Str::limit($data['new'], 50, ' (...)') : '' !!}</td>
                 </tr>
                 @endif
             @endforeach

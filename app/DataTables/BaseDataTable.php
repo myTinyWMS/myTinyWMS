@@ -3,6 +3,7 @@
 namespace Mss\DataTables;
 
 use App;
+use Illuminate\Support\Arr;
 use Yajra\DataTables\Services\DataTable;
 
 abstract class BaseDataTable extends DataTable
@@ -44,8 +45,8 @@ abstract class BaseDataTable extends DataTable
         $captions = [50, 100, __('Alle')];
 
         if (!in_array($this->pageLength, $values)) {
-            $values = array_prepend($values, $this->pageLength);
-            $captions = array_prepend($captions, $this->pageLength);
+            $values = Arr::prepend($values, $this->pageLength);
+            $captions = Arr::prepend($captions, $this->pageLength);
         }
 
         return [$values, $captions];
