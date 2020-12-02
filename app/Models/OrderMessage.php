@@ -58,7 +58,7 @@ class OrderMessage extends AuditableModel
 
     public function getAttachmentsAttribute($value) {
         return collect(json_decode($value, true))->transform(function ($attachment) {
-            $attachment['orgFileName'] = iconv_mime_decode($attachment['orgFileName']);
+            $attachment['orgFileName'] = mb_decode_mimeheader($attachment['orgFileName']);
 
             return $attachment;
         });
