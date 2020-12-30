@@ -97,4 +97,18 @@ class ArticleController extends ApiController {
 
         return Response::create(Json::encode(['result' => 'success']));
     }
+
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function getQuantities(Request $request) {
+        $this->authorize(User::API_ABILITY_ARTICLE_GET);
+
+        $ids = is_array($request->get('ids')) ? $request->get('ids') : explode(',', $request->get('ids'));
+        $quantities = Article::whereIn('id', $ids)->pluck('quantity', 'id');
+
+        return Response::create(Json::encode($quantities));
+    }
 }
