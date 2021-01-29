@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/v1')->group(function () {
     Route::get('/article', 'ArticleController@index');
+    Route::post('/article/getQuantities', 'ArticleController@getQuantities');
     Route::get('/article/{article}', 'ArticleController@show');
     Route::post('/article/{article}/changeQuantity', 'ArticleController@changeQuantity');
 

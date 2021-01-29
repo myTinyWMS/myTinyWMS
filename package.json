@@ -12,7 +12,7 @@
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
     "@kirschbaum-development/laravel-translations-loader": "^1.0.2",
-    "axios": "^0.18",
+    "axios": "^0.21",
     "bootstrap-sass": "^3.3.7",
     "cross-env": "^5.1",
     "jquery": "^3.3.1",
