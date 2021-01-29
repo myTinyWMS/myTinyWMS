@@ -88,7 +88,7 @@
                             <div class="w-2/12 mr-2">
                                 <small class="form-label">@lang('gelieferte Menge')</small>
                                 <div class="mt-2 flex">
-                                    <input class="form-input mr-2" type="text" name="quantities[{{ $item->article->id }}]">
+                                    <input class="form-input mr-2" type="number" min="0" name="quantities[{{ $item->article->id }}]">
                                     <div class="">
                                         <button type="button" class="btn btn-success set-full-quantity" dusk="set-full-quantity-{{ $item->id }}" data-quantity="{{ ($item->quantity - $item->getQuantityDelivered() > 0) ? ($item->quantity - $item->getQuantityDelivered()) : 0 }}" title="alles"><i class="fa fa-check"></i></button>
                                     </div>
