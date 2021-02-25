@@ -4,6 +4,7 @@ namespace Mss\DataTables;
 
 use Carbon\Carbon;
 use Mss\Models\ArticleGroup;
+use function Clue\StreamFilter\fun;
 
 class ArticleGroupDataTable extends BaseDataTable
 {
@@ -22,6 +23,9 @@ class ArticleGroupDataTable extends BaseDataTable
     {
         return datatables($query)
             ->setRowId('id')
+            ->addColumn('article_number', function (ArticleGroup $articleGroup) {
+                return $articleGroup->getArticleNumber();
+            })
             ->addColumn('article', function (ArticleGroup $articleGroup) {
                 return $articleGroup->items->count();
             })
@@ -76,6 +80,7 @@ class ArticleGroupDataTable extends BaseDataTable
     {
         return [
             ['data' => 'name', 'name' => 'name', 'title' => __('Name')],
+            ['data' => 'article_number', 'name' => 'article_number', 'title' => __('Interne Artikelnummer')],
             ['data' => 'external_article_number', 'name' => 'external_article_number', 'title' => __('Externe Artikelnummer')],
             ['data' => 'items', 'name' => 'items', 'title' => __('Artikel')],
         ];

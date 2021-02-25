@@ -40,4 +40,8 @@ class ArticleGroup extends AuditableModel
             'name' => __('Name')
         ];
     }
+
+    public function getArticleNumber() {
+        return sprintf("AG%08s\n", $this->id);
+    }
 }
