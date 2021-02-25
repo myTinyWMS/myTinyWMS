@@ -17,7 +17,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-content">
-                        @foreach([\Mss\Models\Article::PACKAGING_CATEGORY_PAPER => __('Papier, Pappe, Karton'), \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => __('Kunststoffe')] as $key => $headline)
+                        @foreach([\Mss\Models\Article::PACKAGING_CATEGORY_PAPER => __('Papier, Pappe, Karton'), \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => __('Kunststoffe'), \Mss\Models\Article::PACKAGING_CATEGORY_METAL => __('Blech/Eisen/Metall')] as $key => $headline)
                             <h2>{{ $headline }}</h2>
 
                             <table class="table table-striped table-hover">
@@ -30,14 +30,16 @@
                                 </thead>
                                 <tbody>
                                     @php ($total = 0)
-                                    @foreach($articles[$key] as $article)
-                                        @php ($total += (($article->usage * -1) * $article->weight)/1000)
-                                        <tr>
-                                            <td><a href="{{ route('article.show', $article) }}" target="_blank">{{ $article->name }}</a></td>
-                                            <td class="text-right">{{ ($article->usage * -1) }} {{ optional($article->unit)->name }}</td>
-                                            <td class="text-right">{{ round((($article->usage * -1) * $article->weight)/1000, 2) }} kg</td>
-                                        </tr>
-                                    @endforeach
+                                    @if(array_key_exists($key, $articles))
+                                        @foreach($articles[$key] as $article)
+                                            @php ($total += (($article->usage * -1) * $article->weight)/1000)
+                                            <tr>
+                                                <td><a href="{{ route('article.show', $article) }}" target="_blank">{{ $article->name }}</a></td>
+                                                <td class="text-right">{{ ($article->usage * -1) }} {{ optional($article->unit)->name }}</td>
+                                                <td class="text-right">{{ round((($article->usage * -1) * $article->weight)/1000, 2) }} kg</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                                 <tfoot>
                                     <tr>

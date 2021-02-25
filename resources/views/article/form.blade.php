@@ -177,7 +177,7 @@
 
             <div class="row">
                 <div class="w-1/2 pr-4">
-                    {{ Form::bsSelect('packaging_category', $article->packaging_category, [null => '', \Mss\Models\Article::PACKAGING_CATEGORY_PAPER => __('Papier, Pappe, Karton'), \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => __('Kunststoffe')],  __('Verpackungs-Kategorie')) }}
+                    {{ Form::bsSelect('packaging_category', $article->packaging_category, [null => '', \Mss\Models\Article::PACKAGING_CATEGORY_PAPER => __('Papier, Pappe, Karton'), \Mss\Models\Article::PACKAGING_CATEGORY_PLASTIC => __('Kunststoffe'), \Mss\Models\Article::PACKAGING_CATEGORY_METAL => __('Blech/Eisen/Metall')],  __('Verpackungs-Kategorie')) }}
                 </div>
                 <div class="w-1/2">
                     {{ Form::bsText('weight', $article->weight ?? '', [], __('Gewicht in Gramm pro Einheit')) }}
