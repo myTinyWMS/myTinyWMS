@@ -2,9 +2,7 @@
 
 namespace Mss\DataTables;
 
-use Carbon\Carbon;
 use Mss\Models\ArticleGroup;
-use function Clue\StreamFilter\fun;
 
 class ArticleGroupDataTable extends BaseDataTable
 {
