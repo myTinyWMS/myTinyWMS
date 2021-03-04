@@ -30,8 +30,8 @@
                                 </thead>
                                 <tbody>
                                     @php ($total = 0)
-                                    @if(array_key_exists($key, $articles))
-                                        @foreach($articles[$key] as $article)
+                                    @if($articles->has($key))
+                                        @foreach($articles->get($key) as $article)
                                             @php ($total += (($article->usage * -1) * $article->weight)/1000)
                                             <tr>
                                                 <td><a href="{{ route('article.show', $article) }}" target="_blank">{{ $article->name }}</a></td>
