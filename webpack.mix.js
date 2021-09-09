@@ -44,7 +44,7 @@ mix
     .copy('resources/assets/vendor/iCheck/blue@2x.png', 'public/img')
     .copy('resources/assets/logo.png', 'public/img')
     .copy('resources/assets/vendor/summernote/font', 'public/css/font')
-    .copy('node_modules/@fortawesome/fontawesome-free/webfonts/', 'public/webfonts')
+    .copy('node_modules/font-awesome/fonts/', 'public/fonts')
     .combine([
         'resources/assets/vendor/iCheck/custom.css',
         'resources/assets/vendor/select2/select2.min.css',
