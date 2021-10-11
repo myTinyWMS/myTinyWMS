@@ -5,6 +5,7 @@ namespace Mss\Services;
 use Barryvdh\Snappy\PdfWrapper;
 use CodeItNow\BarcodeBundle\Utils\QrCode;
 use GuzzleHttp\Client;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
@@ -34,7 +35,7 @@ class PrintLabelService {
 
     /**
      * @param Collection $articles
-     * @return boolean
+     * @return boolean|Response
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function printArticleLabels(Collection $articles, $labelSize = 'small') {
@@ -51,7 +52,11 @@ class PrintLabelService {
         $options = ($labelSize == 'large') ? self::PDF_OPTIONS_LARGE : self::PDF_OPTIONS_SMALL;
         $pdf->setOptions($options);
 
-        return $this->sendPdfToLocalPrinter($pdf, $labelSize);
+        if (!empty(env('PRINT_URL'))) {
+            return $this->sendPdfToLocalPrinter($pdf, $labelSize);
+        } else {
+            return $pdf->download('label.pdf');
+        }
     }
 
     /**

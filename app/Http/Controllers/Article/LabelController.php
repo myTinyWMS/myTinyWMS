@@ -2,6 +2,7 @@
 
 namespace Mss\Http\Controllers\Article;
 
+use Illuminate\Http\Response;
 use Mss\Models\Article;
 use Illuminate\Http\Request;
 use Mss\Services\PrintLabelService;
@@ -33,7 +34,11 @@ class LabelController extends Controller
      */
     public function printSingleLabel(Article $article, $size) {
         $labelService = new PrintLabelService();
-        $labelService->printArticleLabels(new Collection([$article]), $size);
+        $result = $labelService->printArticleLabels(new Collection([$article]), $size);
+
+        if ($result instanceof Response) {
+            return $result;
+        }
 
         flash(__('Label gedruckt'), 'success');
 
