@@ -2,7 +2,11 @@
 <td class="text-nowrap">{{ $log->created_at->format('d.m.Y H:i') }} Uhr</td>
 <td>
     @if ($log->deliveryItem)
-        <a href="{{ route('order.show', $log->deliveryItem->delivery->order) }}" target="_blank">{{ $log->note ?? 'Bestellung '.$log->deliveryItem->delivery->order->internal_order_number }}</a>
+        @if ($log->deliveryItem->delivery && $log->deliveryItem->delivery->order)
+            <a href="{{ route('order.show', $log->deliveryItem->delivery->order) }}" target="_blank">{{ $log->note ?? 'Bestellung '.$log->deliveryItem->delivery->order->internal_order_number }}</a>
+        @else
+            {{ $log->note ?? 'Bestellung ???' }}</a>
+        @endif
     @else
         {{ $log->note }}
     @endif
