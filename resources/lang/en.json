@@ -115,6 +115,7 @@
     "Nachricht als gelesen markiert.": "Message marked as read.",
     "Nachricht weitergeleitet": "Message forwarded",
     "Bestellung gespeichert": "Order saved",
+    "Bestellung kann nicht gelöscht werden, sie enthält bereits Nachrichten und\/oder Lieferungen!": "Order cannot be deleted, it already contains messages and/or deliveries!",
     "Bestellung gelöscht": "Order deleted",
     "Bezahlstatus geändert.": "Payment status changed.",
     "Bezahltstatus ungültig.": "Payment status invalid.",

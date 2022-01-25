@@ -231,6 +231,12 @@ class OrderController extends Controller
         $this->authorize('order.delete', Order::class);
 
         $order = Order::findOrFail($id);
+
+        if ($order->messages()->count() > 0 || $order->deliveries()->count() > 0) {
+            flash(__('Bestellung kann nicht gelöscht werden, sie enthält bereits Nachrichten und/oder Lieferungen!'), 'danger');
+            return redirect()->route('order.index');
+        }
+
         $order->items()->delete();
         $order->messages()->delete();
         $order->delete();
