@@ -51,7 +51,7 @@ mix
         'resources/assets/vendor/summernote/summernote-lite.css',
         'resources/assets/vendor/tagify/tagify.css',
         'resources/assets/vendor/daterangepicker/daterangepicker.css',
-        'node_modules/@fortawesome/fontawesome-free/css/all.min.css'
+        'resources/assets/vendor/font-awesome/css/font-awesome.min.css',
     ], 'public/css/vendor.css')
     .combine([
         'resources/assets/vendor/jquery/jquery-3.1.1.min.js',
@@ -59,7 +59,7 @@ mix
         'resources/assets/vendor/datatables/dataTables.rowReorder.min.js',
         'resources/assets/vendor/datatables/dataTables.rowGroup.min.js',
         'resources/assets/vendor/chartjs/Chart.bundle.min.js',
-        'resources/assets/vendor/select2/select2.min.js',
+        'resources/assets/vendor/select2/select2.full.min.js',
         'resources/assets/vendor/momenjs/moment.min.js',
         'resources/assets/vendor/daterangepicker/daterangepicker.js',
         'resources/assets/vendor/summernote/summernote-lite.js',
