@@ -15,7 +15,6 @@
         "ext-iconv": "*",
         "adldap2/adldap2-laravel": "^6.0",
         "barryvdh/laravel-snappy": "^0.4.5",
-        "codeitnowin/barcode": "^3.0",
         "doctrine/dbal": "^2.6",
         "fideloper/proxy": "~4.0",
         "fzaninotto/faker": "^1.9",
@@ -98,7 +97,11 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "symfony/thanks": false
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
