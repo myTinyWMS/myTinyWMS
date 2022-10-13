@@ -24,7 +24,7 @@
     "vue": "^2.6.10"
   },
   "dependencies": {
-    "@yaireo/tagify": "^2.12.0",
+    "@yaireo/tagify": "^4.9.8",
     "font-awesome": "^4.7.0",
     "portal-vue": "^2.1.4",
     "summernote": "^0.8.12",
