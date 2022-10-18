@@ -3,27 +3,25 @@
 namespace Mss\Services;
 
 use Mss\Models\Order;
-use Webklex\IMAP\Client;
-use Webklex\IMAP\Folder;
+use Webklex\IMAP\Facades\Client;
+use Webklex\PHPIMAP\Folder;
 use Webpatser\Uuid\Uuid;
-use Webklex\IMAP\Message;
+use Webklex\PHPIMAP\Message;
 use Mss\Models\OrderMessage;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class ImportMailsService {
 
     /**
-     * @var \Webklex\IMAP\Client
+     * @var \Webklex\IMAP\Facades\Client
      */
     protected $client;
 
     /**
      * ImportMailsService constructor.
-     *
-     * @param Client $client
      */
-    public function __construct(Client $client) {
-        $this->client = $client;
+    public function __construct() {
+        $this->client = Client::account(config('imap.default'));
     }
 
     public function process() {
@@ -34,7 +32,7 @@ class ImportMailsService {
 
         //Get all Messages
         /** @var Message $message */
-        foreach($oFolder->getMessages('UNSEEN') as $message) {
+        foreach($oFolder->query()->where('UNSEEN')->get() as $message) {
             $order = $this->getOrderFromMessage($message);
 
             if ($order) {
@@ -54,7 +52,7 @@ class ImportMailsService {
 
     protected function getOrderMessageData(Message $message) {
         return [
-            'sender' => collect($message->from)->pluck('mail'),
+            'sender' => $message->from->first()->mail,
             'receiver' => ['System'],
             'received' => $message->date,
             'subject' => $message->subject,

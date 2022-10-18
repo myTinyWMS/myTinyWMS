@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "29f18db7ca0d854e2614fe307027d40d",
+    "content-hash": "1dc994e96610c2cab84f9a3698b7beee",
     "packages": [
         {
             "name": "adldap2/adldap2",
@@ -7551,31 +7551,43 @@
         },
         {
             "name": "webklex/laravel-imap",
-            "version": "1.0.4.1",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Webklex/laravel-imap.git",
-                "reference": "f300c8506cfffee299683fabead19c1d9dcb99c4"
+                "reference": "97c480cc2dd6b76859c5e21ccb4fa6659b7ad6de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Webklex/laravel-imap/zipball/f300c8506cfffee299683fabead19c1d9dcb99c4",
-                "reference": "f300c8506cfffee299683fabead19c1d9dcb99c4",
+                "url": "https://api.github.com/repos/Webklex/laravel-imap/zipball/97c480cc2dd6b76859c5e21ccb4fa6659b7ad6de",
+                "reference": "97c480cc2dd6b76859c5e21ccb4fa6659b7ad6de",
                 "shasum": ""
             },
             "require": {
+                "ext-fileinfo": "*",
+                "ext-iconv": "*",
+                "ext-mbstring": "*",
                 "laravel/framework": ">=5.0.0",
-                "php": ">=5.5.9"
+                "php": ">=5.5.9",
+                "webklex/php-imap": "^2.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Webklex\\IMAP\\Providers\\LaravelServiceProvider"
+                    ],
+                    "aliases": {
+                        "Client": "Webklex\\IMAP\\Facades\\Client"
+                    }
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Webklex\\IMAP\\": "src/IMAP"
+                    "Webklex\\IMAP\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -7592,13 +7604,85 @@
             "description": "Laravel IMAP client",
             "homepage": "https://github.com/webklex/laravel-imap",
             "keywords": [
+                "idle",
                 "imap",
                 "laravel",
                 "laravel-imap",
                 "mail",
+                "oauth",
+                "pop3",
                 "webklex"
             ],
-            "time": "2018-02-14T18:09:05+00:00"
+            "support": {
+                "issues": "https://github.com/Webklex/laravel-imap/issues",
+                "source": "https://github.com/Webklex/laravel-imap/tree/2.4.0"
+            },
+            "time": "2021-01-09T19:46:21+00:00"
+        },
+        {
+            "name": "webklex/php-imap",
+            "version": "2.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Webklex/php-imap.git",
+                "reference": "e22be3ed3760a939cd68b2907969c4b2478e8588"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Webklex/php-imap/zipball/e22be3ed3760a939cd68b2907969c4b2478e8588",
+                "reference": "e22be3ed3760a939cd68b2907969c4b2478e8588",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "ext-iconv": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
+                "illuminate/pagination": ">=5.0.0",
+                "nesbot/carbon": ">=1.0",
+                "php": ">=5.5.9",
+                "symfony/http-foundation": ">=2.8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webklex\\PHPIMAP\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Malte Goldenbaum",
+                    "email": "github@webklex.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP IMAP client",
+            "homepage": "https://github.com/webklex/php-imap",
+            "keywords": [
+                "imap",
+                "mail",
+                "php-imap",
+                "pop3",
+                "webklex"
+            ],
+            "support": {
+                "issues": "https://github.com/Webklex/php-imap/issues",
+                "source": "https://github.com/Webklex/php-imap/tree/2.7.2"
+            },
+            "time": "2021-09-27T04:16:22+00:00"
         },
         {
             "name": "webpatser/laravel-uuid",
