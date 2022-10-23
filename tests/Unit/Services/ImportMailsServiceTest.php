@@ -13,9 +13,9 @@ use Mss\Services\ImportMailsService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Webklex\IMAP\Client;
-use Webklex\IMAP\Folder;
-use Webklex\IMAP\Message;
+use Webklex\PHPIMAP\Client;
+use Webklex\PHPIMAP\Folder;
+use Webklex\PHPIMAP\Message;
 
 class ImportMailsServiceTest extends TestCase
 {

@@ -4,6 +4,7 @@ namespace Mss\Models\Traits;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Mss\Models\Article;
 
 trait GetAudits {
