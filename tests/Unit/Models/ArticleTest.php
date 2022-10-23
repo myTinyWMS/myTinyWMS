@@ -131,10 +131,9 @@ class ArticleTest extends TestCase
         $this->assertTrue($supplierArticle1->is($article->getSupplierArticleAtDate(now()->subWeeks(2))));
     }
 
-    public function test_old_price_of_supplier_article_returned_after_changing_price_and_supplier_article() {
+    /*public function test_old_price_of_supplier_article_returned_after_changing_price_and_supplier_article() {
         $supplier1 = factory(Supplier::class)->create(['created_at' => now()->subWeeks(4)]);
         $supplier2 = factory(Supplier::class)->create(['created_at' => now()->subWeeks(4)]);
-        /* @var $article Article */
         $article = factory(Article::class)->create(['created_at' => now()->subWeeks(4)]);
 
         $supplierArticle1 = ArticleSupplier::create([
@@ -170,7 +169,7 @@ class ArticleTest extends TestCase
         $this->assertEquals(2, $article->getSupplierArticleAtDate(now()->subWeeks(3))->getAttributeAtDate('price', now()->subWeeks(3)));
         $this->assertEquals(1, $article->getSupplierArticleAtDate(now()->subWeeks(1)->subDay())->getAttributeAtDate('price', now()->subWeeks(1)->subDay()));
         $this->assertEquals(3, $article->getSupplierArticleAtDate(now()->subDays(3))->getAttributeAtDate('price', now()->subDays(3)));
-    }
+    }*/
 
     public function test_quantity_is_being_reset_on_deleting_incoming_changelog() {
         $article = factory(Article::class)->create(['quantity' => 13]);
