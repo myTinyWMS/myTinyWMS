@@ -493,6 +493,56 @@ create table users
 )
 collate=utf8mb4_unicode_ci;
 
+create table telescope_entries
+(
+    sequence                bigint unsigned auto_increment
+        primary key,
+    uuid                    char(36)             not null,
+    batch_id                char(36)             not null,
+    family_hash             varchar(191)         null,
+    should_display_on_index tinyint(1) default 1 not null,
+    type                    varchar(20)          not null,
+    content                 longtext             not null,
+    created_at              datetime             null,
+    constraint telescope_entries_uuid_unique
+        unique (uuid)
+)
+    collate = utf8mb4_unicode_ci;
+
+create index telescope_entries_batch_id_index
+    on telescope_entries (batch_id);
+
+create index telescope_entries_created_at_index
+    on telescope_entries (created_at);
+
+create index telescope_entries_family_hash_index
+    on telescope_entries (family_hash);
+
+create index telescope_entries_type_should_display_on_index_index
+    on telescope_entries (type, should_display_on_index);
+
+create table telescope_entries_tags
+(
+    entry_uuid char(36)     not null,
+    tag        varchar(191) not null,
+    constraint telescope_entries_tags_entry_uuid_foreign
+        foreign key (entry_uuid) references telescope_entries (uuid)
+            on delete cascade
+)
+    collate = utf8mb4_unicode_ci;
+
+create index telescope_entries_tags_entry_uuid_tag_index
+    on telescope_entries_tags (entry_uuid, tag);
+
+create index telescope_entries_tags_tag_index
+    on telescope_entries_tags (tag);
+
+create table telescope_monitoring
+(
+    tag varchar(191) not null
+)
+    collate = utf8mb4_unicode_ci;
+
 INSERT INTO mss.migrations (id, migration, batch) VALUES (1, '2014_10_12_000000_create_users_table', 1);
 INSERT INTO mss.migrations (id, migration, batch) VALUES (2, '2014_10_12_100000_create_password_resets_table', 1);
 INSERT INTO mss.migrations (id, migration, batch) VALUES (3, '2018_01_10_213109_create_notifications_table', 1);
