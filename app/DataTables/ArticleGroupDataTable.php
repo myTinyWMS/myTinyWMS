@@ -62,7 +62,7 @@ class ArticleGroupDataTable extends BaseDataTable
             ->minifiedAjax()
             ->columns($this->getColumns())
             ->parameters([
-                'paging' => $this->paging,
+                'paging' => true,
                 'order'   => [[1, 'asc']],
                 'buttons' => []
             ])
