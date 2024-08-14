@@ -210,6 +210,7 @@ class ArticleDataTable extends BaseDataTable
             ['data' => 'category', 'name' => 'category', 'title' => __('Kategorie'), 'visible' => false],
             ['data' => 'status', 'name' => 'status', 'title' => __('Status'), 'visible' => false],
             ['data' => 'id', 'name' => 'id', 'title' => __('ID'), 'visible' => false],
+            ['data' => 'external_article_number', 'name' => 'external_article_number', 'title' => '', 'visible' => false],
         ];
     }
 
