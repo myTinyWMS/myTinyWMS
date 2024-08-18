@@ -20,9 +20,9 @@ The easiest way to install it right now is using docker and docker-compose:
 - copy docker-compose file: `cp docker-compose.prod.yml docker-compose.yml`
 - copy .env example file: `cp .env.example .env`
 - adjust .env file:
-    - generate app key using `docker run -t mytinywms/mytinywms php artisan key:generate --show`
+    - generate app key using online generator like https://generate-random.org/laravel-key-generator
     - enter the full content to the .env file (including base64:...)
-    - set passwords for database users
+    - set passwords for database users (DB_PASSWORD AND DB_ROOT_PASSWORD)
 - run `docker-compose up -d`
 - go to the admin section (gear symbol in the right top corner) and adjust the email settings
 
