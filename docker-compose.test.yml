@@ -84,8 +84,6 @@ services:
       CHROMEDRIVER_PORT: "4444"
     depends_on:
       - app
-    links:
-      - app:mss.test
     volumes:
       - /dev/shm:/dev/shm
     cap_add:
