@@ -52,7 +52,7 @@ abstract class DuskTestCase extends BaseTestCase
 
     protected function baseUrl()
     {
-        return 'http://mss.test';
+        return 'http://app';
     }
 
     /**
