@@ -47,6 +47,7 @@ services:
     - IMAP_USERNAME=
     - IMAP_PASSWORD=
     - AUTH_DRIVER=eloquent
+    - TELESCOPE_ENABLED=false
     volumes:
     - ./data/screenshots:/data/www/tests/Browser/screenshots
     - ./data/console:/data/www/tests/Browser/console
