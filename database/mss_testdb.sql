@@ -168,6 +168,7 @@ create table categories
 		primary key,
 	name varchar(191) not null,
 	notes text null,
+    show_in_to_order_on_dashboard tinyint(1) default 1 not null,
 	created_at timestamp null,
 	updated_at timestamp null,
 	deleted_at timestamp null

@@ -119,7 +119,7 @@
 </div>
 
 <!-- Modal -->
-<modal name="change-quantity" height="auto" width="1000" classes="modal">
+<modal name="change-quantity" height="auto" width="1000" classes="modal" scrollable="true">
     <change-quantity-article-group-form :article-group="{{ $articleGroup }}"></change-quantity-article-group-form>
 </modal>
 @endsection

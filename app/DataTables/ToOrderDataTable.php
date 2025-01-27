@@ -2,6 +2,7 @@
 
 namespace Mss\DataTables;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -59,9 +60,14 @@ class ToOrderDataTable extends ArticleDataTable
         return $model->newQuery()
             ->withCurrentSupplierArticle()->withCurrentSupplier()->withCurrentSupplierName()->withAverageUsage(12)->withAverageUsage(3)->withLastReceipt()
             ->with(['category', 'suppliers', 'unit', 'tags'])
-            ->whereRaw('quantity <= min_quantity')
+            ->where(function (Builder $query) {
+                $query->whereRaw('quantity <= min_quantity')->orWhere('quantity', '<', 0);
+            })
             ->where('min_quantity', '>', -1)
             ->where('status', Article::STATUS_ACTIVE)
+            ->whereDoesntHave('category', function (Builder $query) {
+                $query->where('show_in_to_order_on_dashboard', false);
+            })
             ->whereDoesntHave('orderItems', function ($query) {
                 $query->notFullyDelivered()->whereHas('order', function ($query) {
                     $query->statusOpen();

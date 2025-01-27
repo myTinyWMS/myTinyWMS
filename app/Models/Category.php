@@ -5,6 +5,7 @@ namespace Mss\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Collective\Html\Eloquent\FormAccessible;
 
 /**
  * Class Category
@@ -16,13 +17,17 @@ use OwenIt\Auditing\Contracts\Auditable;
  */
 class Category extends AuditableModel
 {
-    use SoftDeletes;
+    use SoftDeletes, FormAccessible;
 
     protected $fillable = [
-        'name', 'notes'
+        'name', 'notes', 'show_in_to_order_on_dashboard'
     ];
 
     protected $dates = ['deleted_at'];
+
+    protected $casts = [
+        'show_in_to_order_on_dashboard' => 'boolean'
+    ];
 
     public static function getFieldNames() {
         return [
@@ -47,5 +52,9 @@ class Category extends AuditableModel
         $query->with(['articles' => function ($query) {
             $query->enabled()->orderedByArticleNumber();
         }]);
+    }
+
+    public function formShowInToOrderOnDashboardAttribute() {
+        return $this->show_in_to_order_on_dashboard ? 1 : 0;
     }
 }

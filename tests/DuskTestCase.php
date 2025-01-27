@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Facebook\WebDriver\Chrome\ChromeOptions;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Laravel\Dusk\Browser;
@@ -62,8 +63,21 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function driver()
     {
+        $options = (new ChromeOptions())->addArguments([
+            '--disable-gpu',
+            '--headless',
+            '--no-sandbox',
+            '--window-size=1920,1080',
+            '--disable-dev-shm-usage',
+            '--disable-extensions',
+        ]);
+
         return RemoteWebDriver::create(
-            'http://selenium:4444', DesiredCapabilities::chrome()
+            'http://selenium:4444',
+            DesiredCapabilities::chrome()->setCapability(
+                ChromeOptions::CAPABILITY,
+                $options
+            )
         );
     }
 

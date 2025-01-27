@@ -9,11 +9,14 @@
         <div class="card-header flex">
             <div class="flex-1">@lang('Details')</div>
 
-            @if (!$isNewArticle && !$isCopyOfArticle && Auth::user()->can('article.create'))
             <dot-menu class="ml-2">
-                <a href="{{ route('article.copy', $article) }}" class="btn-link" id="copyArticleLink">@lang('Artikel duplizieren')</a>
+                @if (!$isNewArticle && !$isCopyOfArticle && Auth::user()->can('article.create'))
+                    <a href="{{ route('article.copy', $article) }}" class="btn-link" id="copyArticleLink">@lang('Artikel duplizieren')</a>
+                @endif
+                @if(!$isNewArticle && !$isCopyOfArticle)
+                    <a href="{{ route('article.delete', $article) }}" class="btn-link" onclick="return confirm('Wirklich löschen?')" id="deleteArticleLink">@lang('Artikel löschen')</a>
+                @endif
             </dot-menu>
-            @endif
         </div>
 
         <div class="card-content">
@@ -204,7 +207,7 @@
 </div>
 
 <!-- Modal -->
-<modal name="change-quantity" height="auto" classes="modal">
+<modal name="change-quantity" height="auto" classes="modal" scrollable="true">
     <change-quantity-form :article="{{ $article }}" unit="{{ optional($article->unit)->name }}"></change-quantity-form>
 </modal>
 @endsection

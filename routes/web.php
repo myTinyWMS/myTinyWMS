@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('article/{article}/quantity-changelog', 'QuantityChangelogController@index')->name('article.quantity_changelog');
 
         Route::get('article/{article}/copy', 'ArticleController@copy')->middleware(['permission:article.create'])->name('article.copy');
+        Route::get('article/{article}/delete', 'ArticleController@delete')->middleware(['permission:article.edit'])->name('article.delete');
     });
 
     Route::namespace('Admin')->prefix('admin')->middleware(['permission:admin'])->group(function () {

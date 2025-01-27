@@ -227,7 +227,7 @@ class ArticleController extends Controller
     public function changeQuantity(Article $article, ChangeArticleQuantityRequest $request) {
         $this->authorize('article.edit', Article::class);
 
-        $quantity = $request->get('changelogChange');
+        $quantity = (int)$request->get('changelogChange');
         if ($request->get('changelogChangeType') === 'sub') {
             $quantity *= -1;
         }
@@ -237,5 +237,18 @@ class ArticleController extends Controller
         flash(__('Bestand geändert'))->success();
 
         return redirect()->route('article.show', $article);
+    }
+
+    /**
+     * @throws \Exception
+     * @return \Illuminate\Http\RedirectResponse
+     * @param Article $article
+     */
+    public function delete(Article $article) {
+        $article->delete();
+
+        flash(__('Artikel gelöscht'))->success();
+
+        return redirect()->route('article.index');
     }
 }

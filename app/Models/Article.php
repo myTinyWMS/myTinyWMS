@@ -224,6 +224,10 @@ class Article extends AuditableModel
             }
         }
 
+        if ($newQuantity < 0) {
+            $newQuantity = 0;
+        }
+
         $this->quantityChangelogs()->create([
             'user_id' => Auth::id(),
             'type' => $type,

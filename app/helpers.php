@@ -9,11 +9,7 @@ function formatPrice($value) {
 }
 
 function parsePrice($value) {
-    if (strpos($value, '.') !== false && strpos($value, ',')) {
-        return floatval(str_replace(',', '.', str_replace('.', '', $value))) * 100;
-    } else {
-        return floatval(str_replace(',', '.', $value)) * 100;
-    }
+    return floatval(str_replace(',', '.', $value)) * 100;
 }
 
 function formatPriceValue($value) {

@@ -14,7 +14,7 @@ class AddDefaultToUserSettings extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->json('settings')->nullable()->default('[]')->change();
+            $table->json('settings')->nullable()->change();
         });
     }
 

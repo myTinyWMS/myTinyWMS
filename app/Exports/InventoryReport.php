@@ -51,13 +51,13 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             'A' => NumberFormat::FORMAT_TEXT,
             'B' => NumberFormat::FORMAT_TEXT,
             'C' => NumberFormat::FORMAT_TEXT,
-            'D' => NumberFormat::FORMAT_TEXT,
-            'E' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'D' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+            'E' => NumberFormat::FORMAT_TEXT,
             'F' => NumberFormat::FORMAT_TEXT,
             'G' => NumberFormat::FORMAT_TEXT,
             'H' => NumberFormat::FORMAT_TEXT,
             'I' => NumberFormat::FORMAT_TEXT,
-            'J' => NumberFormat::FORMAT_TEXT,
+            'J' => NumberFormat::FORMAT_NUMBER,
             'K' => NumberFormat::FORMAT_NUMBER,
             'L' => NumberFormat::FORMAT_NUMBER,
             'M' => NumberFormat::FORMAT_NUMBER,
@@ -65,8 +65,8 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             'O' => NumberFormat::FORMAT_NUMBER,
             'P' => NumberFormat::FORMAT_NUMBER,
             'Q' => NumberFormat::FORMAT_NUMBER,
-            'R' => NumberFormat::FORMAT_NUMBER,
-            'S' => NumberFormat::FORMAT_TEXT,
+            'R' => NumberFormat::FORMAT_TEXT,
+            'S' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'T' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'U' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'V' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
@@ -74,8 +74,6 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             'X' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'Y' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
             'Z' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-            'AA' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-            'AB' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
         ];
     }
 

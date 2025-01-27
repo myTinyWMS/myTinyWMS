@@ -62,10 +62,11 @@
             <span v-if="article.article_group_items.length == 1">{{ $t('Dieser Artikel ist in folgender Artikelgruppe enthalten, wenn Sie den Bestand der ganzen Gruppe ändern wollen, machen Sie dies bitte direkt über die Gruppe:') }}</span>
             <span v-if="article.article_group_items.length > 1">{{ $t('Dieser Artikel ist in folgenden Artikelgruppen enthalten, wenn Sie den Bestand der ganzen Gruppe ändern wollen, machen Sie dies bitte direkt über die Gruppe:') }}</span>
             <ul class="list-disc pl-4 mt-2">
-                <li v-for="(groupItem, index) in article.article_group_items">
+                <li v-for="(groupItem, index) in article.article_group_items.slice(0, 10)">
                     <a :href="route('article-group.show', [groupItem.article_group_id])">{{ groupItem.article_group.name }}</a>
                 </li>
             </ul>
+            <span v-if="article.article_group_items.length > 10">...</span>
         </div>
 
         <div class="modal-footer">

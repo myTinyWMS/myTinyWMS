@@ -37,7 +37,7 @@
         "spatie/laravel-permission": "^3.11",
         "spatie/laravel-query-builder": "^2.8",
         "tightenco/ziggy": "^0.8",
-        "webklex/laravel-imap": "^2.0",
+        "webklex/laravel-imap": "1.0.4.1",
         "webpatser/laravel-uuid": "^3.0",
         "yajra/laravel-datatables-buttons": "^4.0",
         "yajra/laravel-datatables-html": "^4.0",
