@@ -207,7 +207,7 @@
 </div>
 
 <!-- Modal -->
-<modal name="change-quantity" height="auto" classes="modal" scrollable="true">
+<modal name="change-quantity" height="auto" classes="modal">
     <change-quantity-form :article="{{ $article }}" unit="{{ optional($article->unit)->name }}"></change-quantity-form>
 </modal>
 @endsection
