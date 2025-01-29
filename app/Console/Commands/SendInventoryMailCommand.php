@@ -51,14 +51,14 @@ class SendInventoryMailCommand extends Command
 
         $excelFilePath = InventoryService::generateExcel($date->copy()->subDay());
         $inventoryReportPath = InventoryService::generateReportAsFile($date->copy()->subDay()->format('Y-m'), Article::INVENTORY_TYPE_CONSUMABLES);
-        $invoicesWithoutDeliveryPath = InventoryService::generateInvoicesWithoutDeliveryReport($date);
-        $deliveriesWithoutInvoicesPath = InventoryService::generateDeliveriesWithoutInvoiceReport($date);
+//        $invoicesWithoutDeliveryPath = InventoryService::generateInvoicesWithoutDeliveryReport($date);
+//        $deliveriesWithoutInvoicesPath = InventoryService::generateDeliveriesWithoutInvoiceReport($date);
 
         $attachments = [
             [file_get_contents($excelFilePath), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', basename($excelFilePath)],
             [file_get_contents($inventoryReportPath), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', basename($inventoryReportPath)],
-            [file_get_contents($invoicesWithoutDeliveryPath), 'application/pdf', basename($invoicesWithoutDeliveryPath)],
-            [file_get_contents($deliveriesWithoutInvoicesPath), 'application/pdf', basename($deliveriesWithoutInvoicesPath)]
+//            [file_get_contents($invoicesWithoutDeliveryPath), 'application/pdf', basename($invoicesWithoutDeliveryPath)],
+//            [file_get_contents($deliveriesWithoutInvoicesPath), 'application/pdf', basename($deliveriesWithoutInvoicesPath)]
         ];
 
         Mail::to($to)->send(new InventoryMail($date, $attachments));
