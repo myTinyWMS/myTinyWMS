@@ -15,6 +15,7 @@ class NotifyLowQuantitiesCommand extends Command {
     public function handle(): void {
         $items = Article::where('min_quantity', '>', 0)
             ->whereRaw('quantity < min_quantity')
+            ->where('status', Article::STATUS_ACTIVE)
             ->get();
 
         $to = explode(',', env('INVENTORY_MANUAL_RECEIVER'));
