@@ -135,7 +135,8 @@ create table articles
 	cost_center varchar(191) null,
 	weight int null,
 	packaging_category varchar(191) null,
-	delivery_notes text null
+	delivery_notes text null,
+    auto_min_quantity_duration tinyint(1) default 0 not null
 )
 collate=utf8mb4_unicode_ci;
 
