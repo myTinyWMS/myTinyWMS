@@ -6,9 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Mss\Console\Commands\AddRoleToUserCommand;
+use Mss\Console\Commands\CalculateMinQuantitiesCommand;
 use Mss\Console\Commands\CleanupEmptyOrdersCommand;
 use Mss\Console\Commands\CreateTestDatabase;
 use Mss\Console\Commands\ImportMailsCommand;
+use Mss\Console\Commands\NotifyLowQuantitiesCommand;
 use Mss\Console\Commands\SendInventoryMailCommand;
 use Mss\Console\Commands\SetArticleNumbersCommand;
 use Mss\Console\Commands\Version;
@@ -27,7 +29,9 @@ class Kernel extends ConsoleKernel
         SendInventoryMailCommand::class,
         CleanupEmptyOrdersCommand::class,
         AddRoleToUserCommand::class,
-        Version::class
+        Version::class,
+        CalculateMinQuantitiesCommand::class,
+        NotifyLowQuantitiesCommand::class
     ];
 
     /**

@@ -174,7 +174,7 @@
                     {{ Form::bsText('cost_center', $article->cost_center ?? '', [], __('Kostenstelle')) }}
                 </div>
                 <div class="w-1/2">
-
+                    {{ Form::bsSelect('auto_min_quantity_duration', $article->auto_min_quantity_duration, \Mss\Models\Article::getAutoMinQuantityDurationTextArray(),  __('Mindestbestand autom. berechnen'), ['required' => 'required']) }}
                 </div>
             </div>
 

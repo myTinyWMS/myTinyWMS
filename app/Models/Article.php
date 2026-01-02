@@ -27,6 +27,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property integer category_id
  * @property integer outsourcing_quantity
  * @property integer replacement_delivery_quantity
+ * @property integer auto_min_quantity_duration
  * @property ArticleSupplier currentSupplierArticle
  * @property Category category
  * @property ArticleQuantityChangelog[]|Collection quantityChangelogs
@@ -50,11 +51,17 @@ class Article extends AuditableModel
     const INVENTORY_TYPE_SPARE_PARTS = 0;
     const INVENTORY_TYPE_CONSUMABLES = 1;
 
+    const AUTO_MIN_QUANTITY_DURATION_DISABLED=0;
+    const AUTO_MIN_QUANTITY_DURATION_7_DAYS=1;
+    const AUTO_MIN_QUANTITY_DURATION_14_DAYS=2;
+    const AUTO_MIN_QUANTITY_DURATION_30_DAYS=3;
+    const AUTO_MIN_QUANTITY_DURATION_60_DAYS=4;
+
     const PACKAGING_CATEGORY_PAPER = 'paper';
     const PACKAGING_CATEGORY_PLASTIC = 'plastic';
     const PACKAGING_CATEGORY_METAL = 'metal';
 
-    protected $fillable = ['name', 'internal_article_number', 'external_article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes', 'free_lines_in_printed_list', 'cost_center', 'weight', 'packaging_category', 'delivery_notes'];
+    protected $fillable = ['name', 'internal_article_number', 'external_article_number', 'unit_id', 'category_id', 'status', 'quantity', 'min_quantity', 'usage_quantity', 'issue_quantity', 'sort_id', 'inventory', 'notes', 'order_notes', 'free_lines_in_printed_list', 'cost_center', 'weight', 'packaging_category', 'delivery_notes', 'auto_min_quantity_duration'];
 
     protected $casts = [
         'files' => 'array'
@@ -85,7 +92,8 @@ class Article extends AuditableModel
             'cost_center' => __('Kostenstelle'),
             'packaging_category' => __('Verpackungs-Kategorie'),
             'free_lines_in_printed_list' => __('Leere Zeilen in Lagerliste'),
-            'delivery_notes' => __('Liefer Hinweise')
+            'delivery_notes' => __('Liefer Hinweise'),
+            'auto_min_quantity_duration' => __('Mindestbestand autom. berechnen')
         ];
     }
 
@@ -304,6 +312,19 @@ class Article extends AuditableModel
         return [
             self::INVENTORY_TYPE_SPARE_PARTS => __('Ersatzteile'),
             self::INVENTORY_TYPE_CONSUMABLES => __('Verbrauchsartikel')
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAutoMinQuantityDurationTextArray() {
+        return [
+            self::AUTO_MIN_QUANTITY_DURATION_DISABLED => __('deaktiviert'),
+            self::AUTO_MIN_QUANTITY_DURATION_7_DAYS => __('7 Tage'),
+            self::AUTO_MIN_QUANTITY_DURATION_14_DAYS => __('14 Tage'),
+            self::AUTO_MIN_QUANTITY_DURATION_30_DAYS => __('30 Tage'),
+            self::AUTO_MIN_QUANTITY_DURATION_60_DAYS => __('60 Tage')
         ];
     }
 
