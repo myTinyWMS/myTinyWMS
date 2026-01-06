@@ -26,6 +26,6 @@ RUN set -ex \
 # node / npm
 RUN set -ex \
 	&& npm install \
-	&& npm run prod
+	&& npm run dev
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]

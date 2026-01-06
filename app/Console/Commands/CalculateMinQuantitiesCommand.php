@@ -24,7 +24,7 @@ class CalculateMinQuantitiesCommand extends Command {
                 ];
             })
             ->filter(function ($item) {
-                return $item['new_quantity'] !== null && $item['article']->min_quantity != $item['new_quantity'];
+                return $item['new_quantity'] !== null && $item['new_quantity'] > 0 && $item['article']->min_quantity != $item['new_quantity'];
             });
 
         if ($items->isEmpty()) {
