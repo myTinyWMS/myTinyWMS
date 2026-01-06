@@ -22,7 +22,15 @@ class CalculateMinQuantitiesCommand extends Command {
                     'article' => $article,
                     'new_quantity' => $this->processArticle($article)
                 ];
+            })
+            ->filter(function ($item) {
+                return $item['new_quantity'] !== null && $item['article']->min_quantity != $item['new_quantity'];
             });
+
+        if ($items->isEmpty()) {
+            $this->output->note('no articles with auto min quantity duration found');
+            return;
+        }
 
         $to = explode(',', env('INVENTORY_MANUAL_RECEIVER'));
         Mail::to($to)->send(new MinQuantitiesCalculation($items));
@@ -35,7 +43,7 @@ class CalculateMinQuantitiesCommand extends Command {
             return null;
         }
 
-        $soldQuantity = $this->getSoldQuantity($article, $duration);
+        $soldQuantity = abs($this->getSoldQuantity($article, $duration));
         if ($soldQuantity <= 0) {
             return null;
         }

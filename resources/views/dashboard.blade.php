@@ -20,7 +20,7 @@
         <div class="card-header">
             @lang('zu Bestellen')
         </div>
-        <div class="card-content">
+        <div class="card-content to-order-table">
             {!! Form::open(['route' => ['order.create_post'], 'method' => 'POST']) !!}
             {!! $dataTable->table() !!}
             {!! Form::close() !!}
@@ -218,14 +218,17 @@
     <script>
         var currentlySelectedSupplier = null;
         $(document).ready(function () {
-            $('.dataTable').on("click", 'input[type="checkbox"]', function () {
-                if ($('input[name="article[]"]:checked').length === 0) {
-                    currentlySelectedSupplier = null;
-                    $('.dataTable input[type="checkbox"]').attr('disabled', false).attr('title', '');
-                } else {
-                    currentlySelectedSupplier = $(this).parent().parent().attr('data-supplier');
-                    $('.dataTable tbody tr[data-supplier!=' + currentlySelectedSupplier + '] input[type="checkbox"]').attr('disabled', true).attr('title', 'Es können nur Artikel eines Herstellers ausgewählt werden');
-                }
+            $('.to-order-table .dataTable').on('draw.dt', function() {
+                $('input').on('ifToggled', function() {
+                    if ($('.to-order-table input[name="article[]"]:checked').length === 0) {
+                        currentlySelectedSupplier = null;
+                        $('.to-order-table .dataTable input[type="checkbox"]').attr('disabled', false).attr('title', '');
+                    } else {
+                        currentlySelectedSupplier = $(this).parent().parent().parent().parent().parent().attr('data-supplier');
+                        $('.to-order-table .dataTable tbody tr[data-supplier!=' + currentlySelectedSupplier + '] input[type="checkbox"]').attr('disabled', true);
+                        $('.to-order-table .dataTable tbody tr[data-supplier!=' + currentlySelectedSupplier + '] input[type="checkbox"]').parent().attr('title', 'Es können nur Artikel eines Herstellers ausgewählt werden');
+                    }
+                });
             });
         });
     </script>
