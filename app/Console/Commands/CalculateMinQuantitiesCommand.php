@@ -20,7 +20,7 @@ class CalculateMinQuantitiesCommand extends Command {
             ->map(function (Article $article) {
                 return [
                     'article' => $article,
-                    'new_quantity' => $this->processArticle($article)
+                    'new_quantity' => max(20, $this->processArticle($article))
                 ];
             })
             ->filter(function ($item) {
@@ -48,12 +48,12 @@ class CalculateMinQuantitiesCommand extends Command {
             return null;
         }
 
-        $deliveryTime = $this->getDeliveryTime($article);
+        /*$deliveryTime = $this->getDeliveryTime($article);
         if ($deliveryTime <= 0) {
             return null;
-        }
+        }*/
 
-        $newMin = $this->calculateNewMinQuantity($soldQuantity, $duration, $deliveryTime);
+        $newMin = $this->calculateNewMinQuantity($soldQuantity, $duration, 7);
 
 //        $this->applyNewMin($article, $newMin);
 
