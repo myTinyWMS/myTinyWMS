@@ -52,6 +52,8 @@ class Kernel extends ConsoleKernel
             $schedule->command('send:inventory')->dailyAt('07:00')->when(function () {
                 return Carbon::now()->firstOfMonth()->isToday();
             });
+
+            $schedule->command('calculate:min')->cron('0 6 1,15 * *');
         }
 
         $schedule->command('horizon:snapshot')->everyFiveMinutes();

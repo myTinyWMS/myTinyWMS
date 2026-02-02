@@ -14,6 +14,12 @@ class CalculateMinQuantitiesCommand extends Command {
     protected $description = 'Calculate and update minimal quantities for articles based on recent usage';
 
     public function handle(): void {
+        $to = explode(',', env('MIN_QUANTITIES_RECEIVER'));
+        if (empty($to)) {
+            $this->output->note('no min quantity receiver configured');
+            return;
+        }
+
         $items = Article::where('auto_min_quantity_duration', '>', 0)
             ->withCurrentSupplierArticle()
             ->get()
@@ -32,7 +38,6 @@ class CalculateMinQuantitiesCommand extends Command {
             return;
         }
 
-        $to = explode(',', env('INVENTORY_MANUAL_RECEIVER'));
         Mail::to($to)->send(new MinQuantitiesCalculation($items));
     }
 
@@ -53,7 +58,7 @@ class CalculateMinQuantitiesCommand extends Command {
             return null;
         }*/
 
-        $newMin = $this->calculateNewMinQuantity($soldQuantity, $duration, 7);
+        $newMin = $this->calculateNewMinQuantity($soldQuantity, $duration, 10);
 
 //        $this->applyNewMin($article, $newMin);
 
