@@ -3,6 +3,7 @@
 namespace Mss\DataTables;
 
 use Mss\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 class CategoryDataTable extends BaseDataTable
 {
@@ -19,9 +20,12 @@ class CategoryDataTable extends BaseDataTable
             ->editColumn('name', function (Category $category) {
                 return link_to_route('category.show', $category->name, ['category' => $category]);
             })
+            ->addColumn('inventory_value', function (Category $category) {
+                return formatPrice($category->getInventoryValue());
+            })
             ->addColumn('action', 'category.list_action')
             ->addColumn('checkbox', 'category.list_checkbox')
-            ->rawColumns(['action', 'checkbox']);
+            ->rawColumns(['action', 'checkbox', 'inventory_value']);
     }
 
     /**
@@ -64,6 +68,7 @@ class CategoryDataTable extends BaseDataTable
             ['data' => 'checkbox', 'name' => 'checkbox', 'title' => '', 'width' => '10px', 'orderable' => false],
             ['data' => 'name', 'name' => 'name', 'title' => __('Name')],
             ['data' => 'notes', 'name' => 'notes', 'title' => __('Bemerkung')],
+            ['data' => 'inventory_value', 'name' => 'inventory_value', 'title' => __('Lagerwert'), 'class' => 'text-right', 'orderable' => false, 'searchable' => false],
         ];
     }
 
