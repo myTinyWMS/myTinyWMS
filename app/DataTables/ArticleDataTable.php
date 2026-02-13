@@ -66,7 +66,7 @@ class ArticleDataTable extends BaseDataTable
                 return optional($article->currentSupplierArticle)->order_quantity;
             })
             ->editColumn('category', function (Article $article) {
-                return optional($article->category)->name;
+                return optional($article->category)->name ?? '';
             })
             ->editColumn('supplier_name', function (Article $article) {
                 return '<div class="flex">
