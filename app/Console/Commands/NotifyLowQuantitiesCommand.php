@@ -17,7 +17,7 @@ class NotifyLowQuantitiesCommand extends Command {
         $query = (new ToOrderDataTable())->query(new Article());
         $items = $query->get();
 
-        $to = explode(',', env('INVENTORY_MANUAL_RECEIVER'));
+        $to = explode(',', env('MIN_QUANTITIES_RECEIVER'));
         Mail::to($to)->send(new LowQuantities($items));
     }
 }

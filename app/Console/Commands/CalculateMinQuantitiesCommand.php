@@ -60,7 +60,7 @@ class CalculateMinQuantitiesCommand extends Command {
 
         $newMin = $this->calculateNewMinQuantity($soldQuantity, $duration, 10);
 
-//        $this->applyNewMin($article, $newMin);
+        $this->applyNewMin($article, $newMin);
 
         return $newMin;
     }
@@ -104,5 +104,7 @@ class CalculateMinQuantitiesCommand extends Command {
     protected function applyNewMin(Article $article, float $newMin): void
     {
         $this->output->note('setting new min quantity ' . $newMin . ' to article ' . $article->id . ' - old value: ' . $article->min_quantity);
+        $article->min_quantity = $newMin;
+        $article->save();
     }
 }

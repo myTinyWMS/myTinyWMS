@@ -10,7 +10,7 @@
 | # | @lang('Artikel') | @lang('aktueller Bestand') | @lang('Mindestbestand') |
 | :--- | :--- | :---: | :---: |
 @foreach($items as $key => $article)
-| {{ $key + 1 }} | {{ $article->name }} | {{ $article->quantity }} | {{ $article->min_quantity }} |
+| {{ $key + 1 }} | {{ str_replace(["\r", "\n"], ' ', $article->name) }} | {{ $article->quantity }} | {{ $article->min_quantity }} |
 @endforeach
 @endcomponent
 

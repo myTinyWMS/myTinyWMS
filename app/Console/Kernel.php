@@ -54,6 +54,7 @@ class Kernel extends ConsoleKernel
             });
 
             $schedule->command('calculate:min')->cron('0 6 1,15 * *');
+            $schedule->command('notify:low-quantities')->cron('10 6 1,15 * *');
         }
 
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
