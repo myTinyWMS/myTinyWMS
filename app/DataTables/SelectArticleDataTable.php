@@ -34,7 +34,7 @@ class SelectArticleDataTable extends ArticleDataTable
         $datatable
             ->editColumn('action', 'article.select_list_action')
             ->editColumn('name', function (Article $article) {
-                return '<a href="#" onclick="selectArticle('.$article->id.')" data-dismiss="modal">'.$article->name.'</a>';
+                return '<a href="#" onclick="selectArticle('.$article->id.')" data-dismiss="modal">'.e($article->name).'</a>';
             });
 
         $this->rawColumns[] = 'name';

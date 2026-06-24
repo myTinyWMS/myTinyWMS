@@ -43,7 +43,7 @@ class ArticleDataTable extends BaseDataTable
                 return formatPrice(optional($article->currentSupplierArticle)->price / 100);
             })
             ->addColumn('order_number', function (Article $article) {
-                $orderNumber = optional($article->currentSupplierArticle)->order_number;
+                $orderNumber = e(optional($article->currentSupplierArticle)->order_number);
 
                 if ($article->openOrders()->count()) {
                     $orderNumber .= '<i class="fa fa-shopping-cart float-right" title="'.__('offene Bestellung').'"></i>';
@@ -70,7 +70,7 @@ class ArticleDataTable extends BaseDataTable
             })
             ->editColumn('supplier_name', function (Article $article) {
                 return '<div class="flex">
-                            <div>'.$article->supplier_name.'</div>
+                            <div>'.e($article->supplier_name).'</div>
                             <div class="flex-1 text-right pr-4">
                                 <a href="'.route('article.index', ['supplier' => $article->current_supplier_id]).'"><i class="fa fa-filter"></i></a>
                             </div>

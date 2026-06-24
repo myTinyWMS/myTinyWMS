@@ -27,6 +27,15 @@ class ArticleRequest extends FormRequest
         ];
     }
 
+    protected function prepareForValidation()
+    {
+        if ($this->has('name')) {
+            $this->merge([
+                'name' => trim(strip_tags($this->input('name'))),
+            ]);
+        }
+    }
+
     public function attributes() {
         return [
             'name' => __('Name'),

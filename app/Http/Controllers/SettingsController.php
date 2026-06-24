@@ -13,7 +13,7 @@ class SettingsController extends Controller
 {
     public function show() {
         $settings = Auth::user()->settings();
-        $signature = html_entity_decode(Auth::user()->signature);
+        $signature = sanitizeSignatureHtml(html_entity_decode(Auth::user()->signature));
 
         return view('settings.form', compact('settings', 'signature'));
     }
@@ -24,7 +24,7 @@ class SettingsController extends Controller
         }
 
         $user = Auth::user();
-        $user->signature = htmlentities($request->get('signature'));
+        $user->signature = htmlentities(sanitizeSignatureHtml($request->get('signature')));
         $user->save();
 
         flash(__('Einstellung gespeichert'), 'success');

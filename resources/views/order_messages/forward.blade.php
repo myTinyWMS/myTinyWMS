@@ -12,7 +12,7 @@
 @endsection
 
 @section('summernote_show_signature_button', true)
-@section('summernote_signature', html_entity_decode(Auth::user()->signature))
+@section('summernote_signature', sanitizeSignatureHtml(html_entity_decode(Auth::user()->signature)))
 
 @section('content')
 <div class="row">

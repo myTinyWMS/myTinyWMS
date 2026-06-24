@@ -34,7 +34,7 @@ class OrderDataTable extends BaseDataTable
         return datatables($query)
             ->setRowId('id')
             ->addColumn('supplier', function (Order $order) {
-                return $order->supplier ? $order->supplier->name : '<span class="italic text-gray-600">leer</span>';
+                return $order->supplier ? e($order->supplier->name) : '<span class="italic text-gray-600">leer</span>';
             })
             ->orderColumn('supplier', 'supplier_name $1')
             ->editColumn('order_date', function (Order $order) {
