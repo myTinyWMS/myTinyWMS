@@ -4,7 +4,6 @@ namespace Mss\Exports;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -67,11 +66,11 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
             ->with([
                 'unit',
                 'category',
-                'audits' => function (Builder $query) {
+                'audits' => function ($query) {
                     $query->where('created_at', '>', $this->date->copy()->endOfDay());
                 },
                 'supplierArticles.supplier',
-                'supplierArticles.audits' => function (Builder $query) {
+                'supplierArticles.audits' => function ($query) {
                     $query->where('created_at', '>', $this->date->copy()->endOfDay());
                 },
             ])

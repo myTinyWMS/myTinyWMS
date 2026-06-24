@@ -103,11 +103,11 @@ class InventoryReport implements FromQuery, WithMapping, WithHeadings, WithCusto
             ->with([
                 'unit',
                 'category',
-                'audits' => function (Builder $query) use ($end) {
+                'audits' => function ($query) use ($end) {
                     $query->where('created_at', '>', $end->copy()->endOfDay());
                 },
                 'supplierArticles.supplier',
-                'supplierArticles.audits' => function (Builder $query) use ($end) {
+                'supplierArticles.audits' => function ($query) use ($end) {
                     $query->where('created_at', '>', $end->copy()->endOfDay());
                 },
             ])
