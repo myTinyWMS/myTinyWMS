@@ -4,6 +4,7 @@ namespace Mss\Exports;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -60,15 +61,26 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
         /* @var $articles Collection */
         $articles = Article::where('inventory', true)
             ->withCurrentSupplierArticle()
+            ->withQuantityAtDate($this->date, 'quantity_at_date')
             ->enabled()
             ->orderedByArticleNumber()
-            ->with(['unit', 'category'])
+            ->with([
+                'unit',
+                'category',
+                'audits' => function (Builder $query) {
+                    $query->where('created_at', '>', $this->date->copy()->endOfDay());
+                },
+                'supplierArticles.supplier',
+                'supplierArticles.audits' => function (Builder $query) {
+                    $query->where('created_at', '>', $this->date->copy()->endOfDay());
+                },
+            ])
             ->get();
 
         // filter empty items
         $articles = $articles->filter(function ($article) {
             /* @var Article $article */
-            return ($article->getAttributeAtDate('quantity', $this->date) > 0);
+            return ($article->quantity_at_date > 0);
         });
 
         // reset keys
@@ -79,7 +91,7 @@ class MonthlyInventoryList implements FromCollection, WithColumnFormatting, With
                 $currentSupplierArticle = $article->getSupplierArticleAtDate($this->date);
                 $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $this->date) : 0;
                 $status = $article->getAttributeAtDate('status', $this->date);
-                $quantity = $article->getAttributeAtDate('quantity', $this->date);
+                $quantity = $article->quantity_at_date;
 
                 $i = $key + 2;
                 return [

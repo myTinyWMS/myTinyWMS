@@ -92,13 +92,25 @@ class InventoryReport implements FromQuery, WithMapping, WithHeadings, WithCusto
         return $articles
             ->withCurrentSupplier()
             ->withCurrentSupplierArticle()
+            ->withQuantityAtDate($start->copy()->subDay(), 'start_quantity')
+            ->withQuantityAtDate($end, 'end_quantity')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INCOMING, 'total_incoming')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_OUTGOING, 'total_outgoing')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_CORRECTION, 'total_correction')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INVENTORY, 'total_inventory')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_TRANSFER, 'total_transfer')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES, 'total_sale_to_third_parties')
-            ->with(['unit', 'category', 'supplierArticles.supplier'])
+            ->with([
+                'unit',
+                'category',
+                'audits' => function (Builder $query) use ($end) {
+                    $query->where('created_at', '>', $end->copy()->endOfDay());
+                },
+                'supplierArticles.supplier',
+                'supplierArticles.audits' => function (Builder $query) use ($end) {
+                    $query->where('created_at', '>', $end->copy()->endOfDay());
+                },
+            ])
             ->orderedByArticleNumber()
             ->when(!empty($importedArticleThreshold), function (Builder $query) use ($end, $importedArticleThreshold) {
                 $query->where(function (Builder $query) use ($end, $importedArticleThreshold) {
@@ -170,14 +182,14 @@ class InventoryReport implements FromQuery, WithMapping, WithHeadings, WithCusto
             optional($article->category)->name,
             optional($article->unit)->name,
             in_array($status, array_keys(Article::getStatusTextArray())) ? Article::getStatusTextArray()[$status] : '',
-            $article->getAttributeAtDate('quantity', $start->copy()->subDay()),
+            $article->start_quantity,
             $article->total_outgoing ?? 0,
             $article->total_incoming ?? 0,
             $article->total_correction ?? 0,
             $article->total_sale_to_third_parties ?? 0,
             $article->total_inventory ?? 0,
             $article->total_transfer ?? 0,
-            $article->getAttributeAtDate('quantity', $end),
+            $article->end_quantity,
             $this->month,
             "=K$excelRow*\$E$excelRow",
             "=L$excelRow*\$E$excelRow",
