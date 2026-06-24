@@ -55,10 +55,10 @@ class SendInventoryMailCommand extends Command
 //        $deliveriesWithoutInvoicesPath = InventoryService::generateDeliveriesWithoutInvoiceReport($date);
 
         $attachments = [
-            [file_get_contents($excelFilePath), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', basename($excelFilePath)],
-            [file_get_contents($inventoryReportPath), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', basename($inventoryReportPath)],
-//            [file_get_contents($invoicesWithoutDeliveryPath), 'application/pdf', basename($invoicesWithoutDeliveryPath)],
-//            [file_get_contents($deliveriesWithoutInvoicesPath), 'application/pdf', basename($deliveriesWithoutInvoicesPath)]
+            [$excelFilePath, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', basename($excelFilePath)],
+            [$inventoryReportPath, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', basename($inventoryReportPath)],
+//            [$invoicesWithoutDeliveryPath, 'application/pdf', basename($invoicesWithoutDeliveryPath)],
+//            [$deliveriesWithoutInvoicesPath, 'application/pdf', basename($deliveriesWithoutInvoicesPath)]
         ];
 
         Mail::to($to)->send(new InventoryMail($date, $attachments));

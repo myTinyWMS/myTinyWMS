@@ -92,7 +92,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INVENTORY, 'total_inventory')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_TRANSFER, 'total_transfer')
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES, 'total_sale_to_third_parties')
-            ->with(['unit', 'category', 'supplierArticles.audits', 'supplierArticles.supplier', 'supplierArticles.article', 'audits'])
+            ->with(['unit', 'category', 'supplierArticles.supplier'])
             ->orderedByArticleNumber()
             ->get();
 

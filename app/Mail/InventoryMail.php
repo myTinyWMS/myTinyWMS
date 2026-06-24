@@ -44,7 +44,7 @@ class InventoryMail extends Mailable
             ->subject('Inventur '.$this->date->format('Y-m-d'));
 
         foreach($this->files as $attachment) {
-            $mail->attachData($attachment[0], $attachment[2], ['mime' => $attachment[1]]);
+            $mail->attach($attachment[0], ['as' => $attachment[2], 'mime' => $attachment[1]]);
         }
 
         return $mail;
