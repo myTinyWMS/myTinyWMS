@@ -75,6 +75,12 @@ trait GetAudits {
             return null;
         }
 
+        // Old audit history may be pruned. In that case we can no longer
+        // reconstruct past values, so fall back to the current persisted one.
+        if ($audits->isEmpty()) {
+            return $this->retransformAudits($attribute, $this->{$attribute});
+        }
+
         // no changes to after requested date, use current value
         if ($date->gt($audits->max('created_at'))) {
             return $this->retransformAudits($attribute, $this->{$attribute});
