@@ -14,6 +14,7 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Events\AfterSheet;
 
 class MonthlyInventoryList implements FromCollection, WithColumnFormatting, WithEvents, WithStrictNullComparison {
+
     /**
      * @var Carbon
      */
