@@ -3,23 +3,28 @@
 namespace Mss\Exports;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Database\Eloquent\Builder;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithCustomChunkSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Mss\Models\Article;
 use Mss\Models\ArticleQuantityChangelog;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class InventoryReport implements FromCollection, WithColumnFormatting, WithEvents, WithStrictNullComparison {
+class InventoryReport implements FromQuery, WithMapping, WithHeadings, WithCustomChunkSize, WithColumnFormatting, WithEvents, WithStrictNullComparison {
     /**
      * @var string
      */
     protected $month;
 
     protected $inventoryType;
+
+    protected $rowNumber = 1;
 
     /**
      * InventoryReport constructor.
@@ -36,7 +41,7 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
     public function registerEvents(): array {
         return [
             AfterSheet::class    => function(AfterSheet $event) {
-                foreach(range('A', 'U') as $col) {
+                foreach (array_merge(range('A', 'Z'), range('AA', 'AB')) as $col) {
                     $event->getSheet()->getDelegate()->getColumnDimension($col)->setAutoSize(true);
                 }
             },
@@ -77,13 +82,14 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
         ];
     }
 
-    public function collection() {
+    public function query() {
         $start = Carbon::parse($this->month.'-01');
         $end = $start->copy()->endOfMonth();
+        $importedArticleThreshold = env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT');
 
         $articles = !is_null($this->inventoryType) ? Article::where('inventory', $this->inventoryType) : Article::query();
 
-        $articles = $articles
+        return $articles
             ->withCurrentSupplier()
             ->withCurrentSupplierArticle()
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_INCOMING, 'total_incoming')
@@ -94,63 +100,98 @@ class InventoryReport implements FromCollection, WithColumnFormatting, WithEvent
             ->withChangelogSumInDateRange($start, $end, ArticleQuantityChangelog::TYPE_SALE_TO_THIRD_PARTIES, 'total_sale_to_third_parties')
             ->with(['unit', 'category', 'supplierArticles.supplier'])
             ->orderedByArticleNumber()
-            ->get();
-
-        $articles = $articles->filter(function ($article) use ($end) {
-            $ignoreArticleCreatedDate = (!empty(env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT')) && $article->id <= env('LAST_ARTICLE_ID_CREATED_ON_FIRST_IMPORT'));
-            return ($ignoreArticleCreatedDate || $article->created_at->lt($end));
-        });
-
-        // reset keys
-        $articles = collect($articles->values());
-
-        /* @var $articles Collection */
-        $articles
-            ->transform(function ($article, $key) use ($start, $end) {
-                $i = $key + 2;
-
-                /* @var Article $article */
-                $currentSupplierArticle = $article->getSupplierArticleAtDate($end);
-                $currentPrice = ($currentSupplierArticle) ? $currentSupplierArticle->getAttributeAtDate('price', $end) : 0;
-                $status = $article->getAttributeAtDate('status', $end);
-
-                if (!$currentSupplierArticle) {
-                    return [];
-                }
-
-                return [
-                    __('Interne Artikelnummer') => $article->internal_article_number,
-                    __('Artikelname') => $article->getAttributeAtDate('name', $end),
-                    __('Lieferant') => $currentSupplierArticle->supplier ? $currentSupplierArticle->supplier->name : '',
-                    __('Kreditorennummer') => $currentSupplierArticle->supplier ? $currentSupplierArticle->supplier->accounts_payable_number : '',
-                    __('Preis') => $currentPrice ? round(($currentPrice / 100), 2) : 0,
-                    __('Bestellnummer') => optional($currentSupplierArticle)->order_number,
-                    __('Kostenstelle') => optional($currentSupplierArticle)->cost_center,
-                    __('Kategorie') => optional($article->category)->name,
-                    __('Einheit') => optional($article->unit)->name,
-                    __('Status') => in_array($status, array_keys(Article::getStatusTextArray())) ? Article::getStatusTextArray()[$status] : '',
-                    __('Anfangsbestand') => $article->getAttributeAtDate('quantity', $start->copy()->subDay()),   // getQuantityAtDate uses end of the day
-                    __('Warenausgang') => $article->total_outgoing ?? 0,
-                    __('Wareneingang') => $article->total_incoming ?? 0,
-                    __('Korrektur') => $article->total_correction ?? 0,
-                    __('Verkauf an Fremdfirmen') => $article->total_sale_to_third_parties ?? 0,
-                    __('Inventur') => $article->total_inventory ?? 0,
-                    __('Umbuchung') => $article->total_transfer ?? 0,
-                    __('Endbestand') => $article->getAttributeAtDate('quantity', $end),
-                    __('Monat') => $this->month,
-                    __('AB Eur') => "=K$i*\$E$i",
-                    __('WA Eur') => "=L$i*\$E$i",
-                    __('WE Eur') => "=M$i*\$E$i",
-                    __('KO Eur') => "=N$i*\$E$i",
-                    __('VF Eur') => "=O$i*\$E$i",
-                    __('INV Eur') => "=P$i*\$E$i",
-                    __('UB Eur') => "=Q$i*\$E$i",
-                    __('EB Eur') => "=R$i*\$E$i",
-                    __('Kontrolle') => "=-(T$i+U$i+V$i-AA$i)",
-                ];
+            ->when(!empty($importedArticleThreshold), function (Builder $query) use ($end, $importedArticleThreshold) {
+                $query->where(function (Builder $query) use ($end, $importedArticleThreshold) {
+                    $query->where('id', '<=', $importedArticleThreshold)
+                        ->orWhere('created_at', '<', $end);
+                });
+            }, function (Builder $query) use ($end) {
+                $query->where('created_at', '<', $end);
             });
+    }
 
-        $articles->prepend(array_keys($articles->first()));
-        return $articles;
+    public function prepareRows($rows) {
+        $end = Carbon::parse($this->month.'-01')->endOfMonth();
+
+        return $rows->filter(function (Article $article) use ($end) {
+            return !is_null($article->getSupplierArticleAtDate($end));
+        })->values();
+    }
+
+    public function headings(): array {
+        return [
+            __('Interne Artikelnummer'),
+            __('Artikelname'),
+            __('Lieferant'),
+            __('Kreditorennummer'),
+            __('Preis'),
+            __('Bestellnummer'),
+            __('Kostenstelle'),
+            __('Kategorie'),
+            __('Einheit'),
+            __('Status'),
+            __('Anfangsbestand'),
+            __('Warenausgang'),
+            __('Wareneingang'),
+            __('Korrektur'),
+            __('Verkauf an Fremdfirmen'),
+            __('Inventur'),
+            __('Umbuchung'),
+            __('Endbestand'),
+            __('Monat'),
+            __('AB Eur'),
+            __('WA Eur'),
+            __('WE Eur'),
+            __('KO Eur'),
+            __('VF Eur'),
+            __('INV Eur'),
+            __('UB Eur'),
+            __('EB Eur'),
+            __('Kontrolle'),
+        ];
+    }
+
+    public function map($article): array {
+        $start = Carbon::parse($this->month.'-01');
+        $end = $start->copy()->endOfMonth();
+        $currentSupplierArticle = $article->getSupplierArticleAtDate($end);
+        $currentPrice = $currentSupplierArticle ? $currentSupplierArticle->getAttributeAtDate('price', $end) : 0;
+        $status = $article->getAttributeAtDate('status', $end);
+        $excelRow = ++$this->rowNumber;
+
+        return [
+            $article->internal_article_number,
+            $article->getAttributeAtDate('name', $end),
+            $currentSupplierArticle->supplier ? $currentSupplierArticle->supplier->name : '',
+            $currentSupplierArticle->supplier ? $currentSupplierArticle->supplier->accounts_payable_number : '',
+            $currentPrice ? round(($currentPrice / 100), 2) : 0,
+            optional($currentSupplierArticle)->order_number,
+            optional($currentSupplierArticle)->cost_center,
+            optional($article->category)->name,
+            optional($article->unit)->name,
+            in_array($status, array_keys(Article::getStatusTextArray())) ? Article::getStatusTextArray()[$status] : '',
+            $article->getAttributeAtDate('quantity', $start->copy()->subDay()),
+            $article->total_outgoing ?? 0,
+            $article->total_incoming ?? 0,
+            $article->total_correction ?? 0,
+            $article->total_sale_to_third_parties ?? 0,
+            $article->total_inventory ?? 0,
+            $article->total_transfer ?? 0,
+            $article->getAttributeAtDate('quantity', $end),
+            $this->month,
+            "=K$excelRow*\$E$excelRow",
+            "=L$excelRow*\$E$excelRow",
+            "=M$excelRow*\$E$excelRow",
+            "=N$excelRow*\$E$excelRow",
+            "=O$excelRow*\$E$excelRow",
+            "=P$excelRow*\$E$excelRow",
+            "=Q$excelRow*\$E$excelRow",
+            "=R$excelRow*\$E$excelRow",
+            "=-(T$excelRow+U$excelRow+V$excelRow-AA$excelRow)",
+        ];
+    }
+
+    public function chunkSize(): int {
+        return 250;
     }
 }
