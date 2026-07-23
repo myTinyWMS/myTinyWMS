@@ -104,5 +104,6 @@ jobs:
           push: true
           provenance: false
           sbom: false
+          outputs: type=image,push-by-digest=false
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
