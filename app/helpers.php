@@ -52,8 +52,10 @@ function sanitizeSignatureHtml($html) {
             return;
         }
 
-        while ($node->firstChild) {
-            $sanitizeNode($node->firstChild);
+        // Iterate over a snapshot: text nodes are intentionally kept and would
+        // otherwise remain the first child forever.
+        foreach (iterator_to_array($node->childNodes) as $childNode) {
+            $sanitizeNode($childNode);
         }
 
         $tagName = strtolower($node->tagName);
